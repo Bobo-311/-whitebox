@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://0fswxsxwrdgm"]
+
+[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="1_1oghe"]
+[ext_resource type="Texture2D" uid="uid://yq7r51at7ak5" path="res://BG.png" id="1_6720i"]
+[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="2_1ofo2"]
+[ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="4_vb28e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
+size = Vector2(3695, 93)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
+size = Vector2(99.5, 1859.5625)
+
+[node name="main" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(1658.9999, 883)
+scale = Vector2(278.18747, 152.93748)
+texture = ExtResource("1_6720i")
+
+[node name="player" parent="." instance=ExtResource("1_1oghe")]
+position = Vector2(601, 342)
+
+[node name="enemy" parent="." instance=ExtResource("4_vb28e")]
+position = Vector2(884, 330)
+
+[node name="Arena" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Arena"]
+position = Vector2(1802.9999, -66)
+scale = Vector2(28.609373, 1.265625)
+texture = ExtResource("2_1ofo2")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Arena"]
+position = Vector2(1696, 729.9999)
+scale = Vector2(28.625, 1.1874988)
+texture = ExtResource("2_1ofo2")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Arena"]
+position = Vector2(1277.5, 900.9999)
+scale = Vector2(1.4609383, 14.781248)
+texture = ExtResource("2_1ofo2")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Arena"]
+position = Vector2(-98.500046, 896.50006)
+scale = Vector2(1.9296868, 14.648438)
+texture = ExtResource("2_1ofo2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena"]
+position = Vector2(1793.5, -38.5)
+shape = SubResource("RectangleShape2D_1oghe")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Arena"]
+position = Vector2(1686, 704.9999)
+shape = SubResource("RectangleShape2D_1oghe")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Arena"]
+position = Vector2(1237.5, 905.5625)
+shape = SubResource("RectangleShape2D_1ofo2")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Arena"]
+position = Vector2(-29, 881)
+shape = SubResource("RectangleShape2D_1ofo2")

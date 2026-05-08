@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://crxnclt73hks"]
+
+[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="1_5j35r"]
+[ext_resource type="PackedScene" uid="uid://wfev3wh1of2i" path="res://araa/whitebox.tscn" id="1_jxn3m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4c84"]
+size = Vector2(826, 124)
+
+[node name="Area2D" type="Area2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(363, 263)
+scale = Vector2(6.421875, 0.984375)
+texture = ExtResource("1_5j35r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(363, 264)
+shape = SubResource("RectangleShape2D_g4c84")
+
+[node name="whitebox" parent="." instance=ExtResource("1_jxn3m")]
+position = Vector2(122, 133)

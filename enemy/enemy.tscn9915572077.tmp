@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://7konynseeonc"]
+
+[ext_resource type="Script" uid="uid://dh16hqvcwfi3e" path="res://enemy.gd" id="1_ofsxj"]
+[ext_resource type="Shader" uid="uid://q6822s8ws3t7" path="res://enemy/enemy.gdshader" id="2_p200p"]
+[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="2_ppra6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pmsee"]
+shader = ExtResource("2_p200p")
+shader_parameter/flash_modifier = 0.0
+shader_parameter/flash_color = Color(1, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p200p"]
+size = Vector2(127, 129)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ofsxj"]
+bg_color = Color(0.7348879, 0.20062685, 0.2957743, 1)
+
+[node name="enemy" type="CharacterBody2D"]
+position = Vector2(6, 26)
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_ofsxj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pmsee")
+scale = Vector2(0.984375, 1)
+texture = ExtResource("2_ppra6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_p200p")
+
+[node name="hp_Bar" type="ProgressBar" parent="."]
+offset_left = -64.0
+offset_top = -98.0
+offset_right = 63.0
+offset_bottom = -71.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_ofsxj")
+value = 100.0
+show_percentage = false

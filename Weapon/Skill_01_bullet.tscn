@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://ciuf34knad4lr"]
+
+[ext_resource type="Script" uid="uid://db2xl2rl8c37j" path="res://Weapon/skill_01_bullet.gd" id="1_ovq7q"]
+[ext_resource type="Texture2D" uid="uid://clgmd00rq7vpr" path="res://Asset/VFX/All_Fire_Bullet_Pixel_16x16_00.png" id="2_ahnrg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqjtr"]
+atlas = ExtResource("2_ahnrg")
+region = Rect2(512, 288, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7ffk"]
+atlas = ExtResource("2_ahnrg")
+region = Rect2(544, 288, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t2bd8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqjtr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7ffk")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h0pa3"]
+radius = 63.03174
+
+[node name="Skill_01_bullet" type="Area2D"]
+collision_layer = 32
+collision_mask = 16
+script = ExtResource("1_ovq7q")
+speed = 600.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
+scale = Vector2(4.609375, 4.609375)
+sprite_frames = SubResource("SpriteFrames_t2bd8")
+autoplay = "default"
+frame = 1
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h0pa3")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

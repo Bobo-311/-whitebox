@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://hob5gel4cesh"]
+
+[ext_resource type="Script" uid="uid://bq4k04hldb5g2" path="res://UI/player_hud.gd" id="1_5o0p8"]
+[ext_resource type="Texture2D" uid="uid://ba484avslaatp" path="res://Asset/1FDB2840-EE5D-4728-92A7-9D929A34CA43.jpg" id="2_dpci0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhy1a"]
+bg_color = Color(0.91764706, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5o0p8"]
+bg_color = Color(0.8331232, 0.5549483, 0.30004564, 0.7137255)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpci0"]
+bg_color = Color(0.56078434, 1, 0.3137255, 0.7137255)
+
+[node name="PlayerHUD" type="CanvasLayer"]
+script = ExtResource("1_5o0p8")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 288.0
+offset_bottom = 102.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PhotoStickers" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_dpci0")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "菜波能"
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 20)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_lhy1a")
+value = 100.0
+
+[node name="EnergyBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 10)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_5o0p8")
+value = 50.0
+show_percentage = false
+
+[node name="SpBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(150, 10)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/fill = SubResource("StyleBoxFlat_dpci0")
+value = 50.0
+show_percentage = false
+
+[node name="OverheatOverlay" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
