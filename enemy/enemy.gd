@@ -22,11 +22,24 @@ func _ready():                   # 遊戲開始時執行
 func _physics_process(_delta: float) -> void:     # 每一幀物理運算
 	move_and_slide()             # 根據 velocity 執行移動，並自動處理撞牆滑行
 
-# --- 實作地基的虛擬函數：處理受傷 ---
-# --- 實作地基的虛擬函數：處理受傷 ---
-# --- 實作地基的虛擬函數：處理受傷 ---
-func handle_hurt():
-	# 只要被打到，不管三七二十一，直接強制切換到受傷狀態
+# --- 處理受傷與擊退邏輯的專屬函數 ---
+func handle_hurt(): # 當野豬被玩家的武器判定打到時呼叫
+	var state_name = state_machine.current_state.name.to_lower() # 【特殊函數】把狀態名轉小寫，防止大小寫打錯字
+	
+	# 🌟 破綻鎖定：如果正在暈眩 (stun) 或喘氣 (pant) 期間
+	if "stun" in state_name or "pant" in state_name: 
+		
+		# 賦予擊退力道，這配合上面的 0.15 煞車(pant)，會讓它退一小步後停下
+		velocity = knockback_force 
+		
+		# 加上一個瞬間變白的打擊特效，這樣即使動畫沒斷，玩家也知道有砍中
+		var hit_tween = get_tree().create_tween() # 建立一次性動畫
+		animated_sprite_2d.modulate = Color(3, 3, 3) # 瞬間變為過曝的高亮白色
+		hit_tween.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.1) # 0.1 秒後恢復正常色
+		
+		return # 🌟 直接跳出函數，拒絕執行後面的狀態切換！這能確保紫光閃爍繼續進行
+		
+	# 如果是平常在走路或站著時被打，才切換到正常的受傷狀態
 	state_machine.change_state("EnemyHurt")
 
 func die():                      # 實作父類別的虛擬函數：處理死亡
