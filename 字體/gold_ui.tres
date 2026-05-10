@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cudyn1qk7ry8y"]
+
+[ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="1_i7xuq"]
+
+[resource]
+font = ExtResource("1_i7xuq")
+font_size = 25

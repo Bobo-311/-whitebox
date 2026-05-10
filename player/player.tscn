@@ -1,4 +1,4 @@
-[gd_scene load_steps=185 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=186 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://UI/player_hud.tscn" id="15_wodsf"]
 [ext_resource type="Script" uid="uid://dklheqli3xyjo" path="res://player/player_heal.gd" id="16_65viv"]
+[ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://UI/gold_ui.tscn" id="22_bjvpn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65viv"]
 shader = ExtResource("2_c35mf")
@@ -1347,3 +1348,5 @@ volume_db = -14.195
 stream = ExtResource("7_rgyib")
 
 [node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]
+
+[node name="GoldUI" parent="." instance=ExtResource("22_bjvpn")]

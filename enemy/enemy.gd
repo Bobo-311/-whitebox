@@ -7,6 +7,10 @@ class_name Enemy                 # 定義為 Enemy 類別
 @export var attack_time: float = 0.45             # 攻擊狀態維持的時間長度
 @export var melee_damage: float = 15.0            # 野豬肉身衝撞造成的近戰傷害量
 
+const COIN_SCENE = preload("res://coin/coin.tscn")# 🌟 預載入金幣場景
+
+
+
 @onready var state_machine: StateMachine = $StateMachine       # 抓取狀態機節點
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 抓取動畫播放器節點
 @onready var hp_bar: ProgressBar = $HealthBar                  # 抓取血條UI節點
@@ -46,6 +50,9 @@ func die():                      # 實作父類別的虛擬函數：處理死亡
 	if is_dead: return           # 防呆：死過就不再執行
 	is_dead = true               # 標記死亡狀態為真
 	state_machine.change_state("EnemyDie")        # 讓狀態機切換到 "EnemyDie" 狀態
+	drop_coin() # 🌟 在野豬消失前，呼叫噴錢函數！
+	
+	# queue_free() 或切換死亡狀態
 
 func update_hp_bar():            # 實作父類別的虛擬函數：更新血條
 	if hp_bar:                   # 如果有抓到血條節點
@@ -61,6 +68,42 @@ func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO): # 動畫播放
 		suffix = "_down" if target_dir.y > 0 else "_up"     # 朝下就加 "_down"，否則 "_up"
 	
 	animated_sprite_2d.play(prefix + suffix)      # 把動作(如"run")跟方向(如"_left")組合起來播放動畫
+
+# --- 掉落物品系統 ---
+func drop_coin(): 
+	if COIN_SCENE: 
+		# 🌟 使用迴圈重複執行 5 次
+		for i in range(5): 
+			# 【特殊函數】create_timer()：建立隨機的極短延遲 (0.01 到 0.1 秒)
+			# 這樣金幣會有一點點先後順序噴出來，視覺效果更好！
+			var delay = randf_range(0.01, 0.1) 
+			
+			get_tree().create_timer(delay).connect("timeout", func():
+				var coin = COIN_SCENE.instantiate() # 生成金幣實體
+				
+				coin.coin_value = 1 # 設定每顆金幣面額為 1
+				coin.global_position = global_position # 設定座標為野豬死亡處
+			# 加到世界場景
+			# 🌟 絕對關鍵修正：使用 call_deferred 延遲加入！
+			# 【特殊函數解釋】：call_deferred("函數名稱", 參數) 
+			# 它的功用是「延遲呼叫」。等 Godot 物理引擎把這 1/60 秒的事情全部忙完後，
+			# 才會安全地執行 add_child 將金幣加入世界，完美避開當機衝突！
+				get_parent().call_deferred("add_child", coin)
+			)
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 func _on_detect_player_body_entered(body):        # 視野感應區(Area2D)碰到實體肉身時觸發
 	if body is Player:           # 檢查碰到的實體是不是玩家(Player)類別
