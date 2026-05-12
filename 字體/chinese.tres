@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cf06u104gjq3o"]
+
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="1_f06dd"]
+
+[resource]
+font = ExtResource("1_f06dd")
+font_size = 27

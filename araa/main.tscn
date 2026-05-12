@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://0fswxsxwrdgm"]
+[gd_scene load_steps=9 format=3 uid="uid://0fswxsxwrdgm"]
 
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="1_1oghe"]
 [ext_resource type="Texture2D" uid="uid://yq7r51at7ak5" path="res://BG.png" id="1_6720i"]
 [ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="2_1ofo2"]
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="4_vb28e"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="5_33qdb"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="6_q58lx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(3695, 93)
@@ -21,7 +22,7 @@ scale = Vector2(278.18747, 152.93748)
 texture = ExtResource("1_6720i")
 
 [node name="player" parent="." instance=ExtResource("1_1oghe")]
-position = Vector2(601, 342)
+position = Vector2(445, 308)
 
 [node name="enemy" parent="." instance=ExtResource("4_vb28e")]
 position = Vector2(884, 330)
@@ -66,3 +67,6 @@ shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="Coin" parent="." instance=ExtResource("5_33qdb")]
 position = Vector2(1461, 98)
+
+[node name="SavePoint" parent="." instance=ExtResource("6_q58lx")]
+position = Vector2(154, 212)

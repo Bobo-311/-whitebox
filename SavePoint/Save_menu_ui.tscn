@@ -1,0 +1,96 @@
+[gd_scene load_steps=6 format=3 uid="uid://h8nwgmrch0w8"]
+
+[ext_resource type="Script" uid="uid://5ospmvwfvudu" path="res://SavePoint/save_menu_ui.gd" id="1_hol3n"]
+[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://tilemap_packed.png" id="2_4ioms"]
+[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="3_4v6k8"]
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="4_g31nq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5x6x8"]
+texture = ExtResource("2_4ioms")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+region_rect = Rect2(111.9178, 66.01921, 48.224716, 14.112076)
+
+[node name="SaveMenuUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hol3n")
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.42745098)
+
+[node name="LocationFrame" type="NinePatchRect" parent="BackgroundDim"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 108.0
+offset_right = 318.9
+offset_bottom = 176.0
+texture = ExtResource("2_4ioms")
+region_rect = Rect2(177.14214, 50.214233, 45.48378, 11.532394)
+patch_margin_left = 1
+patch_margin_right = 1
+
+[node name="Label" type="Label" parent="BackgroundDim/LocationFrame"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = -15.5
+offset_right = 40.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "工作室"
+label_settings = ExtResource("3_4v6k8")
+
+[node name="MenuButtons" type="VBoxContainer" parent="BackgroundDim"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 196.0
+offset_right = 536.0
+offset_bottom = 256.0
+theme_override_constants/separation = 34
+
+[node name="save" type="Button" parent="BackgroundDim/MenuButtons"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_g31nq")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
+text = "存档"
+
+[node name="inventory" type="Button" parent="BackgroundDim/MenuButtons"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_g31nq")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
+text = "物品栏"
+
+[node name="sticker" type="Button" parent="BackgroundDim/MenuButtons"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_g31nq")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
+text = "贴纸"
+
+[node name="go" type="Button" parent="BackgroundDim/MenuButtons"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_g31nq")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
+text = "出发"
+
+[connection signal="pressed" from="BackgroundDim/MenuButtons/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="BackgroundDim/MenuButtons/go" to="." method="_on_go_pressed"]

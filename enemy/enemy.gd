@@ -70,37 +70,45 @@ func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO): # 動畫播放
 	animated_sprite_2d.play(prefix + suffix)      # 把動作(如"run")跟方向(如"_left")組合起來播放動畫
 
 # --- 掉落物品系統 ---
-func drop_coin(): 
-	if COIN_SCENE: 
-		# 🌟 使用迴圈重複執行 5 次
-		for i in range(5): 
-			# 【特殊函數】create_timer()：建立隨機的極短延遲 (0.01 到 0.1 秒)
-			# 這樣金幣會有一點點先後順序噴出來，視覺效果更好！
-			var delay = randf_range(0.01, 0.1) 
+func drop_coin() -> void:
+	# 確保金幣場景已載入
+	if COIN_SCENE:
+		# 執行 5 次迴圈掉落 5 枚金幣
+		for i in range(5):
+			# 建立 0.01 到 0.1 秒的隨機延遲
+			var delay = randf_range(0.01, 0.1)
 			
+			# 計時器結束後執行金幣生成
 			get_tree().create_timer(delay).connect("timeout", func():
-				var coin = COIN_SCENE.instantiate() # 生成金幣實體
+				# 實例化金幣
+				var coin = COIN_SCENE.instantiate()
+				# 設定面額
+				coin.coin_value = 1 
 				
-				coin.coin_value = 1 # 設定每顆金幣面額為 1
-				coin.global_position = global_position # 設定座標為野豬死亡處
-			# 加到世界場景
-			# 🌟 絕對關鍵修正：使用 call_deferred 延遲加入！
-			# 【特殊函數解釋】：call_deferred("函數名稱", 參數) 
-			# 它的功用是「延遲呼叫」。等 Godot 物理引擎把這 1/60 秒的事情全部忙完後，
-			# 才會安全地執行 add_child 將金幣加入世界，完美避開當機衝突！
+				# 宣告預設生成座標為野豬當前座標
+				var spawn_pos = global_position
+				
+				# 檢查是否有抓到玩家節點 (利用玩家位置作為安全區參考)
+				if DataManager and DataManager.player_node:
+					# 計算從野豬指向玩家的方向向量
+					var dir_to_player = global_position.direction_to(DataManager.player_node.global_position)
+					# 讓金幣朝玩家方向偏移 15 到 30 像素 (確保掉在空地)
+					var safe_offset = dir_to_player * randf_range(15.0, 30.0)
+					# 加上微小的隨機擾動，避免 5 顆金幣完全疊在一起
+					var random_jitter = Vector2(randf_range(-10.0, 10.0), randf_range(-10.0, 10.0))
+					# 結算最終安全座標
+					spawn_pos = global_position + safe_offset + random_jitter
+				else:
+					# 若無玩家節點則原地隨機散開 (備用邏輯)
+					spawn_pos = global_position + Vector2(randf_range(-20.0, 20.0), randf_range(-20.0, 20.0))
+				
+				# 賦予金幣最終座標
+				coin.global_position = spawn_pos
+				
+				# 延遲加入場景樹，避免物理引擎衝突
 				get_parent().call_deferred("add_child", coin)
 			)
 		
-
-
-
-
-
-
-
-
-
-
 
 
 
