@@ -11,10 +11,15 @@ func enter():                    # 進入死亡狀態時執行
 	
 	character.play_animation("dead", death_dir) # 播放死亡倒地動畫
 	
-	# 🌟 關閉實體碰撞：避免玩家被野豬的屍體卡住走不過去
+	# 關閉實體碰撞：避免玩家被野豬的屍體卡住走不過去
 	var collision = character.get_node_or_null("CollisionShape2D")
 	if collision:
 		collision.set_deferred("disabled", true) # 安全關閉碰撞實體
+		
+	# 🌟 核心修正：關閉野豬的嘴巴 (Hitbox)，讓屍體徹底失去攻擊力！
+	var hitbox = character.get_node_or_null("Hitbox/CollisionShape2D")
+	if hitbox:
+		hitbox.set_deferred("disabled", true)
 	
 	# 呼叫鏡頭震動 (強度 15.0，增加打擊回饋)
 	var camera = character.get_tree().get_first_node_in_group("camera")

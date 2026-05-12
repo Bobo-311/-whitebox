@@ -29,7 +29,9 @@ func state_physics_update(_delta: float): # 追擊狀態每一幀的更新
 		character.velocity = dir * character.sprint_speed # 把速度設為：朝向玩家方向 * 追擊速度
 		character.play_animation("run", dir) # 播放追擊奔跑動畫
 		
-		# 🌟 新增：如果野豬在狂奔追逐的過程中撞死在牆上
+		# 🌟 核心修正：加入正面撞擊判定，避免擦牆暈眩
 		if character.is_on_wall(): # 如果引擎判定撞牆
-			print("【系統】野豬跑步追擊時撞死在牆上了！") # 後台印出提示
-			state_machine.change_state("EnemyStun") # 直接進入暈眩狀態！
+			# 計算速度方向與牆壁法線的夾角，小於 -0.5 才是正面迎頭撞上
+			if character.velocity.normalized().dot(character.get_wall_normal()) < -0.5:
+				print("【系統】野豬正面跑步撞死在牆上了！") # 後台印出提示
+				state_machine.change_state("EnemyStun") # 直接進入暈眩狀態！

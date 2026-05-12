@@ -1,9 +1,10 @@
+#SavePoint.gd
 extends Area2D
 
 @export var save_menu_scene: PackedScene
 
 @onready var interact_prompt = $InteractPrompt # 抓取 E 鍵圖片節點
-@onready var respawn_pos: Marker2D = $RespawnPosition
+# 🌟 刪除了對 Marker2D 的抓取，因為不需要了
 
 var player_in_range: bool = false # 記錄玩家是否在感應範圍內
 var tween: Tween # 負責處理動畫的變數
@@ -17,14 +18,15 @@ func _process(_delta):
 	# 當玩家在範圍內，而且剛按下 "interact" (E鍵) 時觸發
 	if player_in_range and Input.is_action_just_pressed("interact"):
 		
-		# 🌟 告訴大腦：這就是我這次存檔的精確復活點！
-		if DataManager:
-			DataManager.last_save_position = respawn_pos.global_position
+		# 🌟 核心修改：直接去 DataManager 抓取玩家當下的腳底位置，作為重生點！
+		if DataManager and DataManager.player_node:
+			DataManager.last_save_position = DataManager.player_node.global_position
+			
 		# 如果有設定 UI 場景，就把它實例化 (生出來) 並加到畫面上
 		if save_menu_scene:
 			var menu = save_menu_scene.instantiate()
 			get_tree().root.add_child(menu)
-			get_tree().paused = true # 🌟 世界時間停止，玩家無法移動！
+			get_tree().paused = true # 世界時間停止，玩家無法移動
 
 # --- 顯示 E 鍵並執行上下浮動動畫 ---
 func show_prompt():

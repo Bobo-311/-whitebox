@@ -40,8 +40,5 @@ position = Vector2(0, 16)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_85d4v")
 
-[node name="RespawnPosition" type="Marker2D" parent="."]
-position = Vector2(0, 84)
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
