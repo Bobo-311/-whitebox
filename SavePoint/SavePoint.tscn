@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://6ek23fgixsu8"]
 
-[ext_resource type="Texture2D" uid="uid://bb1hcv5fyhuql" path="res://IMG_9447-removebg-preview.png" id="1_8htnk"]
 [ext_resource type="Script" uid="uid://bp5xnx8i3yvfp" path="res://SavePoint/save_point.gd" id="1_85d4v"]
 [ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://tilemap.png" id="2_85d4v"]
 [ext_resource type="PackedScene" uid="uid://h8nwgmrch0w8" path="res://SavePoint/Save_menu_ui.tscn" id="2_u6if8"]
+[ext_resource type="Texture2D" uid="uid://cth8ja8lni38m" path="res://BOBO.png" id="3_u6if8"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u6if8"]
 radius = 127.997475
@@ -14,20 +14,21 @@ radius = 21.0
 height = 58.0
 
 [node name="SavePoint" type="Area2D"]
+collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_85d4v")
 save_menu_scene = ExtResource("2_u6if8")
 
 [node name="EaselSprite" type="Sprite2D" parent="."]
 scale = Vector2(0.19, 0.19)
-texture = ExtResource("1_8htnk")
+texture = ExtResource("3_u6if8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5730124
 shape = SubResource("CapsuleShape2D_u6if8")
 
 [node name="InteractPrompt" type="Sprite2D" parent="."]
-position = Vector2(2.3841858e-07, -53.725967)
+position = Vector2(1.4210855e-14, -57.000004)
 scale = Vector2(3.2860572, 2.1820045)
 texture = ExtResource("2_85d4v")
 region_enabled = true
@@ -36,7 +37,7 @@ region_rect = Rect2(324, 35, 13, 14)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="SolidShape" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 16)
+position = Vector2(-1, 23)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_85d4v")
 

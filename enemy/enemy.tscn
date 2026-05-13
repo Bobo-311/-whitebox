@@ -910,16 +910,16 @@ size = Vector2(68, 88)
 radius = 61.008198
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1wwld"]
-radius = 616.00323
+radius = 157.31815
 
 [node name="enemy" type="CharacterBody2D"]
+y_sort_enabled = true
 collision_layer = 4
 collision_mask = 3
 motion_mode = 1
 safe_margin = 0.05
 script = ExtResource("1_ofsxj")
 sprint_speed = 200
-melee_damage = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, -21)
@@ -989,7 +989,6 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="DetectPlayer"]
-visible = false
 shape = SubResource("CircleShape2D_1wwld")
 
 [node name="HealthBar" parent="." instance=ExtResource("14_gf88j")]

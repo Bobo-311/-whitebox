@@ -14,9 +14,11 @@ size = Vector2(3695, 93)
 size = Vector2(99.5, 1859.5625)
 
 [node name="main" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(1, 0.42086402, 0.7851186, 1)
+z_index = -1
 position = Vector2(1658.9999, 883)
 scale = Vector2(278.18747, 152.93748)
 texture = ExtResource("1_6720i")
@@ -69,4 +71,4 @@ shape = SubResource("RectangleShape2D_1ofo2")
 position = Vector2(1461, 98)
 
 [node name="SavePoint" parent="." instance=ExtResource("6_q58lx")]
-position = Vector2(154, 212)
+position = Vector2(169, 485)

@@ -1,99 +1,94 @@
-extends State                    # 繼承自狀態模板
+extends State # 繼承自狀態模板
 
-var is_charging: bool = true     # 狀態開關：記錄是否正在「蓄力」，預設為 true
-var charge_timer: float = 0.6    # 計時器：蓄力動作維持 0.6 秒
-var dash_timer: float = 1.5      # 計時器：衝刺狂飆最多維持 1.5 秒
-var dash_dir: Vector2 = Vector2.ZERO # 向量變數：記錄衝刺方向
-var flash_tween: Tween           # 動畫控制器：處理身體紅光閃爍效果
+var is_charging: bool = true # 狀態開關：記錄是否正在「蓄力發呆」，預設為真
+var charge_timer: float = 0.6 # 宣告蓄力倒數計時器，維持 0.6 秒
+var dash_timer: float = 1.5 # 宣告衝刺極限計時器，狂飆最多維持 1.5 秒
+var dash_dir: Vector2 = Vector2.ZERO # 向量變數：記錄這一次衝刺的固定方向
+var flash_tween: Tween # 動畫控制器：處理蓄力時的紅光閃爍特效
 
-func enter():                    # 切換到攻擊狀態時執行
-	character.can_attack = false # 拔除攻擊權力，避免重複攻擊
-	character.has_hit_player = false # 重置「咬過玩家」標記
+func enter(): # 當狀態機切換進入攻擊狀態時執行
+	character.can_attack = false # 拔除攻擊權力，進入冷卻狀態
+	character.has_hit_player = false # 重置「是否咬過玩家」的判定標籤
+	is_charging = true # 進入蓄力階段
+	charge_timer = 0.6 # 設定蓄力秒數
+	dash_timer = 1.5 # 設定衝刺上限秒數
+
+	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D") # 抓取嘴巴的碰撞形狀節點
+	if hitbox_shape: hitbox_shape.set_deferred("disabled", true) # 蓄力期間先關閉嘴巴，避免誤傷
+
+	character.velocity = Vector2.ZERO # 蓄力時強制野豬定在原地
+	if character.player_node: # 條件：如果目前有鎖定到玩家目標
+		dash_dir = (character.player_node.global_position - character.global_position).normalized() # 瞄準玩家現在的座標算出衝刺向量
+	else: # 如果沒目標
+		dash_dir = character.last_facing_vec # 沿用最後面朝的方向
 	
-	is_charging = true           # 重置為：正在蓄力
-	charge_timer = 0.6           # 重置蓄力倒數計時器
-	dash_timer = 1.5             # 重置衝刺極限計時器
+	character.last_facing_vec = dash_dir # 更新野豬大腦中的面朝方向
+	character.play_animation("idle", dash_dir) # 播放待機動畫來假裝蓄力
 
-	# 終極保險：一進入攻擊狀態，確保嘴巴是閉著的！
-	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D")
-	if hitbox_shape: hitbox_shape.set_deferred("disabled", true)
+	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 如果上次動畫還在跑，先強制砍掉
+	flash_tween = character.get_tree().create_tween().bind_node(character) # 建立新的動畫控制器
+	flash_tween.set_loops() # 設定動畫無限循環播放
+	flash_tween.tween_property(character.animated_sprite_2d, "self_modulate", Color.RED, 0.15) # 0.15 秒變紅色
+	flash_tween.tween_property(character.animated_sprite_2d, "self_modulate", Color.WHITE, 0.15) # 0.15 秒變回原色
 
-	character.velocity = Vector2.ZERO # 強迫野豬定在原地煞車
-	if character.player_node:    # 檢查是否鎖定到玩家目標
-		dash_dir = (character.player_node.global_position - character.global_position).normalized() # 瞄準玩家的軌跡
-	else:                        # 如果沒鎖定到玩家
-		dash_dir = character.last_facing_vec # 使用原本最後面朝的方向
-	
-	character.last_facing_vec = dash_dir # 更新面朝方向
-	character.play_animation("idle", dash_dir) # 播放待機動畫假裝蓄力
-
-	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 砍掉殘留閃爍特效
-	flash_tween = character.get_tree().create_tween().bind_node(character) # 建立新 Tween
-	flash_tween.set_loops()      # 無限迴圈播放
-	flash_tween.tween_property(character.animated_sprite_2d, "self_modulate", Color.RED, 0.15) # 變紅
-	flash_tween.tween_property(character.animated_sprite_2d, "self_modulate", Color.WHITE, 0.15) # 變白
-
-func state_physics_update(_delta: float): # 物理幀更新
-	if is_charging: # 如果目前還在蓄力階段
-		charge_timer -= _delta # 扣除經過時間
-		if charge_timer <= 0: # 倒數完畢
-			_start_dash() # 啟動衝刺
-	else:
-		# --- 階段二：無情狂飆 ---
-		dash_timer -= _delta # 扣除經過的時間
-		character.velocity = dash_dir * (character.sprint_speed * 3.0) # 3倍速度衝向玩家
+func state_physics_update(_delta: float): # 物理幀更新邏輯 (每秒執行 60 次)
+	if is_charging: # 階段一：原地蓄力中
+		charge_timer -= _delta # 扣除蓄力時間
+		if charge_timer <= 0: # 如果時間倒數完畢
+			_start_dash() # 啟動野豬衝鋒
+	else: # 階段二：無情狂飆中
+		dash_timer -= _delta # 扣除衝刺剩餘秒數
+		character.velocity = dash_dir * (character.sprint_speed * 3.0) # 給予 3 倍速的物理推進力
 		character.play_animation("run", dash_dir) # 播放奔跑動畫
 
-		# 結局 A (優先判定)：撞到玩家！
-		if character.has_hit_player: # 如果咬中玩家
-			_end_dash("hit_player") # 傳遞 "hit_player" 結局
-			return # 跳出更新函數
+		if character.has_hit_player: # 結局 A：成功咬到玩家
+			_end_dash("hit_player") # 觸發「撞到玩家」的後續處理
+			return
 
-		# 結局 B (次要判定)：撞牆暈眩
-		if dash_timer < 1.4 and character.is_on_wall(): # 條件：衝刺超過 0.1 秒，且碰到實體牆壁
-			# 🌟 核心防呆：檢查是否為「正面撞擊」而不是「擦邊滑過」
-			# get_wall_normal() 會取得牆壁面向的方向。如果衝刺方向跟牆壁方向相反 (小於 -0.5)，代表迎頭撞上！
-			if dash_dir.dot(character.get_wall_normal()) < -0.5:
-				print("【系統】野豬正面撞牆啦！直接暈眩！") # 後台印出提示
-				_end_dash("stun") # 傳遞 "stun" 結局
-				return # 跳出函數
+		# 🌟 核心修正：撞牆判定。只要衝刺一小段時間後碰到任何實體牆壁
+		if dash_timer < 1.4 and character.is_on_wall(): 
+			# 🌟 拔除嚴格的角度檢測：只要撞到牆就當作 Bonk！
+			# 額外加入「物理反彈」：往後退 10 像素避免卡進牆縫
+			var wall_normal = character.get_wall_normal() # 取得牆壁的面向
+			character.move_and_collide(wall_normal * 30.0) # 利用牆壁法線把野豬瞬間「彈」開一小段距離
+			
+			print("【系統】野豬撞牆硬著陸！強制停下！") # 後台提示
+			_end_dash("stun") # 觸發「暈眩」結局
+			return
 
-		# 結局 C：揮棒落空
-		if dash_timer <= 0: # 衝刺時間耗盡
-			_end_dash("miss") # 傳遞 "miss" 結局
-			return # 跳出函數
+		if dash_timer <= 0: # 結局 C：衝刺到底沒撞到東西
+			_end_dash("miss") # 觸發「落空」結局
+			return
 
-func _start_dash():              # 處理開始衝刺的準備工作
-	is_charging = false          # 關閉蓄力開關
-	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 停止閃爍特效
-	character.animated_sprite_2d.self_modulate = Color.WHITE # 恢復純白
+func _start_dash(): # 處理從蓄力切換到衝刺的瞬間
+	is_charging = false # 關閉蓄力狀態開關
+	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 衝刺開始，關閉閃爍特效
+	character.animated_sprite_2d.self_modulate = Color.WHITE # 強制恢復原始色彩
 	
-	# 正式衝鋒的瞬間，把嘴巴(碰撞形狀)打開！
-	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D")
-	if hitbox_shape: hitbox_shape.set_deferred("disabled", false) 
+	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D") # 抓取嘴巴
+	if hitbox_shape: hitbox_shape.set_deferred("disabled", false) # 衝鋒瞬間把傷害判定打開
 
-func _end_dash(outcome: String): # 處理衝刺結束的分配工作
-	# 衝刺結束，立刻把嘴巴關閉！避免幽靈傷害
-	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D")
-	if hitbox_shape: hitbox_shape.set_deferred("disabled", true) 
-
-	if outcome == "stun":        # 如果是 "stun" (正面撞牆)
-		state_machine.change_state("EnemyStun") # 切換到暈眩狀態
-		
-	elif outcome == "hit_player":# 如果是 "hit_player" (咬中玩家)
-		var pant_state = state_machine.states.get("enemypant") # 找出喘氣節點
-		if pant_state: pant_state.pant_timer = 2.5 # 總時間給 2.5 秒
-		state_machine.change_state("EnemyPant") # 切換到喘氣狀態
-		
-	elif outcome == "miss":      # 如果是 "miss" (落空)
-		var pant_state = state_machine.states.get("enemypant") # 找出喘氣節點
-		if pant_state: pant_state.pant_timer = 3.0 # 落空比較累，給 3.0 秒
-		state_machine.change_state("EnemyPant") # 切換到喘氣狀態
-
-func exit():                     # 退出攻擊狀態時的終極保險
-	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 砍掉未完成閃爍
-	character.animated_sprite_2d.self_modulate = Color.WHITE # 恢復白色
+func _end_dash(outcome: String): # 衝刺結算中心
+	character.velocity = Vector2.ZERO # 🌟 結束瞬間強制沒收所有速度，解決溜冰問題
 	
-	# 終極保險：離開攻擊狀態時，確保嘴巴絕對是關閉的！
-	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D")
-	if hitbox_shape: hitbox_shape.set_deferred("disabled", true)
+	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D") # 抓取嘴巴
+	if hitbox_shape: hitbox_shape.set_deferred("disabled", true) # 關機，防止幽靈傷害
+
+	if outcome == "stun": # 結局是撞牆暈眩
+		state_machine.change_state("EnemyStun") # 進入紫色閃爍暈眩狀態
+		
+	elif outcome == "hit_player": # 結局是撞到玩家
+		var pant_state = state_machine.states.get("enemypant") # 抓取喘氣腳本
+		if pant_state: pant_state.pant_timer = 2.5 # 給予 2.5 秒喘氣時間
+		state_machine.change_state("EnemyPant") # 進入喘氣狀態
+		
+	elif outcome == "miss": # 結局是揮棒落空
+		var pant_state = state_machine.states.get("enemypant") # 抓取喘氣腳本
+		if pant_state: pant_state.pant_timer = 3.0 # 給予 3 秒喘氣時間
+		state_machine.change_state("EnemyPant") # 進入喘氣狀態
+
+func exit(): # 徹底退出攻擊狀態時的終極清理
+	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 確保紅光閃爍已關閉
+	character.animated_sprite_2d.self_modulate = Color.WHITE # 確保顏色恢復正常
+	var hitbox_shape = character.get_node_or_null("Hitbox/CollisionShape2D") # 抓取嘴巴
+	if hitbox_shape: hitbox_shape.set_deferred("disabled", true) # 確保離開此狀態時嘴巴是閉上的
