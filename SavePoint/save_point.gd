@@ -19,6 +19,9 @@ func _process(_delta): # 每一幀檢查
 		if DataManager and DataManager.player_node:
 			DataManager.last_save_position = DataManager.player_node.global_position
 			
+			# 🌟 新增：讓大腦記住現在這張地圖的檔案路徑！
+			DataManager.save_map_path = get_tree().current_scene.scene_file_path
+			
 		# 🌟 只負責叫出 UI 和暫停遊戲，不處理補血補體力！
 		if save_menu_scene:
 			var menu = save_menu_scene.instantiate()

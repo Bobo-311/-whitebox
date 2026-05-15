@@ -1,6 +1,6 @@
 extends Area2D # 繼承 Area2D，用於偵測玩家碰撞
 
-@export var coin_value: int = 5 # 金幣面額
+@export var coin_value: int = 1 # 金幣面額
 
 @export var magnetic_speed_max: float = 800.0 # 磁吸的最大極速
 @export var magnetic_acceleration: float = 1500.0 # 磁吸的加速度 (每秒變快多少)

@@ -58,14 +58,34 @@ func _ready(): # 內建函數：當節點進入場景時觸發
 		animated_sprite_2d.material.set_shader_parameter("saturation", 1.0) # 強制把飽和度洗回 1.0 (全彩)
 		
 	# 🌟 復活後檢查大腦：有沒有遺留的靈魂要生出來？
-	if DataManager and DataManager.has_soul_on_ground: # 如果大腦記錄有掉落靈魂
-		var soul_scene = load("res://soul/Soul.tscn") # 載入靈魂場景檔案
-		if soul_scene: # 確保有載入成功
-			var soul = soul_scene.instantiate() # 實例化靈魂
-			soul.global_position = DataManager.soul_spawn_pos # 放在大腦紀錄的死亡座標
-			soul.lost_gold = DataManager.soul_stored_gold # 塞入大腦紀錄的掉落金幣
-			soul.scale = Vector2(2.0, 2.0) # 將靈魂放大 2 倍，解決太小的問題
-			get_tree().current_scene.call_deferred("add_child", soul) # 延遲加入到當前關卡底層
+	if DataManager and DataManager.has_soul_on_ground: 
+		# 🌟 新增防呆：檢查大腦紀錄的「靈魂地圖」是不是「現在這張地圖」！
+		if DataManager.soul_map_path == get_tree().current_scene.scene_file_path:
+			var soul_scene = load("res://soul/Soul.tscn") 
+			if soul_scene: 
+				var soul = soul_scene.instantiate() 
+				soul.global_position = DataManager.soul_spawn_pos 
+				soul.lost_gold = DataManager.soul_stored_gold 
+				soul.scale = Vector2(2.0, 2.0) 
+				get_tree().current_scene.call_deferred("add_child", soul)
+
+# --- 開發者外掛：印鈔機 ---
+func _input(event):
+	# 這裡我借用 Godot 內建的 "ui_page_up" (通常是鍵盤方向鍵上方的 PgUp 鍵)
+	# 這樣你連「輸入映射」都不用去設定，直接貼上就能用！
+	if event.is_action_pressed("cheater"): 
+		
+		if DataManager:
+			DataManager.total_gold += 100 # 一次塞 100 塊到大腦裡
+			print("【開發者外掛】印鈔 100 元！目前總金額：" + str(DataManager.total_gold))
+			
+			# 🌟 重要提醒：通知 UI 更新畫面！
+			# 因為我沒看到你右上角 UI 更新金幣的具體函數名稱，
+			# 如果你有寫類似 update_gold 的函數，請在這裡呼叫它，例如：
+			# if player_hud: player_hud.update_gold(DataManager.total_gold)
+
+
+
 
 # --- 每一幀(1/60秒)都會執行的物理更新 ---
 func _physics_process(delta: float) -> void: # 內建函數：處理物理運算與按鍵輸入

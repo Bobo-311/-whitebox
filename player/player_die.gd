@@ -11,6 +11,9 @@ func enter(): # 進入死亡狀態時執行
 		DataManager.soul_spawn_pos = character.global_position # 記錄靈魂掉落的精確座標
 		DataManager.soul_stored_gold = penalty # 把剛剛扣掉的錢交給大腦的靈魂紀錄保管
 		
+		# 🌟 新增：告訴大腦靈魂掉在哪一張地圖！
+		DataManager.soul_map_path = character.get_tree().current_scene.scene_file_path
+		
 		print("【系統】玩家死亡！遺失金幣：", penalty) # 後台印出噴錢提示
 		
 		var soul_scene = load("res://soul/Soul.tscn") # 載入你路徑正確的靈魂場景
@@ -32,4 +35,8 @@ func state_physics_update(delta: float): # 物理幀更新
 
 func _restart_game(): # 處理重啟遊戲
 	await character.get_tree().create_timer(3.0).timeout # 讓屍體在地上躺 3 秒鐘
-	character.get_tree().reload_current_scene() # 重新載入關卡，觸發重生點與靈魂重生的機制
+	# 🌟 修改：重生時，檢查有沒有存檔地圖，有的話就切換過去，沒有才原地重生
+	if DataManager.save_map_path != "":
+		character.get_tree().change_scene_to_file(DataManager.save_map_path)
+	else:
+		character.get_tree().reload_current_scene()

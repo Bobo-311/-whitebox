@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://dc6xujthm4cy4"]
+
+[ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
+[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
+[ext_resource type="Texture2D" uid="uid://cianksepqf2dl" path="res://images.jpg" id="2_vpust"]
+[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="4_167qa"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="5_q0gaw"]
+[ext_resource type="PackedScene" uid="uid://def106py6fbgu" path="res://portal/portal.tscn" id="6_877dg"]
+[ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
+size = Vector2(3695, 93)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
+size = Vector2(99.5, 1859.5625)
+
+[node name="Volcano" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_scycs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.6711308, 0.6490936, 0.7638726, 1)
+z_index = -1
+position = Vector2(1909.4669, 759.41156)
+scale = Vector2(15.814786, 16.42173)
+texture = ExtResource("2_vpust")
+
+[node name="player" parent="." instance=ExtResource("2_scycs")]
+position = Vector2(349, 723)
+
+[node name="Arena" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Arena"]
+position = Vector2(1802.9999, -66)
+scale = Vector2(28.609373, 1.265625)
+texture = ExtResource("4_167qa")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Arena"]
+position = Vector2(1696, 1240)
+scale = Vector2(28.625, 1.1874988)
+texture = ExtResource("4_167qa")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Arena"]
+position = Vector2(1754.5, 900.9999)
+scale = Vector2(1.4609383, 14.781248)
+texture = ExtResource("4_167qa")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Arena"]
+position = Vector2(-98.500046, 896.50006)
+scale = Vector2(1.9296868, 14.648438)
+texture = ExtResource("4_167qa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena"]
+position = Vector2(1793.5, -38.5)
+shape = SubResource("RectangleShape2D_1oghe")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Arena"]
+position = Vector2(1686, 1215)
+shape = SubResource("RectangleShape2D_1oghe")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Arena"]
+position = Vector2(1714.5, 905.5625)
+shape = SubResource("RectangleShape2D_1ofo2")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Arena"]
+position = Vector2(-29, 881)
+shape = SubResource("RectangleShape2D_1ofo2")
+
+[node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
+position = Vector2(1464, 833)
+
+[node name="Portal" parent="." instance=ExtResource("6_877dg")]
+position = Vector2(1560, 160)
+scale = Vector2(-1, 1)
+
+[node name="Coin" parent="." instance=ExtResource("7_vetra")]
+position = Vector2(1578, 1115)
+
+[node name="Coin6" parent="Coin" instance=ExtResource("7_vetra")]
+position = Vector2(-28, -36)
+
+[node name="Coin5" parent="Coin" instance=ExtResource("7_vetra")]
+position = Vector2(-62, -2)
+
+[node name="Coin2" parent="Coin" instance=ExtResource("7_vetra")]
+position = Vector2(-74, -60)
+
+[node name="Coin3" parent="Coin" instance=ExtResource("7_vetra")]
+position = Vector2(-101, -21)
+
+[node name="Coin4" parent="Coin" instance=ExtResource("7_vetra")]
+position = Vector2(-32, -75)
+
+[node name="Coin7" parent="Coin" instance=ExtResource("7_vetra")]
+position = Vector2(5, -62)
+
+[node name="PortalSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(1474, 243)

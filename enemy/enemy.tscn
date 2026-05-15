@@ -920,6 +920,7 @@ motion_mode = 1
 safe_margin = 0.05
 script = ExtResource("1_ofsxj")
 sprint_speed = 200
+melee_damage = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, -21)

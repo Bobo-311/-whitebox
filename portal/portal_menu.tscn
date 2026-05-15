@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2txn617cs14e"]
+
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="1_8rysd"]
+[ext_resource type="Script" uid="uid://dqi6aa60bhccq" path="res://portal/portal_menu.gd" id="1_ymoul"]
+[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://tilemap_packed.png" id="3_jm7qh"]
+[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="4_c2jcl"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b3810"]
+texture = ExtResource("3_jm7qh")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(176.39244, 47.92899, 48.14821, 15.635006)
+
+[node name="PortalMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_ymoul")
+metadata/_edit_vertical_guides_ = [-335.0]
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.42745098)
+
+[node name="Center_Layout" type="CenterContainer" parent="."]
+offset_left = 134.0
+offset_top = 146.0
+offset_right = 634.0
+offset_bottom = 226.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Center_Layout"]
+layout_mode = 2
+theme_override_constants/separation = 150
+
+[node name="Btn_Studio" type="Button" parent="Center_Layout/HBoxContainer"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_8rysd")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_b3810")
+text = "工作室
+"
+
+[node name="Btn_Volcano" type="Button" parent="Center_Layout/HBoxContainer"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_8rysd")
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxTexture_b3810")
+text = "火山
+"
+
+[node name="Label_Location" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = 1.0
+offset_right = 178.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_constants/line_spacing = 22
+theme_override_constants/outline_size = 4
+text = "◆ ─── 当前位置：─── ◆"
+label_settings = ExtResource("4_c2jcl")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Center_Layout/HBoxContainer/Btn_Studio" to="." method="_on_btn_studio_pressed"]
+[connection signal="pressed" from="Center_Layout/HBoxContainer/Btn_Volcano" to="." method="_on_btn_volcano_pressed"]

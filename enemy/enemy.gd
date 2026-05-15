@@ -85,8 +85,6 @@ func drop_coin() -> void:
 			get_tree().create_timer(delay).connect("timeout", func():
 				# 實例化金幣
 				var coin = COIN_SCENE.instantiate()
-				# 設定面額
-				coin.coin_value = 1 
 				
 				# 宣告預設生成座標為野豬當前座標
 				var spawn_pos = global_position

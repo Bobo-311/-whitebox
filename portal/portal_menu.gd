@@ -1,0 +1,84 @@
+extends CanvasLayer
+
+# ==========================================
+# 節點抓取區
+# ==========================================
+# 抓取場景中的標籤節點，用來顯示當前位置。
+# (注意：如果你的節點名字不叫 Label，請把 $ 後面的字改成你實際的節點名稱)
+@onready var label_location: Label = $Label_Location
+
+
+# ==========================================
+# 系統內建函數：_ready() 
+# 當這個 UI 選單一被生成、出現在畫面上時，會立刻執行一次這裡的代碼。
+# ==========================================
+func _ready():
+	# 1. 暫停遊戲：確保玩家在選單時，背景的怪物不會動、時間停止
+	get_tree().paused = true 
+	
+	# 2. 動態更新標籤文字：去問大腦 (DataManager) 現在在哪個地圖
+	if DataManager.current_map_name != "":
+		# 如果大腦裡有記錄名字，就把名字塞進我們設計好的格式裡
+		label_location.text = "◆ ── 当前位置：" + DataManager.current_map_name + " ── ◆"
+	else:
+		# 預防萬一：如果大腦剛好空了，就顯示未知
+		label_location.text = "◆ ── 当前位置：未知 ── ◆"
+
+
+# ==========================================
+# 按鈕點擊事件：當玩家按下「工作室」按鈕時觸發
+# ==========================================
+func _on_btn_studio_pressed():
+	# 防呆機制：先檢查玩家是不是「已經在工作室」了
+	if DataManager.current_map_name == "工作室":
+		# 如果已經在原地，那按這個按鈕就等於「取消傳送」，直接關閉介面就好
+		_close_menu() 
+	else:
+		# 如果玩家是從別的地方(例如火山)按下的...
+		
+		# 1. 告訴大腦：我們接下來的目標是「工作室」
+		DataManager.current_map_name = "工作室" 
+		
+		# 2. 🌟 核心開關：告訴大腦開啟「傳送模式」
+		# 這樣工作室場景載入時，才會知道要把玩家吸到 Marker2D(降落點) 上
+		DataManager.is_teleporting = true 
+		
+		# 3. 先把這個 UI 選單關閉、解除暫停
+		_close_menu()
+		
+		# 呼叫黑洞轉場，並把目標路徑交給它
+		TransitionManager.transition_to("res://main/main.tscn")
+
+
+# ==========================================
+# 按鈕點擊事件：當玩家按下「火山」按鈕時觸發
+# ==========================================
+func _on_btn_volcano_pressed():
+	# 防呆機制：檢查是不是已經在火山了
+	if DataManager.current_map_name == "火山":
+		_close_menu() 
+	else:
+		# 1. 告訴大腦：目標是「火山」
+		DataManager.current_map_name = "火山" 
+		
+		# 2. 🌟 核心開關：打開傳送模式
+		DataManager.is_teleporting = true 
+		
+		# 3. 關閉 UI 選單
+		_close_menu()
+		
+		# 4. 執行切換場景指令：讀取並進入火山場景
+		TransitionManager.transition_to("res://Volcano/Volcano.tscn")
+
+
+# ==========================================
+# 自訂共用函數：_close_menu()
+# 因為關閉選單的動作會重複用到，所以包裝成一個函數，方便隨時呼叫
+# ==========================================
+func _close_menu():
+	# 1. 解除時間暫停，讓遊戲恢復運作
+	get_tree().paused = false
+	
+	# 2. 把這個 UI 節點從遊戲中徹底刪除銷毀 (釋放記憶體)
+	# 如果不銷毀，每次按 O 鍵都會疊加一層新的 UI 在畫面上，遊戲會當掉
+	queue_free()
