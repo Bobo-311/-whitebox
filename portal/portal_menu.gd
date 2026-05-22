@@ -5,7 +5,7 @@ extends CanvasLayer
 # ==========================================
 # 抓取場景中的標籤節點，用來顯示當前位置。
 # (注意：如果你的節點名字不叫 Label，請把 $ 後面的字改成你實際的節點名稱)
-@onready var label_location: Label = $Label_Location
+
 
 
 # ==========================================
@@ -16,13 +16,7 @@ func _ready():
 	# 1. 暫停遊戲：確保玩家在選單時，背景的怪物不會動、時間停止
 	get_tree().paused = true 
 	
-	# 2. 動態更新標籤文字：去問大腦 (DataManager) 現在在哪個地圖
-	if DataManager.current_map_name != "":
-		# 如果大腦裡有記錄名字，就把名字塞進我們設計好的格式裡
-		label_location.text = "◆ ── 当前位置：" + DataManager.current_map_name + " ── ◆"
-	else:
-		# 預防萬一：如果大腦剛好空了，就顯示未知
-		label_location.text = "◆ ── 当前位置：未知 ── ◆"
+	
 
 
 # ==========================================

@@ -1264,6 +1264,7 @@ scale = Vector2(2.3125, 2.1875)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
 animation = &"idle_down"
 autoplay = "idle_down"
+offset = Vector2(0, -20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, 0.5)
@@ -1335,10 +1336,10 @@ script = ExtResource("13_tqiix")
 script = ExtResource("16_65viv")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
-limit_left = 0
-limit_top = 0
-limit_right = 3619
-limit_bottom = 1712
+limit_left = 354
+limit_top = 193
+limit_right = 4059
+limit_bottom = 2053
 script = ExtResource("5_tnfn2")
 
 [node name="SFXSword" type="AudioStreamPlayer" parent="."]

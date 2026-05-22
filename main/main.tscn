@@ -1,82 +1,130 @@
-[gd_scene load_steps=11 format=3 uid="uid://0fswxsxwrdgm"]
+[gd_scene load_steps=10 format=3 uid="uid://0fswxsxwrdgm"]
 
 [ext_resource type="Script" uid="uid://5fkpn27gvbie" path="res://main/main.gd" id="1_67ri8"]
-[ext_resource type="Texture2D" uid="uid://yq7r51at7ak5" path="res://BG.png" id="2_grrlh"]
+[ext_resource type="Texture2D" uid="uid://cgolu4vds1oiy" path="res://RRRRRRRR/柱子左側.png" id="2_0i4oc"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="3_0i4oc"]
+[ext_resource type="Texture2D" uid="uid://iytth4pcsbfk" path="res://RRRRRRRR/柱子右側.png" id="3_bsumw"]
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="4_bsumw"]
-[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="5_fwcvl"]
+[ext_resource type="Texture2D" uid="uid://d1syug57hw73p" path="res://RRRRRRRR/地板.png" id="4_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="6_na0o7"]
 [ext_resource type="PackedScene" uid="uid://def106py6fbgu" path="res://portal/portal.tscn" id="7_73k8k"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="8_5xyti"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
-size = Vector2(3695, 93)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
-size = Vector2(99.5, 1859.5625)
 
 [node name="main" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_67ri8")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="y受特" type="Node2D" parent="."]
+y_sort_enabled = true
+position = Vector2(1162.207, 672)
+
+[node name="主要右柱" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(1564, 111)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("2_0i4oc")
+offset = Vector2(480, -700)
+
+[node name="主要右柱2" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(2046, 231)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("2_0i4oc")
+offset = Vector2(480, -700)
+
+[node name="主要右柱3" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(2511, 427.99997)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("2_0i4oc")
+offset = Vector2(480, -700)
+
+[node name="主要右柱4" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(2698, 837)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("2_0i4oc")
+offset = Vector2(480, -700)
+
+[node name="主要右柱5" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(2387, 1104)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("2_0i4oc")
+offset = Vector2(480, -700)
+
+[node name="主要右柱6" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(1774.9998, 1265)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("2_0i4oc")
+offset = Vector2(480, -700)
+
+[node name="主要左柱" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(521, 105)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("3_bsumw")
+offset = Vector2(-420, -710)
+
+[node name="主要左柱2" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(9, 232)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("3_bsumw")
+offset = Vector2(-420, -710)
+
+[node name="主要左柱3" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(-424.99997, 454.99997)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("3_bsumw")
+offset = Vector2(-420, -710)
+
+[node name="主要左柱4" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(-642, 823)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("3_bsumw")
+offset = Vector2(-420, -710)
+
+[node name="主要左柱5" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(-270, 1117)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("3_bsumw")
+offset = Vector2(-420, -710)
+
+[node name="主要左柱6" type="Sprite2D" parent="y受特"]
+modulate = Color(1, 0.42086402, 0.7851186, 1)
+position = Vector2(314, 1250)
+scale = Vector2(1.8553904, 1.0950507)
+texture = ExtResource("3_bsumw")
+offset = Vector2(-420, -710)
+
+[node name="地板" type="Sprite2D" parent="y受特"]
 modulate = Color(1, 0.42086402, 0.7851186, 1)
 z_index = -1
-position = Vector2(716.49976, 744.4999)
-scale = Vector2(278.18747, 152.93748)
-texture = ExtResource("2_grrlh")
+position = Vector2(984.44385, 573.5046)
+scale = Vector2(1.9588506, 1.0762912)
+texture = ExtResource("4_fwcvl")
 
-[node name="player" parent="." instance=ExtResource("3_0i4oc")]
-position = Vector2(349, 723)
+[node name="player" parent="y受特" instance=ExtResource("3_0i4oc")]
+y_sort_enabled = false
+position = Vector2(577, 580)
 
-[node name="enemy" parent="." instance=ExtResource("4_bsumw")]
-position = Vector2(884, 330)
-
-[node name="Arena" type="StaticBody2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="Arena"]
-position = Vector2(1802.9999, -66)
-scale = Vector2(28.609373, 1.265625)
-texture = ExtResource("5_fwcvl")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Arena"]
-position = Vector2(1696, 1240)
-scale = Vector2(28.625, 1.1874988)
-texture = ExtResource("5_fwcvl")
-
-[node name="Sprite2D3" type="Sprite2D" parent="Arena"]
-position = Vector2(1754.5, 900.9999)
-scale = Vector2(1.4609383, 14.781248)
-texture = ExtResource("5_fwcvl")
-
-[node name="Sprite2D4" type="Sprite2D" parent="Arena"]
-position = Vector2(-98.500046, 896.50006)
-scale = Vector2(1.9296868, 14.648438)
-texture = ExtResource("5_fwcvl")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Arena"]
-position = Vector2(1793.5, -38.5)
-shape = SubResource("RectangleShape2D_1oghe")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Arena"]
-position = Vector2(1686, 1215)
-shape = SubResource("RectangleShape2D_1oghe")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Arena"]
-position = Vector2(1714.5, 905.5625)
-shape = SubResource("RectangleShape2D_1ofo2")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Arena"]
-position = Vector2(-29, 881)
-shape = SubResource("RectangleShape2D_1ofo2")
+[node name="enemy" parent="y受特" instance=ExtResource("4_bsumw")]
+y_sort_enabled = false
+position = Vector2(1675.793, 455.53125)
 
 [node name="SavePoint" parent="." instance=ExtResource("6_na0o7")]
-position = Vector2(314, 268)
+position = Vector2(1012, 991.53125)
 
 [node name="Portal" parent="." instance=ExtResource("7_73k8k")]
-position = Vector2(119, 1057)
+position = Vector2(1113, 1554.5313)
 
 [node name="Coin" parent="." instance=ExtResource("8_5xyti")]
+visible = false
 position = Vector2(1610, 1125)
 
 [node name="Coin6" parent="Coin" instance=ExtResource("8_5xyti")]
@@ -98,4 +146,74 @@ position = Vector2(-32, -75)
 position = Vector2(5, -62)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(207, 1132)
+position = Vector2(1199, 1612.5313)
+
+[node name="以拉崔特" type="Node2D" parent="."]
+position = Vector2(1162.207, 672)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="以拉崔特"]
+
+[node name="地板" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(-7, 92)
+build_mode = 1
+polygon = PackedVector2Array(-2, -2, 84.79297, -23, 175, -45, 245, -57, 343.79297, -74, 418.79297, -85, 480, -92, 531.79297, -99, 582.79297, -104, 603.79297, -106, 650.79297, -108, 659.79297, -106, 656.79297, -71, 655.79297, -50, 653.79297, -32, 655, -8, 659.79297, 15, 666.79297, 33, 679.79297, 53, 711, 83, 736.79297, 101, 770.79297, 120, 821.79297, 140, 878, 159, 921.79297, 171, 955, 175, 978.79297, 180, 1032, 181, 1125.793, 180, 1191, 170, 1275.793, 145, 1358.793, 111, 1412, 69, 1431.793, 48, 1444.793, 26, 1453, -24, 1450.793, -72, 1449, -103, 1449.793, -108, 1468.793, -108, 1516, -108, 1626.793, -94, 1765, -74, 1932, -43, 1974.793, -34, 2000.793, -28, 2061.793, -15, 2172, 17, 2275.793, 48, 2379, 85, 2464.793, 123, 2518.793, 146, 2572, 178, 2624.793, 206, 2676.793, 236, 2694.793, 248, 2762, 308, 2805.793, 353, 2844, 403, 2869.793, 447, 2890, 494, 2900.793, 544, 2903, 599, 2890.793, 660, 2872, 718, 2842.793, 763, 2812, 797, 2778.793, 836, 2731, 878, 2695.793, 909, 2627, 955, 2556.793, 994, 2466, 1040, 2282, 1113, 2137.793, 1154, 2007, 1188, 1869.793, 1216, 1711, 1244, 1456, 1273, 1292.793, 1285, 1179, 1287, 1030.793, 1291, 869, 1287, 570, 1266, 305, 1230, 179.79297, 1205, 55, 1178, -81.20703, 1141, -167, 1112, -277.20703, 1075, -386, 1027, -495.20703, 968, -582, 914, -630.20703, 875, -673, 835, -712.20703, 792, -745.20703, 748, -769.20703, 699, -784.20703, 661, -792.20703, 628, -798.20703, 579, -791.20703, 529, -777, 473, -734.20703, 397, -706.20703, 362, -676, 328, -634.20703, 286, -589, 252, -506.20703, 199, -505.20703, 198, -462, 175, -327.20703, 108, -327.20703, 108, -198, 58, -95.20703, 25)
+
+[node name="左側柱子1" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(519.79297, 105)
+build_mode = 1
+polygon = PackedVector2Array(-2, -3, 109, -39, 112, -61, 112, -69, 89, -80, 86, -87, 76, -97, 66, -111, 59, -100, 45, -92, 23, -83, 6, -81, -16, -86, -34, -90, -42, -104, -53, -96, -63, -88, -64, -77, -80, -65, -85, -45)
+
+[node name="左側柱子2" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(8.792969, 233)
+build_mode = 1
+polygon = PackedVector2Array(-1, 0, 109, -39, 109, -65, 110, -69, 89, -80, 86, -87, 81, -95, 76, -97, 69, -107, 63, -112, 59, -100, 45, -92, 23, -83, 6, -81, -16, -86, -34, -90, -43, -107, -48, -103, -54, -98, -59, -93, -65, -84, -65, -77, -79, -68, -83, -64, -86, -43)
+
+[node name="左側柱子3" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(-428.20703, 457)
+build_mode = 1
+polygon = PackedVector2Array(3, 0, 111, -40, 112, -61, 111, -71, 90, -81, 87, -92, 84, -96, 77, -101, 73, -109, 66, -114, 59, -100, 45, -92, 23, -83, 6, -81, -16, -86, -34, -90, -40, -108, -46, -104, -53, -98, -63, -88, -62, -83, -64, -77, -80, -65, -85, -45)
+
+[node name="左側柱子4" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(-645.20703, 825)
+build_mode = 1
+polygon = PackedVector2Array(3, 0, 111, -40, 112, -61, 111, -71, 90, -81, 87, -92, 84, -96, 77, -101, 73, -109, 66, -114, 59, -100, 45, -92, 23, -83, 6, -81, -16, -86, -34, -90, -40, -108, -46, -104, -53, -98, -63, -88, -62, -83, -64, -77, -80, -65, -85, -45)
+
+[node name="左側柱子5" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(-273.20703, 1119)
+build_mode = 1
+polygon = PackedVector2Array(3, 0, 111, -40, 112, -61, 111, -71, 90, -81, 87, -92, 84, -96, 77, -101, 73, -109, 66, -114, 59, -100, 45, -92, 23, -83, 6, -81, -16, -86, -34, -90, -40, -108, -46, -104, -53, -98, -63, -88, -62, -83, -64, -77, -80, -65, -85, -45)
+
+[node name="左側柱子6" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(310.79297, 1252)
+build_mode = 1
+polygon = PackedVector2Array(3, 0, 111, -40, 112, -61, 112, -69, 90, -81, 87, -92, 84, -96, 77, -101, 73, -109, 66, -114, 59, -100, 45, -92, 23, -83, 6, -81, -16, -86, -34, -90, -40, -108, -46, -104, -53, -98, -63, -88, -62, -83, -64, -77, -80, -66, -80, -65, -85, -45)
+
+[node name="右側柱子1" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(1577.793, 101)
+build_mode = 1
+polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 47, -22, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)
+
+[node name="右側柱子2" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(2058.793, 221)
+build_mode = 1
+polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 47, -22, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)
+
+[node name="右側柱子3" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(2524.793, 418)
+build_mode = 1
+polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 47, -22, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)
+
+[node name="右側柱子4" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(2711.793, 827)
+build_mode = 1
+polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 46, -22, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)
+
+[node name="右側柱子5" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(2399.793, 1094)
+build_mode = 1
+polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 47, -22, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)
+
+[node name="右側柱子6" type="CollisionPolygon2D" parent="以拉崔特/StaticBody2D"]
+position = Vector2(1788.793, 1255)
+build_mode = 1
+polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 46, -23, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)

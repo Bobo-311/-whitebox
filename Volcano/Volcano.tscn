@@ -9,20 +9,21 @@
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
-size = Vector2(3695, 93)
+size = Vector2(8076, 134.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
-size = Vector2(99.5, 1859.5625)
+size = Vector2(195, 4542)
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_scycs")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D2" type="Sprite2D" parent="."]
 modulate = Color(0.6711308, 0.6490936, 0.7638726, 1)
 z_index = -1
-position = Vector2(1909.4669, 759.41156)
-scale = Vector2(15.814786, 16.42173)
+y_sort_enabled = true
+position = Vector2(488.50037, 616.69507)
+scale = Vector2(40.316364, 20.779287)
 texture = ExtResource("2_vpust")
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
@@ -31,50 +32,50 @@ position = Vector2(349, 723)
 [node name="Arena" type="StaticBody2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Arena"]
-position = Vector2(1802.9999, -66)
-scale = Vector2(28.609373, 1.265625)
+position = Vector2(1000, 193)
+scale = Vector2(50.867188, 1.265625)
 texture = ExtResource("4_167qa")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Arena"]
-position = Vector2(1696, 1240)
-scale = Vector2(28.625, 1.1874988)
+position = Vector2(824.9999, 2053)
+scale = Vector2(63.859375, 1.1874988)
 texture = ExtResource("4_167qa")
 
 [node name="Sprite2D3" type="Sprite2D" parent="Arena"]
-position = Vector2(1754.5, 900.9999)
-scale = Vector2(1.4609383, 14.781248)
+position = Vector2(4059, 894.99994)
+scale = Vector2(1.4609383, 35.359375)
 texture = ExtResource("4_167qa")
 
 [node name="Sprite2D4" type="Sprite2D" parent="Arena"]
-position = Vector2(-98.500046, 896.50006)
-scale = Vector2(1.9296868, 14.648438)
+position = Vector2(359, 1000)
+scale = Vector2(1.9296868, 36.05469)
 texture = ExtResource("4_167qa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Arena"]
-position = Vector2(1793.5, -38.5)
+position = Vector2(1000, 193)
 shape = SubResource("RectangleShape2D_1oghe")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Arena"]
-position = Vector2(1686, 1215)
+position = Vector2(1266, 2053)
 shape = SubResource("RectangleShape2D_1oghe")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Arena"]
-position = Vector2(1714.5, 905.5625)
+position = Vector2(4059, 905.5625)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Arena"]
-position = Vector2(-29, 881)
+position = Vector2(359, 1000)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
-position = Vector2(1464, 833)
+position = Vector2(2562, 574)
 
 [node name="Portal" parent="." instance=ExtResource("6_877dg")]
-position = Vector2(1560, 160)
+position = Vector2(2673, -23)
 scale = Vector2(-1, 1)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
-position = Vector2(1578, 1115)
+position = Vector2(2593, 1228)
 
 [node name="Coin6" parent="Coin" instance=ExtResource("7_vetra")]
 position = Vector2(-28, -36)
@@ -95,4 +96,4 @@ position = Vector2(-32, -75)
 position = Vector2(5, -62)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1474, 243)
+position = Vector2(2572, 42)
