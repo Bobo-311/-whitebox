@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
-[ext_resource type="Shader" uid="uid://ddk7bdr70dguq" path="res://player/playerbloodcolar.gdshader" id="2_c35mf"]
+[ext_resource type="Shader" uid="uid://ddk7bdr70dguq" path="res://shader/playerbloodcolar.gdshader" id="2_c35mf"]
 [ext_resource type="Texture2D" uid="uid://tseba7j3epa5" path="res://Asset/Animations/Player_Idle.png" id="3_83lag"]
 [ext_resource type="Texture2D" uid="uid://c7b46wapft7r2" path="res://Asset/Animations/Player_Run.png" id="4_83lag"]
 [ext_resource type="Script" uid="uid://dtv1jytooehf1" path="res://camera/camera_2d.gd" id="5_tnfn2"]
@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://b6x886sdt3a6j" path="res://player/player_idle.gd" id="9_8t03j"]
 [ext_resource type="Script" uid="uid://bh23c76ar5wg4" path="res://player/player_dash.gd" id="9_ebec5"]
 [ext_resource type="Texture2D" uid="uid://c8p00886gaui6" path="res://Asset/Animations/Player_Hurt.png" id="9_wodsf"]
-[ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox.gd" id="9_x7c3f"]
+[ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="9_x7c3f"]
 [ext_resource type="Script" uid="uid://b6ny5oi70xkn4" path="res://player/player_move.gd" id="10_8t03j"]
 [ext_resource type="Script" uid="uid://otmwch1l851y" path="res://player/player_attack.gd" id="11_2ieo8"]
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
@@ -1336,6 +1336,7 @@ script = ExtResource("13_tqiix")
 script = ExtResource("16_65viv")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+zoom = Vector2(0.7, 0.7)
 limit_left = 354
 limit_top = 193
 limit_right = 4059

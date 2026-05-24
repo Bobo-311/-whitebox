@@ -1,4 +1,10 @@
-extends CanvasLayer # 繼承 CanvasLayer，處理 UI 顯示
+extends CanvasLayer # 繼承 CanvasLayer，處理 UI 顯示 savemenu_ui
+
+
+# 🌟 新增這行：用來在屬性面板掛載你的 StickerUI 場景
+@export var sticker_ui_scene: PackedScene
+
+
 
 # --- 按下「存檔」按鈕時觸發 ---
 func _on_save_pressed() -> void:
@@ -20,3 +26,15 @@ func _on_save_pressed() -> void:
 func _on_go_pressed() -> void:
 	get_tree().paused = false # 解除全域時間暫停
 	queue_free() # 刪除並關閉此 UI 介面，直接繼續遊戲
+
+# --- 🌟 新增：按下「貼紙」按鈕時觸發 ---
+func _on_sticker_pressed() -> void:
+	if sticker_ui_scene:
+		# 1. 實體化貼紙介面
+		var sticker_menu = sticker_ui_scene.instantiate()
+		
+		# 2. 把貼紙介面加到畫面上
+		get_tree().root.add_child(sticker_menu)
+		
+		# 3. 暫時隱藏原本的存檔面板，避免兩個 UI 疊在一起太亂
+		hide()

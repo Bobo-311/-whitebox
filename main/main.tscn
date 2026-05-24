@@ -124,8 +124,7 @@ position = Vector2(1012, 991.53125)
 position = Vector2(1113, 1554.5313)
 
 [node name="Coin" parent="." instance=ExtResource("8_5xyti")]
-visible = false
-position = Vector2(1610, 1125)
+position = Vector2(2525, 1843)
 
 [node name="Coin6" parent="Coin" instance=ExtResource("8_5xyti")]
 position = Vector2(-28, -36)

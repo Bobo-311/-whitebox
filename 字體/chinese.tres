@@ -3,5 +3,7 @@
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="1_f06dd"]
 
 [resource]
+paragraph_spacing = 3.0
 font = ExtResource("1_f06dd")
 font_size = 27
+font_color = Color(0, 0, 0, 1)

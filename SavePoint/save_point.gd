@@ -1,4 +1,4 @@
-extends Area2D # 繼承 Area2D
+extends Area2D # 繼承 Area2D savepoint
 
 @export var save_menu_scene: PackedScene # 屬性面板掛載 UI 選單
 

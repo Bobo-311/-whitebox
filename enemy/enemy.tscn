@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://cj2uofh4c3bhg" path="res://enemy/enemy_attack.gd" id="7_tbw0t"]
 [ext_resource type="Texture2D" uid="uid://datx13uycs3x8" path="res://ASEPRITE/Boar/Run/Boar_Run.png" id="7_y5vj3"]
 [ext_resource type="Script" uid="uid://ct4xhpe6n0y17" path="res://StateMachine/StateMachine.gd" id="8_5ffra"]
-[ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox.gd" id="8_34gv7"]
+[ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="8_34gv7"]
 [ext_resource type="Script" uid="uid://bftdv7hep17t7" path="res://enemy/enemy_die.gd" id="8_wjonb"]
 [ext_resource type="Texture2D" uid="uid://ehh2c543avux" path="res://ASEPRITE/Boar/Death/Boar_Death.png" id="8_xoplw"]
 [ext_resource type="Script" uid="uid://c0ce0h6iqrkew" path="res://enemy/enemy_run.gd" id="9_e355f"]

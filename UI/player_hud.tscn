@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://hob5gel4cesh"]
+[gd_scene load_steps=9 format=3 uid="uid://hob5gel4cesh"]
 
 [ext_resource type="Script" uid="uid://bq4k04hldb5g2" path="res://UI/player_hud.gd" id="1_5o0p8"]
 [ext_resource type="Texture2D" uid="uid://ba484avslaatp" path="res://Asset/1FDB2840-EE5D-4728-92A7-9D929A34CA43.jpg" id="2_dpci0"]
-[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="3_lhy1a"]
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="3_lhy1a"]
 [ext_resource type="Script" uid="uid://crf12s86ro37v" path="res://UI/label_location.gd" id="4_fneal"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhy1a"]
@@ -13,6 +13,12 @@ bg_color = Color(0.8331232, 0.5549483, 0.30004564, 0.7137255)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpci0"]
 bg_color = Color(0.56078434, 1, 0.3137255, 0.7137255)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fneal"]
+paragraph_spacing = 3.0
+font = ExtResource("3_lhy1a")
+font_size = 27
+font_color = Color(0, 0, 0, 1)
 
 [node name="PlayerHUD" type="CanvasLayer"]
 script = ExtResource("1_5o0p8")
@@ -82,7 +88,7 @@ grow_horizontal = 2
 theme_override_constants/line_spacing = 22
 theme_override_constants/outline_size = 4
 text = "◆ ─── 当前位置：─── ◆"
-label_settings = ExtResource("3_lhy1a")
+label_settings = SubResource("LabelSettings_fneal")
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_fneal")

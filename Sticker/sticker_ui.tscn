@@ -1,0 +1,223 @@
+[gd_scene load_steps=13 format=3 uid="uid://d5h0npu180rc"]
+
+[ext_resource type="Texture2D" uid="uid://4rdn63uj3yg8" path="res://RRRRRRRR/Easel.png" id="1_7av4f"]
+[ext_resource type="Texture2D" uid="uid://cgm1tfwgop5v8" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-bar-transparent.png" id="2_f6c2s"]
+[ext_resource type="Texture2D" uid="uid://jmjls55guxhf" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-health-bar.png" id="3_k2eij"]
+[ext_resource type="Texture2D" uid="uid://cph7vdirdx1li" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-mana-bar.png" id="4_l774l"]
+[ext_resource type="Texture2D" uid="uid://c84vayhojhl7f" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-stamina-bar.png" id="5_wuxxh"]
+[ext_resource type="Texture2D" uid="uid://b4u2g2iyfcgov" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/dialogue-box/dialogue-box.png" id="6_plff1"]
+[ext_resource type="Texture2D" uid="uid://bmuhvqbmlp17x" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/panels/panel-with-background.png" id="7_b1cfg"]
+[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="8_ejobl"]
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="9_k2eij"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_15ina"]
+content_margin_left = 50.0
+content_margin_top = 0.0
+content_margin_right = 20.0
+content_margin_bottom = 0.0
+texture = ExtResource("6_plff1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_l774l"]
+font = ExtResource("9_k2eij")
+font_size = 29
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7glk6"]
+content_margin_left = 50.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 200.0
+texture = ExtResource("7_b1cfg")
+texture_margin_left = 10.0
+texture_margin_top = 8.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+expand_margin_top = 40.0
+
+[node name="StickerUI" type="CanvasLayer"]
+
+[node name="BackgroundDim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.42745098)
+
+[node name="Easel" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1058.0
+offset_top = -604.0
+offset_right = 1030.0
+offset_bottom = 961.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_7av4f")
+expand_mode = 1
+
+[node name="MainLayout" type="HBoxContainer" parent="Easel"]
+layout_mode = 0
+offset_left = 559.0
+offset_top = 336.0
+offset_right = 1517.0
+offset_bottom = 840.0
+
+[node name="LeftPanel" type="VBoxContainer" parent="Easel/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 39
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 35
+
+[node name="GridContainer" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+columns = 4
+
+[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = ExtResource("2_f6c2s")
+
+[node name="TextureRect2" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = ExtResource("2_f6c2s")
+
+[node name="TextureRect3" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = ExtResource("2_f6c2s")
+
+[node name="TextureRect4" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+layout_mode = 2
+texture = ExtResource("2_f6c2s")
+
+[node name="MarginContainer2" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 260
+
+[node name="GridContainer" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/h_separation = 25
+columns = 4
+
+[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("3_k2eij")
+
+[node name="TextureRect2" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("4_l774l")
+
+[node name="TextureRect3" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("3_k2eij")
+
+[node name="TextureRect4" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("4_l774l")
+
+[node name="TextureRect5" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_wuxxh")
+
+[node name="TextureRect6" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("3_k2eij")
+
+[node name="TextureRect7" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_wuxxh")
+
+[node name="TextureRect8" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("3_k2eij")
+
+[node name="TextureRect9" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("3_k2eij")
+
+[node name="TextureRect10" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_wuxxh")
+
+[node name="TextureRect11" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("3_k2eij")
+
+[node name="TextureRect12" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("4_l774l")
+
+[node name="RightPanel" type="MarginContainer" parent="Easel/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Easel/MainLayout/RightPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/RightPanel/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(100, 122)
+layout_mode = 2
+texture = ExtResource("2_f6c2s")
+
+[node name="PanelContainer" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_15ina")
+
+[node name="能力说明" type="Label" parent="Easel/MainLayout/RightPanel/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "能力说明"
+label_settings = SubResource("LabelSettings_l774l")
+
+[node name="PanelContainer2" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_7glk6")
+
+[node name="文案" type="Label" parent="Easel/MainLayout/RightPanel/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "文案"
+label_settings = SubResource("LabelSettings_l774l")
+
+[node name="未裝備" type="Label" parent="Easel"]
+layout_mode = 0
+offset_left = 563.0
+offset_top = 513.0
+offset_right = 644.0
+offset_bottom = 540.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "未装备"
+label_settings = ExtResource("8_ejobl")
+
+[node name="已裝備" type="Label" parent="Easel"]
+layout_mode = 0
+offset_left = 566.0
+offset_top = 337.0
+offset_right = 647.0
+offset_bottom = 364.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "已装备"
+label_settings = ExtResource("8_ejobl")
