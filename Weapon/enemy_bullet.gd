@@ -1,4 +1,4 @@
-extends Area2D                   # 繼承自 Area2D，子彈只需感應區不需實體碰撞推擠
+extends Area2D                   # 繼承自 Area2D，子彈只需感應區不需實體碰撞推擠 enemy_bullet
 
 @export var speed: float = 600.0          # 子彈飛行速度
 @export var ranged_damage: float = 15.0   # 遠程波導彈的專屬傷害量

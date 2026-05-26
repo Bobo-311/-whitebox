@@ -1,4 +1,4 @@
-extends CanvasLayer # 讓腳本繼承自畫布層，確保 UI 永遠顯示在遊戲畫面最前面，不被角色遮擋
+extends CanvasLayer # 讓腳本繼承自畫布層，確保 UI 永遠顯示在遊戲畫面最前面，不被角色遮擋 player_hud
 
 # --- 抓取畫面上的節點 ---
 @onready var health_bar: ProgressBar = $MarginContainer/HBoxContainer/VBoxContainer/HealthBar # 根據節點路徑，抓取紅色的血量進度條

@@ -1,4 +1,4 @@
-extends Node2D # 或者是你的根節點類型
+extends Node2D # 或者是你的根節點類型 main
 
 @onready var spawn_point = $PortalSpawnPoint
 

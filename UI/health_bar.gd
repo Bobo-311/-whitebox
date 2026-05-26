@@ -1,4 +1,4 @@
-extends ProgressBar          # 繼承進度條節點
+extends ProgressBar          # 繼承進度條節點 health_bar
 
 func update_bar(current_hp: int, max_hp: int):
 	self.max_value = max_hp  # 告訴血條最大值是多少

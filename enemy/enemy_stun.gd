@@ -1,4 +1,4 @@
-extends State                    # 繼承自狀態機的狀態模板
+extends State                    # 繼承自狀態機的狀態模板 enemy_stun
 
 var stun_timer: float = 3.0      # 宣告浮點數：暈眩計時器，預設暈眩 3 秒
 var flash_tween: Tween           # 宣告 Tween 控制器：用來處理紫紅色閃爍特效

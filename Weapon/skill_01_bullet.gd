@@ -1,4 +1,4 @@
-extends Area2D                   # 繼承自 Area2D，因為它是純粹的攻擊判定(Hitbox)
+extends Area2D                   # 繼承自 Area2D，因為它是純粹的攻擊判定(Hitbox) skill_01_bullet
 
 @export var skill_01_attack_damage: float = 15.0 # 技能的基礎傷害
 @export var speed: float = 1000  # 子彈飛行速度

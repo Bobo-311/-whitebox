@@ -1,4 +1,4 @@
-extends State # 繼承自狀態模板
+extends State # 繼承自狀態模板 player_die
 
 func enter(): # 進入死亡狀態時執行
 	character.play_animation("dead") # 播放玩家死亡倒地動畫

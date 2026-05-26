@@ -1,4 +1,4 @@
-extends Area2D # 繼承 Area2D，用於偵測玩家碰撞
+extends Area2D # 繼承 Area2D，用於偵測玩家碰撞 coin
 
 @export var coin_value: int = 1 # 金幣面額
 

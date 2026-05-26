@@ -1,4 +1,4 @@
-extends Label # 繼承 Label 節點，讓我們可以控制文字顯示
+extends Label # 繼承 Label 節點，讓我們可以控制文字顯示 gold_lable
 
 var display_gold: float = 0.0 # 宣告浮點數：這是一個「假的」顯示數值，用來跑動畫
 var lerp_speed: float = 10.0 # 宣告浮點數：數值追趕速度 (越快數字跳越快)

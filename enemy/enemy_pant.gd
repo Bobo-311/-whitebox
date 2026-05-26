@@ -1,4 +1,4 @@
-extends State # 繼承自狀態模板，讓腳本可被大腦呼叫
+extends State # 繼承自狀態模板，讓腳本可被大腦呼叫 enemy_pant
 
 var pant_timer: float = 0.0      # 宣告浮點數計時器：記錄還要喘氣多久 (這數值由 Attack 腳本設定)
 var flash_tween: Tween           # 宣告 Tween 動畫控制器，用來處理綠/黑閃爍特效

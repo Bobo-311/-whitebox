@@ -26,3 +26,6 @@ var soul_stored_gold: int = 0 # 記錄靈魂帶了多少錢
 # --- 新增：記錄存檔點和靈魂所屬的地圖「路徑」 ---
 var save_map_path: String = "" # 記錄玩家在哪張地圖存檔的 (例如 "res://main.tscn")
 var soul_map_path: String = "" # 記錄玩家在哪張地圖死掉的 (例如 "res://main.tscn")
+
+# 記錄 4 個裝備欄的貼紙圖片路徑。空字串 "" 代表沒裝裝備
+var equipped_stickers: Array[String] = ["", "", "", ""]

@@ -1,4 +1,4 @@
-extends State                    # 繼承自狀態模板
+extends State                    # 繼承自狀態模板 enemy_run
 
 func state_physics_update(_delta: float): # 追擊狀態每一幀的更新
 	if character.can_attack == false: # 如果攻擊還在冷卻中

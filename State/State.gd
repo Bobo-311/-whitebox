@@ -1,4 +1,4 @@
-extends Node                     # 繼承自 Node，讓它可以作為一個普通節點掛在場景樹上
+extends Node                     # 繼承自 Node，讓它可以作為一個普通節點掛在場景樹上 state
 class_name State                 # 定義類別為 State，供所有具體狀態（如 Idle, Attack）繼承
 
 var character: BaseCharacter     # 宣告一個變數存放「這個狀態的主人是誰」，型態限定為 BaseCharacter

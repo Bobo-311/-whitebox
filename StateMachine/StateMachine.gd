@@ -1,4 +1,4 @@
-extends Node                     # 繼承自 Node
+extends Node                     # 繼承自 Node statemachine
 class_name StateMachine          # 定義類別為 StateMachine (狀態機)
 
 var current_state: State = null  # 用來記錄「現在」正在執行的狀態節點，預設為空

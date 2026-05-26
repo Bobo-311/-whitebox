@@ -1,4 +1,4 @@
-extends State # 繼承自狀態模板
+extends State # 繼承自狀態模板 enemy_die
 
 func enter(): # 進入死亡狀態時執行
 	character.velocity = Vector2.ZERO # 物理速度徹底歸零，不再滑行

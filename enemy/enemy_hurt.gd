@@ -1,4 +1,4 @@
-extends State                    # 繼承自狀態模板
+extends State                    # 繼承自狀態模板 enemy_hurt
 
 var hurt_timer: float = 0.4      # 受傷硬直計時器：預設被打退 0.4 秒
 

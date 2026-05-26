@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends CanvasLayer #portal_menu
 
 # ==========================================
 # 節點抓取區

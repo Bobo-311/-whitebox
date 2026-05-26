@@ -1,4 +1,4 @@
-extends State                    # 繼承自狀態模板
+extends State                    # 繼承自狀態模板 enemy_shoot
 
 @export var bullet_scene: PackedScene # 提供一個插槽，讓你在編輯器把子彈的場景檔 (tscn) 拖進來
 

@@ -1,4 +1,4 @@
-extends State                    # 繼承狀態模板
+extends State                    # 繼承狀態模板 player_heal
 
 var heal_timer: float = 2.0      # 詠唱時間：2 秒
 var flash_tween: Tween           # 閃爍動畫

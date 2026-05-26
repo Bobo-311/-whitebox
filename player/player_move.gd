@@ -1,4 +1,4 @@
-extends State # 繼承自狀態機的 State 模板，代表這是一個可切換的狀態
+extends State # 繼承自狀態機的 State 模板，代表這是一個可切換的狀態 player_move
 
 func state_physics_update(delta: float): # 內建虛擬函數：在物理引擎的每一幀(1/60秒)都會被大腦呼叫
 	

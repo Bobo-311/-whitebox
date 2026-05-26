@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D #volcano
 
 @onready var spawn_point = $PortalSpawnPoint
 

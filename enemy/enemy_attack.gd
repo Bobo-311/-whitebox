@@ -1,4 +1,4 @@
-extends State # 繼承自狀態模板
+extends State # 繼承自狀態模板 enemy_attack
 
 var is_charging: bool = true # 狀態開關：記錄是否正在「蓄力發呆」，預設為真
 var charge_timer: float = 0.6 # 宣告蓄力倒數計時器，維持 0.6 秒

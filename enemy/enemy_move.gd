@@ -1,4 +1,4 @@
-extends State # 繼承狀態模板
+extends State # 繼承狀態模板 enemy_move
 
 var timer: float = 0.0 # 漫遊計時器
 var is_moving: bool = true # 狀態開關

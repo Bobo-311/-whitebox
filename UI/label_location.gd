@@ -1,4 +1,4 @@
-extends Label
+extends Label #lable_location
 
 # 當玩家進入新地圖、HUD 被生成時，自動執行
 func _ready():

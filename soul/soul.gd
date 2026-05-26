@@ -1,4 +1,4 @@
-extends Area2D # 繼承 Area2D 用來偵測觸碰
+extends Area2D # 繼承 Area2D 用來偵測觸碰 soul
 
 var lost_gold: int = 0 # 宣告變數：記錄這團靈魂保管了多少錢
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D # 抓取動畫播放節點

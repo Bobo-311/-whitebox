@@ -1,4 +1,4 @@
-extends Area2D # 繼承 Area2D 感應區
+extends Area2D # 繼承 Area2D 感應區 portal
 
 @export var portal_menu_scene: PackedScene # 屬性面板掛載傳送 UI (目前先保留位置，之後會用到)
 @onready var interact_prompt = $InteractPrompt # 抓取按鍵提示圖片 (請確保你的 Sprite2D 叫這個名字)

@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends CanvasLayer #transition_manager
 
 @onready var black_screen = $BlackScreen
 

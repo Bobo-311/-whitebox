@@ -1,4 +1,4 @@
-extends Area2D                   # 繼承自 Area2D，因為這只是一個用來感應的區域，沒有實體碰撞
+extends Area2D                   # 繼承自 Area2D，因為這只是一個用來感應的區域，沒有實體碰撞 hurtbox
 class_name Hurtbox               # 宣告這是一個正式的「受傷區」類別，方便其他腳本辨識
 
 # --- 接收攻擊的痛覺受器 ---

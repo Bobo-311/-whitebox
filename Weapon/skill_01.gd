@@ -1,4 +1,4 @@
-extends Node2D                   # 繼承自 2D 節點，這個節點綁在玩家身上當作發射器
+extends Node2D                   # 繼承自 2D 節點，這個節點綁在玩家身上當作發射器skill_01
 
 @export var bullet_scene: PackedScene # 屬性欄位：讓你在編輯器拖入技能(子彈)的藍圖
 

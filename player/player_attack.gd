@@ -1,4 +1,4 @@
-extends State # 讓這個腳本繼承自狀態機的 State 模板
+extends State # 讓這個腳本繼承自狀態機的 State 模板 player_attack
 
 func enter(): # 當狀態機切換到這個攻擊狀態時執行一次
 	# 🌟 第一步：先向身體申請扣除體力
