@@ -96,18 +96,21 @@ func drop_coin() -> void:
 					# 讓金幣朝玩家方向偏移 15 到 30 像素 (確保掉在空地)
 					var safe_offset = dir_to_player * randf_range(15.0, 30.0)
 					# 加上微小的隨機擾動，避免 5 顆金幣完全疊在一起
-					var random_jitter = Vector2(randf_range(-10.0, 10.0), randf_range(-10.0, 10.0))
+					var random_jitter = Vector2(randf_range(-50.0, 50.0), randf_range(-50.0, 50.0))
 					# 結算最終安全座標
 					spawn_pos = global_position + safe_offset + random_jitter
 				else:
 					# 若無玩家節點則原地隨機散開 (備用邏輯)
 					spawn_pos = global_position + Vector2(randf_range(-20.0, 20.0), randf_range(-20.0, 20.0))
 				
-				# 賦予金幣最終座標
-				coin.global_position = spawn_pos
+				# 🌟 終極神技：把算好的世界座標 (spawn_pos)，翻譯成爸爸看得懂的「本地座標」
+				var local_pos = get_parent().to_local(spawn_pos)
 				
-				# 延遲加入場景樹，避免物理引擎衝突
-				get_parent().call_deferred("add_child", coin)
+				# 🌟 先把翻譯好的座標給金幣
+				coin.position = local_pos
+				
+				# 🌟 最後才把金幣加進遊戲。此時 _ready() 動畫啟動，起點完全正確！
+				get_parent().add_child(coin)
 			)
 		
 

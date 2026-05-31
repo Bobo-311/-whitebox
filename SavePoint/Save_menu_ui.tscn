@@ -73,7 +73,7 @@ offset_right = 40.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "工作室"
+text = "钟塔"
 label_settings = ExtResource("3_4v6k8")
 
 [node name="save" type="Button" parent="BackgroundDim"]

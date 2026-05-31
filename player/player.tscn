@@ -1195,7 +1195,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
-size = Vector2(59, 101)
+size = Vector2(66, 91.5)
 
 [sub_resource type="Animation" id="Animation_x7c3f"]
 length = 0.001
@@ -1236,7 +1236,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32hag"]
-size = Vector2(50, 89)
+size = Vector2(66, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_83lag"]
 size = Vector2(124.5, 79)
@@ -1256,6 +1256,7 @@ collision_layer = 2
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_boqn2")
+basic_attack_damage = 15.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_65viv")
@@ -1267,7 +1268,7 @@ autoplay = "idle_down"
 offset = Vector2(0, -20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.5, 0.5)
+position = Vector2(-1, -47.25)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1286,7 +1287,7 @@ monitoring = false
 script = ExtResource("9_x7c3f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(-2, 0.5)
+position = Vector2(-1, -47)
 shape = SubResource("RectangleShape2D_32hag")
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -1296,19 +1297,19 @@ collision_mask = 16
 monitorable = false
 
 [node name="CollisionShape_up" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-0.75, -54.5)
+position = Vector2(0, -105)
 shape = SubResource("RectangleShape2D_83lag")
 
 [node name="CollisionShape_down" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-1.4375, 50)
+position = Vector2(-2, 2)
 shape = SubResource("RectangleShape2D_tnfn2")
 
 [node name="CollisionShape_left" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-76.984375, -5)
+position = Vector2(-74, -44)
 shape = SubResource("RectangleShape2D_uebeq")
 
 [node name="CollisionShape_right" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(68.4375, -3.75)
+position = Vector2(69, -44)
 shape = SubResource("RectangleShape2D_p7xcs")
 
 [node name="StateMachine" type="Node" parent="."]
@@ -1337,10 +1338,10 @@ script = ExtResource("16_65viv")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 zoom = Vector2(0.7, 0.7)
-limit_left = 354
-limit_top = 193
-limit_right = 4059
-limit_bottom = 2053
+limit_left = -241
+limit_top = 3
+limit_right = 4685
+limit_bottom = 2388
 script = ExtResource("5_tnfn2")
 
 [node name="SFXSword" type="AudioStreamPlayer" parent="."]

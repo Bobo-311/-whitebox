@@ -43,8 +43,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_8rysd")
 theme_override_font_sizes/font_size = 27
 theme_override_styles/normal = SubResource("StyleBoxTexture_b3810")
-text = "工作室
-"
+text = "钟塔"
 
 [node name="Btn_Volcano" type="Button" parent="Center_Layout/HBoxContainer"]
 custom_minimum_size = Vector2(200, 80)

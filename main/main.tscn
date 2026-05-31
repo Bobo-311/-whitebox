@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://0fswxsxwrdgm"]
+[gd_scene load_steps=16 format=3 uid="uid://0fswxsxwrdgm"]
 
 [ext_resource type="Script" uid="uid://5fkpn27gvbie" path="res://main/main.gd" id="1_67ri8"]
 [ext_resource type="Texture2D" uid="uid://cgolu4vds1oiy" path="res://RRRRRRRR/柱子左側.png" id="2_0i4oc"]
+[ext_resource type="Texture2D" uid="uid://xe47s0ts0pp7" path="res://RRRRRRRR/time.png" id="2_73k8k"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="3_0i4oc"]
 [ext_resource type="Texture2D" uid="uid://iytth4pcsbfk" path="res://RRRRRRRR/柱子右側.png" id="3_bsumw"]
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="4_bsumw"]
@@ -9,6 +10,30 @@
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="6_na0o7"]
 [ext_resource type="PackedScene" uid="uid://def106py6fbgu" path="res://portal/portal.tscn" id="7_73k8k"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="8_5xyti"]
+[ext_resource type="Texture2D" uid="uid://dpsyenp8nm0qg" path="res://RRRRRRRR/紅通通1.png" id="11_5xyti"]
+[ext_resource type="Texture2D" uid="uid://dknp78gsbqpoc" path="res://RRRRRRRR/紅通通2.png" id="12_n3o0a"]
+[ext_resource type="Texture2D" uid="uid://v51j5smp32g6" path="res://RRRRRRRR/紅通通3.png" id="13_s758e"]
+[ext_resource type="Texture2D" uid="uid://eubq3i561ave" path="res://RRRRRRRR/紅通通4.png" id="14_4hmqs"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_piupu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_5xyti")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_n3o0a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_s758e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_4hmqs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="main" type="Node2D"]
 y_sort_enabled = true
@@ -17,6 +42,12 @@ script = ExtResource("1_67ri8")
 [node name="y受特" type="Node2D" parent="."]
 y_sort_enabled = true
 position = Vector2(1162.207, 672)
+
+[node name="時鐘" type="Sprite2D" parent="y受特"]
+position = Vector2(1046.793, -61.999954)
+scale = Vector2(1.4317073, 1.4317071)
+texture = ExtResource("2_73k8k")
+offset = Vector2(345.41, 340.465)
 
 [node name="主要右柱" type="Sprite2D" parent="y受特"]
 modulate = Color(1, 0.42086402, 0.7851186, 1)
@@ -111,17 +142,17 @@ texture = ExtResource("4_fwcvl")
 
 [node name="player" parent="y受特" instance=ExtResource("3_0i4oc")]
 y_sort_enabled = false
-position = Vector2(577, 580)
+position = Vector2(599.79297, 618)
 
 [node name="enemy" parent="y受特" instance=ExtResource("4_bsumw")]
 y_sort_enabled = false
-position = Vector2(1675.793, 455.53125)
+position = Vector2(1452.793, 528)
 
 [node name="SavePoint" parent="." instance=ExtResource("6_na0o7")]
-position = Vector2(1012, 991.53125)
+position = Vector2(1928, 1015)
 
 [node name="Portal" parent="." instance=ExtResource("7_73k8k")]
-position = Vector2(1113, 1554.5313)
+position = Vector2(1584, 1030)
 
 [node name="Coin" parent="." instance=ExtResource("8_5xyti")]
 position = Vector2(2525, 1843)
@@ -145,7 +176,7 @@ position = Vector2(-32, -75)
 position = Vector2(5, -62)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1199, 1612.5313)
+position = Vector2(1670, 1088)
 
 [node name="以拉崔特" type="Node2D" parent="."]
 position = Vector2(1162.207, 672)
@@ -216,3 +247,13 @@ polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 47, -22, 61, -31, 77, -40, 
 position = Vector2(1788.793, 1255)
 build_mode = 1
 polygon = PackedVector2Array(-1, 1, 16, -6, 31, -14, 46, -23, 61, -31, 77, -40, 84, -43, 84, -48, 84, -56, 82, -65, 80, -68, 70, -72, 64, -75, 64, -84, 62, -87, 61, -89, 60, -91, 59, -94, 56, -95, 56, -97, 53, -97, 49, -99, 49, -103, 46, -104, 45, -106, 43, -108, 40, -108, 40, -104, 38, -98, 34, -93, 27, -89, 18, -86, 9, -83, 0, -82, -11, -83, -22, -84, -33, -86, -42, -89, -49, -93, -56, -99, -61, -105, -63, -115, -66, -113, -70, -110, -73, -108, -74, -105, -77, -102, -77, -99, -81, -97, -84, -95, -84, -92, -87, -90, -87, -87, -88, -82, -95, -79, -99, -76, -112, -69, -112, -56, -111, -40, -87, -31, -69, -25, -50, -18, -28, -9, -12, -3)
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="BackgroundLayer"]
+position = Vector2(2224, 1186)
+scale = Vector2(2.0889833, 1.4621952)
+sprite_frames = SubResource("SpriteFrames_piupu")
+autoplay = "default"
+frame_progress = 0.64601207
