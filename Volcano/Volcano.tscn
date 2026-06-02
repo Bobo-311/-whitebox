@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
-[ext_resource type="Texture2D" uid="uid://cianksepqf2dl" path="res://images.jpg" id="2_vpust"]
-[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://icon.svg" id="4_167qa"]
+[ext_resource type="Texture2D" uid="uid://cianksepqf2dl" path="res://雜/images.jpg" id="2_vpust"]
+[ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://雜/icon.svg" id="4_167qa"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="5_q0gaw"]
 [ext_resource type="PackedScene" uid="uid://def106py6fbgu" path="res://portal/portal.tscn" id="6_877dg"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]

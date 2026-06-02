@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://h8nwgmrch0w8"]
 
 [ext_resource type="Script" uid="uid://5ospmvwfvudu" path="res://SavePoint/save_menu_ui.gd" id="1_hol3n"]
-[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://tilemap_packed.png" id="2_4ioms"]
+[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://雜/tilemap_packed.png" id="2_4ioms"]
 [ext_resource type="Texture2D" uid="uid://4rdn63uj3yg8" path="res://RRRRRRRR/Easel.png" id="2_4v6k8"]
 [ext_resource type="PackedScene" uid="uid://d5h0npu180rc" path="res://Sticker/sticker_ui.tscn" id="2_g31nq"]
 [ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="3_4v6k8"]
@@ -49,10 +49,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -340.0
-offset_top = -185.0
-offset_right = -141.1001
-offset_bottom = -117.0
+offset_left = -376.0
+offset_top = -227.0
+offset_right = -177.1001
+offset_bottom = -159.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_4ioms")
@@ -67,10 +67,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -40.5
-offset_top = -15.5
-offset_right = 40.5
-offset_bottom = 11.5
+offset_left = -27.449951
+offset_top = -15.0
+offset_right = 53.55005
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "钟塔"

@@ -18,7 +18,6 @@ bg_color = Color(0.56078434, 1, 0.3137255, 0.7137255)
 paragraph_spacing = 3.0
 font = ExtResource("3_lhy1a")
 font_size = 27
-font_color = Color(0, 0, 0, 1)
 
 [node name="PlayerHUD" type="CanvasLayer"]
 script = ExtResource("1_5o0p8")

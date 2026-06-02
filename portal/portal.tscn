@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://yhh68rbn6y2m" path="res://portal/portal.gd" id="1_x3c8y"]
 [ext_resource type="Texture2D" uid="uid://chbi63wg2sjoo" path="res://portal/portal-Sheet (1).png" id="2_mjjvg"]
 [ext_resource type="PackedScene" uid="uid://d2txn617cs14e" path="res://portal/portal_menu.tscn" id="2_vrfwa"]
-[ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://tilemap.png" id="3_vrfwa"]
+[ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://雜/tilemap.png" id="3_vrfwa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m2b6j"]
 atlas = ExtResource("2_mjjvg")

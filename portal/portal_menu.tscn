@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="1_8rysd"]
 [ext_resource type="Script" uid="uid://dqi6aa60bhccq" path="res://portal/portal_menu.gd" id="1_ymoul"]
-[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://tilemap_packed.png" id="3_jm7qh"]
+[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://雜/tilemap_packed.png" id="3_jm7qh"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b3810"]
 texture = ExtResource("3_jm7qh")

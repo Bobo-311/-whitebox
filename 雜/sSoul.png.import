@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cth8ja8lni38m"
-path="res://.godot/imported/BOBO.png-54458156a5877080b21707035f257842.ctex"
+uid="uid://bd5ho4780ch86"
+path="res://.godot/imported/sSoul.png-c2d26deb19127f1a637bb2a5abd4edda.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BOBO.png"
-dest_files=["res://.godot/imported/BOBO.png-54458156a5877080b21707035f257842.ctex"]
+source_file="res://雜/sSoul.png"
+dest_files=["res://.godot/imported/sSoul.png-c2d26deb19127f1a637bb2a5abd4edda.ctex"]
 
 [params]
 
