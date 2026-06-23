@@ -3,8 +3,14 @@ extends CanvasLayer # 繼承 CanvasLayer，處理 UI 顯示 savemenu_ui
 
 # 🌟 新增這行：用來在屬性面板掛載你的 StickerUI 場景
 @export var sticker_ui_scene: PackedScene
+@onready var map_name_label: Label = $BackgroundDim/LocationFrame/Label
 
 
+# 🌟 2. 每次存檔選單一被開啟，就自動執行更新地圖名字的動作
+func _ready() -> void:
+	if map_name_label and DataManager:
+		map_name_label.text = DataManager.current_map_name
+		
 
 # --- 按下「存檔」按鈕時觸發 ---
 func _on_save_pressed() -> void:
