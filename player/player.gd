@@ -1,203 +1,270 @@
-extends BaseCharacter # 繼承自基礎角色類別，獲得血量、死亡等通用功能
+extends BaseCharacter # 繼承自基礎角色類別，獲得血量、死亡、受傷等通用功能
 class_name Player # 宣告這個腳本代表的肉體，正式歸類為「玩家 (Player)」
 
-# --- 玩家基礎物理數值設定 ---
-@export var walk_speed: int = 400          # 設定玩家走路的速度為 400
-@export var dash_speed: float = 1500.0     # 設定玩家翻滾衝刺時的瞬間爆發速度為 1500
-@export var dash_duration: float = 0.2     # 設定衝刺維持的時間長度為 0.2 秒
+# ==========================================
+# 基礎物理與攻擊數值
+# ==========================================
+@export var walk_speed: int = 400          # 正常走路的速度
+@export var dash_speed: float = 1500.0     # 翻滾衝刺時的瞬間爆發速度
+@export var dash_duration: float = 0.2     # 衝刺維持的時間長度 (秒)
 
-# --- 玩家基礎攻擊數值 ---
-@export var basic_attack_damage: float = 100.0 # 設定玩家的基礎攻擊力為 100.0
+@export var basic_attack_damage: float = 100.0 # 玩家的基礎攻擊力 (揮刀傷害)
 
-# --- 能量系統數值設定 (EP) ---
-@export var max_energy: int = 100 # 設定玩家的能量上限為 100
-var current_energy: int = 50      # 設定玩家開局的目前能量為 50
+# [🌟 本次新增] 記住玩家一絲不掛時的「基礎最大血量」
+# 確保裝備穿穿脫脫時，我們永遠知道最根本的血量基準是多少
+var base_max_hp: int = 100
 
-# --- 體力系統數值設定 (SP) ---
-@export var max_sp: float = 100.0      # 設定玩家的最大體力上限為 100.0 
-var current_sp: float = 50          # 設定玩家開局的目前體力為 50
-var is_overheated: bool = false        # 宣告狀態開關：記錄玩家現在是否處於「過熱力竭」狀態，預設為否
-var sp_regen_delay: float = 0.5        # 設定規則：做出消耗動作後，必須等待 0.5 秒才能開始恢復體力
-var sp_delay_timer: float = 0.0        # 宣告隱形計時器：負責倒數這 0.5 秒的等待時間，預設為 0
+# ==========================================
+# 能量 (EP) 與 體力 (SP) 系統
+# ==========================================
+@export var max_energy: int = 100      # 能量上限 (發動技能、過飽和狀態用)
+var current_energy: int = 50           # 開局預設能量為 50
 
-# --- 狀態紀錄變數 ---
-var input_direction: Vector2 = Vector2.ZERO # 宣告變數記錄玩家按下的 WASD 方向向量，預設為零
-var facing_direction: String = "down"       # 宣告變數記錄玩家最後面朝的方向，預設為往下看
-var is_dashing: bool = false                # 宣告變數記錄玩家現在是否正在衝刺中，預設為否
+@export var max_sp: float = 100.0      # 體力上限 (揮刀、翻滾消耗用)
+var current_sp: float = 50             # 開局預設體力為 50
+var is_overheated: bool = false        # 狀態開關：記錄玩家現在是否處於「過熱力竭」狀態 (體力透支)
+var sp_regen_delay: float = 0.5        # 體力恢復延遲：做出消耗動作後，必須等待 0.5 秒才能開始回體
+var sp_delay_timer: float = 0.0        # 隱形計時器：負責倒數回體的等待時間
 
-# --- 抓取場景樹底下的各種子節點 ---
-@onready var state_machine: StateMachine = $StateMachine       # 抓取控制玩家行為的大腦節點 (狀態機)
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 抓取負責播放動畫的精靈圖節點
-@onready var player_hud: CanvasLayer = $PlayerHUD              # 抓取畫面左上角的狀態條介面節點
-@onready var skill_01: Node2D = $Skill_01                      # 抓取掛在玩家身上的技能發射器節點
+# ==========================================
+# 狀態紀錄與節點抓取
+# ==========================================
+var input_direction: Vector2 = Vector2.ZERO # 記錄玩家按下的 WASD 方向向量
+var facing_direction: String = "down"       # 記錄玩家最後面朝的方向，預設朝下
+var is_dashing: bool = false                # 記錄玩家現在是否正在衝刺中
 
-# --- 遊戲一開始會執行一次 ---
-func _ready(): # 內建函數：當節點進入場景時觸發
-	super._ready() # 呼叫父類別的準備函數，將血量補滿
+@onready var state_machine: StateMachine = $StateMachine       # 控制玩家行為的大腦節點 (狀態機)
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 負責播放動畫的精靈圖
+@onready var player_hud: CanvasLayer = $PlayerHUD              # 畫面左上角的狀態條介面 (UI)
+@onready var skill_01: Node2D = $Skill_01                      # 掛在玩家身上的技能發射器 (槍管)
+
+# ==========================================
+# 遊戲初始化 (_ready)
+# ==========================================
+func _ready(): 
+	super._ready() # 呼叫父類別的準備函數，確保基本屬性初始化 (如血量補滿)
 	
-	DataManager.player_node = self # 玩家一出生，立刻把自己的肉體 (self) 註冊到大腦裡
+	DataManager.player_node = self # 玩家一出生，立刻把自己的肉體註冊到全域大腦裡
 	
-	if DataManager and DataManager.last_save_position != Vector2.ZERO: # 檢查大腦是否有存檔座標
-		global_position = DataManager.last_save_position # 將玩家的位置強制設定為存檔點的座標
+	# [🌟 本次新增] 訂閱裝備廣播頻道
+	# 告訴大腦：「只要有人換裝備發出廣播，就立刻呼叫我底下的 recalculate_stats 函數重算能力」
+	if not DataManager.equipment_changed.is_connected(recalculate_stats):
+		DataManager.equipment_changed.connect(recalculate_stats)
+	
+	# [🌟 本次新增] 開局防呆：手動算一次裝備屬性，確保開局最大血量是正確的
+	recalculate_stats()
+	
+	# --- 讀取存檔資料 ---
+	if DataManager and DataManager.last_save_position != Vector2.ZERO: 
+		global_position = DataManager.last_save_position # 將位置強制移動到存檔點
 		
-	if DataManager and DataManager.saved_hp > 0: # 檢查大腦是否有存過檔的滿血小抄
-		current_hp = DataManager.saved_hp # 領回存檔時的血量
-		current_energy = DataManager.saved_energy # 領回存檔時的能量
-		current_sp = DataManager.saved_sp # 領回存檔時的體力
-	else: # 如果是第一次開遊戲
-		current_energy = 50 # 預設能量 50
-		current_sp = 50 # 預設體力 50
+	if DataManager and DataManager.saved_hp > 0: 
+		# [🌟 稍微修正] 讀檔時，現在的血量不能超過算完裝備後的新血量上限
+		current_hp = min(DataManager.saved_hp, max_hp) 
+		current_energy = DataManager.saved_energy 
+		current_sp = DataManager.saved_sp 
+	else: 
+		current_energy = 50 # 第一次玩，給予預設能量
+		current_sp = 50     # 第一次玩，給予預設體力
 		
-	if player_hud: # 檢查是否有成功抓取到 UI 介面節點
-		player_hud.update_hp(current_hp, max_hp)             # 通知 UI 更新血條畫面
-		player_hud.update_energy(current_energy, max_energy) # 通知 UI 更新黃色能量條畫面
-		player_hud.update_sp(current_sp, max_sp)             # 通知 UI 更新綠色體力條畫面
-		player_hud.set_overheat_visual(false)                # 開局通知 UI：目前沒有過熱
+	# --- 初始化 UI 介面 ---
+	if player_hud: 
+		player_hud.update_hp(current_hp, max_hp)             # 更新紅血條
+		player_hud.update_energy(current_energy, max_energy) # 更新黃能量條
+		player_hud.update_sp(current_sp, max_sp)             # 更新綠體力條
+		player_hud.set_overheat_visual(false)                # 確保開局沒有過熱特效
 		
-	if animated_sprite_2d.material: # 檢查是否有材質著色器
-		animated_sprite_2d.material.set_shader_parameter("saturation", 1.0) # 強制把飽和度洗回 1.0 (全彩)
+	# 🌟 針對灰色的修正：
+	# 把原本強制設為 1.0 的程式碼刪掉，改成直接呼叫 update_hp_bar()
+	# 這樣系統在載入完存檔後，會立刻依照現在的 current_hp 去算出最精準的顏色！
+	update_hp_bar()
 		
-	# 🌟 復活後檢查大腦：有沒有遺留的靈魂要生出來？
+	# --- 靈魂回收系統 ---
 	if DataManager and DataManager.has_soul_on_ground: 
-		# 🌟 新增防呆：檢查大腦紀錄的「靈魂地圖」是不是「現在這張地圖」！
+		# 確保留在外的靈魂地圖，跟現在的地圖是同一張
 		if DataManager.soul_map_path == get_tree().current_scene.scene_file_path:
 			var soul_scene = load("res://soul/Soul.tscn") 
 			if soul_scene: 
 				var soul = soul_scene.instantiate() 
-				soul.global_position = DataManager.soul_spawn_pos 
-				soul.lost_gold = DataManager.soul_stored_gold 
+				soul.global_position = DataManager.soul_spawn_pos # 放在上次死掉的位置
+				soul.lost_gold = DataManager.soul_stored_gold     # 塞入遺失的金幣
 				soul.scale = Vector2(2.0, 2.0) 
-				get_tree().current_scene.call_deferred("add_child", soul)
+				get_tree().current_scene.call_deferred("add_child", soul) # 延遲加入場景，確保安全
 
-# --- 開發者外掛：印鈔機 ---
-func _input(event):
-	# 這裡我借用 Godot 內建的 "ui_page_up" (通常是鍵盤方向鍵上方的 PgUp 鍵)
-	# 這樣你連「輸入映射」都不用去設定，直接貼上就能用！
-	if event.is_action_pressed("cheater"): 
-		
-		if DataManager:
-			DataManager.total_gold += 100 # 一次塞 100 塊到大腦裡
-			print("【開發者外掛】印鈔 100 元！目前總金額：" + str(DataManager.total_gold))
-			
-			# 🌟 重要提醒：通知 UI 更新畫面！
-			# 因為我沒看到你右上角 UI 更新金幣的具體函數名稱，
-			# 如果你有寫類似 update_gold 的函數，請在這裡呼叫它，例如：
-			# if player_hud: player_hud.update_gold(DataManager.total_gold)
-
-
-
-
-# --- 每一幀(1/60秒)都會執行的物理更新 ---
-func _physics_process(delta: float) -> void: # 內建函數：處理物理運算與按鍵輸入
-	if not is_dead: # 只有在玩家「還活著」的情況下，才允許接收輸入
-		input_direction = Input.get_vector("left", "right", "up", "down") # 抓取玩家按鍵的上下左右移動方向
-		
-		if Input.is_action_just_pressed("skill_01"): # 檢查玩家是否在這一幀按下了技能鍵
-			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: # 條件：不能在補血，且不能過熱
-				var current_buff: float = get_oversaturation_buff() # 拍下當下的過飽和倍率快照
-				if use_energy(30): # 呼叫函數申請扣除 30 點能量
-					skill_01.shoot(current_buff) # 發射技能並傳遞倍率
-				else: # 如果能量不足
-					print("能量不足 30，無法施放 Q 技能！") # 後台警告
-			elif is_overheated: # 如果處於過熱狀態
-				print("系統過熱中！無法釋放技能！") # 後台警告
-
-		# --- 體力恢復與過熱解除邏輯 ---
-		if sp_delay_timer > 0:           # 檢查體力延遲計時器是否還大於 0
-			sp_delay_timer -= delta      # 扣除這幀經過的時間
-		else:                            # 如果計時器歸零
-			if current_sp < max_sp:      # 檢查目前體力是否沒回滿
-				var regen_rate = 10.0 if is_overheated else 12.0 # 決定回體速度
-				current_sp += regen_rate * delta # 加上這幀該回的量
-				
-				if current_sp > max_sp:  # 如果恢復超過上限
-					current_sp = max_sp  # 強制鎖定在最大上限
-				
-				if is_overheated and current_sp >= max_sp * 0.7: # 如果過熱且體力大於等於 70%
-					is_overheated = false # 解除過熱狀態
-					player_hud.set_overheat_visual(false) # 取消過熱特效
-					print("體力恢復至 70%，解除過熱狀態！") # 後台提示
-					
-				player_hud.update_sp(current_sp, max_sp) # 通知 UI 更新體力條
-
-	move_and_slide() # 呼叫內建物理函數處理移動與滑行
-
-# --- 體力結帳中心：花費體力的專屬函數 ---
-func use_sp(amount: float) -> bool: # 自訂函數：接收要扣除的體力量，回傳是否成功
-	if is_overheated: # 檢查是否處於過熱狀態 
-		return false # 過熱直接回傳失敗
-
-	if current_sp > 0: # 只要體力大於 0，准許透支
-		current_sp -= amount # 執行扣款
-		
-		if current_sp < 0: # 如果扣除後變成負數
-			current_sp = 0.0 # 強制拉平到 0.0
-			
-		sp_delay_timer = sp_regen_delay # 重置恢復延遲計時器，打斷回體
-
-		if current_sp <= 0:        # 檢查扣除體力後是否歸零
-			is_overheated = true   # 觸發過熱力竭狀態
-			player_hud.set_overheat_visual(true) # 啟動過熱特效
-			print("體力耗盡！進入過熱狀態！") # 後台警告
-
-		player_hud.update_sp(current_sp, max_sp) # 更新最新體力
-		return true # 交易成功
-	else: # 如果體力已經是 0
-		return false # 回傳失敗
-
-# --- Buff 發放中心 ---
-func get_oversaturation_buff() -> float: # 自訂函數：回傳目前的傷害倍率
-	var multiplier: float = 1.0 # 設定預設倍率為 1.0 倍
-	if current_energy >= max_energy: # 檢查是否滿能量
-		multiplier = 1.5 # 滿能量改為 1.5 倍
-		print("【過飽和狀態】發動！目前倍率：1.5 倍") # 後台提示
-	return multiplier # 回傳倍率
-
-# --- 受傷切換邏輯 ---
-func handle_hurt(): # 實作受傷函數
-	var state_name = state_machine.current_state.name.to_lower() # 將目前狀態名轉為小寫
+# ==========================================
+# [🌟 本次新增] 裝備能力統整計算中心
+# ==========================================
+func recalculate_stats():
+	var bonus_hp = 0 # 用來累加所有裝備給的「額外血量」
 	
-	if "stun" in state_name or "pant" in state_name: # 如果野豬處於暈眩或喘氣破綻
-		velocity = knockback_force # 依然賦予擊退力道
-		return # 直接跳出，不中斷破綻動畫
+	# 向大腦圖鑑詢問：是否有裝備 "001" (愛心) 貼紙？
+	if DataManager.has_sticker("001"):
+		bonus_hp += DataManager.STICKER_DB["001"].value # 從圖鑑調出數值加上去
+		print("【貼紙生效】裝備了 001 愛心，額外增加 ", DataManager.STICKER_DB["001"].value, " 點生命上限！")
 		
-	state_machine.change_state("PlayerHurt") # 正常切換到受傷狀態
+	# 最終最大血量 = 裸體基礎血量 (100) + 裝備總加成
+	max_hp = base_max_hp + bonus_hp
+	
+	# 防呆：如果拔掉裝備導致上限變低，目前的血量必須往下壓，不能超過上限
+	if current_hp > max_hp:
+		current_hp = max_hp
+		
+	# 數值變動後，通知 UI 更新血條顯示
+	update_hp_bar() 
+	print("【系統】玩家能力已重新計算，目前最大血量：", max_hp)
 
-# --- 增加與花費能量 ---
-func add_energy(amount: int): # 自訂函數：增加能量
-	current_energy += amount # 增加能量
-	if current_energy > max_energy: current_energy = max_energy # 防呆超過上限
-	if player_hud: player_hud.update_energy(current_energy, max_energy) # 更新 UI
+# ==========================================
+# 開發者外掛與輸入偵測
+# ==========================================
+func _input(event):
+	if event.is_action_pressed("cheater"): 
+		if DataManager:
+			DataManager.total_gold += 100 # 按下按鍵直接加 100 元，方便測試
+			print("【開發者外掛】印鈔 100 元！目前總金額：" + str(DataManager.total_gold))
 
-func use_energy(amount: int) -> bool: # 自訂函數：花費能量
-	if current_energy >= amount: # 檢查能量是否足夠
-		current_energy -= amount # 扣除
-		if player_hud: player_hud.update_energy(current_energy, max_energy) # 更新 UI
-		return true # 成功
-	return false # 失敗
+# ==========================================
+# 物理與邏輯更新 (每幀執行)
+# ==========================================
+func _physics_process(delta: float) -> void: 
+	if not is_dead: # 只有活著才能操作
+		# 抓取 WASD 輸入轉換成方向向量 (長度最大為 1)
+		input_direction = Input.get_vector("left", "right", "up", "down") 
+		
+		# --- 技能施放偵測 (Q鍵) ---
+		if Input.is_action_just_pressed("skill_01"): 
+			# 條件：不能在補血中，且不能處於過熱狀態
+			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
+				var current_buff: float = get_oversaturation_buff() # 抓取目前的傷害倍率
+				if use_energy(30): # 嘗試扣除 30 點能量
+					skill_01.shoot(current_buff) # 扣除成功，發射技能並傳遞倍率
+				else: 
+					print("能量不足 30，無法施放 Q 技能！") 
+			elif is_overheated: 
+				print("系統過熱中！無法釋放技能！") 
 
-# --- 死亡與更新血條邏輯 ---
-func die(): # 實作死亡函數
-	if is_dead: return # 已死就跳出
-	is_dead = true # 標記死亡
-	if state_machine: state_machine.change_state("PlayerDie") # 切換死亡狀態
+		# --- 體力 (SP) 自動恢復邏輯 ---
+		if sp_delay_timer > 0:           
+			sp_delay_timer -= delta # 還在延遲時間內，繼續倒數      
+		else:                            
+			if current_sp < max_sp: # 延遲結束且體力未滿，開始回體     
+				# 如果處於過熱狀態，回體速度變慢 (10.0)；正常狀態較快 (12.0)
+				var regen_rate = 10.0 if is_overheated else 12.0 
+				current_sp += regen_rate * delta 
+				
+				if current_sp > max_sp:  
+					current_sp = max_sp # 防呆，防止回血超過上限 
+				
+				# 過熱解除條件：體力恢復到 70% 以上
+				if is_overheated and current_sp >= max_sp * 0.7: 
+					is_overheated = false 
+					player_hud.set_overheat_visual(false) # 關閉過熱 UI 特效
+					print("體力恢復至 70%，解除過熱狀態！") 
+					
+				player_hud.update_sp(current_sp, max_sp) # 頻繁更新體力 UI
 
-func update_hp_bar(): # 實作更新血條函數
-	if player_hud: player_hud.update_hp(current_hp, max_hp) # 更新紅血條
-	var hp_ratio: float = float(current_hp) / float(max_hp) # 計算剩餘血量比例
-	hp_ratio = max(hp_ratio, 0.0) # 確保比例不是負數
-	if animated_sprite_2d.material: # 檢查著色器材質
-		var tween = get_tree().create_tween() # 建立動畫效果
-		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) # 隨血量降低飽和度
+	move_and_slide() # 根據目前的 velocity 執行移動與物理碰撞滑行
 
-# --- 動畫播放控制器 ---
-func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO): # 自訂函數：播放動畫
-	var anim = get_node_or_null("AnimatedSprite2D") # 抓取動畫播放節點
-	if anim == null: return # 沒抓到就跳出
-	if not is_dashing: # 檢查是否不在衝刺狀態
-		if input_direction != Vector2.ZERO: # 檢查是否有輸入方向
-			if abs(input_direction.x) > abs(input_direction.y): # 比較 X Y 軸輸入決定橫向或縱向優先
-				facing_direction = "right" if input_direction.x > 0 else "left" # X軸判斷面朝左右
+# ==========================================
+# 體力與能量扣除中心
+# ==========================================
+func use_sp(amount: float) -> bool: 
+	# 嘗試扣除體力。回傳 true 代表扣除成功，false 代表失敗
+	if is_overheated: 
+		return false # 過熱期間嚴禁花費任何體力
+
+	if current_sp > 0: 
+		current_sp -= amount # 只要體力大於 0 就能透支使用
+		
+		if current_sp < 0: 
+			current_sp = 0.0 # 扣成負數則拉平為 0
+			
+		sp_delay_timer = sp_regen_delay # 每次花費體力，重置回體延遲計時器
+
+		if current_sp <= 0:        
+			is_overheated = true # 體力徹底歸零，觸發過熱狀態
+			player_hud.set_overheat_visual(true) # 開啟過熱 UI 特效
+			print("體力耗盡！進入過熱狀態！") 
+
+		player_hud.update_sp(current_sp, max_sp) # 更新 UI
+		return true 
+	else: 
+		return false # 體力已經是 0，拒絕執行動作
+
+func use_energy(amount: int) -> bool: 
+	# 嘗試扣除能量
+	if current_energy >= amount: 
+		current_energy -= amount 
+		if player_hud: player_hud.update_energy(current_energy, max_energy) 
+		return true 
+	return false 
+
+func add_energy(amount: int): 
+	# 增加能量 (如普攻命中獎勵)
+	current_energy += amount 
+	if current_energy > max_energy: 
+		current_energy = max_energy # 防止超過上限
+	if player_hud: 
+		player_hud.update_energy(current_energy, max_energy) 
+
+# ==========================================
+# 傷害倍率與受傷邏輯
+# ==========================================
+func get_oversaturation_buff() -> float: 
+	# 計算目前的「過飽和」傷害倍率
+	var multiplier: float = 1.0 
+	if current_energy >= max_energy: 
+		multiplier = 1.5 # 滿能量時，傷害變為 1.5 倍
+		print("【過飽和狀態】發動！目前倍率：1.5 倍") 
+	return multiplier 
+
+func handle_hurt(): 
+	# 當玩家被怪物的 Hitbox 或子彈打中時呼叫
+	var state_name = state_machine.current_state.name.to_lower() 
+	
+	# 如果玩家處於某些無法被打斷的狀態 (目前保留野豬的邏輯框架，預留給未來擴充霸體)
+	if "stun" in state_name or "pant" in state_name: 
+		velocity = knockback_force 
+		return 
+		
+	state_machine.change_state("PlayerHurt") # 切換到受傷狀態播放硬直動畫
+
+# ==========================================
+# 死亡與視覺更新
+# ==========================================
+func die(): 
+	# 處理死亡狀態切換
+	if is_dead: return # 避免重複死亡
+	is_dead = true 
+	if state_machine: state_machine.change_state("PlayerDie") 
+
+func update_hp_bar(): 
+	# 更新 UI 血條與身體顏色
+	if player_hud: player_hud.update_hp(current_hp, max_hp) 
+	
+	# 計算血量百分比 (0.0 ~ 1.0)
+	var hp_ratio: float = float(current_hp) / float(max_hp) 
+	hp_ratio = max(hp_ratio, 0.0) 
+	
+	# 根據剩餘血量比例，透過 Shader 慢慢降低玩家精靈圖的色彩飽和度 (快死時會變灰)
+	if animated_sprite_2d.material: 
+		var tween = get_tree().create_tween() 
+		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) 
+
+# ==========================================
+# 動畫播放控制器
+# ==========================================
+func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO): 
+	# 統整動畫名稱。例如傳入 "run"，會根據面向組合出 "run_right" 播放
+	var anim = get_node_or_null("AnimatedSprite2D") 
+	if anim == null: return 
+	
+	# 翻滾衝刺時鎖定面向，不跟隨按鍵改變
+	if not is_dashing: 
+		if input_direction != Vector2.ZERO: 
+			# 判斷 X 軸還是 Y 軸的輸入幅度比較大，決定要播橫向還是縱向動畫
+			if abs(input_direction.x) > abs(input_direction.y): 
+				facing_direction = "right" if input_direction.x > 0 else "left" 
 			else: 
-				facing_direction = "down" if input_direction.y > 0 else "up" # Y軸判斷面朝上下
-	anim.play(prefix + "_" + facing_direction) # 組合前綴與面朝方向播放動畫
+				facing_direction = "down" if input_direction.y > 0 else "up" 
+				
+	anim.play(prefix + "_" + facing_direction) # 組合並播放

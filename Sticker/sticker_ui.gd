@@ -148,25 +148,29 @@ func _on_close_button_mouse_exited() -> void:
 
 
 # ==========================================
-# 🌟 自動召喚貼紙流水線 (支援自動分頁)
+# 🌟 自動召喚貼紙流水線 (ID 升級版)
 # ==========================================
 func load_inventory() -> void:
-	# 🌟 設定你的畫架一頁最多能裝幾張貼紙？ (請依據你的 UI 決定，假設是 12 張)
+	# 🌟 新增這行：在發牌之前，先請大腦把背包裡的 ID (001, 004...) 照順序排好！
+	DataManager.owned_stickers.sort()
 	var max_per_page: int = 12 
-	var current_count: int = 0 # 記錄目前已經擺了幾張貼紙
+	var current_count: int = 0 
 	
-	# 去問大腦：玩家現在背包裡有哪些貼紙？
-	for sticker_path in DataManager.owned_stickers:
-		var new_sticker = STICKER_ITEM.instantiate()
-		new_sticker.texture = load(sticker_path)
-		new_sticker.sticker_id = sticker_path 
+	# 🌟 改變點 1：現在從大腦拿出來的是純 ID字串 (例如 "001")，不再是路徑了
+	for sticker_id in DataManager.owned_stickers:
 		
-		# 🌟 聰明的分頁邏輯：根據目前的數量，決定要把貼紙塞進哪一頁
+		# 照藍圖生出一個空白貼紙
+		var new_sticker = STICKER_ITEM.instantiate()
+		
+		# 🌟 改變點 2：呼叫貼紙的變身函數，把它該有的 ID 傳給它，讓它自己變身！
+		new_sticker.setup_sticker(sticker_id) 
+		
+		# 分頁邏輯 (跟你原本寫的一模一樣，非常完美)
 		if current_count < max_per_page:
-			page1.add_child(new_sticker)     # 0 ~ 11 張放第一頁
+			page1.add_child(new_sticker)     
 		elif current_count < max_per_page * 2:
-			page2.add_child(new_sticker)     # 12 ~ 23 張放第二頁
+			page2.add_child(new_sticker)     
 		else:
-			page3.add_child(new_sticker)     # 24 張以上放第三頁
+			page3.add_child(new_sticker)     
 			
-		current_count += 1 # 擺完一張，計數器 +1
+		current_count += 1

@@ -4,11 +4,9 @@
 [ext_resource type="Script" uid="uid://bm634r5k66giu" path="res://StickerItem/sticker_item.gd" id="2_s0me5"]
 
 [node name="StickerItem" type="TextureRect"]
-custom_minimum_size = Vector2(90, 85)
+custom_minimum_size = Vector2(99.125, 116.995)
 offset_right = 40.0
 offset_bottom = 40.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
 texture = ExtResource("1_mafet")
 expand_mode = 1
 stretch_mode = 5
