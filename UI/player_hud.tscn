@@ -50,11 +50,12 @@ custom_minimum_size = Vector2(200, 20)
 layout_mode = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_lhy1a")
 value = 100.0
+show_percentage = false
 
 [node name="EnergyBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 10)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_horizontal = 0
 theme_override_styles/fill = SubResource("StyleBoxFlat_5o0p8")
 value = 50.0
 show_percentage = false
@@ -62,7 +63,7 @@ show_percentage = false
 [node name="SpBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 10)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_horizontal = 0
 theme_override_styles/fill = SubResource("StyleBoxFlat_dpci0")
 value = 50.0
 show_percentage = false

@@ -66,8 +66,8 @@ const STICKER_DB = {
 		"value": 0.10
 	},
 	"008": {
-		"name": "憤怒大鵝",
-		"texture_path": "res://Stickers/008憤怒大鵝.png", # ⚠️ 記得改檔名
+		"name": "起床氣",
+		"texture_path": "res://Stickers/008起床氣.png", # ⚠️ 記得改檔名dw
 		"type": "low_hp_atk_boost",
 		"value": 1.35,
 		"threshold": 0.35 

@@ -15,7 +15,7 @@ func enter():
 	# 🌟 新增：呼叫鏡頭震動 (強度設定為 10.0，你可以自己調大小)
 	var camera = character.get_tree().get_first_node_in_group("camera")
 	if camera:
-		camera.apply_shake(50.0)
+		camera.apply_shake(80.0)
 
 func state_physics_update(delta: float):
 	timer -= delta

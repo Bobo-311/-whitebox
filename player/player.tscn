@@ -1256,8 +1256,6 @@ collision_layer = 2
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_boqn2")
-basic_attack_damage = 15.0
-max_hp = 50
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_65viv")
