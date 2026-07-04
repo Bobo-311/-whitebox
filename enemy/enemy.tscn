@@ -910,7 +910,7 @@ size = Vector2(68, 88)
 radius = 61.008198
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1wwld"]
-radius = 438.02853
+radius = 190.6725
 
 [node name="enemy" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -920,7 +920,7 @@ motion_mode = 1
 safe_margin = 0.05
 script = ExtResource("1_ofsxj")
 sprint_speed = 200
-max_hp = 10
+max_hp = 50
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, -21)

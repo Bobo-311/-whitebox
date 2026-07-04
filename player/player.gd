@@ -37,6 +37,8 @@ var is_dashing: bool = false                # 記錄玩家現在是否正在衝�
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
 @onready var skill_01: Node2D = $Skill_01                              # 掛在玩家身上的技能發射器 (槍管)
 
+# 👇 [🌟 這是你要新增的] 抓取我們負責控制手電筒的隱形轉盤
+@onready var vision_pivot: Node2D = $VisionPivot
 # ==========================================
 # 遊戲初始化 (_ready)
 # ==========================================
@@ -127,6 +129,13 @@ func _physics_process(delta: float) -> void:
 		# 抓取 WASD 輸入轉換成方向向量 (長度最大為 1)
 		input_direction = Input.get_vector("left", "right", "up", "down") 
 		
+		# 👇 [🌟 這是你要新增的 3 行程式碼] --- 處理手電筒旋轉 ---
+		# 條件：只有當玩家有按下方向鍵 (向量不為零) 時，才轉動手電筒
+		# 這樣玩家鬆開鍵盤停下來時，光束會保持在最後照射的方向，不會怪怪地歸零
+		if input_direction != Vector2.ZERO and vision_pivot != null:
+			# 神奇的 .angle() 會直接把 WASD 的 XY 方向，自動換算成完美的 360 度旋轉弧度！
+			vision_pivot.rotation = input_direction.angle()
+		# 👆 ----------------------------------------------------
 		# --- 技能施放 (Q鍵) ---
 		if Input.is_action_just_pressed("skill_01"): 
 			# 條件：不能在補血中，且不能處於過熱狀態

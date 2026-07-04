@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vc1ya7inx8ih"
-path="res://.godot/imported/continuebutton.png-7f34a2150cffd6978e996f33ad975586.ctex"
+uid="uid://ds2vne44bmljp"
+path="res://.godot/imported/光造.png-25253101123ef2fbf3052a220bc47041.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dragon-huds/dragon-huds/dragon-huds/buttons/continuebutton.png"
-dest_files=["res://.godot/imported/continuebutton.png-7f34a2150cffd6978e996f33ad975586.ctex"]
+source_file="res://外在素材/光造.png"
+dest_files=["res://.godot/imported/光造.png-25253101123ef2fbf3052a220bc47041.ctex"]
 
 [params]
 

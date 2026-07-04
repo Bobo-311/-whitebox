@@ -1,4 +1,4 @@
-[gd_scene load_steps=186 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=188 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -1250,12 +1250,26 @@ size = Vector2(90.03125, 122)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7xcs"]
 size = Vector2(83.125, 127.5)
 
+[sub_resource type="Gradient" id="Gradient_bjvpn"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s7qer"]
+gradient = SubResource("Gradient_bjvpn")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
 [node name="player" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_boqn2")
+metadata/_edit_horizontal_guides_ = [-170.0, 85.0]
+metadata/_edit_vertical_guides_ = [-129.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_65viv")
@@ -1353,3 +1367,13 @@ stream = ExtResource("7_rgyib")
 [node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]
 
 [node name="GoldUI" parent="." instance=ExtResource("22_bjvpn")]
+
+[node name="AuraLight" type="PointLight2D" parent="."]
+position = Vector2(0, -20)
+texture = SubResource("GradientTexture2D_s7qer")
+
+[node name="VisionPivot" type="Node2D" parent="."]
+
+[node name="Flashlight" type="PointLight2D" parent="VisionPivot"]
+scale = Vector2(2.0423133, 3.4470067)
+shadow_enabled = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=16 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://oqcdjsqjrqkp" path="res://地圖/0111.png" id="7_scycs"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]
 [ext_resource type="Texture2D" uid="uid://dajyae1png28m" path="res://地圖/01.png" id="7_vpust"]
+[ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="9_0p35i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(8076, 134.75)
@@ -112,8 +113,23 @@ sources/0 = SubResource("TileSetAtlasSource_scycs")
 y_sort_enabled = true
 script = ExtResource("1_scycs")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13909.0
+offset_top = -5974.0
+offset_right = 19683.832
+offset_bottom = 17356.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.5476976, 0.9307063, 1)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)
+
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(1715, 945)
+position = Vector2(1764, 912)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 
@@ -157,7 +173,7 @@ shape = SubResource("RectangleShape2D_1ofo2")
 position = Vector2(2105, 863)
 
 [node name="Portal" parent="." instance=ExtResource("6_877dg")]
-position = Vector2(1872, 1222)
+position = Vector2(2131, 480)
 scale = Vector2(-1, 1)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
@@ -182,7 +198,7 @@ position = Vector2(-32, -75)
 position = Vector2(5, -62)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1772, 1300)
+position = Vector2(2031, 558)
 
 [node name="Ground" type="TileMapLayer" parent="."]
 position = Vector2(28, -1)
@@ -191,3 +207,6 @@ tile_set = SubResource("TileSet_167qa")
 
 [node name="Walls" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_0p35i")
+
+[node name="enemy" parent="." instance=ExtResource("9_0p35i")]
+position = Vector2(2207, 884)

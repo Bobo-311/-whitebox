@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dorfmusveyeu8"
-path="res://.godot/imported/save-icon.png-b7e21c6cccabc3efafc46531ffe9a012.ctex"
+uid="uid://cok6royte3ys"
+path="res://.godot/imported/光罩.jpg-923c7753c35f57d8592b23ff107f5559.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dragon-huds/dragon-huds/dragon-huds/icons/save-icon.png"
-dest_files=["res://.godot/imported/save-icon.png-b7e21c6cccabc3efafc46531ffe9a012.ctex"]
+source_file="res://外在素材/光罩.jpg"
+dest_files=["res://.godot/imported/光罩.jpg-923c7753c35f57d8592b23ff107f5559.ctex"]
 
 [params]
 
