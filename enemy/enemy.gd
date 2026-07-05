@@ -15,6 +15,11 @@ const COIN_SCENE = preload("res://coin/coin.tscn")# 🌟 預載入金幣場景
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 抓取動畫播放器節點
 @onready var hp_bar: ProgressBar = $HealthBar                  # 抓取血條UI節點
 
+@onready var vision_ray: RayCast2D = $VisionRay # 抓取視線雷射
+var can_see_player: bool = false                # 最終判定：到底有沒有看見玩家？
+
+
+
 var player_node: CharacterBody2D = null           # 記憶目前鎖定的玩家實體，預設為空
 var last_facing_vec: Vector2 = Vector2.DOWN       # 記憶野豬最後面朝的方向，預設朝下
 var has_hit_player: bool = false                  # 標記開關：這次衝刺是不是已經咬到過玩家了？
@@ -26,8 +31,27 @@ func _ready():                   # 遊戲開始時執行
 	var hitbox = get_node_or_null("Hitbox/CollisionShape2D")
 	if hitbox:
 		hitbox.set_deferred("disabled", true)
+		
+		
 func _physics_process(_delta: float) -> void:     # 每一幀物理運算
 	move_and_slide()             # 根據 velocity 執行移動，並自動處理撞牆滑行
+	# --- 🌟 真實視野雷射掃描系統 ---
+	if player_node != null:      # 第一關：玩家在藍色圈圈內
+		# 把雷射光瞄準玩家的中心點 (to_local 是把世界座標轉成野豬的相對座標)
+		vision_ray.target_position = to_local(player_node.global_position)
+		vision_ray.force_raycast_update() # 強制雷射在一幀內立刻更新結果
+		
+		# 第二關：檢查雷射光有沒有撞到障礙物（牆壁/柱子）
+		if vision_ray.is_colliding():
+			can_see_player = false # 雷射被擋住 ＝ 瞎子
+		else:
+			can_see_player = true  # 雷射一路暢通 ＝ 看到玩家了！
+	else:
+		can_see_player = false     # 根本不在圈圈內 ＝ 沒看到
+	# 🌟【新增這行！LOL 視野同步機制】
+	# 如果野豬看得到玩家，野豬就現形 (true)；如果看不到，野豬連同血條瞬間隱形 (false)！
+	self.visible = can_see_player
+
 
 # --- 處理受傷與擊退邏輯的專屬函數 ---
 func handle_hurt(): # 當野豬被玩家的武器判定打到時呼叫

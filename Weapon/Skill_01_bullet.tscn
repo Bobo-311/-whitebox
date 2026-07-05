@@ -30,7 +30,7 @@ radius = 63.03174
 
 [node name="Skill_01_bullet" type="Area2D"]
 collision_layer = 32
-collision_mask = 16
+collision_mask = 17
 script = ExtResource("1_ovq7q")
 speed = 600.0
 
@@ -46,3 +46,4 @@ frame_progress = 1.0
 shape = SubResource("CircleShape2D_h0pa3")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

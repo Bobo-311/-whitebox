@@ -4,25 +4,28 @@ func state_physics_update(_delta: float): # 追擊狀態每一幀的更新
 	if character.can_attack == false: # 如果攻擊還在冷卻中
 		return                   # 就什麼都不做，原地發呆看著玩家
 		
-	if character.player_node == null: # 如果目標玩家突然消失(離開視野或死掉)
-		state_machine.change_state("EnemyMove") # 放棄追擊，切換回隨機漫遊狀態
-		return                   # 結束這一幀
+	# 🌟【核心修改：視野斷線的放棄機制】
+	# 如果玩家離開了藍圈 (null) 或者 躲到了柱子後面 (雷射被擋住 = false)
+	if character.player_node == null or character.can_see_player == false: 
+		state_machine.change_state("EnemyMove") # 視線被切斷，野豬直接放棄，切回隨機漫遊
+		return
 
 	var dir = (character.player_node.global_position - character.global_position).normalized() # 計算指向玩家的方向向量
 	var dist = character.global_position.distance_to(character.player_node.global_position) # 計算與玩家之間的直線距離
 
 	character.last_facing_vec = dir # 隨時更新野豬面朝的方向為玩家的方向
 
-	if dist <= 500 and character.can_attack: # 如果距離小於 500 (進入攻擊圈) 且 攻擊冷卻完畢
-		if dist > 350:           # 情況A：距離偏遠 (350 ~ 500)
-			state_machine.change_state("EnemyShoot") # 100% 機率切換到吐波導彈狀態
-		elif dist < 200:         # 情況B：距離貼臉 (小於 200)
-			state_machine.change_state("EnemyAttack") # 100% 機率切換到肉身衝撞攻擊
-		else:                    # 情況C：中距離 (200 ~ 350)
-			if randi() % 2 == 0: # 隨機骰子：取 2 的餘數 (50% 機率)
-				state_machine.change_state("EnemyShoot") # 50% 吐波導彈
+	# 🌟 就是這裡！你想改距離，直接改下面這幾個數字：
+	if dist <= 400 and character.can_attack: # 500 是「開始攻擊的最大極限距離」
+		if dist > 300:           # 大於 350：保證吐波導彈
+			state_machine.change_state("EnemyShoot") 
+		elif dist < 250:         # 小於 200：太近了，保證肉身衝撞
+			state_machine.change_state("EnemyAttack") 
+		else:                    # 200 ~ 350 之間：隨機 50% 吐波、50% 衝撞
+			if randi() % 2 == 0: 
+				state_machine.change_state("EnemyShoot") 
 			else:                
-				state_machine.change_state("EnemyAttack")# 50% 肉身衝撞
+				state_machine.change_state("EnemyAttack")
 		return                   # 決定好攻擊後立刻跳出
 
 	else:                        # 如果距離大於 500，還沒進攻擊圈

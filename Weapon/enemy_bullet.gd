@@ -30,3 +30,9 @@ func _on_area_entered(area: Area2D) -> void: # 🌟 雷達掃到東西時觸發
 		area.take_damage(ranged_damage, global_position, direction)
 
 	queue_free()                 # 不管有沒有扣血，只要子彈雷達掃到東西，立刻自我銷毀
+
+
+
+func _on_body_entered(body: Node2D) -> void:
+	# 只要撞到實體 (例如牆壁、存檔點)，子彈就直接自我銷毀
+	queue_free()

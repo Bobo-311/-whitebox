@@ -3,17 +3,17 @@ extends State                    # 繼承狀態模板 player_heal
 var heal_timer: float = 2.0      # 詠唱時間：2 秒
 var flash_tween: Tween           # 閃爍動畫
 var is_healing_success: bool = false # 開關：記錄這次補血是不是「平安完成」？
+var has_consumed_energy: bool = false # 🌟 準備一個新變數：記住有沒有扣過能量
 
 func enter():                    # 按下 H 鍵進場時
-	is_healing_success = false   # 預設為尚未成功
-	
+	is_healing_success = false   # 預設為尚未成功	
 	# 1. 審查資格：向身體請款 50 點能量
 	var can_heal = character.use_energy(50) 
-	
+	has_consumed_energy = false  # 每次進來先歸零
 	if not can_heal:             # 如果能量不夠
 		state_machine.change_state("PlayerIdle") # 拒絕補血，退回待機
 		return                   # 終止執行
-		
+	has_consumed_energy = true	
 	# 2. 開始罰站詠唱
 	character.velocity = Vector2.ZERO # 速度歸零定在原地
 	character.play_animation("idle")  # 播放待機動畫
@@ -49,7 +49,7 @@ func exit():                     # 離開狀態時執行
 	if flash_tween and flash_tween.is_valid(): flash_tween.kill()
 	character.animated_sprite_2d.modulate = Color.WHITE # 恢復正常顏色
 	
-	# 🌟 神級判定：如果離開時「尚未成功」(代表這 2 秒內被打飛了)
-	if not is_healing_success:
-		print("【系統】補血遭到中斷！退還 50 點能量。")
-		character.add_energy(50) # 把剛進場扣的 50 點能量退還給玩家！
+	# 🌟 加上嚴格條件：必須是「有扣過能量」且「沒補成功」，才准歸還！
+	if has_consumed_energy and not is_healing_success:
+		print("【系統】補血遭到中斷！歸還 50 點能量。")
+		character.add_energy(50)

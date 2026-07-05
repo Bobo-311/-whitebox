@@ -24,8 +24,12 @@ func state_physics_update(delta: float): # 內建函數：物理引擎每一幀�
 	# 🌟 擊退煞車系統：讓被玩家砍退的野豬在 0.15 的權重下慢慢停住，製造摩擦感
 	character.velocity = character.velocity.lerp(Vector2.ZERO, 0.15)
 		
-	if stun_timer <= 0:          # 條件判斷：如果 3 秒的暈眩時間結束了
-		state_machine.change_state("EnemyRun") # 命令大腦切換回狂奔追擊狀態 (EnemyRun)
+	if stun_timer <= 0:          
+		# 🌟【防透視修正】：醒來時檢查，看得到才追，看不到就散步
+		if character.player_node and character.can_see_player:
+			state_machine.change_state("EnemyRun")
+		else:
+			state_machine.change_state("EnemyMove")
 
 func exit():                     # 內建函數：當大腦準備切換到下一個狀態前執行一次
 	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 強行停止所有的紫光閃爍特效

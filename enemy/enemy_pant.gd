@@ -43,9 +43,12 @@ func state_physics_update(delta: float): # 每一幀的物理更新
 		
 		print("【系統】野豬喘氣結束，進入最後 0.5 秒甩頭回神階段！") # 後台提示
 		
-	# --- 檢查狀態是否徹底結束 ---
-	if pant_timer <= 0: # 條件：如果計時器徹底歸零
-		state_machine.change_state("EnemyRun") # 命令大腦切換回追逐狀態 (EnemyRun)
+	if pant_timer <= 0: 
+		# 🌟【防透視修正】：醒來時檢查，看得到才追，看不到就散步
+		if character.player_node and character.can_see_player:
+			state_machine.change_state("EnemyRun") 
+		else:
+			state_machine.change_state("EnemyMove")
 
 func exit(): # 當野豬準備離開這個喘氣狀態時執行的保險機制
 	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 強行砍掉所有閃爍特效

@@ -1256,8 +1256,8 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_s7qer"]
 gradient = SubResource("Gradient_bjvpn")
-width = 512
-height = 512
+width = 1024
+height = 1024
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
@@ -1368,12 +1368,16 @@ stream = ExtResource("7_rgyib")
 
 [node name="GoldUI" parent="." instance=ExtResource("22_bjvpn")]
 
-[node name="AuraLight" type="PointLight2D" parent="."]
+[node name="Light_Ground" type="PointLight2D" parent="."]
 position = Vector2(0, -20)
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.6431373)
+shadow_filter = 1
+shadow_filter_smooth = 3.0
 texture = SubResource("GradientTexture2D_s7qer")
 
-[node name="VisionPivot" type="Node2D" parent="."]
-
-[node name="Flashlight" type="PointLight2D" parent="VisionPivot"]
-scale = Vector2(2.0423133, 3.4470067)
-shadow_enabled = true
+[node name="Light_Tall" type="PointLight2D" parent="."]
+position = Vector2(0, -20)
+range_item_cull_mask = 2
+shadow_filter = 1
+texture = SubResource("GradientTexture2D_s7qer")

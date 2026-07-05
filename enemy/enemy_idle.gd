@@ -6,9 +6,10 @@ func enter():
 	character.play_animation("idle")  # 播放待機動畫
 
 func state_physics_update(_delta: float):
-	if character.player_node: # 如果發呆時看到玩家
-		state_machine.change_state("EnemyRun") # 立刻追擊
-		return               
+	# 🌟【教學重點：加入真實視野判定 can_see_player】
+	# 條件：玩家在藍色圈內 (有目標) 且 雷射光暢通 (有看到肉體)
+	if character.player_node and character.can_see_player: 
+		state_machine.change_state("EnemyRun") # 真真實實看到了，才開始追擊！
+		return                
 		
-	elif randf() > 0.98:      # 每幀有 2% 的機率隨機切換回漫遊狀態
-		state_machine.change_state("EnemyMove")
+	state_machine.change_state("EnemyMove")#沒看到玩家，直接把主導權交給 EnemyMove

@@ -25,7 +25,8 @@ func _stop_moving(): # 停下邏輯
 	character.play_animation("idle", character.last_facing_vec) # 播待機動畫
 
 func state_physics_update(delta: float): # 物理更新
-	if character.player_node: # 發現玩家
+	# 🌟 加上 and character.can_see_player，確保散步時也不會透視！
+	if character.player_node and character.can_see_player:
 		state_machine.change_state("EnemyRun") # 追擊
 		return
 

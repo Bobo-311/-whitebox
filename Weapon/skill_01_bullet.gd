@@ -31,3 +31,8 @@ func _on_area_entered(area: Area2D) -> void: # 🌟 撞到東西時觸發
 		print("Q 技能命中！造成了 ", final_damage, " 點傷害。") # 後台印出
 		
 		queue_free()             # 命中目標，子彈立即銷毀
+
+
+func _on_body_entered(body: Node2D) -> void:
+	# 只要撞到實體 (例如牆壁、存檔點)，子彈就直接自我銷毀
+	queue_free()
