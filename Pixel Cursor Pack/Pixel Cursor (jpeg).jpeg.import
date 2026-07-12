@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8xxlarq0v1fj"
-path="res://.godot/imported/試驗對象一號.jpg-753155aea000181fa2bbd9232da1932d.ctex"
+uid="uid://sns3hkr5fo5x"
+path="res://.godot/imported/Pixel Cursor (jpeg).jpeg-c5b48172a9fefd2e0a21f40f99617738.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://大家不為人知的秘密/試驗對象一號.jpg"
-dest_files=["res://.godot/imported/試驗對象一號.jpg-753155aea000181fa2bbd9232da1932d.ctex"]
+source_file="res://Pixel Cursor Pack/Pixel Cursor (jpeg).jpeg"
+dest_files=["res://.godot/imported/Pixel Cursor (jpeg).jpeg-c5b48172a9fefd2e0a21f40f99617738.ctex"]
 
 [params]
 

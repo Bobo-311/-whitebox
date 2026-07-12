@@ -1,0 +1,184 @@
+[gd_scene load_steps=11 format=3 uid="uid://v4f6gx7t7lh4"]
+
+[ext_resource type="Script" uid="uid://cxgiaxedr5g7s" path="res://ShopUI/shop_ui.gd" id="1_6ggnr"]
+[ext_resource type="Texture2D" uid="uid://vqct6f2uj8sh" path="res://大家不為人知的祕密/草.png" id="1_pxxkw"]
+[ext_resource type="Texture2D" uid="uid://bdmlw1xhdv8xo" path="res://大家不為人知的祕密/試驗對象一號.png" id="2_6ggnr"]
+[ext_resource type="LabelSettings" uid="uid://cudyn1qk7ry8y" path="res://字體/gold_ui.tres" id="3_3d3cx"]
+[ext_resource type="Texture2D" uid="uid://dyciflsa5kfkp" path="res://Pixel Cursor Pack/Pixel Cursor (480x160).png" id="4_afxq3"]
+[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="5_rqs1h"]
+[ext_resource type="AudioStream" uid="uid://b20fh6six0jg0" path="res://音效/逼.wav" id="6_afxq3"]
+[ext_resource type="AudioStream" uid="uid://du66kmm33wniu" path="res://音效/土豆.wav" id="7_rqs1h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqs1h"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kddjk"]
+atlas = ExtResource("4_afxq3")
+region = Rect2(432.1598, 12.208845, 34.71277, 41.72724)
+
+[node name="ShopUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ggnr")
+
+[node name="BackgroundImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -146.0
+offset_bottom = -146.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_pxxkw")
+expand_mode = 1
+
+[node name="MerchantImage" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -11.0
+offset_bottom = -379.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6ggnr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BottomFrame" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -379.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rqs1h")
+
+[node name="MainMenu_Layout" type="HBoxContainer" parent="BottomFrame"]
+visible = false
+layout_mode = 2
+
+[node name="LeftSpace" type="Control" parent="BottomFrame/MainMenu_Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DividerLine" type="ColorRect" parent="BottomFrame/MainMenu_Layout"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="RightMenuArea" type="MarginContainer" parent="BottomFrame/MainMenu_Layout"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 83
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BottomFrame/MainMenu_Layout/RightMenuArea"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Buy" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Buy"
+label_settings = ExtResource("3_3d3cx")
+
+[node name="Sell" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Sell"
+label_settings = ExtResource("3_3d3cx")
+
+[node name="Talk" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Talk"
+label_settings = ExtResource("3_3d3cx")
+
+[node name="Exit" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Exit"
+label_settings = ExtResource("3_3d3cx")
+
+[node name="BuyMenu_Layout" type="HBoxContainer" parent="BottomFrame"]
+layout_mode = 2
+
+[node name="LeftItemList" type="MarginContainer" parent="BottomFrame/BuyMenu_Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BottomFrame/BuyMenu_Layout/LeftItemList"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "100G - 牛牛突击队贴纸"
+label_settings = ExtResource("5_rqs1h")
+
+[node name="Label2" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "50G - 咕咕嘎嘎"
+label_settings = ExtResource("5_rqs1h")
+
+[node name="Label3" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "25G - 西巴鲁玛	"
+label_settings = ExtResource("5_rqs1h")
+
+[node name="Label4" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "Exit"
+label_settings = ExtResource("3_3d3cx")
+
+[node name="BuyDivider" type="ColorRect" parent="BottomFrame/BuyMenu_Layout"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="RightInfoArea" type="MarginContainer" parent="BottomFrame/BuyMenu_Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_bottom = 185
+
+[node name="Label" type="Label" parent="BottomFrame/BuyMenu_Layout/RightInfoArea"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+text = "What would you like to buy?"
+label_settings = ExtResource("3_3d3cx")
+autowrap_mode = 2
+
+[node name="Cursor" type="TextureRect" parent="."]
+layout_mode = 1
+offset_left = 874.0
+offset_top = 314.0
+offset_right = 901.0
+offset_bottom = 342.0
+texture = SubResource("AtlasTexture_kddjk")
+expand_mode = 1
+
+[node name="MoveSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_afxq3")
+
+[node name="ConfirmSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_rqs1h")

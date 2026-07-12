@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://c0ce0h6iqrkew" path="res://enemy/enemy_run.gd" id="9_e355f"]
 [ext_resource type="Script" uid="uid://cdgnuqmwo4trn" path="res://enemy/enemy_idle.gd" id="10_78jik"]
 [ext_resource type="Script" uid="uid://0puvvd05v80d" path="res://enemy/enemy_hurt.gd" id="11_o3pv7"]
-[ext_resource type="PackedScene" uid="uid://c1hqskpe2ls3g" path="res://UI/HealthBar.tscn" id="14_gf88j"]
+[ext_resource type="PackedScene" uid="uid://c1hqskpe2ls3g" path="res://HealthUI/HealthBar.tscn" id="14_gf88j"]
 [ext_resource type="Script" uid="uid://d4cisj1maof8e" path="res://enemy/enemy_stun.gd" id="16_rovcg"]
 [ext_resource type="Script" uid="uid://cexvd1rjuc4pq" path="res://enemy/enemy_shoot.gd" id="17_c6eq3"]
 [ext_resource type="Script" uid="uid://wwaiocgt54mo" path="res://enemy/enemy_pant.gd" id="17_n2hyd"]

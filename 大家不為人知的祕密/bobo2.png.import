@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5fgf7tt3tjqs"
-path="res://.godot/imported/藍色棺材.jpg-e3ddf429458e4c9b77c57921324ad09e.ctex"
+uid="uid://dy1m5mnuup2rf"
+path="res://.godot/imported/bobo2.png-df2ba5d7603f33972532b6424bcafcf0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://大家不為人知的秘密/藍色棺材.jpg"
-dest_files=["res://.godot/imported/藍色棺材.jpg-e3ddf429458e4c9b77c57921324ad09e.ctex"]
+source_file="res://大家不為人知的祕密/bobo2.png"
+dest_files=["res://.godot/imported/bobo2.png-df2ba5d7603f33972532b6424bcafcf0.ctex"]
 
 [params]
 

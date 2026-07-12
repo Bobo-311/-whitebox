@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://b6ny5oi70xkn4" path="res://player/player_move.gd" id="10_8t03j"]
 [ext_resource type="Script" uid="uid://otmwch1l851y" path="res://player/player_attack.gd" id="11_2ieo8"]
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
-[ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://UI/player_hud.tscn" id="15_wodsf"]
+[ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
 [ext_resource type="Script" uid="uid://dklheqli3xyjo" path="res://player/player_heal.gd" id="16_65viv"]
 [ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/gold_ui.tscn" id="22_bjvpn"]
 
