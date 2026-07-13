@@ -16,7 +16,7 @@ signal equipment_changed
 var current_map_name: String = "鐘塔" # 預設一開始在地圖：鐘塔
 var is_teleporting: bool = false # 記錄玩家是否正在使用黑洞傳送
 
-var total_gold: int = 0 # 記錄總金幣
+var total_gold: int = 150 # 記錄總金幣
 var player_node: Node2D = null # 全域玩家定位器，預設為空
 
 # 記錄重生用的確切位置 (玩家按下 E 的腳底位置)

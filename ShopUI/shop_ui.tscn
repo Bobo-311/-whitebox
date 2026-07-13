@@ -1,13 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://v4f6gx7t7lh4"]
+[gd_scene load_steps=18 format=3 uid="uid://v4f6gx7t7lh4"]
 
 [ext_resource type="Script" uid="uid://cxgiaxedr5g7s" path="res://ShopUI/shop_ui.gd" id="1_6ggnr"]
 [ext_resource type="Texture2D" uid="uid://vqct6f2uj8sh" path="res://大家不為人知的祕密/草.png" id="1_pxxkw"]
 [ext_resource type="Texture2D" uid="uid://bdmlw1xhdv8xo" path="res://大家不為人知的祕密/試驗對象一號.png" id="2_6ggnr"]
 [ext_resource type="LabelSettings" uid="uid://cudyn1qk7ry8y" path="res://字體/gold_ui.tres" id="3_3d3cx"]
 [ext_resource type="Texture2D" uid="uid://dyciflsa5kfkp" path="res://Pixel Cursor Pack/Pixel Cursor (480x160).png" id="4_afxq3"]
+[ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="4_kjlyx"]
 [ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="5_rqs1h"]
 [ext_resource type="AudioStream" uid="uid://b20fh6six0jg0" path="res://音效/逼.wav" id="6_afxq3"]
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="7_kddjk"]
 [ext_resource type="AudioStream" uid="uid://du66kmm33wniu" path="res://音效/土豆.wav" id="7_rqs1h"]
+[ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/gold_ui.tscn" id="11_ccdew"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqs1h"]
 bg_color = Color(0, 0, 0, 1)
@@ -17,9 +20,30 @@ border_width_right = 10
 border_width_bottom = 10
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_ccdew"]
+font = ExtResource("4_kjlyx")
+font_size = 45
+
+[sub_resource type="LabelSettings" id="LabelSettings_ddi8n"]
+font = ExtResource("4_kjlyx")
+font_size = 45
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_kddjk"]
 atlas = ExtResource("4_afxq3")
 region = Rect2(432.1598, 12.208845, 34.71277, 41.72724)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kddjk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kjlyx"]
+paragraph_spacing = 3.0
+font = ExtResource("7_kddjk")
+font_size = 34
 
 [node name="ShopUI" type="Control"]
 layout_mode = 3
@@ -35,8 +59,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -146.0
-offset_bottom = -146.0
+offset_left = -84.0
+offset_top = -159.0
+offset_right = 28.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_pxxkw")
@@ -48,8 +74,8 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 6.0
-offset_top = -11.0
-offset_bottom = -379.0
+offset_top = 59.0
+offset_bottom = -309.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_6ggnr")
@@ -62,13 +88,12 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -379.0
+offset_top = -309.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_rqs1h")
 
 [node name="MainMenu_Layout" type="HBoxContainer" parent="BottomFrame"]
-visible = false
 layout_mode = 2
 
 [node name="LeftSpace" type="Control" parent="BottomFrame/MainMenu_Layout"]
@@ -80,7 +105,7 @@ custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 
 [node name="RightMenuArea" type="MarginContainer" parent="BottomFrame/MainMenu_Layout"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(308.5, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 83
 theme_override_constants/margin_top = 20
@@ -89,39 +114,40 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BottomFrame/MainMenu_Layout/RightMenuArea"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 2
 
 [node name="Buy" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Buy"
-label_settings = ExtResource("3_3d3cx")
+label_settings = SubResource("LabelSettings_ccdew")
 
 [node name="Sell" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Sell"
-label_settings = ExtResource("3_3d3cx")
+label_settings = SubResource("LabelSettings_ccdew")
 
 [node name="Talk" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Talk"
-label_settings = ExtResource("3_3d3cx")
+label_settings = SubResource("LabelSettings_ccdew")
 
 [node name="Exit" type="Label" parent="BottomFrame/MainMenu_Layout/RightMenuArea/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Exit"
-label_settings = ExtResource("3_3d3cx")
+label_settings = SubResource("LabelSettings_ccdew")
 
 [node name="BuyMenu_Layout" type="HBoxContainer" parent="BottomFrame"]
+visible = false
 layout_mode = 2
 
 [node name="LeftItemList" type="MarginContainer" parent="BottomFrame/BuyMenu_Layout"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
+size_flags_stretch_ratio = 2.62
 theme_override_constants/margin_left = 100
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
@@ -131,25 +157,25 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Label" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+[node name="75G - 牛牛突击队贴纸" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
-text = "100G - 牛牛突击队贴纸"
+text = "75G - 牛牛突击队贴纸"
 label_settings = ExtResource("5_rqs1h")
 
-[node name="Label2" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+[node name="50G - 咕咕嘎嘎" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
 text = "50G - 咕咕嘎嘎"
 label_settings = ExtResource("5_rqs1h")
 
-[node name="Label3" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+[node name="25G - 西巴鲁玛" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
-text = "25G - 西巴鲁玛	"
+text = "25G - 西巴鲁玛"
 label_settings = ExtResource("5_rqs1h")
 
-[node name="Label4" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+[node name="Exit" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
 text = "Exit"
-label_settings = ExtResource("3_3d3cx")
+label_settings = SubResource("LabelSettings_ddi8n")
 
 [node name="BuyDivider" type="ColorRect" parent="BottomFrame/BuyMenu_Layout"]
 custom_minimum_size = Vector2(10, 0)
@@ -158,8 +184,10 @@ layout_mode = 2
 [node name="RightInfoArea" type="MarginContainer" parent="BottomFrame/BuyMenu_Layout"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 70
-theme_override_constants/margin_bottom = 185
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 135
 
 [node name="Label" type="Label" parent="BottomFrame/BuyMenu_Layout/RightInfoArea"]
 custom_minimum_size = Vector2(10, 0)
@@ -177,8 +205,48 @@ offset_bottom = 342.0
 texture = SubResource("AtlasTexture_kddjk")
 expand_mode = 1
 
+[node name="InfoBox" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -331.0
+offset_top = 79.0
+offset_bottom = 349.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kddjk")
+
+[node name="MarginContainer" type="MarginContainer" parent="InfoBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="DescLabel" type="Label" parent="InfoBox/MarginContainer"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+text = "屁眼"
+label_settings = SubResource("LabelSettings_kjlyx")
+autowrap_mode = 3
+
 [node name="MoveSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_afxq3")
 
 [node name="ConfirmSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_rqs1h")
+
+[node name="GoldUI" parent="." instance=ExtResource("11_ccdew")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -271.0
+offset_top = -68.0
+offset_right = -271.0
+offset_bottom = -68.0
+grow_horizontal = 0
+grow_vertical = 0
