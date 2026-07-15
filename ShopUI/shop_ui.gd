@@ -4,8 +4,10 @@ extends Control
 # 節點抓取區 (取得場景樹上的 UI 元件)
 # ==========================================
 @onready var cursor = $Cursor # 指示目前選項的游標
-@onready var move_sound = $MoveSound # 切換選項的音效
-@onready var confirm_sound = $ConfirmSound # 確認購買或進入選單的音效
+# 🌟 [音效節點修改] 替換成你剛剛建立的三個音效節點
+@onready var select_sound = $SelectSound
+@onready var check_sound = $CheckSound   # 確認進入、購買成功時播放 (check)
+@onready var back_sound = $BackSound     # 退出選單、關閉商店時播放 (back)
 
 @onready var main_menu_layout = $BottomFrame/MainMenu_Layout # 主選單容器 (Buy, Sell, Talk, Exit)
 @onready var buy_menu_layout = $BottomFrame/BuyMenu_Layout # 購買選單容器 (商品清單)
@@ -24,7 +26,7 @@ extends Control
 # ==========================================
 var menu_items: Array = [] # 用來存放目前選單裡所有 Label 的陣列
 var current_index: int = 0 # 記錄游標目前停留在第幾個選項 (從 0 開始)
-var cursor_offset: Vector2 = Vector2(-45, -10) # 游標相對於選項文字的微調位置
+var cursor_offset: Vector2 = Vector2(-55, -20) # 游標相對於選項文字的微調位置
 var current_state: int = 0 # 記錄目前的選單狀態：0 代表在主選單，1 代表在購買清單
 
 # ==========================================
@@ -37,9 +39,10 @@ var item_database = {
 		"desc": "这是一张很酷的贴纸。\n攻击力 +5",
 		"price": 75
 	},
-	"50G - 咕咕嘎嘎": {
+	"50G - 咕咕嘎嘎药水": {
 		"desc": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
-		"price": 50
+		"price": 50,
+		"item_id": "potion_gugu"
 	},
 	"25G - 西巴鲁玛": {
 		"desc": "神秘的道具。\n速度 +10",
@@ -97,14 +100,14 @@ func _input(event):
 		# 游標索引值 +1。使用 % 取餘數可以讓游標到底部時，自動循環回到最上面
 		current_index = (current_index + 1) % menu_items.size()
 		update_cursor_position()
-		move_sound.play()
+		select_sound.play()
 		
 	# 如果按下「往上」鍵
 	elif event.is_action_pressed("ui_up"):
 		# 游標索引值 -1。加上陣列大小再取餘數，可以讓游標在最上方時，自動循環到底部
 		current_index = (current_index - 1 + menu_items.size()) % menu_items.size()
 		update_cursor_position()
-		move_sound.play()
+		select_sound.play()
 
 	# 如果按下「確認」鍵 (Enter/空白鍵)
 	elif event.is_action_pressed("ui_accept"):
@@ -117,10 +120,10 @@ func handle_selection():
 	# 如果目前在主選單
 	if current_state == 0:
 		if current_index == 0: # 如果游標在第一個選項 (Buy)
-			confirm_sound.play()
+			check_sound.play()
 			switch_to_buy_menu() # 切換到購買選單
 		elif current_index == 3: # 如果游標在第四個選項 (Exit)
-			confirm_sound.play()
+			back_sound.play()
 			hide() # 關閉整個商店 UI
 			
 	# 如果目前在購買選單
@@ -131,7 +134,7 @@ func handle_selection():
 		
 		# 判斷點擊的是否為退出鍵
 		if item_name == "Exit":
-			confirm_sound.play()
+			back_sound.play()
 			switch_to_main_menu() # 退回主選單
 		else:
 			# [新增] 核心扣錢邏輯
@@ -142,11 +145,16 @@ func handle_selection():
 				
 				# 去 DataManager 檢查玩家目前的總金額是否大於等於商品價格
 				if DataManager.total_gold >= price:
-					confirm_sound.play() 
+					check_sound.play() 
 					DataManager.total_gold -= price # 扣錢
+					# 🌟 發貨檢查：只要商品字典裡有 "item_id" 這個鑰匙，就把東西送進大腦
+					if item_info.has("item_id"):
+						DataManager.add_item_to_reserve(item_info["item_id"], 1)
+						
 					print("【商店】購買成功！扣除 ", price, " G，剩餘 ", DataManager.total_gold, " G")
 					
 				else:
+					back_sound.play()
 					# 金額不足的情況
 					print("【商店】錢不夠！商品要 ", price, " G，但你只有 ", DataManager.total_gold, " G")
 					
