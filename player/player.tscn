@@ -1,4 +1,4 @@
-[gd_scene load_steps=187 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=188 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
 [ext_resource type="Script" uid="uid://dklheqli3xyjo" path="res://player/player_heal.gd" id="16_65viv"]
+[ext_resource type="PackedScene" uid="uid://bqkyu35doaf21" path="res://NotebookUI/notebook_ui.tscn" id="22_bjvpn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65viv"]
 shader = ExtResource("2_c35mf")
@@ -1363,8 +1364,6 @@ volume_db = -14.195
 [node name="SFXHit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_rgyib")
 
-[node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]
-
 [node name="Light_Ground" type="PointLight2D" parent="."]
 position = Vector2(0, -20)
 shadow_enabled = true
@@ -1378,3 +1377,10 @@ position = Vector2(0, -20)
 range_item_cull_mask = 2
 shadow_filter = 1
 texture = SubResource("GradientTexture2D_s7qer")
+
+[node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="NotebookUI" parent="MenuLayer" instance=ExtResource("22_bjvpn")]

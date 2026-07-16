@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dgg2fnu6rjtjd"
-path="res://.godot/imported/click.wav-ad56c08ffed90f980dff41e628152a11.sample"
+uid="uid://cqjhj2v2dq7hs"
+path="res://.godot/imported/UI - buy.wav-159a147cb2c126b2accdc8ff1b9aafd8.sample"
 
 [deps]
 
-source_file="res://商店素材/click.wav"
-dest_files=["res://.godot/imported/click.wav-ad56c08ffed90f980dff41e628152a11.sample"]
+source_file="res://商店素材/UI - buy.wav"
+dest_files=["res://.godot/imported/UI - buy.wav-159a147cb2c126b2accdc8ff1b9aafd8.sample"]
 
 [params]
 

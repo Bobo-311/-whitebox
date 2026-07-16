@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jc8bkke2b617"
-path="res://.godot/imported/Royal Heart.png-78cff3f8dbc7ed5aa0ef1f9c27cfa172.ctex"
+uid="uid://qrhe3xr68o2d"
+path="res://.godot/imported/ButtonMediumBlue.png-821ef60b8cf52dad6c1375f4eb804610.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://3 Hearts - FREE Pack/3 Hearts - FREE Pack/3 Hearts/Royal Heart.png"
-dest_files=["res://.godot/imported/Royal Heart.png-78cff3f8dbc7ed5aa0ef1f9c27cfa172.ctex"]
+source_file="res://筆記本素材/ButtonMediumBlue.png"
+dest_files=["res://.godot/imported/ButtonMediumBlue.png-821ef60b8cf52dad6c1375f4eb804610.ctex"]
 
 [params]
 

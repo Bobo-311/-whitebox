@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cbpbctqmcbpxr"
+path="res://.godot/imported/UI +voice.wav-96e6f8822e16f957fd40202451c98e7f.sample"
+
+[deps]
+
+source_file="res://商店素材/UI +voice.wav"
+dest_files=["res://.godot/imported/UI +voice.wav-96e6f8822e16f957fd40202451c98e7f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://w8n532p0w0ko"
+path="res://.godot/imported/UI check voice.wav-e44201740595f40a2e7900f2b7d44b37.sample"
+
+[deps]
+
+source_file="res://商店素材/UI check voice.wav"
+dest_files=["res://.godot/imported/UI check voice.wav-e44201740595f40a2e7900f2b7d44b37.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,17 +1,30 @@
-[gd_scene load_steps=20 format=3 uid="uid://d5h0npu180rc"]
+[gd_scene load_steps=17 format=3 uid="uid://d5h0npu180rc"]
 
 [ext_resource type="Texture2D" uid="uid://4rdn63uj3yg8" path="res://RRRRRRRR/Easel.png" id="1_7av4f"]
 [ext_resource type="Script" uid="uid://vdiyp1aq7e1p" path="res://Sticker/sticker_ui.gd" id="1_wuxxh"]
 [ext_resource type="Texture2D" uid="uid://cgm1tfwgop5v8" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-bar-transparent.png" id="2_f6c2s"]
 [ext_resource type="Script" uid="uid://1tbcl7rqyg2c" path="res://Sticker/equip_slot.gd" id="4_b1cfg"]
+[ext_resource type="Texture2D" uid="uid://dl8icjxaop6it" path="res://筆記本素材/UI.png" id="6_k2eij"]
 [ext_resource type="Texture2D" uid="uid://b4u2g2iyfcgov" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/dialogue-box/dialogue-box.png" id="6_plff1"]
 [ext_resource type="Texture2D" uid="uid://bmuhvqbmlp17x" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/panels/panel-with-background.png" id="7_b1cfg"]
-[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="8_ejobl"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="9_k2eij"]
 [ext_resource type="Texture2D" uid="uid://isq0mcpxs11s" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/icons/close-icon.png" id="11_plff1"]
-[ext_resource type="Texture2D" uid="uid://dwhrk1tfq4nhc" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/buttons/backbutton.png" id="17_vvc35"]
-[ext_resource type="Texture2D" uid="uid://rj288ud22gkp" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/buttons/buy-button.png" id="18_cl020"]
-[ext_resource type="Texture2D" uid="uid://bq6magho8ii0y" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/buttons/completebutton.png" id="19_b1ty0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wuxxh"]
+paragraph_spacing = 3.0
+font = ExtResource("9_k2eij")
+font_size = 45
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_plff1"]
+paragraph_spacing = 3.0
+font = ExtResource("9_k2eij")
+font_size = 45
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1cfg"]
+atlas = ExtResource("6_k2eij")
+region = Rect2(56.975468, 66.00519, 4.0386314, 5.053894)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_15ina"]
 content_margin_left = 50.0
@@ -35,18 +48,6 @@ texture_margin_top = 8.0
 texture_margin_right = 10.0
 texture_margin_bottom = 10.0
 expand_margin_top = 40.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2kwna"]
-atlas = ExtResource("17_vvc35")
-region = Rect2(5.254818, 1.947216, 83.09473, 27.302557)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cjm2x"]
-atlas = ExtResource("18_cl020")
-region = Rect2(5.0569725, 1.947216, 83.88611, 27.500402)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ha34p"]
-atlas = ExtResource("19_b1ty0")
-region = Rect2(4.6612854, 1.947216, 84.083954, 27.302557)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wuxxh"]
 atlas = ExtResource("11_plff1")
@@ -80,27 +81,45 @@ texture = ExtResource("1_7av4f")
 expand_mode = 1
 
 [node name="MainLayout" type="HBoxContainer" parent="Easel"]
+custom_minimum_size = Vector2(950, 550)
 layout_mode = 0
 offset_left = 559.0
 offset_top = 336.0
-offset_right = 1517.0
-offset_bottom = 840.0
+offset_right = 1595.0
+offset_bottom = 924.0
 
 [node name="LeftPanel" type="VBoxContainer" parent="Easel/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
 
 [node name="MarginContainer" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = -3
 theme_override_constants/margin_top = 65
 
-[node name="GridContainer" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer"]
 layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 55
+theme_override_constants/margin_top = -2
+
+[node name="已裝備" type="Label" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "已装备"
+label_settings = SubResource("LabelSettings_wuxxh")
+
+[node name="GridContainer" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/h_separation = -65
 columns = 4
 
-[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -110,7 +129,7 @@ expand_mode = 1
 stretch_mode = 5
 script = ExtResource("4_b1cfg")
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer/TextureRect"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -119,7 +138,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+[node name="TextureRect2" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -130,7 +149,7 @@ stretch_mode = 5
 script = ExtResource("4_b1cfg")
 slot_index = 1
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer/TextureRect2"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect2"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -139,7 +158,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect3" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+[node name="TextureRect3" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -150,7 +169,7 @@ stretch_mode = 5
 script = ExtResource("4_b1cfg")
 slot_index = 2
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer/TextureRect3"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect3"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -159,7 +178,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect4" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer"]
+[node name="TextureRect4" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -170,7 +189,7 @@ stretch_mode = 5
 script = ExtResource("4_b1cfg")
 slot_index = 3
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/GridContainer/TextureRect4"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect4"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -182,22 +201,75 @@ grow_vertical = 2
 [node name="MarginContainer2" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 50
+
+[node name="UnequippedHeader" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="未裝備" type="Label" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "未装备"
+label_settings = SubResource("LabelSettings_plff1")
+
+[node name="PageDots" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Dot1" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+custom_minimum_size = Vector2(25, 10)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_b1cfg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Dot2" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+custom_minimum_size = Vector2(25, 10)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_b1cfg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Dot3" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+custom_minimum_size = Vector2(25, 10)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_b1cfg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Dot4" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+custom_minimum_size = Vector2(25, 10)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_b1cfg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MarginContainer3" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 260
 
-[node name="Page1" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2"]
+[node name="Page1" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
 layout_mode = 2
 theme_override_constants/h_separation = 38
 columns = 4
 
-[node name="Page2" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2"]
+[node name="Page2" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
 visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 38
 columns = 4
 
-[node name="Page3" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2"]
+[node name="Page3" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
+visible = false
+layout_mode = 2
+theme_override_constants/h_separation = 38
+columns = 4
+
+[node name="Page4" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
 visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 38
@@ -218,9 +290,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/RightPanel/VBoxContainer/CenterContainer"]
-custom_minimum_size = Vector2(100, 122)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("2_f6c2s")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 150)
@@ -246,30 +320,6 @@ theme_override_font_sizes/font_size = 16
 text = "文案"
 label_settings = SubResource("LabelSettings_l774l")
 
-[node name="TabButtons" type="VBoxContainer" parent="Easel"]
-layout_mode = 0
-offset_left = 504.0
-offset_top = 609.0
-offset_right = 598.0
-offset_bottom = 742.0
-theme_override_constants/separation = 20
-
-[node name="Tab1" type="TextureButton" parent="Easel/TabButtons"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture_normal = SubResource("AtlasTexture_2kwna")
-stretch_mode = 5
-
-[node name="Tab2" type="TextureButton" parent="Easel/TabButtons"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture_normal = SubResource("AtlasTexture_cjm2x")
-
-[node name="Tab3" type="TextureButton" parent="Easel/TabButtons"]
-layout_mode = 2
-size_flags_horizontal = 4
-texture_normal = SubResource("AtlasTexture_ha34p")
-
 [node name="CloseButton" type="TextureButton" parent="Easel"]
 layout_mode = 1
 anchors_preset = 1
@@ -284,28 +334,6 @@ texture_normal = SubResource("AtlasTexture_wuxxh")
 texture_hover = SubResource("AtlasTexture_wuxxh")
 ignore_texture_size = true
 stretch_mode = 5
-
-[node name="未裝備" type="Label" parent="Easel"]
-layout_mode = 0
-offset_left = 575.0
-offset_top = 513.0
-offset_right = 656.0
-offset_bottom = 540.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 16
-text = "未装备"
-label_settings = ExtResource("8_ejobl")
-
-[node name="已裝備" type="Label" parent="Easel"]
-layout_mode = 0
-offset_left = 574.0
-offset_top = 353.0
-offset_right = 655.0
-offset_bottom = 380.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 16
-text = "已装备"
-label_settings = ExtResource("8_ejobl")
 
 [connection signal="mouse_entered" from="Easel/CloseButton" to="." method="_on_close_button_mouse_entered"]
 [connection signal="mouse_exited" from="Easel/CloseButton" to="." method="_on_close_button_mouse_exited"]

@@ -8,6 +8,7 @@ extends Control
 @onready var select_sound = $SelectSound
 @onready var check_sound = $CheckSound   # 確認進入、購買成功時播放 (check)
 @onready var back_sound = $BackSound     # 退出選單、關閉商店時播放 (back)
+@onready var purchase_success_sound = $"Purchase success sound"
 
 @onready var main_menu_layout = $BottomFrame/MainMenu_Layout # 主選單容器 (Buy, Sell, Talk, Exit)
 @onready var buy_menu_layout = $BottomFrame/BuyMenu_Layout # 購買選單容器 (商品清單)
@@ -145,7 +146,7 @@ func handle_selection():
 				
 				# 去 DataManager 檢查玩家目前的總金額是否大於等於商品價格
 				if DataManager.total_gold >= price:
-					check_sound.play() 
+					purchase_success_sound.play() 
 					DataManager.total_gold -= price # 扣錢
 					# 🌟 發貨檢查：只要商品字典裡有 "item_id" 這個鑰匙，就把東西送進大腦
 					if item_info.has("item_id"):

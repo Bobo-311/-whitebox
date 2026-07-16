@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://v4f6gx7t7lh4"]
+[gd_scene load_steps=19 format=3 uid="uid://v4f6gx7t7lh4"]
 
 [ext_resource type="Script" uid="uid://cxgiaxedr5g7s" path="res://ShopUI/shop_ui.gd" id="1_6ggnr"]
 [ext_resource type="Texture2D" uid="uid://vqct6f2uj8sh" path="res://大家不為人知的祕密/草.png" id="1_pxxkw"]
@@ -8,10 +8,11 @@
 [ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="5_rqs1h"]
 [ext_resource type="Texture2D" uid="uid://ct6wcplh68p30" path="res://商店素材/游標.png" id="7_ddi8n"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="7_kddjk"]
-[ext_resource type="AudioStream" uid="uid://t0yg5yyvbisp" path="res://商店素材/done marimba select.wav" id="9_ddi8n"]
-[ext_resource type="AudioStream" uid="uid://dxgf6v3sxsj7f" path="res://商店素材/done marimba check.wav" id="10_xbj82"]
+[ext_resource type="AudioStream" uid="uid://bl46y72v8a38i" path="res://商店素材/UI select voice.wav" id="9_ddi8n"]
+[ext_resource type="AudioStream" uid="uid://w8n532p0w0ko" path="res://商店素材/UI check voice.wav" id="10_xbj82"]
 [ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/gold_ui.tscn" id="11_ccdew"]
-[ext_resource type="AudioStream" uid="uid://w3kufef42qhb" path="res://商店素材/done marimba back.wav" id="11_okugu"]
+[ext_resource type="AudioStream" uid="uid://cbcn4plhs6hj1" path="res://商店素材/UI back voice.wav" id="11_okugu"]
+[ext_resource type="AudioStream" uid="uid://cqjhj2v2dq7hs" path="res://商店素材/UI - buy.wav" id="12_xbj82"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqs1h"]
 bg_color = Color(0.00069389754, 0.00069389766, 0.0006938976, 1)
@@ -231,9 +232,16 @@ stream = ExtResource("9_ddi8n")
 
 [node name="CheckSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_xbj82")
+volume_db = 24.0
 
 [node name="BackSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_okugu")
+volume_db = 24.0
+
+[node name="Purchase success sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_xbj82")
+
+[node name="Purchase failure sound" type="AudioStreamPlayer" parent="."]
 
 [node name="GoldUI" parent="." instance=ExtResource("11_ccdew")]
 layout_mode = 1
