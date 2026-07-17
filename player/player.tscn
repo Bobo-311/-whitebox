@@ -1,4 +1,4 @@
-[gd_scene load_steps=188 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=187 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -9,7 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://bn4gy1h1qjiml" path="res://audio/玩家_攻擊_3.wav" id="6_boad6"]
 [ext_resource type="Script" uid="uid://b62eph5co61o2" path="res://player/player_hurt.gd" id="7_32hag"]
 [ext_resource type="PackedScene" uid="uid://bkatu3uq16087" path="res://Weapon/Skill_01.tscn" id="7_e7oew"]
-[ext_resource type="AudioStream" uid="uid://bylnj457ua45l" path="res://audio/玩家_攻擊_1.wav" id="7_rgyib"]
 [ext_resource type="Script" uid="uid://ct4xhpe6n0y17" path="res://StateMachine/StateMachine.gd" id="8_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://chfnojldf7nvp" path="res://Asset/Animations/Player_Die.png" id="8_yllr7"]
 [ext_resource type="Script" uid="uid://b6x886sdt3a6j" path="res://player/player_idle.gd" id="9_8t03j"]
@@ -1360,9 +1359,6 @@ script = ExtResource("5_tnfn2")
 [node name="SFXSword" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_boad6")
 volume_db = -14.195
-
-[node name="SFXHit" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_rgyib")
 
 [node name="Light_Ground" type="PointLight2D" parent="."]
 position = Vector2(0, -20)

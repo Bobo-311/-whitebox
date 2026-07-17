@@ -1,27 +1,61 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqkyu35doaf21"]
+[gd_scene load_steps=23 format=3 uid="uid://bqkyu35doaf21"]
 
 [ext_resource type="Script" uid="uid://bytd2e36i8qq8" path="res://NotebookUI/notebook_ui.gd" id="1_ls2r0"]
 [ext_resource type="Texture2D" uid="uid://qrhe3xr68o2d" path="res://筆記本素材/ButtonMediumBlue.png" id="2_54p31"]
+[ext_resource type="Texture2D" uid="uid://b8kdxtmmyjd2a" path="res://筆記本素材/ButtonLargeBlue.png" id="3_r102h"]
 [ext_resource type="Texture2D" uid="uid://sw7e73yaddyr" path="res://筆記本素材/ButtonMediumGreen.png" id="3_wrr1s"]
 [ext_resource type="Texture2D" uid="uid://cpjqnvxubyfo5" path="res://筆記本素材/ButtonMediumWhite.png" id="4_r102h"]
+[ext_resource type="Texture2D" uid="uid://cvp7vjb8m7fvp" path="res://筆記本素材/ButtonLargeGreen.png" id="5_c287t"]
 [ext_resource type="Texture2D" uid="uid://camr6ktujvcl" path="res://筆記本素材/素描本.png" id="5_hb2fw"]
 [ext_resource type="Texture2D" uid="uid://dl8icjxaop6it" path="res://筆記本素材/UI.png" id="6_c287t"]
+[ext_resource type="Texture2D" uid="uid://d0llj8eypjnrw" path="res://筆記本素材/ButtonLargeWhite.png" id="7_1yomv"]
+[ext_resource type="Texture2D" uid="uid://bmfh6vwidnu1e" path="res://大家不為人知的祕密/bobo.png" id="9_c287t"]
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="11_1yomv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1yomv"]
 atlas = ExtResource("2_54p31")
-region = Rect2(17, 3.5, 372, 122)
+region = Rect2(19.586082, 6.0416527, 366.9647, 114.24959)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0r6q"]
+atlas = ExtResource("3_r102h")
+region = Rect2(19.353535, 6.4906616, 569.6979, 114.83374)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xm4em"]
 atlas = ExtResource("3_wrr1s")
-region = Rect2(16, 5.5, 374, 118)
+region = Rect2(19.177597, 5.5, 368.20654, 114.656944)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3nll"]
+atlas = ExtResource("5_c287t")
+region = Rect2(19.47927, 6.2184906, 571.4302, 115.21678)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kr2ld"]
 atlas = ExtResource("4_r102h")
-region = Rect2(17, 2.5, 373, 123)
+region = Rect2(19.305893, 5.3802643, 368.5952, 115.85435)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drcrm"]
+atlas = ExtResource("7_1yomv")
+region = Rect2(20.22828, 7.162575, 568.4175, 113.62867)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n5tpg"]
 atlas = ExtResource("6_c287t")
-region = Rect2(48.999672, 50.97895, 14.075851, 11.032684)
+region = Rect2(32.99369, 51.004642, 14.030045, 11.013588)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hm5u"]
+atlas = ExtResource("6_c287t")
+region = Rect2(48.973618, 51.00575, 14.055721, 11.018032)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm7s5"]
+atlas = ExtResource("6_c287t")
+region = Rect2(16.992638, 50.961227, 14.070692, 11.022537)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epbrr"]
+atlas = ExtResource("6_c287t")
+region = Rect2(0.98609686, 50.976425, 14.009571, 11.043724)
+
+[sub_resource type="LabelSettings" id="LabelSettings_twgbr"]
+font = ExtResource("11_1yomv")
+font_size = 34
+font_color = Color(0, 0, 0, 1)
 
 [node name="NotebookUI" type="Control"]
 layout_mode = 3
@@ -32,8 +66,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ls2r0")
 
-[node name="TabButtons" type="VBoxContainer" parent="."]
-layout_mode = 0
+[node name="TabButtons" type="Control" parent="."]
+anchors_preset = 0
 offset_left = 44.0
 offset_top = 229.0
 offset_right = 164.0
@@ -41,22 +75,33 @@ offset_bottom = 357.0
 
 [node name="Btn_Equip" type="TextureButton" parent="TabButtons"]
 custom_minimum_size = Vector2(120, 40)
-layout_mode = 2
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 40.0
 texture_normal = SubResource("AtlasTexture_1yomv")
+texture_disabled = SubResource("AtlasTexture_f0r6q")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Btn_Sticker" type="TextureButton" parent="TabButtons"]
 custom_minimum_size = Vector2(120, 40)
-layout_mode = 2
+layout_mode = 0
+offset_top = 44.0
+offset_right = 120.0
+offset_bottom = 84.0
 texture_normal = SubResource("AtlasTexture_xm4em")
+texture_disabled = SubResource("AtlasTexture_i3nll")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Btn_Map" type="TextureButton" parent="TabButtons"]
 custom_minimum_size = Vector2(120, 40)
-layout_mode = 2
+layout_mode = 0
+offset_top = 88.0
+offset_right = 120.0
+offset_bottom = 128.0
 texture_normal = SubResource("AtlasTexture_kr2ld")
+texture_disabled = SubResource("AtlasTexture_drcrm")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -75,6 +120,7 @@ grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.5729063
 scale = Vector2(1, -1)
+mouse_filter = 2
 texture = ExtResource("5_hb2fw")
 expand_mode = 1
 
@@ -89,44 +135,94 @@ offset_left = 0.015991211
 offset_top = -0.15200806
 offset_right = 0.095947266
 offset_bottom = -10.0
+mouse_filter = 2
 
-[node name="HBoxContainer" type="GridContainer" parent="EquipPage"]
+[node name="MainLayout" type="HBoxContainer" parent="EquipPage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Portrait_Sandbox" type="Control" parent="EquipPage/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Portrait" type="TextureRect" parent="EquipPage/MainLayout/Portrait_Sandbox"]
 layout_mode = 0
-offset_left = 318.0
-offset_top = 116.0
-offset_right = 698.0
-offset_bottom = 448.0
-theme_override_constants/h_separation = 65
-theme_override_constants/v_separation = 70
+offset_left = -44.0
+offset_top = -186.0
+offset_right = 420.0
+offset_bottom = 719.0
+size_flags_horizontal = 3
+texture = ExtResource("9_c287t")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Center_Slots" type="CenterContainer" parent="EquipPage/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SlotsGrid" type="GridContainer" parent="EquipPage/MainLayout/Center_Slots"]
+layout_mode = 2
+theme_override_constants/h_separation = 35
+theme_override_constants/v_separation = 35
 columns = 2
 
-[node name="Slot_1" type="TextureRect" parent="EquipPage/HBoxContainer"]
-custom_minimum_size = Vector2(120, 120)
+[node name="Slot_1" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
-texture = SubResource("AtlasTexture_n5tpg")
-expand_mode = 1
+texture_normal = SubResource("AtlasTexture_n5tpg")
+ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Slot_2" type="TextureRect" parent="EquipPage/HBoxContainer"]
-custom_minimum_size = Vector2(120, 120)
+[node name="Slot_2" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
-texture = SubResource("AtlasTexture_n5tpg")
-expand_mode = 1
+texture_normal = SubResource("AtlasTexture_1hm5u")
+ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Slot_3" type="TextureRect" parent="EquipPage/HBoxContainer"]
-custom_minimum_size = Vector2(120, 120)
+[node name="Slot_3" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
-texture = SubResource("AtlasTexture_n5tpg")
-expand_mode = 1
+texture_normal = SubResource("AtlasTexture_tm7s5")
+ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Slot_4" type="TextureRect" parent="EquipPage/HBoxContainer"]
-custom_minimum_size = Vector2(120, 120)
+[node name="Slot_4" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
-texture = SubResource("AtlasTexture_n5tpg")
-expand_mode = 1
+texture_normal = SubResource("AtlasTexture_epbrr")
+ignore_texture_size = true
 stretch_mode = 5
+
+[node name="Right_Info" type="VBoxContainer" parent="EquipPage/MainLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="Spacer" type="Control" parent="EquipPage/MainLayout/Right_Info"]
+custom_minimum_size = Vector2(70, 80)
+layout_mode = 2
+
+[node name="ItemName" type="Label" parent="EquipPage/MainLayout/Right_Info"]
+layout_mode = 2
+text = "阿巴阿巴"
+label_settings = SubResource("LabelSettings_twgbr")
+
+[node name="Desc_Spacer" type="Control" parent="EquipPage/MainLayout/Right_Info"]
+custom_minimum_size = Vector2(30, 40)
+layout_mode = 2
+
+[node name="ItemDesc" type="RichTextLabel" parent="EquipPage/MainLayout/Right_Info"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("11_1yomv")
+theme_override_font_sizes/normal_font_size = 34
+text = "机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩"
 
 [node name="StickerPage" type="Control" parent="."]
 custom_minimum_size = Vector2(120, 40)
@@ -135,6 +231,7 @@ offset_left = 44.0
 offset_top = 273.0
 offset_right = 164.0
 offset_bottom = 313.0
+mouse_filter = 2
 
 [node name="MapPage" type="Control" parent="."]
 custom_minimum_size = Vector2(120, 40)
@@ -143,3 +240,4 @@ offset_left = 45.0
 offset_top = 317.0
 offset_right = 165.0
 offset_bottom = 357.0
+mouse_filter = 2

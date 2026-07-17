@@ -116,6 +116,14 @@ func _input(event):
 	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
 	if event.is_action_pressed("notebook"):
 		is_reading_book = !is_reading_book 
+		if is_reading_book:
+			# 打開書時：煞車、並強制關閉狀態機(無法攻擊/翻滾)
+			velocity = Vector2.ZERO 
+			state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
+		else:
+			# 關上書時：重新啟動狀態機
+			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
+			
 		if notebook_ui:
 			notebook_ui.toggle_notebook()
 
@@ -240,6 +248,7 @@ func handle_hurt():
 	# [🌟 本次新增] 被打斷機制：看書時如果遭到攻擊，強制關閉筆記本並拿回控制權
 	if is_reading_book:
 		is_reading_book = false
+		state_machine.process_mode = Node.PROCESS_MODE_INHERIT # 🌟 被打時強制喚醒狀態機！
 		if notebook_ui:
 			notebook_ui.close_notebook()
 		print("【戰鬥提示】看書時遭到攻擊，筆記本已強制關閉！")

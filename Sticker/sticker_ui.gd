@@ -9,22 +9,21 @@ const STICKER_ITEM = preload("res://StickerItem/sticker_item.tscn")
 # ==========================================
 # 節點抓取區 (@onready 確保畫面載入完畢才抓取)
 # ==========================================
-# ⚠️ 注意：從你的最新截圖看，CloseButton 被移到了最外層，所以路徑是 $CloseButton
+# 關閉按鈕 (右上角的叉叉，已經確認在最外層)
 @onready var close_button: TextureButton = $Easel/CloseButton
 
 
-# 抓取 4 個用來控制翻頁的小點點
-@onready var dot1: TextureButton = $Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots/Dot1
-@onready var dot2: TextureButton = $Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots/Dot2
-@onready var dot3: TextureButton = $Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots/Dot3
-@onready var dot4: TextureButton = $Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots/Dot4
+# 抓取 4 個用來控制翻頁的小點點 (已更新為最新完美命名)
+@onready var dot1: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot1
+@onready var dot2: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot2
+@onready var dot3: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot3
+@onready var dot4: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot4
 
-# 抓取裝載貼紙的 4 個頁面容器
-# 💡 溫馨提醒：我看截圖裡目前只有 Page1~3，記得去 MarginContainer2 底下 Ctrl+D 複製出 Page4 喔！
-@onready var page1: GridContainer = $Easel/MainLayout/LeftPanel/MarginContainer3/Page1
-@onready var page2: GridContainer = $Easel/MainLayout/LeftPanel/MarginContainer3/Page2
-@onready var page3: GridContainer = $Easel/MainLayout/LeftPanel/MarginContainer3/Page3
-@onready var page4: GridContainer = $Easel/MainLayout/LeftPanel/MarginContainer3/Page4
+# 抓取裝載貼紙的 4 個頁面容器 (已更新為最新完美命名)
+@onready var page1: GridContainer = $Easel/MainLayout/LeftPanel/Margin_Pages/Page1
+@onready var page2: GridContainer = $Easel/MainLayout/LeftPanel/Margin_Pages/Page2
+@onready var page3: GridContainer = $Easel/MainLayout/LeftPanel/Margin_Pages/Page3
+@onready var page4: GridContainer = $Easel/MainLayout/LeftPanel/Margin_Pages/Page4
 
 # ==========================================
 # 大腦記憶區 (記錄玩家目前的瀏覽狀態)

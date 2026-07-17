@@ -93,33 +93,33 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 
-[node name="MarginContainer" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
+[node name="Margin_Equipped" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = -3
 theme_override_constants/margin_top = 65
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer"]
+[node name="VBox_Equipped" type="VBoxContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer"]
+[node name="Margin_EquippedTitle" type="MarginContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped"]
 layout_mode = 2
 theme_override_constants/margin_left = 55
 theme_override_constants/margin_top = -2
 
-[node name="已裝備" type="Label" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="已裝備" type="Label" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Margin_EquippedTitle"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 text = "已装备"
 label_settings = SubResource("LabelSettings_wuxxh")
 
-[node name="GridContainer" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer"]
+[node name="Grid_EquippedSlots" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = -65
 columns = 4
 
-[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Slot_1" type="TextureRect" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -129,7 +129,7 @@ expand_mode = 1
 stretch_mode = 5
 script = ExtResource("4_b1cfg")
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots/Slot_1"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -138,7 +138,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Slot_2" type="TextureRect" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -149,7 +149,7 @@ stretch_mode = 5
 script = ExtResource("4_b1cfg")
 slot_index = 1
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect2"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots/Slot_2"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -158,7 +158,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect3" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Slot_3" type="TextureRect" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -169,7 +169,7 @@ stretch_mode = 5
 script = ExtResource("4_b1cfg")
 slot_index = 2
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect3"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots/Slot_3"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -178,7 +178,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect4" type="TextureRect" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer"]
+[node name="Slot_4" type="TextureRect" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots"]
 custom_minimum_size = Vector2(90, 100)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -189,7 +189,7 @@ stretch_mode = 5
 script = ExtResource("4_b1cfg")
 slot_index = 3
 
-[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer/VBoxContainer/GridContainer/TextureRect4"]
+[node name="Holder" type="CenterContainer" parent="Easel/MainLayout/LeftPanel/Margin_Equipped/VBox_Equipped/Grid_EquippedSlots/Slot_4"]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -198,78 +198,78 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
+[node name="Margin_UnequippedTitle" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 
-[node name="UnequippedHeader" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2"]
+[node name="HBox_UnequippedTitle" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="未裝備" type="Label" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader"]
+[node name="未裝備" type="Label" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 text = "未装备"
 label_settings = SubResource("LabelSettings_plff1")
 
-[node name="PageDots" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader"]
+[node name="HBox_PageDots" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Dot1" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+[node name="Dot1" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Dot2" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+[node name="Dot2" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Dot3" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+[node name="Dot3" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Dot4" type="TextureButton" parent="Easel/MainLayout/LeftPanel/MarginContainer2/UnequippedHeader/PageDots"]
+[node name="Dot4" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
 custom_minimum_size = Vector2(25, 10)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="MarginContainer3" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
+[node name="Margin_Pages" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 60
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 260
 
-[node name="Page1" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
+[node name="Page1" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 layout_mode = 2
 theme_override_constants/h_separation = 38
 columns = 4
 
-[node name="Page2" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
+[node name="Page2" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 38
 columns = 4
 
-[node name="Page3" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
+[node name="Page3" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 38
 columns = 4
 
-[node name="Page4" type="GridContainer" parent="Easel/MainLayout/LeftPanel/MarginContainer3"]
+[node name="Page4" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 visible = false
 layout_mode = 2
 theme_override_constants/h_separation = 38
@@ -281,39 +281,39 @@ size_flags_horizontal = 3
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Easel/MainLayout/RightPanel"]
+[node name="VBox_Info" type="VBoxContainer" parent="Easel/MainLayout/RightPanel"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="CenterContainer" type="CenterContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
+[node name="Center_Preview" type="CenterContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="TextureRect" type="TextureRect" parent="Easel/MainLayout/RightPanel/VBoxContainer/CenterContainer"]
+[node name="Img_Preview" type="TextureRect" parent="Easel/MainLayout/RightPanel/VBox_Info/Center_Preview"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 texture = ExtResource("2_f6c2s")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
+[node name="Panel_Title" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_15ina")
 
-[node name="能力说明" type="Label" parent="Easel/MainLayout/RightPanel/VBoxContainer/PanelContainer"]
+[node name="能力说明" type="Label" parent="Easel/MainLayout/RightPanel/VBox_Info/Panel_Title"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
 text = "能力说明"
 label_settings = SubResource("LabelSettings_l774l")
 
-[node name="PanelContainer2" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBoxContainer"]
+[node name="Panel_Desc" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_7glk6")
 
-[node name="文案" type="Label" parent="Easel/MainLayout/RightPanel/VBoxContainer/PanelContainer2"]
+[node name="文案" type="Label" parent="Easel/MainLayout/RightPanel/VBox_Info/Panel_Desc"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
@@ -334,6 +334,7 @@ texture_normal = SubResource("AtlasTexture_wuxxh")
 texture_hover = SubResource("AtlasTexture_wuxxh")
 ignore_texture_size = true
 stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
 [connection signal="mouse_entered" from="Easel/CloseButton" to="." method="_on_close_button_mouse_entered"]
 [connection signal="mouse_exited" from="Easel/CloseButton" to="." method="_on_close_button_mouse_exited"]
