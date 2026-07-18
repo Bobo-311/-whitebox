@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bqkyu35doaf21"]
+[gd_scene load_steps=24 format=3 uid="uid://bqkyu35doaf21"]
 
 [ext_resource type="Script" uid="uid://bytd2e36i8qq8" path="res://NotebookUI/notebook_ui.gd" id="1_ls2r0"]
 [ext_resource type="Texture2D" uid="uid://qrhe3xr68o2d" path="res://筆記本素材/ButtonMediumBlue.png" id="2_54p31"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://camr6ktujvcl" path="res://筆記本素材/素描本.png" id="5_hb2fw"]
 [ext_resource type="Texture2D" uid="uid://dl8icjxaop6it" path="res://筆記本素材/UI.png" id="6_c287t"]
 [ext_resource type="Texture2D" uid="uid://d0llj8eypjnrw" path="res://筆記本素材/ButtonLargeWhite.png" id="7_1yomv"]
+[ext_resource type="Script" uid="uid://ct3hnt5payij4" path="res://NotebookUI/equip_page.gd" id="9_1yomv"]
 [ext_resource type="Texture2D" uid="uid://bmfh6vwidnu1e" path="res://大家不為人知的祕密/bobo.png" id="9_c287t"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="11_1yomv"]
 
@@ -72,6 +73,7 @@ offset_left = 44.0
 offset_top = 229.0
 offset_right = 164.0
 offset_bottom = 357.0
+mouse_filter = 2
 
 [node name="Btn_Equip" type="TextureButton" parent="TabButtons"]
 custom_minimum_size = Vector2(120, 40)
@@ -136,87 +138,111 @@ offset_top = -0.15200806
 offset_right = 0.095947266
 offset_bottom = -10.0
 mouse_filter = 2
+script = ExtResource("9_1yomv")
 
-[node name="MainLayout" type="HBoxContainer" parent="EquipPage"]
+[node name="MarginContainer" type="MarginContainer" parent="EquipPage"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 60
+theme_override_constants/margin_bottom = 80
 
-[node name="Portrait_Sandbox" type="Control" parent="EquipPage/MainLayout"]
+[node name="MainLayout" type="HBoxContainer" parent="EquipPage/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Portrait_Sandbox" type="Control" parent="EquipPage/MarginContainer/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 
-[node name="Portrait" type="TextureRect" parent="EquipPage/MainLayout/Portrait_Sandbox"]
+[node name="Portrait" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Portrait_Sandbox"]
 layout_mode = 0
-offset_left = -44.0
-offset_top = -186.0
-offset_right = 420.0
-offset_bottom = 719.0
+offset_left = -103.0
+offset_top = -265.0
+offset_right = 361.0
+offset_bottom = 640.0
 size_flags_horizontal = 3
+mouse_filter = 2
 texture = ExtResource("9_c287t")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Center_Slots" type="CenterContainer" parent="EquipPage/MainLayout"]
+[node name="Center_Stage" type="MarginContainer" parent="EquipPage/MarginContainer/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SlotsGrid" type="GridContainer" parent="EquipPage/MainLayout/Center_Slots"]
+[node name="Center_Slots" type="CenterContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SlotsGrid" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
 layout_mode = 2
 theme_override_constants/h_separation = 35
 theme_override_constants/v_separation = 35
 columns = 2
 
-[node name="Slot_1" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+[node name="Slot_1" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
 custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_n5tpg")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Slot_2" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+[node name="Slot_2" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
 custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_1hm5u")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Slot_3" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+[node name="Slot_3" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
 custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_tm7s5")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Slot_4" type="TextureButton" parent="EquipPage/MainLayout/Center_Slots/SlotsGrid"]
+[node name="Slot_4" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
 custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_epbrr")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Right_Info" type="VBoxContainer" parent="EquipPage/MainLayout"]
+[node name="ItemList_UI" type="ScrollContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage"]
+visible = false
+layout_mode = 2
+
+[node name="ListContent" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/ItemList_UI"]
+layout_mode = 2
+
+[node name="Right_Info" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/separation = 20
 
-[node name="Spacer" type="Control" parent="EquipPage/MainLayout/Right_Info"]
+[node name="Spacer" type="Control" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
 custom_minimum_size = Vector2(70, 80)
 layout_mode = 2
 
-[node name="ItemName" type="Label" parent="EquipPage/MainLayout/Right_Info"]
+[node name="ItemName" type="Label" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
 layout_mode = 2
 text = "阿巴阿巴"
 label_settings = SubResource("LabelSettings_twgbr")
 
-[node name="Desc_Spacer" type="Control" parent="EquipPage/MainLayout/Right_Info"]
+[node name="Desc_Spacer" type="Control" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
 custom_minimum_size = Vector2(30, 40)
 layout_mode = 2
 
-[node name="ItemDesc" type="RichTextLabel" parent="EquipPage/MainLayout/Right_Info"]
+[node name="ItemDesc" type="RichTextLabel" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
@@ -241,3 +267,8 @@ offset_top = 317.0
 offset_right = 165.0
 offset_bottom = 357.0
 mouse_filter = 2
+
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_1" to="EquipPage" method="_on_slot_1_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_2" to="EquipPage" method="_on_slot_2_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_3" to="EquipPage" method="_on_slot_3_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_4" to="EquipPage" method="_on_slot_4_pressed"]

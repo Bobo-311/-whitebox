@@ -480,7 +480,6 @@ y_sort_enabled = true
 script = ExtResource("1_scycs")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -493,7 +492,6 @@ grow_vertical = 2
 color = Color(1, 0.5476976, 0.9307063, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0, 0, 0, 0.7137255)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
