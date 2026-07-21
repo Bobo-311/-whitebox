@@ -100,8 +100,10 @@ var owned_stickers: Array[String] = [
 const ITEM_DB = {
 	"potion_gugu": {
 		"name": "咕咕嘎嘎药水",
-		"max_carry": 2, # 身上最多只能帶 2 罐
-		"description": "不知道是什么，但听起来很好吃。\n恢复 20 HP"
+		"max_carry": 2, 
+		"description": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
+		# 🔽🔽🔽 這行一定要加，路徑換成你實際藥水圖片的路徑 🔽🔽🔽
+		"texture_path": "res://FreePixelSurvivalItemsPack/Items/99.png" 
 	}
 }
 

@@ -33,6 +33,7 @@ var is_dashing: bool = false                # 記錄玩家現在是否正在衝�
 
 # [🌟 本次新增] 素描本系統狀態變數
 var is_reading_book: bool = false           # 記錄玩家是否正在看筆記本
+var opened_from_savepoint: bool = false # 記錄筆記本是不是從存檔點捷徑打開的
 
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
@@ -116,21 +117,35 @@ func _input(event):
 	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
 	if event.is_action_pressed("notebook"):
 		is_reading_book = !is_reading_book 
+		
 		if is_reading_book:
 			# 打開書時：煞車、並強制關閉狀態機(無法攻擊/翻滾)
 			velocity = Vector2.ZERO 
 			state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
+			
+			if notebook_ui:
+				notebook_ui.toggle_notebook(false) # 正常打開（有動畫）
 		else:
 			# 關上書時：重新啟動狀態機
 			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 			
-		if notebook_ui:
-			notebook_ui.toggle_notebook()
+			if notebook_ui:
+				# 🌟 核心判定：如果剛才是從存檔點捷徑進來的，這次就「瞬間關閉」
+				if opened_from_savepoint:
+					notebook_ui.toggle_notebook(true) # 瞬間關閉（無動畫）
+					opened_from_savepoint = false # 關完立刻重置，防呆！
+				else:
+					notebook_ui.toggle_notebook(false) # 正常關閉（有動畫）
 
 	# 測試用外掛：按下指定按鍵直接加 100 元
 	if event.is_action_pressed("cheater") and DataManager: 
 		DataManager.total_gold += 100
 		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
+		
+	# 【全新測試外掛：按鍵盤 P 鍵，直接進貨一罐藥水】
+	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
+		DataManager.add_item_to_reserve("potion_gugu", 1)
+		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
 # 物理與邏輯更新 (每幀執行)

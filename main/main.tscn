@@ -39,6 +39,9 @@ animations = [{
 y_sort_enabled = true
 script = ExtResource("1_67ri8")
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 0.7137255)
+
 [node name="y受特" type="Node2D" parent="."]
 y_sort_enabled = true
 position = Vector2(1162.207, 672)

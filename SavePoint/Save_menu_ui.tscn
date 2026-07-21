@@ -1,11 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://h8nwgmrch0w8"]
+[gd_scene load_steps=9 format=3 uid="uid://h8nwgmrch0w8"]
 
 [ext_resource type="Script" uid="uid://5ospmvwfvudu" path="res://SavePoint/save_menu_ui.gd" id="1_hol3n"]
 [ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://雜/tilemap_packed.png" id="2_4ioms"]
 [ext_resource type="Texture2D" uid="uid://4rdn63uj3yg8" path="res://RRRRRRRR/Easel.png" id="2_4v6k8"]
 [ext_resource type="PackedScene" uid="uid://d5h0npu180rc" path="res://Sticker/sticker_ui.tscn" id="2_g31nq"]
-[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="3_4v6k8"]
+[ext_resource type="PackedScene" uid="uid://d2txn617cs14e" path="res://portal/portal_menu.tscn" id="3_4v6k8"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="4_g31nq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ioms"]
+paragraph_spacing = 3.0
+font = ExtResource("4_g31nq")
+font_size = 27
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5x6x8"]
 texture = ExtResource("2_4ioms")
@@ -19,6 +24,7 @@ region_rect = Rect2(111.9178, 66.01921, 48.224716, 14.112076)
 process_mode = 3
 script = ExtResource("1_hol3n")
 sticker_ui_scene = ExtResource("2_g31nq")
+portal_menu_scene = ExtResource("3_4v6k8")
 
 [node name="BackgroundDim" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -74,7 +80,7 @@ offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "钟塔"
-label_settings = ExtResource("3_4v6k8")
+label_settings = SubResource("LabelSettings_4ioms")
 
 [node name="save" type="Button" parent="BackgroundDim"]
 custom_minimum_size = Vector2(200, 60)
@@ -84,10 +90,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 94.0
-offset_top = -182.0
-offset_right = 294.0
-offset_bottom = -122.0
+offset_left = 78.0
+offset_top = -230.0
+offset_right = 278.0
+offset_bottom = -170.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
@@ -103,10 +109,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -257.0
-offset_top = -15.0
-offset_right = -57.0
-offset_bottom = 45.0
+offset_left = -416.0
+offset_top = 48.0
+offset_right = -216.0
+offset_bottom = 108.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
@@ -122,10 +128,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = 142.0
-offset_right = 136.0
-offset_bottom = 202.0
+offset_left = -138.0
+offset_top = 161.0
+offset_right = 62.0
+offset_bottom = 221.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
@@ -152,6 +158,28 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
 text = "出发"
 
+[node name="teleport" type="Button" parent="BackgroundDim"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -47.0
+offset_right = 100.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_g31nq")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
+text = "传送
+"
+
 [connection signal="pressed" from="BackgroundDim/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="BackgroundDim/inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="BackgroundDim/sticker" to="." method="_on_sticker_pressed"]
 [connection signal="pressed" from="BackgroundDim/go" to="." method="_on_go_pressed"]
+[connection signal="pressed" from="BackgroundDim/teleport" to="." method="_on_teleport_pressed"]

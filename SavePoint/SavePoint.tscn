@@ -9,13 +9,13 @@
 radius = 127.997475
 height = 255.99495
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_85d4v"]
-radius = 21.0
-height = 58.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vi5gy"]
+radius = 38.051285
+height = 86.01935
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u6if8"]
 cull_mode = 2
-polygon = PackedVector2Array(0, 2, 12, 2, 24, 10, 28, 22, 25, 35, 13, 44, 0, 44, -14, 44, -24, 38, -30, 27, -29, 15, -21, 5, -10, 2)
+polygon = PackedVector2Array(-4, -39, 15, -37, 31, -25, 38, -7, 37, 16, 30, 33, 13, 44, -1, 46, -14, 44, -24, 38, -34, 26, -38, 8, -37, -12, -30, -25, -20, -34)
 
 [node name="SavePoint" type="Area2D"]
 collision_layer = 0
@@ -42,9 +42,9 @@ region_rect = Rect2(324, 35, 13, 14)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="SolidShape" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-1, 23)
-rotation = 1.5707964
-shape = SubResource("CapsuleShape2D_85d4v")
+position = Vector2(2.842171e-14, 2.9999998)
+rotation = 3.1553063
+shape = SubResource("CapsuleShape2D_vi5gy")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_u6if8")
