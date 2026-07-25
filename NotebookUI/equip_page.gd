@@ -1,204 +1,218 @@
 extends Control
 
-# === 1. 抓取舞台上的兩個演員 ===
+# ==========================================
+# 節點抓取區：將場景樹中的 UI 元件全部綁定到腳本變數
+# ==========================================
 @onready var center_slots = $MarginContainer/MainLayout/Center_Stage/Center_Slots
-@onready var item_list_ui = $MarginContainer/MainLayout/Center_Stage/ItemList_UI
+@onready var item_slots_grid = $MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid
+@onready var sticker_slots_grid = $MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid
+@onready var skill_slots_grid = $MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid
 
-# 抓取清單的容器 (確保等下按鈕生在這裡面)
+@onready var item_list_ui = $MarginContainer/MainLayout/Center_Stage/ItemList_UI
 @onready var list_content = $MarginContainer/MainLayout/Center_Stage/ItemList_UI/ListContent
 
-# === 抓取右側資訊欄的節點 ===
-@onready var info_name_label = $MarginContainer/MainLayout/Right_Info/ItemName
-@onready var info_desc_label = $MarginContainer/MainLayout/Right_Info/ItemDesc
+# 右側資訊欄節點 (名稱、描述、故事)
+@onready var info_name_label = $MarginContainer/MainLayout/Right_Panel/InfoTextContainer/ItemName
+@onready var info_desc_label = $MarginContainer/MainLayout/Right_Panel/InfoTextContainer/ItemDesc
+@onready var info_story_label = $MarginContainer/MainLayout/Right_Panel/InfoTextContainer/ItemStory
 
 # ==========================================
-# 裝備狀態帳本 (記錄 1~4 格目前裝了什麼道具)
+# 系統狀態與防呆記憶變數
 # ==========================================
+# 記錄 5 個道具格目前裝了哪個道具 ID (預設都是空的 null)
 var equipped_items = {
-	1: null,
-	2: null,
-	3: null,
-	4: null
+	1: null, 2: null, 3: null, 4: null, 5: null
 }
 
+# 防呆大腦：記錄目前選中的是哪一種類型 ("item", "sticker", "skill")
+var current_selected_type: String = ""
+# 防呆大腦：記錄目前選中該類型的第幾個格子 (1~5) (-1 代表目前沒選中任何格子)
+var current_selected_index: int = -1
 
-# 用來記錄玩家現在點的是第幾個裝備格 (-1 代表還沒選)
-var current_slot_index = -1
-
-func _ready():
-	# 遊戲一打開這頁時，預設畫面是「顯示裝備格、隱藏清單」
-	close_item_list()
-	
-	setup_slot_effects()
-# === 4. 監聽玩家的鍵盤輸入 (只攔截 TAB 鍵) ===
-func _input(event):
-	# 確保只有在「道具清單打開」的時候，才進行按鍵攔截
-	if item_list_ui.visible:
-		
-		# 判斷玩家是否按下了 TAB 鍵 (你的輸入動作名稱 "notebook")
-		if event.is_action_pressed("notebook"):
-			
-			# 1. 執行退回裝備格的動作
-			close_item_list() 
-			
-			# 2. 【關鍵防呆機制】把這個 TAB 鍵的訊號「吃掉」！
-			# 這樣外層的玩家/主系統就不會收到 TAB，也不會因為按了 TAB 而把整本筆記本收起來。
-			get_viewport().set_input_as_handled()
+# 記錄目前在「道具清單」裡被點擊預覽的是哪個道具 ID
+var current_list_selected_item: String = ""
 
 # ==========================================
-# 生成道具清單的功能 (純圖示網格版)
+# 遊戲初始化設定
+# ==========================================
+func _ready():
+	# 遊戲一開始預設關閉道具清單，只顯示左側的 5-4-3 裝備格子
+	close_item_list()
+	# 自動呼叫工廠函式，把 12 個格子的點擊訊號全部自動綁定好，不用手動拉線
+	setup_all_slots()
+
+# 鍵盤監聽：當道具清單打開時，按下 Tab 鍵或 ESC 鍵可以退回裝備格
+func _input(event):
+	if item_list_ui.visible:
+		if event.is_action_pressed("notebook") or event.is_action_pressed("ui_cancel"):
+			close_item_list()
+			get_viewport().set_input_as_handled() # 攔截事件，防止背後的主選單跟著關閉
+
+# ==========================================
+# 自動綁定 12 個格子的點擊與滑鼠互動特效
+# ==========================================
+func setup_all_slots():
+	# 1. 自動綁定道具格 (共 5 格)
+	for i in range(1, 6):
+		var slot = item_slots_grid.get_node_or_null("Slot_" + str(i))
+		if slot:
+			slot.pressed.connect(func(): on_slot_clicked("item", i))
+			add_hover_effect(slot)
+			
+	# 2. 自動綁定貼紙格 (共 4 格)
+	for i in range(1, 5):
+		var slot = sticker_slots_grid.get_node_or_null("StickerSlot_" + str(i))
+		if slot:
+			slot.pressed.connect(func(): on_slot_clicked("sticker", i))
+			add_hover_effect(slot)
+			
+	# 3. 自動綁定招式格 (共 3 格)
+	for i in range(1, 4):
+		var slot = skill_slots_grid.get_node_or_null("SkillSlot_" + str(i))
+		if slot:
+			slot.pressed.connect(func(): on_slot_clicked("skill", i))
+			add_hover_effect(slot)
+
+# 滑鼠懸停與點擊時的視覺回饋特效 (變亮或變暗)
+func add_hover_effect(slot):
+	slot.mouse_entered.connect(func(): slot.modulate = Color(1.2, 1.2, 1.2))
+	slot.mouse_exited.connect(func(): slot.modulate = Color(1.0, 1.0, 1.0))
+	slot.button_down.connect(func(): slot.modulate = Color(0.7, 0.7, 0.7))
+	slot.button_up.connect(func(): slot.modulate = Color(1.2, 1.2, 1.2))
+
+# ==========================================
+# 核心防呆邏輯：點擊任意裝備格子時的判定
+# ==========================================
+func on_slot_clicked(slot_type: String, index: int):
+	# 🔴 隔離貼紙與技能格子：目前只做純預覽，絕對不會開啟道具清單
+	if slot_type == "sticker" or slot_type == "skill":
+		current_selected_type = slot_type
+		current_selected_index = index
+		clear_info_panel()
+		info_name_label.text = "尚未實裝"
+		info_desc_label.text = "此欄位目前僅供預覽。"
+		return
+
+	# 🟢 道具格子專屬的兩階段邏輯：
+	if slot_type == "item":
+		# 判定 A (第二下)：如果點擊的格子跟「剛才記憶中的格子」完全相同 -> 打開道具清單準備換裝備
+		if current_selected_type == slot_type and current_selected_index == index:
+			open_item_list(slot_type, index)
+		# 判定 B (第一下)：如果點的是不同的新格子 -> 僅更新右側資訊面板預覽，不開清單
+		else:
+			current_selected_type = slot_type 
+			current_selected_index = index    
+			show_equipped_item_info(slot_type, index)
+
+# 更新右側面板資訊 (會同時處理名稱、說明、以及故事的顯示與隱藏)
+func show_equipped_item_info(slot_type: String, index: int):
+	clear_info_panel() # 先把舊資料洗白，防止殘留
+	
+	if slot_type == "item":
+		var item_id = equipped_items[index]
+		if item_id and DataManager.ITEM_DB.has(item_id):
+			var data = DataManager.ITEM_DB[item_id]
+			info_name_label.text = data["name"]
+			if data.has("description"):
+				info_desc_label.text = data["description"]
+			# 如果有故事，填入故事並確保故事欄位是顯示狀態
+			if data.has("story"):
+				info_story_label.text = data["story"]
+				info_story_label.show()
+		else:
+			# 如果格子裡是空的
+			info_name_label.text = "空欄位"
+			info_desc_label.text = "再點擊一下以選擇道具。"
+
+# 清空右側面板內容的專用函式
+func clear_info_panel():
+	if info_name_label: info_name_label.text = ""
+	if info_desc_label: info_desc_label.text = ""
+	if info_story_label: 
+		info_story_label.text = ""
+		info_story_label.show()
+
+# ==========================================
+# 畫面切換控制 (裝備欄面 <-> 道具清單頁面)
+# ==========================================
+func open_item_list(slot_type: String, index: int):
+	refresh_inventory_ui() # 重新生成隻狼風格的道具清單
+	center_slots.hide()    # 隱藏左側的 5-4-3 裝備格子
+	item_list_ui.show()    # 顯示左側的道具清單容器
+	
+	# 打開清單時，預設隱藏故事欄位，並給予操作提示
+	if info_story_label:
+		info_story_label.hide()
+	info_name_label.text = "選擇裝備"
+	info_desc_label.text = "請從左側選擇要裝備的道具。"
+	current_list_selected_item = "" # 清空清單內的選取記憶
+
+func close_item_list():
+	item_list_ui.hide()    # 隱藏左側道具清單
+	center_slots.show()    # 顯示左側裝備格子
+	
+	# 退回裝備格時，重新顯示剛剛選中那一格的資訊
+	show_equipped_item_info(current_selected_type, current_selected_index)
+	
+	# 強制讓系統失憶，這樣下次點擊裝備格時，才會重新被判定為「第一下單擊預覽」
+	current_selected_type = ""
+	current_selected_index = -1
+	current_list_selected_item = ""
+
+# ==========================================
+# 生成隻狼風格道具清單 (點第一下預覽資訊，點第二下確認裝備)
 # ==========================================
 func refresh_inventory_ui():
-	
-	# 會抓出網格裡面現在有幾個按鈕。
-	# 因為我們每次打開筆記本，程式都會重新生一次按鈕，如果不先清空，按鈕就會無性生殖越疊越多。
+	# 每次打開清單前，先把舊有的按鈕全部清除乾淨
 	for child in list_content.get_children():
-		child.queue_free() # queue_free() 的意思就是「把這個節點安全地刪除」
-		
-	# ==========================================
-	var unequip_btn = Button.new()
-	unequip_btn.custom_minimum_size = Vector2(80, 80)
-	unequip_btn.flat = true
-	unequip_btn.text = "X\n卸除" # 簡單用文字當圖標，之後你可以換成打叉的圖片
-	unequip_btn.add_theme_color_override("font_color", Color.BLACK)           # 正常狀態：黑色
-	unequip_btn.add_theme_color_override("font_hover_color", Color.DIM_GRAY)  # 滑鼠滑過：深灰色
-	unequip_btn.add_theme_color_override("font_pressed_color", Color.GRAY)    # 點擊瞬間：淺灰色
-	
-	unequip_btn.gui_input.connect(func(event):
-		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if event.double_click:
-				# 雙擊 -> 執行卸下並退回
-				unequip_current_slot()
-			else:
-				# 單擊 -> 右側資訊欄顯示卸下說明
-				info_name_label.text = "卸除裝備"
-				info_desc_label.text = "清空這個欄位，讓 Bobo 兩手空空。"
-	)
-	list_content.add_child(unequip_btn)
-	
-	# ==========================================
-	# 【全新生產線：去大腦倉庫搬真實道具】
-	# ==========================================
-	# 尋找大腦裡的真實道具庫存
+		child.queue_free()
+
+	# 檢查大腦資料庫是否存在
+	if not DataManager or not DataManager.inventory_items: return
+
+	# 讀取背包庫存，開始動態生成道具按鈕
 	for item_id in DataManager.inventory_items.keys():
 		var amount = DataManager.inventory_items[item_id]["reserve_amount"]
-		
-		# 只有當倉庫數量大於 0 的時候，才顯示在清單上！
+		# 只有當擁有數量大於 0 時才生成按鈕
 		if amount > 0:
 			var item_data = DataManager.ITEM_DB[item_id]
 			
 			var btn = Button.new()
-			btn.custom_minimum_size = Vector2(80, 80)
-			btn.flat = true 
-			
-			# 從大腦讀取圖片路徑並載入
+			btn.custom_minimum_size = Vector2(0, 60) # 長條橫幅高度
+			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL # 寬度自動填滿容器
+			btn.alignment = HORIZONTAL_ALIGNMENT_LEFT # 文字靠左對齊
+			btn.text = "      " + item_data["name"] + "  (擁有: " + str(amount) + ")"
+
+			# 如果資料庫有圖示路徑，載入並顯示圖示
 			if item_data.has("texture_path"):
 				btn.icon = load(item_data["texture_path"])
 				btn.expand_icon = true
-				btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-				
-			# 設定單擊預覽與雙擊裝備
+
+			# 按鈕的兩階段點擊防呆判定
 			btn.gui_input.connect(func(event):
 				if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-					if event.double_click:
-						# 雙擊裝備！(把真實的 item_id 跟 資料傳過去)
+					# 判定 A (第二下)：如果點擊的道具跟剛剛記憶中的一樣 -> 直接裝備並自動退回裝備頁
+					if current_list_selected_item == item_id:
 						equip_item_to_slot(item_id, item_data)
+					# 判定 B (第一下)：如果點的是新道具 -> 僅記錄併發送預覽到右側面板，同時隱藏故事
 					else:
-						# 單擊預覽：把大腦裡的名稱和敘述丟給右邊的 Label
+						current_list_selected_item = item_id
 						info_name_label.text = item_data["name"]
-						info_desc_label.text = item_data["description"]
+						if item_data.has("description"):
+							info_desc_label.text = item_data["description"]
+						if info_story_label: 
+							info_story_label.hide() # 道具清單模式下強制隱藏故事
 			)
-			
 			list_content.add_child(btn)
-	
-	
-	
-# ==========================================
-# 更新右側預覽資訊的功能
-# ==========================================
-func update_info_panel(item_data):
-	# 把右側的 Label 文字，換成被點擊道具的資料
-	info_name_label.text = item_data["item_name"]
-	info_desc_label.text = item_data["description"]
 
 # ==========================================
-# 裝備道具的核心功能 (真實連動版)
+# 裝備動作執行：將道具寫入格子並更新畫面圖示
 # ==========================================
 func equip_item_to_slot(item_id, item_data):
-	# UI 顯示是 1~4，但在陣列裡是 0~3
-	var array_index = current_slot_index - 1 
-	
-	# 1. 正式寫入大腦陣列！
-	DataManager.equipped_items[array_index] = item_id
-	print("【系統】", item_data["name"], " 裝備成功！目前大腦裝備狀態：", DataManager.equipped_items)
-	
-	# 2. 更新畫面的格子圖片
-	var target_slot = center_slots.get_node("SlotsGrid/Slot_" + str(current_slot_index))
-	var icon_layer = target_slot.get_node("ItemIcon")
-	
-	if item_data.has("texture_path"):
-		icon_layer.texture = load(item_data["texture_path"])
-		
-	# 3. 關閉清單退回
-	close_item_list()
-
-
-# ==========================================
-# 卸下裝備的核心功能 (隻狼風格)
-# ==========================================
-func unequip_current_slot():
-	# 1. 把我們 UI 的帳本清空
-	equipped_items[current_slot_index] = null
-	
-	# 2. 抓到畫面上那個格子，把圖片拔掉 (變成 null)
-	var target_slot = center_slots.get_node("SlotsGrid/Slot_" + str(current_slot_index))
-	target_slot.get_node("ItemIcon").texture = null
-	
-	# 3. 關閉商品瀏覽，完美退回上一頁
-	close_item_list()
-
-
-
-# === 2. 核心功能：切換顯示狀態 ===
-
-# 打開清單 (點擊裝備格時觸發)
-func open_item_list(slot_number):
-	current_slot_index = slot_number
-	refresh_inventory_ui() #打開清單前，先把按鈕生好！
-	center_slots.hide()  # 把格子藏起來
-	item_list_ui.show()  # 把清單叫出來
-
-# 關閉清單 (退回裝備格時觸發)
-func close_item_list():
-	item_list_ui.hide()  # 把清單藏起來
-	center_slots.show()  # 讓格子重新出現
-
-# === 3. 裝備格的點擊連線 ===
-func _on_slot_1_pressed() -> void:
-	open_item_list(1)  # 告訴程式：打開清單，並記住現在是換第 1 格！
-
-func _on_slot_2_pressed() -> void:
-	open_item_list(2)  # 告訴程式：打開清單，並記住現在是換第 2 格！
-
-func _on_slot_3_pressed() -> void:
-	open_item_list(3)  # 告訴程式：打開清單，並記住現在是換第 3 格！
-
-func _on_slot_4_pressed() -> void:
-	open_item_list(4)  # 告訴程式：打開清單，並記住現在是換第 4 格！
-
-
-# ==========================================
-# 設定裝備格的 UI 互動特效
-# ==========================================
-func setup_slot_effects():
-	for i in range(1, 5):
-		var slot = center_slots.get_node("SlotsGrid/Slot_" + str(i))
-		
-		# 游標滑上 -> 變亮
-		slot.mouse_entered.connect(func(): slot.modulate = Color(1.2, 1.2, 1.2))
-		# 游標離開 -> 恢復正常
-		slot.mouse_exited.connect(func(): slot.modulate = Color(1.0, 1.0, 1.0))
-		# 點擊瞬間 -> 變暗
-		slot.button_down.connect(func(): slot.modulate = Color(0.7, 0.7, 0.7))
-		# 放開瞬間 -> 恢復微亮
-		slot.button_up.connect(func(): slot.modulate = Color(1.2, 1.2, 1.2))
+	if current_selected_type == "item":
+		equipped_items[current_selected_index] = item_id # 寫入帳本記憶
+		var target_slot = item_slots_grid.get_node_or_null("Slot_" + str(current_selected_index))
+		if target_slot and item_data.has("texture_path"):
+			target_slot.get_node("ItemIcon").texture = load(item_data["texture_path"]) # 更新畫面上格子的圖片
+			
+	close_item_list() # 裝備完成後，自動關閉清單並退回裝備格畫面

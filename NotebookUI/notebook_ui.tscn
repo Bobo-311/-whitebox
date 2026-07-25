@@ -1,16 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://bqkyu35doaf21"]
+[gd_scene load_steps=25 format=3 uid="uid://bqkyu35doaf21"]
 
 [ext_resource type="Script" uid="uid://bytd2e36i8qq8" path="res://NotebookUI/notebook_ui.gd" id="1_ls2r0"]
 [ext_resource type="Texture2D" uid="uid://qrhe3xr68o2d" path="res://筆記本素材/ButtonMediumBlue.png" id="2_54p31"]
 [ext_resource type="Texture2D" uid="uid://b8kdxtmmyjd2a" path="res://筆記本素材/ButtonLargeBlue.png" id="3_r102h"]
-[ext_resource type="Texture2D" uid="uid://sw7e73yaddyr" path="res://筆記本素材/ButtonMediumGreen.png" id="3_wrr1s"]
 [ext_resource type="Texture2D" uid="uid://cpjqnvxubyfo5" path="res://筆記本素材/ButtonMediumWhite.png" id="4_r102h"]
-[ext_resource type="Texture2D" uid="uid://cvp7vjb8m7fvp" path="res://筆記本素材/ButtonLargeGreen.png" id="5_c287t"]
 [ext_resource type="Texture2D" uid="uid://camr6ktujvcl" path="res://筆記本素材/素描本.png" id="5_hb2fw"]
 [ext_resource type="Texture2D" uid="uid://dl8icjxaop6it" path="res://筆記本素材/UI.png" id="6_c287t"]
 [ext_resource type="Texture2D" uid="uid://d0llj8eypjnrw" path="res://筆記本素材/ButtonLargeWhite.png" id="7_1yomv"]
 [ext_resource type="Script" uid="uid://ct3hnt5payij4" path="res://NotebookUI/equip_page.gd" id="9_1yomv"]
-[ext_resource type="Texture2D" uid="uid://cmmuvu5ivov4m" path="res://大家不為人知的祕密/阿公.png" id="10_1yomv"]
+[ext_resource type="Texture2D" uid="uid://dbmslwmxy7tkg" path="res://筆記本素材/便利貼.png" id="10_hb2fw"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="11_1yomv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1yomv"]
@@ -21,14 +19,6 @@ region = Rect2(19.586082, 6.0416527, 366.9647, 114.24959)
 atlas = ExtResource("3_r102h")
 region = Rect2(19.353535, 6.4906616, 569.6979, 114.83374)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xm4em"]
-atlas = ExtResource("3_wrr1s")
-region = Rect2(19.177597, 5.5, 368.20654, 114.656944)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i3nll"]
-atlas = ExtResource("5_c287t")
-region = Rect2(19.47927, 6.2184906, 571.4302, 115.21678)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_kr2ld"]
 atlas = ExtResource("4_r102h")
 region = Rect2(19.305893, 5.3802643, 368.5952, 115.85435)
@@ -36,6 +26,12 @@ region = Rect2(19.305893, 5.3802643, 368.5952, 115.85435)
 [sub_resource type="AtlasTexture" id="AtlasTexture_drcrm"]
 atlas = ExtResource("7_1yomv")
 region = Rect2(20.22828, 7.162575, 568.4175, 113.62867)
+
+[sub_resource type="LabelSettings" id="LabelSettings_c287t"]
+paragraph_spacing = 3.0
+font = ExtResource("11_1yomv")
+font_size = 35
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n5tpg"]
 atlas = ExtResource("6_c287t")
@@ -53,9 +49,31 @@ region = Rect2(16.992638, 50.961227, 14.070692, 11.022537)
 atlas = ExtResource("6_c287t")
 region = Rect2(0.98609686, 50.976425, 14.009571, 11.043724)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm4em"]
+atlas = ExtResource("6_c287t")
+region = Rect2(32.94896, 50.96077, 14.091293, 11.06665)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kr2ld"]
+paragraph_spacing = 3.0
+font = ExtResource("11_1yomv")
+font_size = 35
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n5tpg"]
+paragraph_spacing = 3.0
+font = ExtResource("11_1yomv")
+font_size = 35
+font_color = Color(0, 0, 0, 1)
+
 [sub_resource type="LabelSettings" id="LabelSettings_twgbr"]
 font = ExtResource("11_1yomv")
 font_size = 34
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hb2fw"]
+paragraph_spacing = 3.0
+font = ExtResource("11_1yomv")
+font_size = 25
 font_color = Color(0, 0, 0, 1)
 
 [node name="NotebookUI" type="Control"]
@@ -82,17 +100,6 @@ offset_right = 120.0
 offset_bottom = 40.0
 texture_normal = SubResource("AtlasTexture_1yomv")
 texture_disabled = SubResource("AtlasTexture_f0r6q")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Btn_Sticker" type="TextureButton" parent="TabButtons"]
-custom_minimum_size = Vector2(120, 40)
-layout_mode = 0
-offset_top = 44.0
-offset_right = 120.0
-offset_bottom = 84.0
-texture_normal = SubResource("AtlasTexture_xm4em")
-texture_disabled = SubResource("AtlasTexture_i3nll")
 ignore_texture_size = true
 stretch_mode = 0
 
@@ -157,45 +164,34 @@ theme_override_constants/margin_bottom = 80
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Portrait_Sandbox" type="Control" parent="EquipPage/MarginContainer/MainLayout"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="Portrait" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Portrait_Sandbox"]
-layout_mode = 0
-offset_left = -400.0
-offset_top = -429.0
-offset_right = 867.0
-offset_bottom = 530.5668
-size_flags_horizontal = 3
-mouse_filter = 2
-texture = ExtResource("10_1yomv")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="Center_Stage" type="MarginContainer" parent="EquipPage/MarginContainer/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Center_Slots" type="CenterContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage"]
+[node name="Center_Slots" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 30
 
-[node name="SlotsGrid" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
+[node name="Label_Item" type="Label" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
 layout_mode = 2
-theme_override_constants/h_separation = 35
-theme_override_constants/v_separation = 35
-columns = 2
+text = "道具"
+label_settings = SubResource("LabelSettings_c287t")
 
-[node name="Slot_1" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
-custom_minimum_size = Vector2(100, 80)
+[node name="ItemSlotsGrid" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
+layout_mode = 2
+theme_override_constants/h_separation = 26
+theme_override_constants/v_separation = 35
+columns = 5
+
+[node name="Slot_1" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid"]
+custom_minimum_size = Vector2(50, 40)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_n5tpg")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_1"]
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -206,14 +202,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Slot_2" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
-custom_minimum_size = Vector2(100, 80)
+[node name="Slot_2" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid"]
+custom_minimum_size = Vector2(50, 40)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_1hm5u")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_2"]
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -224,14 +220,14 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Slot_3" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
-custom_minimum_size = Vector2(100, 80)
+[node name="Slot_3" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid"]
+custom_minimum_size = Vector2(50, 40)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_tm7s5")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_3"]
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -242,14 +238,180 @@ mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Slot_4" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid"]
-custom_minimum_size = Vector2(100, 80)
+[node name="Slot_4" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid"]
+custom_minimum_size = Vector2(50, 40)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_epbrr")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_4"]
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot_5" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid"]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_xm4em")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label_Sticker" type="Label" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
+layout_mode = 2
+text = "贴纸"
+label_settings = SubResource("LabelSettings_kr2ld")
+
+[node name="StickerSlotsGrid" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
+layout_mode = 2
+theme_override_constants/h_separation = 26
+theme_override_constants/v_separation = 35
+columns = 4
+
+[node name="StickerSlot_1" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_n5tpg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid/StickerSlot_1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StickerSlot_2" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_1hm5u")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid/StickerSlot_2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StickerSlot_3" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_tm7s5")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid/StickerSlot_3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StickerSlot_4" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid"]
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_epbrr")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid/StickerSlot_4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label_Skill" type="Label" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
+layout_mode = 2
+text = "已习得技能"
+label_settings = SubResource("LabelSettings_n5tpg")
+
+[node name="SkillSlotsGrid" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
+layout_mode = 2
+theme_override_constants/h_separation = 61
+theme_override_constants/v_separation = 47
+columns = 3
+
+[node name="SkillSlot_1" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_n5tpg")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid/SkillSlot_1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SkillSlot_2" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_1hm5u")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid/SkillSlot_2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SkillSlot_3" type="TextureButton" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid"]
+custom_minimum_size = Vector2(80, 60)
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_tm7s5")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid/SkillSlot_3"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -264,47 +426,60 @@ stretch_mode = 5
 visible = false
 layout_mode = 2
 
-[node name="ListContent" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/ItemList_UI"]
+[node name="ListContent" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/ItemList_UI"]
 layout_mode = 2
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-columns = 3
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 5
 
-[node name="Right_Info" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout"]
+[node name="Right_Panel" type="Control" parent="EquipPage/MarginContainer/MainLayout"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PencilBackground" type="NinePatchRect" parent="EquipPage/MarginContainer/MainLayout/Right_Panel"]
+layout_mode = 0
+offset_left = -90.0
+offset_top = -89.0
+offset_right = 513.0
+offset_bottom = 529.0
+texture = ExtResource("10_hb2fw")
+
+[node name="InfoTextContainer" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout/Right_Panel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -43.0
+offset_right = 429.0
+offset_bottom = 371.0
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 20
 
-[node name="Spacer" type="Control" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
+[node name="Spacer" type="Control" parent="EquipPage/MarginContainer/MainLayout/Right_Panel/InfoTextContainer"]
 custom_minimum_size = Vector2(70, 80)
 layout_mode = 2
 
-[node name="ItemName" type="Label" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
+[node name="ItemName" type="Label" parent="EquipPage/MarginContainer/MainLayout/Right_Panel/InfoTextContainer"]
 layout_mode = 2
 text = "阿巴阿巴"
 label_settings = SubResource("LabelSettings_twgbr")
 
-[node name="Desc_Spacer" type="Control" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
+[node name="Desc_Spacer" type="Control" parent="EquipPage/MarginContainer/MainLayout/Right_Panel/InfoTextContainer"]
 custom_minimum_size = Vector2(30, 40)
 layout_mode = 2
 
-[node name="ItemDesc" type="RichTextLabel" parent="EquipPage/MarginContainer/MainLayout/Right_Info"]
+[node name="ItemDesc" type="RichTextLabel" parent="EquipPage/MarginContainer/MainLayout/Right_Panel/InfoTextContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("11_1yomv")
-theme_override_font_sizes/normal_font_size = 34
-text = "机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩"
+theme_override_font_sizes/normal_font_size = 25
+text = "机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦"
 
-[node name="StickerPage" type="Control" parent="."]
-custom_minimum_size = Vector2(120, 40)
-anchors_preset = 0
-offset_left = 44.0
-offset_top = 273.0
-offset_right = 164.0
-offset_bottom = 313.0
-mouse_filter = 2
+[node name="ItemStory" type="Label" parent="EquipPage/MarginContainer/MainLayout/Right_Panel/InfoTextContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_hb2fw")
+autowrap_mode = 3
 
 [node name="MapPage" type="Control" parent="."]
 custom_minimum_size = Vector2(120, 40)
@@ -315,7 +490,8 @@ offset_right = 165.0
 offset_bottom = 357.0
 mouse_filter = 2
 
-[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_1" to="EquipPage" method="_on_slot_1_pressed"]
-[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_2" to="EquipPage" method="_on_slot_2_pressed"]
-[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_3" to="EquipPage" method="_on_slot_3_pressed"]
-[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/SlotsGrid/Slot_4" to="EquipPage" method="_on_slot_4_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_1" to="EquipPage" method="_on_slot_1_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_2" to="EquipPage" method="_on_slot_2_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_3" to="EquipPage" method="_on_slot_3_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_4" to="EquipPage" method="_on_slot_4_pressed"]
+[connection signal="pressed" from="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid/Slot_5" to="EquipPage" method="_on_slot_5_pressed"]
