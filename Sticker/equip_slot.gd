@@ -1,61 +1,32 @@
-# equip_slot (裝備格)
-extends TextureRect # 外層底框 (負責維持固定大小與顯示金框)
+extends TextureButton
+class_name EquipSlot # 註冊為自訂組件，讓主程式能直接辨識
 
-@export var slot_index: int = 0
-@onready var holder: CenterContainer = $Holder # 內層托盤 (負責裝載並置中貼紙實體)
+# 廣播訊號：當自己被點擊時，通知主程式「我是什麼類型、第幾格」
+signal slot_clicked(slot_type: String, index: int)
 
-# 預載貼紙實體藍圖
-const STICKER_ITEM = preload("res://StickerItem/sticker_item.tscn") 
+# 開放給編輯器設定：可以直接在屬性面板下拉選擇，不用寫死在程式碼
+@export_enum("item", "sticker", "skill") var slot_type: String = "item"
+@export var slot_index: int = 1
 
-func _ready() -> void:
-	# 遊戲啟動時，檢查存檔是否有裝備
-	var saved_id = DataManager.equipped_stickers[slot_index]
-	if saved_id != "":
-		_spawn_sticker(saved_id)
+@onready var item_icon = $ItemIcon
 
-# --------------------------------------------------
-# 拖曳系統：判斷是否允許放下
-# --------------------------------------------------
-func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
-	# 只接收帶有 "type": "sticker" 標籤的資料字典
-	return typeof(data) == TYPE_DICTIONARY and data.has("type") and data["type"] == "sticker"
-
-# --------------------------------------------------
-# 拖曳系統：正式裝備
-# --------------------------------------------------
-func _drop_data(at_position: Vector2, data: Variant) -> void:
-	_clear_slot()                 # 1. 清空舊裝備 (避免重疊)
-	_spawn_sticker(data["id"])    # 2. 生成新裝備實體並放入托盤
+func _ready():
+	# 綁定自己的點擊事件
+	pressed.connect(_on_pressed)
 	
-	# 3. 更新數據與廣播
-	DataManager.equipped_stickers[slot_index] = data["id"]
-	DataManager.equipment_changed.emit()
+	# 懸停視覺回饋：滑鼠移入變亮，按下變暗 (格子自己管自己，不麻煩主程式)
+	mouse_entered.connect(func(): modulate = Color(1.2, 1.2, 1.2))
+	mouse_exited.connect(func(): modulate = Color(1.0, 1.0, 1.0))
+	button_down.connect(func(): modulate = Color(0.7, 0.7, 0.7))
+	button_up.connect(func(): modulate = Color(1.2, 1.2, 1.2))
 
-# --------------------------------------------------
-# 點擊事件：右鍵卸下裝備
-# --------------------------------------------------
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		# 確認托盤內有貼紙實體才執行卸下
-		if holder.get_child_count() > 0: 
-			_clear_slot()         
-			
-			# 更新數據與廣播
-			DataManager.equipped_stickers[slot_index] = ""
-			DataManager.equipment_changed.emit()
+func _on_pressed():
+	# 按下按鈕時，發射訊號把自己的身分證交出去
+	slot_clicked.emit(slot_type, slot_index)
 
-# --------------------------------------------------
-# 工具函數：生成實體
-# --------------------------------------------------
-func _spawn_sticker(id: String) -> void:
-	var new_sticker = STICKER_ITEM.instantiate()
-	new_sticker.setup_sticker(id) # 初始化貼紙數據
-	holder.add_child(new_sticker) # 放入托盤 (CenterContainer 會自動置中)
-
-# --------------------------------------------------
-# 工具函數：清空托盤
-# --------------------------------------------------
-func _clear_slot() -> void:
-	# 刪除托盤內所有的子節點 (貼紙實體)
-	for child in holder.get_children():
-		child.queue_free()
+# 外部呼叫用：主程式直接傳入圖片路徑就能換圖
+func set_icon(texture_path: String):
+	if texture_path == "":
+		item_icon.texture = null
+	else:
+		item_icon.texture = load(texture_path)

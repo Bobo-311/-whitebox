@@ -23,8 +23,11 @@
 [ext_resource type="PackedScene" uid="uid://bqkyu35doaf21" path="res://NotebookUI/notebook_ui.tscn" id="22_bjvpn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65viv"]
+resource_local_to_scene = true
 shader = ExtResource("2_c35mf")
 shader_parameter/saturation = 1.0
+shader_parameter/color_boost = 1.70000003325
+shader_parameter/color_depth = 2.0000000475
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tnfn2"]
 atlas = ExtResource("2_6ea11")
