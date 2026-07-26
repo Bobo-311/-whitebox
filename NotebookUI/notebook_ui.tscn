@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bqkyu35doaf21"]
+[gd_scene load_steps=21 format=3 uid="uid://bqkyu35doaf21"]
 
 [ext_resource type="Script" uid="uid://bytd2e36i8qq8" path="res://NotebookUI/notebook_ui.gd" id="1_ls2r0"]
 [ext_resource type="Texture2D" uid="uid://qrhe3xr68o2d" path="res://筆記本素材/ButtonMediumBlue.png" id="2_54p31"]
@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://camr6ktujvcl" path="res://筆記本素材/素描本.png" id="5_hb2fw"]
 [ext_resource type="Texture2D" uid="uid://d0llj8eypjnrw" path="res://筆記本素材/ButtonLargeWhite.png" id="7_1yomv"]
 [ext_resource type="Script" uid="uid://ct3hnt5payij4" path="res://NotebookUI/equip_page.gd" id="9_1yomv"]
-[ext_resource type="PackedScene" uid="uid://dh5cl5pl6gask" path="res://NotebookUI/格子場景/equip_slot.tscn" id="9_hb2fw"]
+[ext_resource type="PackedScene" uid="uid://dh5cl5pl6gask" path="res://NotebookUI/格子場景/notebook_equip_slot.tscn" id="9_hb2fw"]
+[ext_resource type="Texture2D" uid="uid://c44g4dd6l2cux" path="res://筆記本素材/圓形.png" id="10_c287t"]
 [ext_resource type="Texture2D" uid="uid://dbmslwmxy7tkg" path="res://筆記本素材/便利貼.png" id="10_hb2fw"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="11_1yomv"]
 
@@ -190,9 +191,40 @@ label_settings = SubResource("LabelSettings_kr2ld")
 
 [node name="StickerSlotsGrid" type="GridContainer" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
 layout_mode = 2
-theme_override_constants/h_separation = 26
+theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 35
 columns = 4
+
+[node name="EquipStick1" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid" instance=ExtResource("9_hb2fw")]
+custom_minimum_size = Vector2(78, 78)
+layout_mode = 2
+texture_normal = ExtResource("10_c287t")
+stretch_mode = 5
+slot_type = "sticker"
+
+[node name="EquipStick2" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid" instance=ExtResource("9_hb2fw")]
+custom_minimum_size = Vector2(78, 78)
+layout_mode = 2
+texture_normal = ExtResource("10_c287t")
+stretch_mode = 5
+slot_type = "sticker"
+slot_index = 2
+
+[node name="EquipStick3" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid" instance=ExtResource("9_hb2fw")]
+custom_minimum_size = Vector2(78, 78)
+layout_mode = 2
+texture_normal = ExtResource("10_c287t")
+stretch_mode = 5
+slot_type = "sticker"
+slot_index = 3
+
+[node name="EquipStick14" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid" instance=ExtResource("9_hb2fw")]
+custom_minimum_size = Vector2(78, 78)
+layout_mode = 2
+texture_normal = ExtResource("10_c287t")
+stretch_mode = 5
+slot_type = "sticker"
+slot_index = 4
 
 [node name="Label_Skill" type="Label" parent="EquipPage/MarginContainer/MainLayout/Center_Stage/Center_Slots"]
 layout_mode = 2

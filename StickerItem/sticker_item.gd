@@ -6,7 +6,12 @@ extends TextureRect # 繼承自 TextureRect，用來顯示圖片介面
 
 
 
-
+# ==========================================
+# 系統初始化
+# ==========================================
+func _ready() -> void:
+	# 只要在這裡呼叫一次，就會自動綁定所有點擊與懸停動畫
+	setup_visual_effects()
 # ==========================================
 # 🌟 本次新增：初始化變身函數
 # 當 StickerUI 把這張貼紙生出來時，會呼叫這個函數並塞入 ID
@@ -46,3 +51,33 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 		"texture": texture,
 		"id": sticker_id
 	}
+
+
+# ==========================================
+# 🌟 動畫回饋打包區 (懸停 + 點擊)
+# ==========================================
+func setup_visual_effects() -> void:
+	# 1. 滑鼠懸停效果 (Hover)
+	mouse_entered.connect(func():
+		modulate = Color(1.2, 1.2, 1.2) 
+		scale = Vector2(1.05, 1.05)     
+	)
+	
+	# 2. 滑鼠離開效果 (Normal)
+	mouse_exited.connect(func():
+		modulate = Color.WHITE          
+		scale = Vector2(1.0, 1.0)       
+	)
+	
+	# 3. 滑鼠點擊效果 (Pressed) - 直接用廣播綁定，不另外寫 _gui_input
+	gui_input.connect(func(event: InputEvent):
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				# 按下去的瞬間：變暗、縮小
+				modulate = Color(0.6, 0.6, 0.6) 
+				scale = Vector2(0.9, 0.9)       
+			else:
+				# 鬆開的瞬間：恢復成懸停狀態
+				modulate = Color(1.2, 1.2, 1.2) 
+				scale = Vector2(1.05, 1.05)     
+)

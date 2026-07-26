@@ -25,6 +25,10 @@ const STICKER_ITEM = preload("res://StickerItem/sticker_item.tscn")
 @onready var page3: GridContainer = $Easel/MainLayout/LeftPanel/Margin_Pages/Page3
 @onready var page4: GridContainer = $Easel/MainLayout/LeftPanel/Margin_Pages/Page4
 
+# 🌟 右側：資訊面板 (路徑已更新為便利貼排版)
+@onready var preview_img: TextureRect = $Easel/MainLayout/RightPanel/VBox_Info/Center_Preview/Img_Preview
+@onready var info_title: Label = $Easel/MainLayout/RightPanel/VBox_Info/InfoTextContainer/ItemName
+@onready var info_desc: RichTextLabel = $Easel/MainLayout/RightPanel/VBox_Info/InfoTextContainer/ItemDesc
 # ==========================================
 # 大腦記憶區 (記錄玩家目前的瀏覽狀態)
 # ==========================================
@@ -128,6 +132,32 @@ func update_dots_color() -> void:
 # ==========================================
 # 關閉介面邏輯 (右上角的叉叉)
 # ==========================================
+
+# ==========================================
+# 更新右側資訊面板
+# ==========================================
+func show_sticker_info(sticker_id: String) -> void:
+	if sticker_id == "" or not DataManager.STICKER_DB.has(sticker_id):
+		return
+		
+	# 從大腦撈出這張貼紙的資料
+	var data = DataManager.STICKER_DB[sticker_id]
+	
+	# 1. 更新標題
+	info_title.text = data["name"]
+	
+	# 2. 更新大圖預覽
+	preview_img.texture = load(data["texture_path"])
+	
+	# 3. 更新文案說明 (如果你的 DB 之後加了 "description" 欄位，可以直接替換)
+	# 目前先用 type 和 value 拼湊出效果說明
+	var effect_text = "功能類型：" + data["type"] + "\n數值影響：" + str(data["value"])
+	if data.has("threshold"):
+		effect_text += "\n發動條件：HP低於 " + str(data["threshold"] * 100) + "%"
+		
+	info_desc.text = effect_text
+
+
 func _on_close_button_pressed() -> void:
 	# 尋找藏在背景的存檔主選單，把它叫回來
 	for child in get_tree().root.get_children():
@@ -157,6 +187,11 @@ func load_inventory() -> void:
 		var new_sticker = STICKER_ITEM.instantiate()
 		new_sticker.setup_sticker(sticker_id) # 把 ID 傳給貼紙，讓它自己抓取圖片與數值
 		
+		# 🟢 換成這段：只有當滑鼠「左鍵按下」時，才更新右側資訊
+		new_sticker.gui_input.connect(func(event: InputEvent):
+			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+				show_sticker_info(sticker_id)
+		)
 		# 🌟 分頁派發邏輯：滿 12 張就自動塞到下一頁
 		if current_count < max_per_page:
 			page1.add_child(new_sticker)     

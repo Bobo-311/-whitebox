@@ -6,6 +6,9 @@ extends Control
 @onready var item_slots_grid = $MarginContainer/MainLayout/Center_Stage/Center_Slots/ItemSlotsGrid
 @onready var skill_slots_grid = $MarginContainer/MainLayout/Center_Stage/Center_Slots/SkillSlotsGrid
 
+# 🌟 新增：貼紙專用容器 (裡面不放任何格子)
+@onready var sticker_slots_grid = $MarginContainer/MainLayout/Center_Stage/Center_Slots/StickerSlotsGrid
+
 # 道具清單介面
 @onready var item_list_ui = $MarginContainer/MainLayout/Center_Stage/ItemList_UI
 @onready var list_content = $MarginContainer/MainLayout/Center_Stage/ItemList_UI/ListContent
@@ -30,7 +33,10 @@ func _ready():
 	close_item_list()
 	setup_all_slots() # 啟動時自動綁定所有格子
 	
-	# 新增這行：當介面被隱藏或顯示時，通知自己
+	# 🌟 新增：啟動時也讀取一次貼紙
+	load_stickers()
+	
+	# 當介面被隱藏或顯示時，通知自己
 	visibility_changed.connect(_on_visibility_changed)
 
 func _input(event):
@@ -47,24 +53,63 @@ func _input(event):
 			close_item_list()
 			get_viewport().set_input_as_handled()
 
+
+
+func on_sticker_clicked(sticker_id: String):
+	# 點擊貼紙時，洗白道具的選取記憶
+	current_selected_type = "sticker"
+	current_selected_index = -1
+	current_list_selected_item = ""
+	
+	clear_info_panel()
+	
+	var data = DataManager.STICKER_DB[sticker_id]
+	info_name_label.text = data["name"]
+	
+	var effect_text = "功能類型：" + data["type"] + "\n數值影響：" + str(data["value"])
+	if data.has("threshold"):
+		effect_text += "\n發動條件：HP低於 " + str(data["threshold"] * 100) + "%"
+		
+	info_desc_label.text = effect_text
+	if info_story_label: info_story_label.hide()
+
 # --- 格子綁定與搜尋 ---
 func setup_all_slots():
-	# 掃描道具與技能區，把所有 EquipSlot 格子的點擊事件接上
-	var all_grids = [item_slots_grid, skill_slots_grid] 
+	# 🌟 1. 把 sticker_slots_grid 也加進掃描名單
+	var all_grids = [item_slots_grid, skill_slots_grid, sticker_slots_grid] 
 	for grid in all_grids:
 		if grid:
 			for child in grid.get_children():
-				if child is EquipSlot:
+				if child is NotebookEquipSlot:
 					child.slot_clicked.connect(on_slot_clicked)
 
-func get_slot_node(type: String, index: int) -> EquipSlot:
-	# 根據身分證 (slot_index) 找出畫面上對應的格子節點
-	var grid = item_slots_grid if type == "item" else skill_slots_grid
+func get_slot_node(type: String, index: int) -> NotebookEquipSlot:
+	# 🌟 2. 讓系統知道貼紙格要去哪裡找
+	var grid = null
+	if type == "item": grid = item_slots_grid
+	elif type == "skill": grid = skill_slots_grid
+	elif type == "sticker": grid = sticker_slots_grid
+	
 	if grid:
 		for child in grid.get_children():
-			if child is EquipSlot and child.slot_index == index:
+			if child is NotebookEquipSlot and child.slot_index == index:
 				return child
 	return null
+
+# ==========================================
+# 🌟 讀取貼紙資料 (安全版：只換圖，不刪節點)
+# ==========================================
+func load_stickers():
+	for i in range(4):
+		var slot = get_slot_node("sticker", i + 1)
+		if slot:
+			var sticker_id = DataManager.equipped_stickers[i]
+			if sticker_id != "" and DataManager.STICKER_DB.has(sticker_id):
+				# 有貼紙就換圖
+				slot.set_icon(DataManager.STICKER_DB[sticker_id].texture_path)
+			else:
+				# 沒貼紙就清空，露出你的圓形底框
+				slot.set_icon("")
 
 # --- 點擊處理 ---
 func on_slot_clicked(slot_type: String, index: int):
@@ -85,6 +130,12 @@ func on_slot_clicked(slot_type: String, index: int):
 			current_selected_type = slot_type 
 			current_selected_index = index    
 			show_equipped_item_info(slot_type, index)
+	# 🌟 點到貼紙格
+	if slot_type == "sticker":
+		current_selected_type = slot_type
+		current_selected_index = index
+		show_equipped_sticker_info(index)
+		return
 
 # 當介面顯示/隱藏狀態改變時觸發
 func _on_visibility_changed():
@@ -95,8 +146,9 @@ func _on_visibility_changed():
 		current_list_selected_item = ""
 		close_item_list() # 確保下次打開不會卡在道具清單畫面
 		clear_info_panel()
-
-
+	else:
+		# 🌟 新增：每次打開筆記本時，重新讀取一次最新貼紙
+		load_stickers()
 
 # --- 面板更新 ---
 func show_equipped_item_info(slot_type: String, index: int):
@@ -115,6 +167,24 @@ func show_equipped_item_info(slot_type: String, index: int):
 		else:
 			info_name_label.text = "空欄位"
 			info_desc_label.text = "再點擊一下以選擇道具。"
+
+# 🌟 新增：貼紙專用資訊面板
+func show_equipped_sticker_info(index: int):
+	clear_info_panel()
+	var sticker_id = DataManager.equipped_stickers[index - 1]
+	
+	if sticker_id != "" and DataManager.STICKER_DB.has(sticker_id):
+		var data = DataManager.STICKER_DB[sticker_id]
+		info_name_label.text = data["name"]
+		
+		var effect_text = "功能類型：" + data["type"] + "\n數值影響：" + str(data["value"])
+		if data.has("threshold"):
+			effect_text += "\n發動條件：HP低於 " + str(data["threshold"] * 100) + "%"
+		info_desc_label.text = effect_text
+	else:
+		info_name_label.text = "空欄位"
+		info_desc_label.text = "尚未裝備任何貼紙。"
+
 
 func clear_info_panel():
 	# 清空右側面板文字

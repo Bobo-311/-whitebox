@@ -1,12 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://d5h0npu180rc"]
+[gd_scene load_steps=14 format=3 uid="uid://d5h0npu180rc"]
 
 [ext_resource type="Texture2D" uid="uid://4rdn63uj3yg8" path="res://RRRRRRRR/Easel.png" id="1_7av4f"]
 [ext_resource type="Script" uid="uid://vdiyp1aq7e1p" path="res://Sticker/sticker_ui.gd" id="1_wuxxh"]
 [ext_resource type="Texture2D" uid="uid://cgm1tfwgop5v8" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-bar-transparent.png" id="2_f6c2s"]
 [ext_resource type="Script" uid="uid://1tbcl7rqyg2c" path="res://Sticker/equip_slot.gd" id="4_b1cfg"]
 [ext_resource type="Texture2D" uid="uid://dl8icjxaop6it" path="res://筆記本素材/UI.png" id="6_k2eij"]
-[ext_resource type="Texture2D" uid="uid://b4u2g2iyfcgov" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/dialogue-box/dialogue-box.png" id="6_plff1"]
-[ext_resource type="Texture2D" uid="uid://bmuhvqbmlp17x" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/panels/panel-with-background.png" id="7_b1cfg"]
+[ext_resource type="Texture2D" uid="uid://dbmslwmxy7tkg" path="res://筆記本素材/便利貼.png" id="7_f6c2s"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="9_k2eij"]
 [ext_resource type="Texture2D" uid="uid://isq0mcpxs11s" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/icons/close-icon.png" id="11_plff1"]
 
@@ -26,28 +25,10 @@ font_color = Color(0, 0, 0, 1)
 atlas = ExtResource("6_k2eij")
 region = Rect2(56.975468, 66.00519, 4.0386314, 5.053894)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_15ina"]
-content_margin_left = 50.0
-content_margin_top = 0.0
-content_margin_right = 20.0
-content_margin_bottom = 0.0
-texture = ExtResource("6_plff1")
-
-[sub_resource type="LabelSettings" id="LabelSettings_l774l"]
+[sub_resource type="LabelSettings" id="LabelSettings_k2eij"]
 font = ExtResource("9_k2eij")
-font_size = 29
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7glk6"]
-content_margin_left = 50.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 200.0
-texture = ExtResource("7_b1cfg")
-texture_margin_left = 10.0
-texture_margin_top = 8.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
-expand_margin_top = 40.0
+font_size = 34
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wuxxh"]
 atlas = ExtResource("11_plff1")
@@ -71,12 +52,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -1077.0
+offset_left = -1095.0
 offset_top = -649.0
-offset_right = 1065.0
-offset_bottom = 981.0
+offset_right = 1093.0
+offset_bottom = 999.0
 grow_horizontal = 2
 grow_vertical = 2
+rotation = 0.00039556818
 texture = ExtResource("1_7av4f")
 expand_mode = 1
 
@@ -91,7 +73,7 @@ offset_bottom = 924.0
 [node name="LeftPanel" type="VBoxContainer" parent="Easel/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.5
+size_flags_stretch_ratio = 1.25
 
 [node name="Margin_Equipped" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
@@ -275,14 +257,25 @@ layout_mode = 2
 theme_override_constants/h_separation = 38
 columns = 4
 
-[node name="RightPanel" type="MarginContainer" parent="Easel/MainLayout"]
+[node name="RightPanel" type="Control" parent="Easel/MainLayout"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 20
+
+[node name="PencilBackground" type="NinePatchRect" parent="Easel/MainLayout/RightPanel"]
+layout_mode = 0
+offset_left = -91.84265
+offset_top = -80.36487
+offset_right = 603.1364
+offset_bottom = 697.1062
+texture = ExtResource("7_f6c2s")
 
 [node name="VBox_Info" type="VBoxContainer" parent="Easel/MainLayout/RightPanel"]
-layout_mode = 2
+layout_mode = 0
+offset_left = 6.147922
+offset_top = 37.548233
+offset_right = 445.14792
+offset_bottom = 615.5482
+rotation = -0.06521194
 theme_override_constants/separation = 0
 
 [node name="Center_Preview" type="CenterContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
@@ -296,29 +289,31 @@ texture = ExtResource("2_f6c2s")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Panel_Title" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
-custom_minimum_size = Vector2(0, 150)
+[node name="InfoTextContainer" type="VBoxContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_15ina")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 20
 
-[node name="能力说明" type="Label" parent="Easel/MainLayout/RightPanel/VBox_Info/Panel_Title"]
+[node name="ItemName" type="Label" parent="Easel/MainLayout/RightPanel/VBox_Info/InfoTextContainer"]
+custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 16
-text = "能力说明"
-label_settings = SubResource("LabelSettings_l774l")
+text = "阿巴阿巴"
+label_settings = SubResource("LabelSettings_k2eij")
 
-[node name="Panel_Desc" type="PanelContainer" parent="Easel/MainLayout/RightPanel/VBox_Info"]
-custom_minimum_size = Vector2(0, 250)
+[node name="Desc_Spacer" type="Control" parent="Easel/MainLayout/RightPanel/VBox_Info/InfoTextContainer"]
+custom_minimum_size = Vector2(30, 40)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_7glk6")
 
-[node name="文案" type="Label" parent="Easel/MainLayout/RightPanel/VBox_Info/Panel_Desc"]
+[node name="ItemDesc" type="RichTextLabel" parent="Easel/MainLayout/RightPanel/VBox_Info/InfoTextContainer"]
+custom_minimum_size = Vector2(250, 100)
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 16
-text = "文案"
-label_settings = SubResource("LabelSettings_l774l")
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("9_k2eij")
+theme_override_font_sizes/normal_font_size = 25
+text = "机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦"
 
 [node name="CloseButton" type="TextureButton" parent="Easel"]
 layout_mode = 1
