@@ -12,7 +12,7 @@ const STICKER_ITEM = preload("res://StickerItem/sticker_item.tscn")
 # 關閉按鈕 (右上角的叉叉，已經確認在最外層)
 @onready var close_button: TextureButton = $Easel/CloseButton
 
-
+ 
 # 抓取 4 個用來控制翻頁的小點點 (已更新為最新完美命名)
 @onready var dot1: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot1
 @onready var dot2: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot2
