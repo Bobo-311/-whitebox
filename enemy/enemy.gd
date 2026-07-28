@@ -1,165 +1,185 @@
-extends BaseCharacter            # 繼承基礎角色類別，獲得扣血、死亡等功能
-class_name Enemy                 # 定義為 Enemy 類別
+extends BaseCharacter             # 繼承基礎角色類別，獲得扣血、死亡等功能
+class_name Enemy                  # 定義為 Enemy 類別
 
-@export var walk_speed: int = 150                 # 野豬的漫遊走路速度
-@export var sprint_speed: int = 450               # 野豬追擊玩家時的衝刺速度
+# ==========================================
+# ⚙️ 匯出參數與預載資源
+# ==========================================
+@export var walk_speed: int = 150                  # 野豬的漫遊走路速度
+@export var sprint_speed: int = 450                # 野豬追擊玩家時的衝刺速度
 @export var attack_speed_multiplier: float = 2.5  # 野豬發動衝撞攻擊時的速度倍率
-@export var attack_time: float = 0.45             # 攻擊狀態維持的時間長度
-@export var melee_damage: float = 15.0            # 野豬肉身衝撞造成的近戰傷害量
+@export var attack_time: float = 0.45              # 攻擊狀態維持的時間長度
+@export var melee_damage: float = 15.0             # 野豬肉身衝撞造成的近戰傷害量
 
-const COIN_SCENE = preload("res://coin/coin.tscn")# 🌟 預載入金幣場景
+const COIN_SCENE = preload("res://coin/coin.tscn") # 預載入金幣場景
 
+# ==========================================
+# 🔗 節點引用
+# ==========================================
+@onready var state_machine: StateMachine = $StateMachine       # 狀態機節點
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 動畫播放器
+@onready var hp_bar: ProgressBar = $HealthBar                  # 血條 UI 節點
+@onready var vision_ray: RayCast2D = $VisionRay                 # 視線雷射
 
+# ==========================================
+# 📊 狀態與變數
+# ==========================================
+var can_see_player: bool = false                # 野豬自身 AI 追擊判定：到底有沒有看見玩家？
+var player_node: CharacterBody2D = null           # 記憶目前鎖定的玩家實體
+var last_facing_vec: Vector2 = Vector2.DOWN       # 記憶野豬最後面朝的方向
+var has_hit_player: bool = false                  # 標記開關：這次衝刺是不是已經咬到過目標？
+var can_attack: bool = true                       # 攻擊冷卻開關
 
-@onready var state_machine: StateMachine = $StateMachine       # 抓取狀態機節點
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 抓取動畫播放器節點
-@onready var hp_bar: ProgressBar = $HealthBar                  # 抓取血條UI節點
+# 🌟【整合白貓視覺】是否被白貓燈光照到與漸變控制
+var is_illuminated_by_cat: bool = false
+var fade_tween: Tween = null
 
-@onready var vision_ray: RayCast2D = $VisionRay # 抓取視線雷射
-var can_see_player: bool = false                # 最終判定：到底有沒有看見玩家？
-
-
-
-var player_node: CharacterBody2D = null           # 記憶目前鎖定的玩家實體，預設為空
-var last_facing_vec: Vector2 = Vector2.DOWN       # 記憶野豬最後面朝的方向，預設朝下
-var has_hit_player: bool = false                  # 標記開關：這次衝刺是不是已經咬到過玩家了？
-var can_attack: bool = true                       # 攻擊冷卻開關：決定野豬現在能不能發動攻擊
-
-func _ready():                   # 遊戲開始時執行
-	super._ready()               # 呼叫父類別(BaseCharacter)的 _ready 函數，確保血量補滿
-	# 🌟 遊戲一開始，強制先把嘴巴的碰撞關掉
+# ==========================================
+# 🚀 初始化與物理幀處理
+# ==========================================
+func _ready() -> void:
+	super._ready()                               # 呼叫父類別 BaseCharacter 的 _ready，確保血量補滿
+	
+	# 1. 遊戲一開始，強制先把嘴巴 Hitbox 的碰撞關掉
 	var hitbox = get_node_or_null("Hitbox/CollisionShape2D")
 	if hitbox:
 		hitbox.set_deferred("disabled", true)
 		
-		
-func _physics_process(_delta: float) -> void:     # 每一幀物理運算
-	move_and_slide()             # 根據 velocity 執行移動，並自動處理撞牆滑行
-	# --- 🌟 真實視野雷射掃描系統 ---
-	if player_node != null:      # 第一關：玩家在藍色圈圈內
-		# 把雷射光瞄準玩家的中心點 (to_local 是把世界座標轉成野豬的相對座標)
-		vision_ray.target_position = to_local(player_node.global_position)
-		vision_ray.force_raycast_update() # 強制雷射在一幀內立刻更新結果
-		
-		# 第二關：檢查雷射光有沒有撞到障礙物（牆壁/柱子）
-		if vision_ray.is_colliding():
-			can_see_player = false # 雷射被擋住 ＝ 瞎子
-		else:
-			can_see_player = true  # 雷射一路暢通 ＝ 看到玩家了！
-	else:
-		can_see_player = false     # 根本不在圈圈內 ＝ 沒看到
-	# 🌟【新增這行！LOL 視野同步機制】
-	# 如果野豬看得到玩家，野豬就現形 (true)；如果看不到，野豬連同血條瞬間隱形 (false)！
-	self.visible = can_see_player
+	# 2. 🌟 預設藏在迷霧/黑暗中 (開局隱形且透明度為 0，等待白貓光圈照亮)
+	self.visible = false
+	self.modulate.a = 0.0
 
-
-# --- 處理受傷與擊退邏輯的專屬函數 ---
-func handle_hurt(): # 當野豬被玩家的武器判定打到時呼叫
-	var state_name = state_machine.current_state.name.to_lower() # 【特殊函數】把狀態名轉小寫，防止大小寫打錯字
+func _physics_process(_delta: float) -> void:
+	move_and_slide()                             # 根據 velocity 執行移動並處理撞牆
 	
-	# 🌟 破綻鎖定：如果正在暈眩 (stun) 或喘氣 (pant) 期間
-	if "stun" in state_name or "pant" in state_name: 
+	# --- 真實視野雷射掃描系統 (供野豬 AI 追擊玩家使用) ---
+	if player_node != null:                      # 玩家在藍色感知圈圈內
+		vision_ray.target_position = to_local(player_node.global_position)
+		vision_ray.force_raycast_update()        # 強制雷射在一幀內更新結果
 		
-		# 賦予擊退力道，這配合上面的 0.15 煞車(pant)，會讓它退一小步後停下
+		# 檢查雷射光有沒有撞到障礙物（牆壁/柱子）
+		if vision_ray.is_colliding():
+			can_see_player = false               # 雷射被擋住 ＝ 視線被遮擋
+		else:
+			can_see_player = true                # 雷射一路暢通 ＝ 野豬看到玩家，準備鎖定追擊！
+	else:
+		can_see_player = false                   # 不在圈圈內
+
+# ==========================================
+# 👁️ 迷霧與白貓照亮現形系統 (Tween 動畫)
+# ==========================================
+func update_visibility() -> void:
+	if fade_tween and fade_tween.is_running():
+		fade_tween.kill()
+		
+	fade_tween = create_tween()
+	
+	if is_illuminated_by_cat:
+		self.visible = true
+		# 0.35 秒內平滑漸變現形
+		fade_tween.tween_property(self, "modulate:a", 1.0, 0.35)
+	else:
+		# 0.35 秒內平滑漸变隱形
+		fade_tween.tween_property(self, "modulate:a", 0.0, 0.35)
+		fade_tween.tween_callback(func():
+			if not is_illuminated_by_cat:
+				self.visible = false
+		)
+
+# ==========================================
+# 💥 戰鬥、受傷與死亡邏輯
+# ==========================================
+func handle_hurt() -> void:
+	var state_name = state_machine.current_state.name.to_lower()
+	
+	# 破綻鎖定：如果正在暈眩 (stun) 或喘氣 (pant) 期間
+	if "stun" in state_name or "pant" in state_name: 
 		velocity = knockback_force 
 		
-		# 加上一個瞬間變白的打擊特效，這樣即使動畫沒斷，玩家也知道有砍中
-		var hit_tween = get_tree().create_tween() # 建立一次性動畫
-		animated_sprite_2d.modulate = Color(3, 3, 3) # 瞬間變為過曝的高亮白色
-		hit_tween.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.1) # 0.1 秒後恢復正常色
+		# 瞬間變白打擊高亮特效
+		var hit_tween = get_tree().create_tween()
+		animated_sprite_2d.modulate = Color(3, 3, 3)
+		hit_tween.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.1)
 		
-		return # 🌟 直接跳出函數，拒絕執行後面的狀態切換！這能確保紫光閃爍繼續進行
+		return 
 		
-	# 如果是平常在走路或站著時被打，才切換到正常的受傷狀態
+	# 平常走路或站立被打時，切換到受傷狀態
 	state_machine.change_state("EnemyHurt")
 
-func die():                      # 實作父類別的虛擬函數：處理死亡
-	if is_dead: return           # 防呆：死過就不再執行
-	is_dead = true               # 標記死亡狀態為真
-	state_machine.change_state("EnemyDie")        # 讓狀態機切換到 "EnemyDie" 狀態
-	drop_coin() # 🌟 在野豬消失前，呼叫噴錢函數！
-	
-	# queue_free() 或切換死亡狀態
+func die() -> void:
+	if is_dead: return                           # 防呆：死過就不再執行
+	is_dead = true
+	state_machine.change_state("EnemyDie")        # 狀態機切換至 EnemyDie
+	drop_coin()                                  # 在野豬消失前噴錢！
 
-func update_hp_bar():            # 實作父類別的虛擬函數：更新血條
-	if hp_bar:                   # 如果有抓到血條節點
-		hp_bar.update_bar(current_hp, max_hp)     # 呼叫血條腳本的 update_bar 函數更新數值
+func update_hp_bar() -> void:
+	if hp_bar and hp_bar.has_method("update_bar"):
+		hp_bar.update_bar(current_hp, max_hp)
 
-func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO): # 動畫播放控制器，接收動作前綴和方向
-	var suffix = ""              # 準備用來裝方向後綴的字串
-	var target_dir = dir if dir != Vector2.ZERO else last_facing_vec # 如果有傳入方向就用傳入的，沒有就用最後面朝的方向
+func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
+	var suffix = "" 
+	var target_dir = dir if dir != Vector2.ZERO else last_facing_vec
 	
-	if abs(target_dir.x) > abs(target_dir.y):     # 如果X軸(左右)的幅度大於Y軸(上下)
-		suffix = "_right" if target_dir.x > 0 else "_left"  # 朝右就加 "_right"，否則 "_left"
-	else:                                         # 如果Y軸的幅度比較大
-		suffix = "_down" if target_dir.y > 0 else "_up"     # 朝下就加 "_down"，否則 "_up"
+	if abs(target_dir.x) > abs(target_dir.y): 
+		suffix = "_right" if target_dir.x > 0 else "_left" 
+	else: 
+		suffix = "_down" if target_dir.y > 0 else "_up" 
 	
-	animated_sprite_2d.play(prefix + suffix)      # 把動作(如"run")跟方向(如"_left")組合起來播放動畫
+	animated_sprite_2d.play(prefix + suffix)
 
-# --- 掉落物品系統 ---
+# ==========================================
+# 💰 掉落物品系統
+# ==========================================
 func drop_coin() -> void:
-	# 確保金幣場景已載入
 	if COIN_SCENE:
-		# 執行 5 次迴圈掉落 5 枚金幣
 		for i in range(5):
-			# 建立 0.01 到 0.1 秒的隨機延遲
 			var delay = randf_range(0.01, 0.1)
-			
-			# 計時器結束後執行金幣生成
 			get_tree().create_timer(delay).connect("timeout", func():
-				# 實例化金幣
 				var coin = COIN_SCENE.instantiate()
-				
-				# 宣告預設生成座標為野豬當前座標
 				var spawn_pos = global_position
 				
-				# 檢查是否有抓到玩家節點 (利用玩家位置作為安全區參考)
 				if DataManager and DataManager.player_node:
-					# 計算從野豬指向玩家的方向向量
 					var dir_to_player = global_position.direction_to(DataManager.player_node.global_position)
-					# 讓金幣朝玩家方向偏移 15 到 30 像素 (確保掉在空地)
 					var safe_offset = dir_to_player * randf_range(15.0, 30.0)
-					# 加上微小的隨機擾動，避免 5 顆金幣完全疊在一起
 					var random_jitter = Vector2(randf_range(-50.0, 50.0), randf_range(-50.0, 50.0))
-					# 結算最終安全座標
 					spawn_pos = global_position + safe_offset + random_jitter
 				else:
-					# 若無玩家節點則原地隨機散開 (備用邏輯)
 					spawn_pos = global_position + Vector2(randf_range(-20.0, 20.0), randf_range(-20.0, 20.0))
 				
-				# 🌟 終極神技：把算好的世界座標 (spawn_pos)，翻譯成爸爸看得懂的「本地座標」
 				var local_pos = get_parent().to_local(spawn_pos)
-				
-				# 🌟 先把翻譯好的座標給金幣
 				coin.position = local_pos
-				
-				# 🌟 最後才把金幣加進遊戲。此時 _ready() 動畫啟動，起點完全正確！
 				get_parent().add_child(coin)
 			)
+
+# ==========================================
+# 📡 碰撞與攻擊訊號 (支援玩家與白貓雙目標)
+# ==========================================
+func _on_detect_player_body_entered(body) -> void: 
+	if body is Player or body.is_in_group("player") or body.name == "player": 
+		player_node = body
+
+func _on_detect_player_body_exited(body) -> void: 
+	if body == player_node or body.is_in_group("player"): 
+		player_node = null
+
+# 🌟 野豬嘴巴/衝撞 Hitbox 打中目標時
+func _on_hitbox_area_entered(area: Area2D) -> void: 
+	var parent = area.get_parent() 
+
+	# 1. 🎯 如果打到的是玩家
+	if parent is Player or parent.is_in_group("player"):
+		if has_hit_player: return # 防呆：這次衝刺已經咬過玩家，不重複扣血
+		has_hit_player = true
 		
+		if area.has_method("take_damage"):
+			area.take_damage(melee_damage, global_position)
+		elif parent.has_method("take_damage"):
+			parent.take_damage(melee_damage, global_position)
+			
+		print("💥 野豬衝撞擊中了玩家！")
 
-
-
-
-func _on_detect_player_body_entered(body):        # 視野感應區(Area2D)碰到實體肉身時觸發
-	if body is Player:           # 檢查碰到的實體是不是玩家(Player)類別
-		player_node = body       # 如果是，就把這個玩家存進大腦當作追擊目標
-
-func _on_detect_player_body_exited(body):         # 視野感應區離開實體時觸發
-	if body == player_node:      # 如果離開的實體剛好就是目前的目標玩家
-		player_node = null       # 弄丟目標，清空記憶
-
-func _on_hitbox_area_entered(area: Area2D) -> void: # 野豬嘴巴(Hitbox)撞到感應區時觸發
-	print("🔥【野豬Hitbox】撞到東西：", area, " 類型：", area.get_class()) # 後台印出撞到什麼
-	
-	if has_hit_player: return    # 如果這次衝刺已經咬過了，直接跳出避免重複扣血
-
-	if area is Hurtbox:          # 如果撞到的感應區剛好是 Hurtbox (受傷區)
-		print("✅ 是 Hurtbox")    # 再次確認
-		var parent = area.get_parent()            # 往上找這個 Hurtbox 的主人是誰
-		print("👉 父節點：", parent)              # 印出主人的名字
-
-		if parent is Player:     # 如果主人是玩家
-			print("🎯 打到玩家了") # 確認咬中
-			has_hit_player = true# 把「已咬中」的標籤設為真，鎖死傷害判定
-			area.take_damage(melee_damage, global_position) # 呼叫玩家的 Hurtbox 扣血，傳入野豬專屬的近戰傷害與野豬當前座標
+	# 2. 🐱 如果打到的是白貓
+	elif parent is WhiteCat or parent.is_in_group("white_cat"):
+		if parent.has_method("take_damage"):
+			parent.take_damage(melee_damage, global_position)
+			
+		print("💥 野豬衝撞擊中了白貓！白貓進入虛弱狀態！")

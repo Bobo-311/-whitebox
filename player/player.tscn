@@ -1,4 +1,4 @@
-[gd_scene load_steps=187 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=185 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -1252,22 +1252,9 @@ size = Vector2(90.03125, 122)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7xcs"]
 size = Vector2(83.125, 127.5)
 
-[sub_resource type="Gradient" id="Gradient_bjvpn"]
-interpolation_mode = 2
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_s7qer"]
-gradient = SubResource("Gradient_bjvpn")
-width = 1024
-height = 1024
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(1, 0.5)
-
 [node name="player" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 2
-collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_boqn2")
 metadata/_edit_horizontal_guides_ = [-170.0, 85.0]
@@ -1362,20 +1349,6 @@ script = ExtResource("5_tnfn2")
 [node name="SFXSword" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_boad6")
 volume_db = -14.195
-
-[node name="Light_Ground" type="PointLight2D" parent="."]
-position = Vector2(0, -20)
-shadow_enabled = true
-shadow_color = Color(0, 0, 0, 0.6431373)
-shadow_filter = 1
-shadow_filter_smooth = 3.0
-texture = SubResource("GradientTexture2D_s7qer")
-
-[node name="Light_Tall" type="PointLight2D" parent="."]
-position = Vector2(0, -20)
-range_item_cull_mask = 2
-shadow_filter = 1
-texture = SubResource("GradientTexture2D_s7qer")
 
 [node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]
 
