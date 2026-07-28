@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://drnk45p7l2173"]
+
+[ext_resource type="Texture2D" uid="uid://d3lum77wifuc" path="res://whitecat/cat for test.png" id="1_8fm4j"]
+[ext_resource type="Script" uid="uid://bsof34rgx7ec1" path="res://whitecat/white_cat.gd" id="1_jdbxt"]
+[ext_resource type="Texture2D" uid="uid://ca07lmkk7kidw" path="res://光源/light_texture.tres" id="2_jdbxt"]
+[ext_resource type="Script" uid="uid://cims8ip5crfbe" path="res://whitecat/whitecat_hurtbox.gd" id="4_q2jyu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q2jyu"]
+radius = 35.20423
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t65i5"]
+radius = 111.832756
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bcxv7"]
+radius = 77.8257
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["white_cat"]]
+scale = Vector2(5, 5)
+collision_layer = 256
+script = ExtResource("1_jdbxt")
+move_speed = 500.0
+max_follow_distance = 600.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.5999985, 1.2000046)
+scale = Vector2(0.2654891, 0.2654891)
+texture = ExtResource("1_8fm4j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 48.400005)
+scale = Vector2(0.89599985, 0.89599985)
+shape = SubResource("CircleShape2D_q2jyu")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0.59994507, 2.1998901)
+scale = Vector2(3.7273438, 3.7273438)
+energy = 2.0
+shadow_enabled = true
+shadow_color = Color(0.11207495, 0.11207495, 0.11207495, 0.65800005)
+texture = ExtResource("2_jdbxt")
+texture_scale = 18.0
+height = 180.0
+
+[node name="LightArea" type="Area2D" parent="." groups=["cat_light_zone"]]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightArea"]
+scale = Vector2(9.415999, 9.415999)
+shape = SubResource("CircleShape2D_t65i5")
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("4_q2jyu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+shape = SubResource("CircleShape2D_bcxv7")
+
+[connection signal="body_entered" from="LightArea" to="." method="_on_light_area_body_entered"]
+[connection signal="body_exited" from="LightArea" to="." method="_on_light_area_body_exited"]
