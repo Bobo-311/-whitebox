@@ -43,7 +43,7 @@ func _ready() -> void:
 	var hitbox = get_node_or_null("Hitbox/CollisionShape2D")
 	if hitbox:
 		hitbox.set_deferred("disabled", true)
-		print("ddos")
+		
 	# 2. 🌟 預設藏在迷霧/黑暗中 (開局隱形且透明度為 0，等待白貓光圈照亮)
 	self.visible = false
 	self.modulate.a = 0.0

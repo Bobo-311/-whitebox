@@ -115,8 +115,9 @@ func recalculate_stats():
 # ==========================================
 func _input(event):
 	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
+	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
 	if event.is_action_pressed("notebook"):
-		is_reading_book = !is_reading_book 
+		is_reading_book = !is_reading_book
 		
 		if is_reading_book:
 			# 打開書時：煞車、並強制關閉狀態機(無法攻擊/翻滾)
@@ -130,10 +131,16 @@ func _input(event):
 			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 			
 			if notebook_ui:
-				# 🌟 核心判定：如果剛才是從存檔點捷徑進來的，這次就「瞬間關閉」
+				# 🌟 核心判定：如果剛才是從存檔畫架進來的
 				if opened_from_savepoint:
-					notebook_ui.toggle_notebook(true) # 瞬間關閉（無動畫）
-					opened_from_savepoint = false # 關完立刻重置，防呆！
+					notebook_ui.toggle_notebook(true) # 瞬間關閉筆記本
+					opened_from_savepoint = false # 重置防呆
+					
+					# 🌟 把藏在背景的畫架找出來，重新顯示，並再次時間暫停！
+					var save_menus = get_tree().get_nodes_in_group("save_menu")
+					if save_menus.size() > 0:
+						save_menus[0].show()
+						get_tree().paused = true
 				else:
 					notebook_ui.toggle_notebook(false) # 正常關閉（有動畫）
 

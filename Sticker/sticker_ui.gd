@@ -9,8 +9,7 @@ const STICKER_ITEM = preload("res://StickerItem/sticker_item.tscn")
 # ==========================================
 # 節點抓取區 (@onready 確保畫面載入完畢才抓取)
 # ==========================================
-# 關閉按鈕 (右上角的叉叉，已經確認在最外層)
-@onready var close_button: TextureButton = $Easel/CloseButton
+
 
  
 # 抓取 4 個用來控制翻頁的小點點 (已更新為最新完美命名)
@@ -65,6 +64,18 @@ func _ready() -> void:
 	# 5. UI 都架設好後，呼叫大腦把玩家擁有的貼紙發配到畫架上
 	load_inventory()
 
+# 🌟 新增：監聽 TAB 鍵關閉貼紙介面，並返回存檔選單
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("notebook"):
+		# 尋找藏在背景的存檔主選單，把它叫回來
+		for child in get_tree().root.get_children():
+			if "SaveMenu" in child.name: 
+				child.show() 
+				
+		# 功成身退，把貼紙介面徹底刪除
+		queue_free()
+		# 吃掉輸入，避免這個 TAB 鍵又去觸發外面的筆記本
+		get_viewport().set_input_as_handled()
 # ==========================================
 # 視覺回饋：滑鼠滑過點點時的明暗變化
 # ==========================================
@@ -158,20 +169,7 @@ func show_sticker_info(sticker_id: String) -> void:
 	info_desc.text = effect_text
 
 
-func _on_close_button_pressed() -> void:
-	# 尋找藏在背景的存檔主選單，把它叫回來
-	for child in get_tree().root.get_children():
-		if "SaveMenu" in child.name: 
-			child.show() 
-			
-	# 功成身退，把貼紙介面從記憶體中徹底刪除
-	queue_free()
 
-func _on_close_button_mouse_entered() -> void:
-	close_button.self_modulate = Color(0.7, 0.7, 0.7) 
-
-func _on_close_button_mouse_exited() -> void:
-	close_button.self_modulate = Color(1.0, 1.0, 1.0)
 
 # ==========================================
 # 自動召喚貼紙流水線 (4 頁發牌系統)

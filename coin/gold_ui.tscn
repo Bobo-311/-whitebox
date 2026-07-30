@@ -139,6 +139,7 @@ custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 
 [node name="CoinSprite" type="AnimatedSprite2D" parent="GoldContainer/Layout/IconWrapper"]
+process_mode = 3
 position = Vector2(20, 20)
 scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_vtdmk")

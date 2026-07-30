@@ -41,7 +41,7 @@ func _ready():
 
 func _input(event):
 	# 只要按了筆記本快捷鍵 (Tab) 或取消鍵
-	if event.is_action_pressed("notebook") or event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("notebook"):
 		
 		# 1. 強制洗白所有「點過誰」的記憶
 		current_selected_type = ""

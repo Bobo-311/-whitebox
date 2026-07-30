@@ -1,10 +1,9 @@
-[gd_scene load_steps=64 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=63 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
 [ext_resource type="Texture2D" uid="uid://1ecewiak7xoi" path="res://雜/icon.svg" id="4_167qa"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="5_q0gaw"]
-[ext_resource type="PackedScene" uid="uid://def106py6fbgu" path="res://portal/portal.tscn" id="6_877dg"]
 [ext_resource type="Texture2D" uid="uid://cf5y54uekehn6" path="res://地圖/map2.png" id="7_scycs"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="9_0p35i"]
@@ -1170,13 +1169,14 @@ offset_right = 19683.832
 offset_bottom = 17356.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 0.5476976, 0.9307063, 1)
+color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(1774, 1191)
+position = Vector2(1901, 910)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 
@@ -1218,10 +1218,6 @@ shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
 position = Vector2(2105, 863)
-
-[node name="Portal" parent="." instance=ExtResource("6_877dg")]
-position = Vector2(2131, 480)
-scale = Vector2(-1, 1)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
 position = Vector2(2593, 1228)
