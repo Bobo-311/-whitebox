@@ -1157,7 +1157,7 @@ sources/4 = SubResource("TileSetAtlasSource_scycs")
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
-position = Vector2(-129, -57)
+position = Vector2(-159, -20)
 script = ExtResource("1_scycs")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -1173,11 +1173,10 @@ grow_vertical = 2
 color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(1901, 910)
+position = Vector2(1561, 1746)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 
@@ -1218,7 +1217,7 @@ position = Vector2(-241, 1000)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
-position = Vector2(2105, 863)
+position = Vector2(1598, 1120)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
 position = Vector2(2593, 1228)
