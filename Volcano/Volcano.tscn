@@ -1158,6 +1158,7 @@ sources/4 = SubResource("TileSetAtlasSource_scycs")
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
+position = Vector2(-129, -57)
 script = ExtResource("1_scycs")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -1176,7 +1177,7 @@ color = Color(1, 0.5476976, 0.9307063, 1)
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(1774, 1191)
+position = Vector2(1678, 1767)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 
@@ -1253,10 +1254,10 @@ tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAI
 tile_set = SubResource("TileSet_167qa")
 
 [node name="enemy" parent="." instance=ExtResource("9_0p35i")]
-position = Vector2(2561, 1094)
+position = Vector2(2565, 1094)
 
 [node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
-position = Vector2(2312, 1153)
+position = Vector2(1918, 1728)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 

@@ -1,8 +1,8 @@
 extends CharacterBody2D
 class_name WhiteCat
 
-@export var move_speed: float = 300.0          # 白貓移動速度
-@export var max_follow_distance: float = 500.0   # 離玩家的最遠極限距離
+@export var move_speed: float = 500.0          # 白貓正常移動速度
+@export var max_follow_distance: float = 700.0   # 離玩家的最遠極限距離
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var light_area: Area2D = $LightArea
@@ -12,6 +12,9 @@ class_name WhiteCat
 var player_node: Node2D = null
 var is_stunned: bool = false                     # 受傷/暈眩狀態開關
 var stun_tween: Tween = null                    # 紀錄動畫物件
+
+# 🌟 召回狀態開關 (加速衝回玩家身邊)
+var is_recalling: bool = false
 
 # 🌟 自動記憶編輯器中設定的原始數值 (避免程式碼硬寫死 1.0)
 var original_light_scale: Vector2 = Vector2.ONE # 預設圈圈大小
@@ -68,6 +71,7 @@ func take_damage(damage_amount: float = 0.0, _attacker_pos: Vector2 = Vector2.ZE
 		return # 已經在虛弱狀態中不重複觸發
 		
 	is_stunned = true
+	is_recalling = false # 受傷時解除召回狀態
 	velocity = Vector2.ZERO # 立刻停在原地
 	print("😿【白貓受傷】受到了來自敵人的傷害！進入虛弱狀態 3 秒！")
 
@@ -155,14 +159,19 @@ func _input(event: InputEvent) -> void:
 	# 🌟 虛弱期間直接屏蔽玩家操作指令
 	if is_stunned: return
 	
-	# 按 Space 召回白貓
-	if (event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_SPACE) or event.is_action_pressed("cat_recall") or event.is_action_pressed("ui_select"):
+	# 按下 Space 瞬間觸發一次召回
+	if (event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_SPACE) or event.is_action_pressed("cat_recall"):
 		if player_node:
+			is_recalling = true
 			nav_agent.target_position = player_node.global_position
+			print("🐱⚡【白貓召回】啟動 1.5 倍速衝回主角身邊！")
 		return
 
 	# 滑鼠右鍵指揮白貓移動
 	if event.is_action_pressed("cat_move"):
+		# 手動指派貓咪移動時，自動取消召回加速狀態
+		is_recalling = false
+		
 		var target_pos = get_global_mouse_position()
 		
 		if player_node:
@@ -180,7 +189,22 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		return
 
+	# 🌟 [新增：長按空白鍵貼身跟隨邏輯]
+	# 每一幀檢查玩家是否正按著空白鍵（或 cat_recall 按鍵）
+	var is_holding_space: bool = Input.is_key_pressed(KEY_SPACE) or Input.is_action_pressed("cat_recall")
+	
+	if is_holding_space and player_node:
+		is_recalling = true
+		nav_agent.target_position = player_node.global_position
+	elif is_recalling and player_node:
+		# 單次按空白鍵的召回：持續更新玩家最新位置直到抵達身邊
+		nav_agent.target_position = player_node.global_position
+
+	# 抵達目的地（回到身邊或指派點）
 	if nav_agent.is_navigation_finished():
+		# 只有在「沒有長按空白鍵」的情況下，抵達身邊才解除召回狀態
+		if not is_holding_space:
+			is_recalling = false
 		velocity = Vector2.ZERO
 		move_and_slide()
 		return
@@ -188,7 +212,9 @@ func _physics_process(_delta: float) -> void:
 	var next_path_pos: Vector2 = nav_agent.get_next_path_position()
 	var move_dir: Vector2 = global_position.direction_to(next_path_pos)
 	
-	velocity = move_dir * move_speed
+	# 計算實際移動速度：召回/跟隨狀態下為 1.5 倍速 (450)，平時為原速 (300)
+	var current_speed: float = move_speed * 1.5 if is_recalling else move_speed
+	velocity = move_dir * current_speed
 	
 	if sprite and move_dir.x != 0:
 		sprite.flip_h = move_dir.x < 0

@@ -21,13 +21,18 @@ func _ready() -> void:
 # --- 按下「存檔」：寫入數值並重載場景 ---
 func _on_save_pressed() -> void:
 	if DataManager and DataManager.player_node: 
-		# 記錄最大血量與體力
-		DataManager.saved_hp = DataManager.player_node.max_hp
-		DataManager.saved_sp = DataManager.player_node.max_sp
+		var player = DataManager.player_node
 		
-		# 能量保底：低於 50% 補滿 50%，高於則保留現狀
-		var half_energy = int(DataManager.player_node.max_energy * 0.5) 
-		DataManager.saved_energy = max(DataManager.player_node.current_energy, half_energy) 
+		# 1. 記錄最大血量與體力 (存檔點全滿)
+		DataManager.saved_hp = player.max_hp
+		DataManager.saved_sp = player.max_sp
+		
+		# 2. [🌟 墨水彈藥系統] 存檔時將墨水彈藥補滿 (3/3)
+		player.current_ammo = player.max_ammo
+		if player.player_hud and player.player_hud.has_method("update_ammo"):
+			player.player_hud.update_ammo(player.current_ammo, player.max_ammo)
+			
+		print("💾【存檔成功】血量、體力與墨水彈藥已全數補滿！")
 	
 	get_tree().paused = false 
 	queue_free() 

@@ -39,7 +39,6 @@ var soul_map_path: String = "" # 記錄玩家在哪張地圖死掉的
 # 貼紙系統核心資料庫
 # ==========================================
 # 記錄 4 個裝備欄的貼紙「ID」。空字串 "" 代表沒裝裝備
-# 注意：以前是存圖片路徑，現在我們只存乾淨的 ID (例如 "001")
 var equipped_stickers: Array[String] = ["", "", "", ""]
 
 # ==========================================
@@ -74,6 +73,38 @@ const STICKER_DB = {
 }
 
 # ==========================================
+# 玩家擁有的貼紙清單 (背包)
+# ==========================================
+var owned_stickers: Array[String] = [
+	"001", "004", "006", "008" # 假設玩家現在擁有這四張貼紙
+]
+
+# ==========================================
+# 道具圖鑑資料庫 (Item Database)
+# ==========================================
+const ITEM_DB = {
+	"potion_gugu": {
+		"name": "咕咕嘎嘎药水",
+		"max_carry": 2, 
+		"description": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
+		"story": "不知道是什么，但听起来很好吃。据说是某个在森林迷路的小孩发明的。",
+		"texture_path": "res://FreePixelSurvivalItemsPack/Items/99.png" 
+	}
+}
+
+# ==========================================
+# 玩家真實道具背包狀態 (動態資料)
+# ==========================================
+var inventory_items = {
+	"potion_gugu": {
+		"current_carry": 0,
+		"reserve_amount": 0
+	}
+}
+
+var equipped_items: Array[String] = ["potion_gugu", "", "", ""]
+
+# ==========================================
 # 全域公開函數
 # ==========================================
 func update_map_name(new_name: String) -> void:
@@ -84,61 +115,23 @@ func update_map_name(new_name: String) -> void:
 func has_sticker(sticker_id: String) -> bool:
 	return sticker_id in equipped_stickers # 如果該 ID 有在裝備陣列裡，就回傳 true
 
-# ==========================================
-# 玩家擁有的貼紙清單 (背包)
-# ==========================================
-# 升級：現在裡面只放純淨的「身分證字號 (ID)」，不再放圖片路徑了！
-var owned_stickers: Array[String] = [
-	"001", "004", "006", "008" # 假設玩家現在擁有這四張貼紙
-]
-
-# ==========================================
-# [🌟 本次新增] 道具圖鑑資料庫 (Item Database)
-# ==========================================
-# 記錄遊戲中所有「消耗型道具」的靜態資訊，包含名稱、最大攜帶上限等
-# 目前依照你的要求，只先實裝「咕咕嘎嘎藥水」來進行實測
-const ITEM_DB = {
-	"potion_gugu": {
-		"name": "咕咕嘎嘎药水",
-		"max_carry": 2, 
-		"description": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
-		"story": "不知道是什么，但听起来很好吃。据说是某个在森林迷路的小孩发明的。", # 🌟 新增故事欄位
-		# 🔽🔽🔽 這行一定要加，路徑換成你實際藥水圖片的路徑 🔽🔽🔽
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/99.png" 
-	}
-}
-
-# ==========================================
-# [🌟 本次新增] 玩家真實道具背包狀態 (動態資料)
-# ==========================================
-# 1. 記錄玩家目前擁有的道具數量
-# current_carry: 身上帶著的數量 (預設 0/2，要等去存檔點才會補滿)
-# reserve_amount: 倉庫庫存 (商店買到的都會先存在這裡，也就是你說的調用數量)
-var inventory_items = {
-	"potion_gugu": {
-		"current_carry": 0,
-		"reserve_amount": 0
-	}
-}
-
-# 2. 玩家目前快捷裝備在左下角 HUD 的 4 個道具欄位 (存 ITEM_DB 的 Key 字串)
-# 空字串 "" 代表該欄位沒裝備道具。預設先把藥水裝在第一格方便之後測試
-var equipped_items: Array[String] = ["potion_gugu", "", "", ""]
-
-# ==========================================
-# [🌟 本次新增] 商店收貨專用函數
-# ==========================================
 # 當商店買到東西、或是地圖上撿到東西時，呼叫這個函數把東西放進倉庫
 func add_item_to_reserve(item_id: String, amount: int) -> void:
 	if inventory_items.has(item_id):
-		# 如果背包本來就有建立這個道具的格子，直接增加倉庫庫存
 		inventory_items[item_id]["reserve_amount"] += amount
 	else:
-		# 防呆：如果大腦裡原本沒有這個道具，就幫它初始化一個新格子
 		inventory_items[item_id] = {
-			"current_carry": 0, # 新拿到的道具身上預設是 0 個
+			"current_carry": 0,
 			"reserve_amount": amount
 		}
 	
-	# 在後台印出確認訊息，這樣我們測試買東西時，就能立刻看到到底有沒有收貨成功
 	print("【大腦】獲得道具：", item_id, "，本次新增：", amount, "，目前庫存總數：", inventory_items[item_id]["reserve_amount"])
+
+# ==========================================
+# [🌟 本次新增] 打擊感卡頓/頓幀系統 (Hitstop)
+# ==========================================
+func hitstop(duration: float = 0.05, time_scale: float = 0.05) -> void:
+	Engine.time_scale = time_scale # 將遊戲總速度變慢到接近暫停 (0.05倍速)
+	# 建立一個無視時間縮放的獨立計時器倒數
+	await get_tree().create_timer(duration * time_scale, true, false, true).timeout
+	Engine.time_scale = 1.0 # 時間恢復正常的 1.0 倍速
