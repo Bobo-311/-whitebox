@@ -155,22 +155,62 @@ func _input(event):
 		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
-# 物理與邏輯更新 (每幀執行)
+# 物理與邏輯更新 (這是一個每秒會執行 60 次的超高速迴圈)
 # ==========================================
 func _physics_process(delta: float) -> void: 
-	if not is_dead: # 只有活著才能操作
+	
+	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的，直接跳過所有邏輯
+	if not is_dead: 
 		
-		# [🌟 本次新增] 核心防護：看書時強制罰站，鎖死移動與技能
+		# ==========================================
+		# 🛑 狀態鎖定區：看書罰站機制
+		# ==========================================
+		# 【第二關防呆】：如果玩家現在正在看筆記本 (is_reading_book 為 true)
 		if is_reading_book:
-			velocity = Vector2.ZERO # 速度歸零防滑行
-			move_and_slide()        # 依然呼叫物理引擎維持基本碰撞
-			return                  # 🛑 直接中斷！不跑下面的走路跟放技能邏輯
+			# 為了避免玩家按開筆記本的瞬間還在滑行，強制把速度歸零 (踩死煞車)
+			velocity = Vector2.ZERO 
+			
+			# 雖然速度是 0，但還是要呼叫物理引擎，確保玩家不會穿牆或浮空
+			move_and_slide()        
+			
+			# 🌟 最重要的一行！return 代表「直接中斷退出」！
+			# 只要執行到這行，下面的走路、放技能、吃藥通通不會執行。
+			# 這樣玩家在看書時狂按鍵盤，角色才不會在背後亂動。
+			return                  
 		
-		# 抓取 WASD 輸入轉換成方向向量 (長度最大為 1)
+		# ==========================================
+		# 🏃 移動判定區
+		# ==========================================
+		# 抓取玩家按下的 WASD (或上下左右)。
+		# 為什麼用 get_vector？因為它會自動把「斜向移動」的速度縮放為 1，
+		# 這樣玩家「往右上角走」的速度，就不會比「往右走」還快了！
 		input_direction = Input.get_vector("left", "right", "up", "down") 
 
-		# --- 技能施放 (Q鍵) ---
-		if Input.is_action_just_pressed("skill_01"): 
+
+		# ==========================================
+		# 🎒 快捷欄切換區 (與 DataManager 大腦連線)
+		# ==========================================
+		# 按下鍵盤的 1 鍵 (向左切換)
+		if Input.is_action_just_pressed("slot_left"): 
+			# 傳送 -1 給大腦，代表指針往左邊退一格
+			# 大腦轉完之後，會自動發出廣播叫 UI 更新，我們不用管 UI 了
+			DataManager.rotate_quick_slot(-1)
+			
+		# 按下鍵盤的 3 鍵 (向右切換)
+		if Input.is_action_just_pressed("slot_right"): 
+			# 傳送 1 給大腦，代表指針往右邊進一格
+			DataManager.rotate_quick_slot(1)
+
+
+		# ==========================================
+		# ⚔️ 戰鬥與道具使用區 (徹底分家版！)
+		# ==========================================
+		
+		# --- 1️⃣ 發射魔法棒子彈 (左鍵) ---
+		# ⚠️ 注意：我這裡先假設你的滑鼠左鍵綁定的名稱叫做 "attack"
+		# 如果你在專案設定裡左鍵叫別的名字 (例如 "shoot" 或 "left_click")，請把 "attack" 改掉！
+		if Input.is_action_just_pressed("attack"): 
+			
 			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
 				
 				var current_buff: float = get_oversaturation_buff() 
@@ -182,26 +222,55 @@ func _physics_process(delta: float) -> void:
 				if use_energy(30): 
 					skill_01.shoot(current_buff) 
 				else: 
-					print("能量不足 30，無法施放 Q 技能！") 
+					print("能量不足 30，無法施放左鍵技能發射子彈！") 
+					
 			elif is_overheated: 
 				print("系統過熱中！無法釋放技能！") 
 
-		# --- 體力 (SP) 自動恢復邏輯 ---
+
+		# --- 2️⃣ 使用快捷欄道具 (Q 鍵) ---
+		if Input.is_action_just_pressed("USESKILL"): 
+			# 按 Q 鍵現在只負責呼叫大腦吃道具，絕對不會再射子彈了！
+			if state_machine.current_state.name != "PlayerHeal": 
+				DataManager.use_current_item() 
+		
+
+		# ==========================================
+		# 💚 體力 (SP) 自動恢復邏輯
+		# ==========================================
+		# sp_delay_timer 是一個「隱形倒數計時器」。
+		# 每次玩家揮刀或翻滾，這個計時器就會被設定為 0.5 秒。
+		
 		if sp_delay_timer > 0:            
+			# 如果計時器還沒歸零，就繼續倒數 (delta 是一幀的時間)
 			sp_delay_timer -= delta       
 		else:                                  
+			# 計時器歸零了！代表玩家已經 0.5 秒沒消耗體力了，開始回體！
+			
 			if current_sp < max_sp: 
+				# 決定回體速度：如果過熱就回得慢 (10.0)，沒過熱就回得快 (12.0)
 				var regen_rate = 10.0 if is_overheated else 12.0 
+				
+				# 增加體力，但用 min() 限制它絕對不能超過最大體力值 (max_sp)
 				current_sp = min(current_sp + regen_rate * delta, max_sp) 
 				
+				# 如果玩家處於過熱狀態，且體力已經恢復超過 70% (0.7) 了
 				if is_overheated and current_sp >= max_sp * 0.7: 
+					# 解除過熱封印！
 					is_overheated = false 
-					player_hud.set_overheat_visual(false) 
+					player_hud.set_overheat_visual(false) # 關閉紅色閃爍特效
 					print("體力恢復至 70%，解除過熱狀態！") 
 					
+				# 最後把算好的體力值送到 UI 上顯示
 				player_hud.update_sp(current_sp, max_sp) 
 
-	move_and_slide() # 根據目前的 velocity 執行移動與物理碰撞滑行
+
+	# ==========================================
+	# 🚗 引擎推動區
+	# ==========================================
+	# 不管上面算了多少速度 (velocity)，最後一定要呼叫這行！
+	# 這是 Godot 內建的物理引擎函數，它會真的推動玩家，並處理撞牆、滑行等物理效果
+	move_and_slide()
 
 # ==========================================
 # 資源消耗控制 (體力與能量)
@@ -282,6 +351,19 @@ func handle_hurt():
 		return 
 		
 	state_machine.change_state("PlayerHurt") 
+
+# ==========================================
+# 🌟 本次新增：外部補血接收器
+# ==========================================
+func heal(amount: int) -> void:
+	if current_hp < max_hp:
+		current_hp = min(current_hp + amount, max_hp)
+		update_hp_bar() # 更新血條 UI 和身體顏色
+		print("【玩家】喝下道具！恢復了 ", amount, " 點生命！目前血量：", current_hp)
+		
+		# 💡 如果你有綠色十字架之類的補血特效，或是喝水的音效，以後可以直接加在這裡！
+
+
 
 # ==========================================
 # 狀態與 UI 更新

@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://6ek23fgixsu8"]
 
 [ext_resource type="Script" uid="uid://bp5xnx8i3yvfp" path="res://SavePoint/save_point.gd" id="1_85d4v"]
-[ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://雜/tilemap.png" id="2_85d4v"]
+[ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://快捷欄素材/tilemap.png" id="2_85d4v"]
 [ext_resource type="PackedScene" uid="uid://h8nwgmrch0w8" path="res://SavePoint/Save_menu_ui.tscn" id="2_u6if8"]
 [ext_resource type="Texture2D" uid="uid://cth8ja8lni38m" path="res://雜/BOBO.png" id="3_u6if8"]
 

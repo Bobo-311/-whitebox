@@ -48,7 +48,8 @@ func _ready() -> void:
 	self.visible = false
 	self.modulate.a = 0.0
 func _physics_process(_delta: float) -> void:
-	move_and_slide()                             # 根據 velocity 執行移動並處理撞牆
+	
+	move_and_slide()
 	
 	# --- 真實視野雷射掃描系統 (供野豬 AI 追擊玩家使用) ---
 	if player_node != null:                      # 玩家在藍色感知圈圈內

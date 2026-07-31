@@ -101,7 +101,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
 text = "存档"
 
-[node name="notebook" type="Button" parent="BackgroundDim"]
+[node name="inventory" type="Button" parent="BackgroundDim"]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 1
 anchors_preset = 8
@@ -161,6 +161,6 @@ text = "传送
 "
 
 [connection signal="pressed" from="BackgroundDim/save" to="." method="_on_save_pressed"]
-[connection signal="pressed" from="BackgroundDim/notebook" to="." method="_on_notebook_pressed"]
+[connection signal="pressed" from="BackgroundDim/inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="BackgroundDim/sticker" to="." method="_on_sticker_pressed"]
 [connection signal="pressed" from="BackgroundDim/teleport" to="." method="_on_teleport_pressed"]
