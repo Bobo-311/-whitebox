@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d5h0npu180rc"]
+[gd_scene load_steps=12 format=3 uid="uid://d5h0npu180rc"]
 
 [ext_resource type="Texture2D" uid="uid://4rdn63uj3yg8" path="res://RRRRRRRR/Easel.png" id="1_7av4f"]
 [ext_resource type="Script" uid="uid://vdiyp1aq7e1p" path="res://Sticker/sticker_ui.gd" id="1_wuxxh"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dl8icjxaop6it" path="res://筆記本素材/UI.png" id="6_k2eij"]
 [ext_resource type="Texture2D" uid="uid://dbmslwmxy7tkg" path="res://筆記本素材/便利貼.png" id="7_f6c2s"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="9_k2eij"]
-[ext_resource type="Texture2D" uid="uid://isq0mcpxs11s" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/icons/close-icon.png" id="11_plff1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wuxxh"]
 paragraph_spacing = 3.0
@@ -29,10 +28,6 @@ region = Rect2(56.975468, 66.00519, 4.0386314, 5.053894)
 font = ExtResource("9_k2eij")
 font_size = 34
 font_color = Color(0, 0, 0, 1)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wuxxh"]
-atlas = ExtResource("11_plff1")
-region = Rect2(13.0355835, 13.588552, 39.510216, 36.642532)
 
 [node name="StickerUI" type="CanvasLayer"]
 process_mode = 3
@@ -314,23 +309,3 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("9_k2eij")
 theme_override_font_sizes/normal_font_size = 25
 text = "机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦机哩瓜啦"
-
-[node name="CloseButton" type="TextureButton" parent="Easel"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -627.0
-offset_top = 356.0
-offset_right = -575.0
-offset_bottom = 408.0
-grow_horizontal = 0
-texture_normal = SubResource("AtlasTexture_wuxxh")
-texture_hover = SubResource("AtlasTexture_wuxxh")
-ignore_texture_size = true
-stretch_mode = 5
-metadata/_edit_use_anchors_ = true
-
-[connection signal="mouse_entered" from="Easel/CloseButton" to="." method="_on_close_button_mouse_entered"]
-[connection signal="mouse_exited" from="Easel/CloseButton" to="." method="_on_close_button_mouse_exited"]
-[connection signal="pressed" from="Easel/CloseButton" to="." method="_on_close_button_pressed"]

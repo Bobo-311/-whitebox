@@ -55,10 +55,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -376.0
-offset_top = -227.0
-offset_right = -177.1001
-offset_bottom = -159.0
+offset_left = -96.0
+offset_top = -226.0
+offset_right = 102.8999
+offset_bottom = -158.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_4ioms")
@@ -90,10 +90,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 78.0
-offset_top = -230.0
-offset_right = 278.0
-offset_bottom = -170.0
+offset_left = 209.0
+offset_top = -145.0
+offset_right = 409.0
+offset_bottom = -85.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
@@ -109,16 +109,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -416.0
-offset_top = 48.0
-offset_right = -216.0
-offset_bottom = 108.0
+offset_left = -359.0
+offset_top = 78.0
+offset_right = -159.0
+offset_bottom = 138.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
-text = "物品栏"
+text = "笔记本
+"
 
 [node name="sticker" type="Button" parent="BackgroundDim"]
 custom_minimum_size = Vector2(200, 60)
@@ -128,35 +129,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -138.0
-offset_top = 161.0
-offset_right = 62.0
-offset_bottom = 221.0
+offset_left = 179.0
+offset_top = 82.0
+offset_right = 379.0
+offset_bottom = 142.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
 text = "贴纸"
-
-[node name="go" type="Button" parent="BackgroundDim"]
-custom_minimum_size = Vector2(200, 60)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 231.0
-offset_top = 34.0
-offset_right = 431.0
-offset_bottom = 94.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("4_g31nq")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxTexture_5x6x8")
-text = "出发"
 
 [node name="teleport" type="Button" parent="BackgroundDim"]
 custom_minimum_size = Vector2(200, 60)
@@ -166,10 +148,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -47.0
-offset_right = 100.0
-offset_bottom = 13.0
+offset_left = -399.0
+offset_top = -147.0
+offset_right = -199.0
+offset_bottom = -87.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_g31nq")
@@ -181,5 +163,4 @@ text = "传送
 [connection signal="pressed" from="BackgroundDim/save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="BackgroundDim/inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="BackgroundDim/sticker" to="." method="_on_sticker_pressed"]
-[connection signal="pressed" from="BackgroundDim/go" to="." method="_on_go_pressed"]
 [connection signal="pressed" from="BackgroundDim/teleport" to="." method="_on_teleport_pressed"]

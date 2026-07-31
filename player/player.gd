@@ -19,13 +19,13 @@ var base_max_hp: int = 100
 var current_ammo: int = 3                  # 當前剩餘墨水彈藥
 
 @export var max_sp: float = 100.0          # 體力上限 (揮刀、翻滾消耗用)
-var current_sp: float = 50                 # 開局預設體力
+var current_sp: float = 50                  # 開局預設體力
 var is_overheated: bool = false            # 狀態開關：記錄玩家現在是否處於「過熱力竭」狀態
 var sp_regen_delay: float = 0.5            # 體力恢復延遲：消耗後需等待 0.5 秒才能開始回體
 var sp_delay_timer: float = 0.0            # 隱形計時器：負責倒數回體的等待時間
 
-# 🌟 [新增] 射擊時的減速計時器
-var shoot_slow_timer: float = 0.0          # 發射時會倒數 0.5 秒，期間移動變超慢
+# 🌟 射擊時的減速計時器
+var shoot_slow_timer: float = 0.0          # 發射時會倒數，期間移動變慢
 
 # ==========================================
 # 狀態紀錄與節點抓取
@@ -78,7 +78,7 @@ func _ready():
 		player_hud.update_sp(current_sp, max_sp)             # 更新綠體力條
 		player_hud.set_overheat_visual(false)                # 確保開局沒有過熱特效
 		
-		# [🌟 墨水彈藥系統改動] 如果 UI 已支援彈藥更新則自動更新
+		# 墨水彈藥系統自動更新
 		if player_hud.has_method("update_ammo"):
 			player_hud.update_ammo(current_ammo, max_ammo)
 		
@@ -117,9 +117,9 @@ func recalculate_stats():
 # 開發者外掛與輸入偵測
 # ==========================================
 func _input(event):
-	# 監聽 Tab 鍵，開關素描本
+	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
 	if event.is_action_pressed("notebook"):
-		is_reading_book = !is_reading_book 
+		is_reading_book = !is_reading_book
 		
 		if is_reading_book:
 			# 打開書時：煞車、並強制關閉狀態機(無法攻擊/翻滾)
@@ -133,9 +133,16 @@ func _input(event):
 			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 			
 			if notebook_ui:
+				# 🌟 核心判定：如果剛才是從存檔畫架進來的
 				if opened_from_savepoint:
-					notebook_ui.toggle_notebook(true) # 瞬間關閉（無動畫）
-					opened_from_savepoint = false # 關完立刻重置，防呆！
+					notebook_ui.toggle_notebook(true) # 瞬間關閉筆記本
+					opened_from_savepoint = false # 重置防呆
+					
+					# 🌟 把藏在背景的畫架找出來，重新顯示，並再次時間暫停！
+					var save_menus = get_tree().get_nodes_in_group("save_menu")
+					if save_menus.size() > 0:
+						save_menus[0].show()
+						get_tree().paused = true
 				else:
 					notebook_ui.toggle_notebook(false) # 正常關閉（有動畫）
 
@@ -150,21 +157,30 @@ func _input(event):
 		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
-# 物理與邏輯更新 (每幀執行)
+# 物理與邏輯更新
 # ==========================================
 func _physics_process(delta: float) -> void: 
-	if not is_dead: # 只有活著才能操作
+	
+	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的
+	if not is_dead: 
 		
-		# 看書時強制罰站，鎖死移動與技能
+		# 🛑 狀態鎖定區：看書罰站機制
 		if is_reading_book:
-			velocity = Vector2.ZERO # 速度歸零防滑行
-			move_and_slide()        # 依然呼叫物理引擎維持基本碰撞
-			return                  # 🛑 直接中斷！不跑下面的走路跟放技能邏輯
+			velocity = Vector2.ZERO 
+			move_and_slide()        
+			return                  
 		
-		# 抓取 WASD 輸入轉換成方向向量 (長度最大為 1)
+		# 🏃 移動向量計算
 		input_direction = Input.get_vector("left", "right", "up", "down") 
 
-		# --- [🌟 墨水彈藥系統改動] 遠程發射 (Q鍵 / 墨水彈) ---
+		# 🎒 快捷欄切換區 (1鍵與3鍵)
+		if Input.is_action_just_pressed("slot_left"): 
+			DataManager.rotate_quick_slot(-1)
+			
+		if Input.is_action_just_pressed("slot_right"): 
+			DataManager.rotate_quick_slot(1)
+
+		# ⚔️ 戰鬥與技能區：射擊墨水彈 (skill_01 鍵)
 		if Input.is_action_just_pressed("skill_01"): 
 			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
 				
@@ -172,7 +188,7 @@ func _physics_process(delta: float) -> void:
 				if current_ammo > 0:
 					current_ammo -= 1
 					
-					# 🌟 [新增：觸發 0.5 秒射擊沉重減速]
+					# 觸發 0.3 秒射擊沉重減速
 					shoot_slow_timer = 0.3
 					
 					print("【墨水發射】射出一發！剩餘彈藥：", current_ammo, "/", max_ammo)
@@ -196,10 +212,15 @@ func _physics_process(delta: float) -> void:
 			elif is_overheated: 
 				print("系統過熱中！無法釋放技能！") 
 
-		# --- 體力 (SP) 自動恢復邏輯 ---
+		# 🎒 使用快捷欄道具 (USESKILL / Q 鍵)
+		if Input.is_action_just_pressed("USESKILL"): 
+			if state_machine.current_state.name != "PlayerHeal": 
+				DataManager.use_current_item() 
+
+		# 💚 體力 (SP) 自動恢復邏輯
 		if sp_delay_timer > 0:            
 			sp_delay_timer -= delta       
-		else:                                 
+		else:                                      
 			if current_sp < max_sp: 
 				var regen_rate = 10.0 if is_overheated else 12.0 
 				current_sp = min(current_sp + regen_rate * delta, max_sp) 
@@ -211,14 +232,13 @@ func _physics_process(delta: float) -> void:
 					
 				player_hud.update_sp(current_sp, max_sp) 
 
-	# 🌟 [新增：射擊沉重減速懲罰]
-	# 在真正執行移動之前，如果剛發射完墨水（0.5秒內），將速度砍到剩 20%
+	# 🌟 [射擊沉重減速懲罰]
 	if shoot_slow_timer > 0:
 		shoot_slow_timer -= delta
-		if not is_dashing: # 衝刺閃避不受減速影響，維持操作彈性
+		if not is_dashing: # 衝刺閃避不受減速影響
 			velocity *= 0.05
 
-	move_and_slide() # 根據目前的 velocity 執行移動與物理碰撞滑行
+	move_and_slide() # 執行移動與物理碰撞
 
 # ==========================================
 # 資源消耗控制 (體力與彈藥)
@@ -297,6 +317,15 @@ func handle_hurt():
 		return 
 		
 	state_machine.change_state("PlayerHurt") 
+
+# ==========================================
+# 🌟 外部補血接收器
+# ==========================================
+func heal(amount: int) -> void:
+	if current_hp < max_hp:
+		current_hp = min(current_hp + amount, max_hp)
+		update_hp_bar() # 更新血條 UI 和身體顏色
+		print("【玩家】喝下道具！恢復了 ", amount, " 點生命！目前血量：", current_hp)
 
 # ==========================================
 # 狀態與 UI 更新

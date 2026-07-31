@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://0fswxsxwrdgm"]
+[gd_scene load_steps=15 format=3 uid="uid://0fswxsxwrdgm"]
 
 [ext_resource type="Script" uid="uid://5fkpn27gvbie" path="res://main/main.gd" id="1_67ri8"]
 [ext_resource type="Texture2D" uid="uid://cgolu4vds1oiy" path="res://RRRRRRRR/柱子左側.png" id="2_0i4oc"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="4_bsumw"]
 [ext_resource type="Texture2D" uid="uid://d1syug57hw73p" path="res://RRRRRRRR/地板.png" id="4_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="6_na0o7"]
-[ext_resource type="PackedScene" uid="uid://def106py6fbgu" path="res://portal/portal.tscn" id="7_73k8k"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="8_5xyti"]
 [ext_resource type="Texture2D" uid="uid://dpsyenp8nm0qg" path="res://RRRRRRRR/紅通通1.png" id="11_5xyti"]
 [ext_resource type="Texture2D" uid="uid://dknp78gsbqpoc" path="res://RRRRRRRR/紅通通2.png" id="12_n3o0a"]
@@ -153,9 +152,6 @@ position = Vector2(1452.793, 528)
 
 [node name="SavePoint" parent="." instance=ExtResource("6_na0o7")]
 position = Vector2(1928, 1015)
-
-[node name="Portal" parent="." instance=ExtResource("7_73k8k")]
-position = Vector2(1584, 1030)
 
 [node name="Coin" parent="." instance=ExtResource("8_5xyti")]
 position = Vector2(2525, 1843)

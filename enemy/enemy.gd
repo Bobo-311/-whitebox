@@ -51,7 +51,7 @@ func _ready() -> void:
 	self.modulate.a = 0.0
 
 func _physics_process(_delta: float) -> void:
-	move_and_slide()                             # 根據 velocity 執行移動並處理撞牆
+	move_and_slide()
 	
 	# 🌟 持續碰撞檢查：如果玩家一直貼著 Hitbox 擠壓，無敵時間過後繼續彈開
 	_check_hitbox_overlap()
