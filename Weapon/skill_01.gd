@@ -5,26 +5,49 @@ extends Node2D                   # 繼承自 2D 節點，這個節點綁在玩�
 @onready var bullet_spawn: Marker2D = $BulletSpawn # 抓取發射點的座標記號
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D # 音效播放器
 
+# 🌟 [關鍵修復] 抓取槍管的精靈圖節點 (如果你的槍管圖示叫其他名字，請自行修改路徑)
+@onready var sprite_2d: Sprite2D = get_node_or_null("Sprite2D") 
+
 func _process(_delta):           # 每一幀執行
 	look_at(get_global_mouse_position()) # 神級函數：讓發射器(槍管)永遠死盯著滑鼠游標轉動
-	if get_global_mouse_position().x < global_position.x: # 如果游標跑到角色左邊
-		scale.y = -1             # Y軸翻轉，避免槍管和子彈上下顛倒
-	else:
-		scale.y = 1              # 保持正常
+	
+	# 🌟 [關鍵修復] 翻轉「Sprite2D 圖片」的 flip_y，而不是翻轉整體父節點的 scale.y！
+	# 這樣能確保 $BulletSpawn 的 Transform 矩陣永遠穩定不變形。
+	if sprite_2d:
+		if get_global_mouse_position().x < global_position.x:
+			sprite_2d.flip_v = true   # 🌟 修正為 flip_v (垂直翻轉)
+		else:
+			sprite_2d.flip_v = false  # 🌟 修正為 flip_v
 
-# 🌟 發射函數：接收從 player.gd 傳過來的「過飽和倍率包裹」
+# 🌟 發射函數
 func shoot(buff: float):         
 	var bullet = bullet_scene.instantiate() # 照藍圖做出一顆新子彈
 	var muzzle = bullet_spawn               # 找出槍口
-	bullet.global_position = muzzle.global_position # 把子彈放到槍口上
 	
-	# 計算子彈飛行方向：(滑鼠位置 - 槍口位置) 的標準化向量
+	# 🛑 關鍵修復：必須【先加入場景樹】，Godot 才能正確計算 global_position！
+	get_tree().current_scene.add_child(bullet) 
+	bullet.global_position = muzzle.global_position # 👈 加進場景後再給座標
+	
+	# 計算子彈飛行方向
 	bullet.direction = (get_global_mouse_position() - muzzle.global_position).normalized() 
-	bullet.travel_dir = bullet.direction    # 擊退方向同上
+	bullet.travel_dir = bullet.direction    # 擊退方向
+	bullet.shooter = get_parent()           # 記錄發射者
+	bullet.received_buff = buff             # 塞入過飽和倍率
 	
-	bullet.shooter = get_parent()           # 記錄發射者是這支槍管的主人(玩家)，避免打到自己
-	
-	bullet.received_buff = buff             # 🌟 核心傳遞：把收到的倍率包裹(1.0或1.5)塞進子彈裡
-	
-	get_tree().current_scene.add_child(bullet) # 把子彈正式加入遊戲畫面
-	audio_stream_player_2d.play()              # 播音效
+	# 槍管後縮動畫
+	if sprite_2d:
+		sprite_2d.scale.x = 0.7
+		var tween = create_tween()
+		tween.tween_property(sprite_2d, "scale:x", 1.0, 0.08).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+	# 射擊音效
+	if audio_stream_player_2d:
+		if buff > 1.0:
+			audio_stream_player_2d.pitch_scale = randf_range(0.85, 0.92)
+		else:
+			audio_stream_player_2d.pitch_scale = randf_range(0.96, 1.08)
+		audio_stream_player_2d.play()
+
+	# 頓幀
+	if DataManager and DataManager.has_method("hitstop"):
+		DataManager.hitstop(0.03)

@@ -29,7 +29,7 @@ func state_physics_update(delta: float): # 每一幀的物理更新
 			
 			var aim_pivot = character.get_node_or_null("AimPivot") # 尋找掛載槍口旋轉軸 (AimPivot)
 			if aim_pivot:        # 如果有找到
-				aim_pivot.look_at(character.player_node.global_position) # 呼叫神級函數 look_at，讓旋轉軸永遠死死盯著玩家座標
+				aim_pivot.look_at(character.player_node.global_position) # 死死盯著玩家座標
 			
 	else:                        # 階段二：發射瞬間 (時間到了)
 		if not has_shot:         # 如果還沒發射過
@@ -39,30 +39,32 @@ func _fire_bullet():             # 處理發射子彈的邏輯
 	has_shot = true              # 標記為「已經射擊」
 	
 	if bullet_scene == null:     # 防呆：如果編輯器裡忘記拖入子彈場景
-		print("【警告】你忘記把 EnemyBullet.tscn 拖進 EnemyShoot 狀態裡了！") # 印出警告
+		print("【警告】你忘記把 EnemyBullet.tscn 拖進 EnemyShoot 狀態裡了！")
 		_end_shoot()             # 結束射擊流程
 		return                   # 提早跳出
 		
-	var bullet = bullet_scene.instantiate() # 依照你給的藍圖，在記憶體裡「實體化」製造出一顆子彈
+	var bullet = bullet_scene.instantiate() # 實體化子彈
+	var muzzle = character.get_node_or_null("AimPivot/Muzzle") # 找尋槍口
 	
-	var muzzle = character.get_node_or_null("AimPivot/Muzzle") # 找尋槍口 (Muzzle) 節點
+	# 🌟 [關鍵修復 1] 先將子彈加入場景樹，建立完整的世界座標系！
+	character.get_tree().current_scene.add_child(bullet)
 	
-	if muzzle:                   # 如果有槍口
-		bullet.global_position = muzzle.global_position # 把子彈放在槍口的絕對座標上
-	else:                        # 如果沒找到槍口
-		bullet.global_position = character.global_position # 備用方案：從野豬肚子中間生出子彈
+	# 🌟 [關鍵修復 2] 加進世界後，再精準設定全球座標
+	if muzzle:
+		bullet.global_position = muzzle.global_position
+	else:
+		bullet.global_position = character.global_position # 備用方案
 	
-	bullet.direction = character.last_facing_vec # 把子彈的飛行方向設定為野豬最後的面朝方向
-	bullet.travel_dir = bullet.direction         # 同時把擊退方向也設為同一邊
-	
-	character.get_tree().current_scene.add_child(bullet) # 將這顆設定好的子彈，正式加入到遊戲世界(場景樹)中
+	# 設定飛行方向與擊退方向
+	bullet.direction = character.last_facing_vec 
+	bullet.travel_dir = bullet.direction         
 	
 	_end_shoot()                 # 呼叫結束射擊流程
 
 func _end_shoot():               # 射擊完畢後的善後
-	character.get_tree().create_timer(3.0).connect("timeout", func(): character.can_attack = true) # 啟動 3 秒計時器，時間到恢復攻擊權力
+	character.get_tree().create_timer(3.0).connect("timeout", func(): character.can_attack = true)
 	
-	await character.get_tree().create_timer(0.5).timeout # 魔法指令：在這裡強制暫停等待 0.5 秒 (射擊後搖硬直)
+	await character.get_tree().create_timer(0.5).timeout # 射擊後搖硬直
 	
 	var pant_state = state_machine.states.get("enemypant") # 從大腦拿出喘氣狀態
 	if pant_state: pant_state.pant_timer = 1.5   # 把喘氣時間設為 1.5 秒

@@ -21,20 +21,23 @@ func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
 		await character.get_tree().create_timer(0.25).timeout # 使用等待指令暫停 0.25 秒，配合動畫播到「武器揮出去」那一瞬間的發力延遲
 		
 		var targets = sword_hitbox.get_overlapping_areas() # 抓取此時此刻，重疊在感應區裡的所有物體 (回傳陣列)
+		var hit_enemy: bool = false # [🌟 墨水彈藥系統] 開關：確保一次揮刀最多只補 1 發子彈，防止多重命中刷彈藥
 		
 		for t in targets: # 使用迴圈，逐一檢查刀子砍到的每一個目標物
-			if t is Hurtbox and t.get_parent() != character: # 條件判斷：確保砍到的是受傷判定區 (Hurtbox)，且該區域的主人不是玩家自己 (避免砍到自己)
+			if t is Hurtbox and t.get_parent() != character: # 條件判斷：確保砍到的是受傷判定區 (Hurtbox)，且該區域的主人不是玩家自己
 				
-				# 🌟🌟🌟 [特別函數的應用點] 🌟🌟🌟
-				# 1. 呼叫 get_current_basic_attack_damage() 拿普攻基底傷害 (沒發動是 15，發動起床氣是 20.25)
-				# 2. 呼叫 get_oversaturation_buff() 拿過飽和倍率 (沒滿能量是 1.0，滿能量是 1.5)
-				# 3. 兩個數字相乘，算出這一刀最終極的真實傷害！
+				# 🌟 算最終真實傷害：
+				# 1. 呼叫 get_current_basic_attack_damage() 拿普攻基底傷害 (包含起床氣貼紙加成)
+				# 2. 呼叫 get_oversaturation_buff() 拿過飽和倍率 (滿彈藥狀態下是 1.5 倍爆擊，沒滿是 1.0)
 				var final_damage: float = character.get_current_basic_attack_damage() * character.get_oversaturation_buff() 
 				
 				t.take_damage(final_damage, character.global_position) # 呼叫敵人 Hurtbox 的受傷函數，傳入算好的最終傷害量與玩家座標
 				
-				if t.get_parent() is Enemy: # 條件判斷：如果這個 Hurtbox 的主人確實屬於敵人 (Enemy) 類別
-					character.add_energy(5) # 呼叫玩家身體的函數，回復 5 點能量作為砍中敵人的獎勵
+				# [🌟 墨水彈藥系統改動] 只要砍中敵人，立刻幫玩家補充 1 發墨水！
+				if t.get_parent() is Enemy and not hit_enemy: 
+					hit_enemy = true # 標記這一刀已經補過子彈了
+					if character.has_method("restore_ammo"):
+						character.restore_ammo(1) # 呼叫玩家的補彈函數，補充 1 發墨水！
 		
 		target_coll.disabled = true     # 傷害判定結算完畢，將該方向的碰撞框重新關閉 (收刀)
 		sword_hitbox.monitoring = false # 將 Hitbox 的偵測雷達關閉，結束這回合的攻擊判定

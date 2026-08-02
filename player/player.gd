@@ -13,16 +13,19 @@ class_name Player # 宣告這個腳本代表「玩家 (Player)」
 var base_max_hp: int = 100
 
 # ==========================================
-# 能量 (EP) 與 體力 (SP) 系統
+# [🌟 墨水彈藥系統] 與 體力 (SP) 系統
 # ==========================================
-@export var max_energy: int = 100          # 能量上限 (發動技能、過飽和狀態用)
-var current_energy: int = 50               # 開局預設能量
+@export var max_ammo: int = 3               # 墨水彈藥上限 (預設 3 發)
+var current_ammo: int = 3                  # 當前剩餘墨水彈藥
 
 @export var max_sp: float = 100.0          # 體力上限 (揮刀、翻滾消耗用)
-var current_sp: float = 50                 # 開局預設體力
+var current_sp: float = 50                  # 開局預設體力
 var is_overheated: bool = false            # 狀態開關：記錄玩家現在是否處於「過熱力竭」狀態
 var sp_regen_delay: float = 0.5            # 體力恢復延遲：消耗後需等待 0.5 秒才能開始回體
 var sp_delay_timer: float = 0.0            # 隱形計時器：負責倒數回體的等待時間
+
+# 🌟 射擊時的減速計時器
+var shoot_slow_timer: float = 0.0          # 發射時會倒數，期間移動變慢
 
 # ==========================================
 # 狀態紀錄與節點抓取
@@ -31,17 +34,16 @@ var input_direction: Vector2 = Vector2.ZERO # 記錄玩家按下的 WASD 方向�
 var facing_direction: String = "down"       # 記錄玩家最後面朝的方向，預設朝下
 var is_dashing: bool = false                # 記錄玩家現在是否正在衝刺中
 
-# [🌟 本次新增] 素描本系統狀態變數
+# 素描本系統狀態變數
 var is_reading_book: bool = false           # 記錄玩家是否正在看筆記本
-var opened_from_savepoint: bool = false # 記錄筆記本是不是從存檔點捷徑打開的
+var opened_from_savepoint: bool = false     # 記錄筆記本是不是從存檔點捷徑打開的
 
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
 @onready var skill_01: Node2D = $Skill_01                              # 掛在玩家身上的技能發射器 (槍管)
 
-# [🌟 本次新增] 抓取素描本 UI 節點
-# ⚠️ 注意：我假設你把 NotebookUI 放進 PlayerHUD 裡了。如果名字或位置不一樣，請手動改這裡！
+# 抓取素描本 UI 節點
 @onready var notebook_ui = $MenuLayer/NotebookUI
 	
 # ==========================================
@@ -66,18 +68,19 @@ func _ready():
 	if DataManager and DataManager.saved_hp > 0: 
 		# 讀檔時，現在的血量不能超過算完裝備後的新血量上限
 		current_hp = min(DataManager.saved_hp, max_hp) 
-		current_energy = DataManager.saved_energy 
 		current_sp = DataManager.saved_sp 
 	else: 
-		current_energy = 50 # 第一次玩給予預設能量
 		current_sp = 50     # 第一次玩給予預設體力
 		
 	# --- 初始化 UI 介面 ---
 	if player_hud: 
 		player_hud.update_hp(current_hp, max_hp)             # 更新紅血條
-		player_hud.update_energy(current_energy, max_energy) # 更新黃能量條
 		player_hud.update_sp(current_sp, max_sp)             # 更新綠體力條
 		player_hud.set_overheat_visual(false)                # 確保開局沒有過熱特效
+		
+		# 墨水彈藥系統自動更新
+		if player_hud.has_method("update_ammo"):
+			player_hud.update_ammo(current_ammo, max_ammo)
 		
 	# 依照當前 current_hp 算出最精準的身體顏色！
 	update_hp_bar()
@@ -114,7 +117,6 @@ func recalculate_stats():
 # 開發者外掛與輸入偵測
 # ==========================================
 func _input(event):
-	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
 	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
 	if event.is_action_pressed("notebook"):
 		is_reading_book = !is_reading_book
@@ -155,125 +157,91 @@ func _input(event):
 		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
-# 物理與邏輯更新 (這是一個每秒會執行 60 次的超高速迴圈)
+# 物理與邏輯更新
 # ==========================================
 func _physics_process(delta: float) -> void: 
 	
-	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的，直接跳過所有邏輯
+	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的
 	if not is_dead: 
 		
-		# ==========================================
 		# 🛑 狀態鎖定區：看書罰站機制
-		# ==========================================
-		# 【第二關防呆】：如果玩家現在正在看筆記本 (is_reading_book 為 true)
 		if is_reading_book:
-			# 為了避免玩家按開筆記本的瞬間還在滑行，強制把速度歸零 (踩死煞車)
 			velocity = Vector2.ZERO 
-			
-			# 雖然速度是 0，但還是要呼叫物理引擎，確保玩家不會穿牆或浮空
 			move_and_slide()        
-			
-			# 🌟 最重要的一行！return 代表「直接中斷退出」！
-			# 只要執行到這行，下面的走路、放技能、吃藥通通不會執行。
-			# 這樣玩家在看書時狂按鍵盤，角色才不會在背後亂動。
 			return                  
 		
-		# ==========================================
-		# 🏃 移動判定區
-		# ==========================================
-		# 抓取玩家按下的 WASD (或上下左右)。
-		# 為什麼用 get_vector？因為它會自動把「斜向移動」的速度縮放為 1，
-		# 這樣玩家「往右上角走」的速度，就不會比「往右走」還快了！
+		# 🏃 移動向量計算
 		input_direction = Input.get_vector("left", "right", "up", "down") 
 
-
-		# ==========================================
-		# 🎒 快捷欄切換區 (與 DataManager 大腦連線)
-		# ==========================================
-		# 按下鍵盤的 1 鍵 (向左切換)
+		# 🎒 快捷欄切換區 (1鍵與3鍵)
 		if Input.is_action_just_pressed("slot_left"): 
-			# 傳送 -1 給大腦，代表指針往左邊退一格
-			# 大腦轉完之後，會自動發出廣播叫 UI 更新，我們不用管 UI 了
 			DataManager.rotate_quick_slot(-1)
 			
-		# 按下鍵盤的 3 鍵 (向右切換)
 		if Input.is_action_just_pressed("slot_right"): 
-			# 傳送 1 給大腦，代表指針往右邊進一格
 			DataManager.rotate_quick_slot(1)
 
-
-		# ==========================================
-		# ⚔️ 戰鬥與道具使用區 (徹底分家版！)
-		# ==========================================
-		
-		# --- 1️⃣ 發射魔法棒子彈 (左鍵) ---
-		# ⚠️ 注意：我這裡先假設你的滑鼠左鍵綁定的名稱叫做 "attack"
-		# 如果你在專案設定裡左鍵叫別的名字 (例如 "shoot" 或 "left_click")，請把 "attack" 改掉！
-		if Input.is_action_just_pressed("attack"): 
-			
+		# ⚔️ 戰鬥與技能區：射擊墨水彈 (skill_01 鍵)
+		if Input.is_action_just_pressed("skill_01"): 
 			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
 				
-				var current_buff: float = get_oversaturation_buff() 
-				
-				if DataManager.has_sticker("004"):
-					current_buff *= DataManager.STICKER_DB["004"].value
-					print("【魔法棒生效】技能最終傷害倍率提升為：", current_buff)
-				
-				if use_energy(30): 
+				# 檢查是否有剩餘墨水彈藥
+				if current_ammo > 0:
+					current_ammo -= 1
+					
+					# 觸發 0.3 秒射擊沉重減速
+					shoot_slow_timer = 0.3
+					
+					print("【墨水發射】射出一發！剩餘彈藥：", current_ammo, "/", max_ammo)
+					
+					# 計算過飽和與貼紙倍率
+					var current_buff: float = get_oversaturation_buff() 
+					
+					if DataManager.has_sticker("004"):
+						current_buff *= DataManager.STICKER_DB["004"].value
+						print("【魔法棒生效】技能最終傷害倍率提升為：", current_buff)
+					
+					# 執行發射
 					skill_01.shoot(current_buff) 
+					
+					# 更新 UI
+					if player_hud and player_hud.has_method("update_ammo"):
+						player_hud.update_ammo(current_ammo, max_ammo)
 				else: 
-					print("能量不足 30，無法施放左鍵技能發射子彈！") 
+					print("⚠️ 墨水用盡！請使用近戰揮刀補充墨水！") 
 					
 			elif is_overheated: 
 				print("系統過熱中！無法釋放技能！") 
 
-
-		# --- 2️⃣ 使用快捷欄道具 (Q 鍵) ---
+		# 🎒 使用快捷欄道具 (USESKILL / Q 鍵)
 		if Input.is_action_just_pressed("USESKILL"): 
-			# 按 Q 鍵現在只負責呼叫大腦吃道具，絕對不會再射子彈了！
 			if state_machine.current_state.name != "PlayerHeal": 
 				DataManager.use_current_item() 
-		
 
-		# ==========================================
 		# 💚 體力 (SP) 自動恢復邏輯
-		# ==========================================
-		# sp_delay_timer 是一個「隱形倒數計時器」。
-		# 每次玩家揮刀或翻滾，這個計時器就會被設定為 0.5 秒。
-		
 		if sp_delay_timer > 0:            
-			# 如果計時器還沒歸零，就繼續倒數 (delta 是一幀的時間)
 			sp_delay_timer -= delta       
-		else:                                  
-			# 計時器歸零了！代表玩家已經 0.5 秒沒消耗體力了，開始回體！
-			
+		else:                                      
 			if current_sp < max_sp: 
-				# 決定回體速度：如果過熱就回得慢 (10.0)，沒過熱就回得快 (12.0)
 				var regen_rate = 10.0 if is_overheated else 12.0 
-				
-				# 增加體力，但用 min() 限制它絕對不能超過最大體力值 (max_sp)
 				current_sp = min(current_sp + regen_rate * delta, max_sp) 
 				
-				# 如果玩家處於過熱狀態，且體力已經恢復超過 70% (0.7) 了
 				if is_overheated and current_sp >= max_sp * 0.7: 
-					# 解除過熱封印！
 					is_overheated = false 
-					player_hud.set_overheat_visual(false) # 關閉紅色閃爍特效
+					player_hud.set_overheat_visual(false) 
 					print("體力恢復至 70%，解除過熱狀態！") 
 					
-				# 最後把算好的體力值送到 UI 上顯示
 				player_hud.update_sp(current_sp, max_sp) 
 
+	# 🌟 [射擊沉重減速懲罰]
+	if shoot_slow_timer > 0:
+		shoot_slow_timer -= delta
+		if not is_dashing: # 衝刺閃避不受減速影響
+			velocity *= 0.05
 
-	# ==========================================
-	# 🚗 引擎推動區
-	# ==========================================
-	# 不管上面算了多少速度 (velocity)，最後一定要呼叫這行！
-	# 這是 Godot 內建的物理引擎函數，它會真的推動玩家，並處理撞牆、滑行等物理效果
-	move_and_slide()
+	move_and_slide() # 執行移動與物理碰撞
 
 # ==========================================
-# 資源消耗控制 (體力與能量)
+# 資源消耗控制 (體力與彈藥)
 # ==========================================
 func use_sp(amount: float) -> bool: 
 	if is_overheated: return false 
@@ -282,7 +250,7 @@ func use_sp(amount: float) -> bool:
 		current_sp = max(current_sp - amount, 0.0) 
 		sp_delay_timer = sp_regen_delay 
 		
-		if current_sp <= 0:        
+		if current_sp <= 0:         
 			is_overheated = true
 			player_hud.set_overheat_visual(true) 
 			print("體力耗盡！進入過熱狀態！") 
@@ -291,16 +259,14 @@ func use_sp(amount: float) -> bool:
 		return true 
 	return false 
 
-func use_energy(amount: int) -> bool: 
-	if current_energy >= amount: 
-		current_energy -= amount 
-		if player_hud: player_hud.update_energy(current_energy, max_energy) 
-		return true 
-	return false 
-
-func add_energy(amount: int): 
-	current_energy = min(current_energy + amount, max_energy) 
-	if player_hud: player_hud.update_energy(current_energy, max_energy) 
+# [🌟 墨水彈藥系統改動] 近戰命中時呼叫此函數補充墨水
+func restore_ammo(amount: int = 1) -> void:
+	if current_ammo < max_ammo:
+		current_ammo = min(current_ammo + amount, max_ammo)
+		print("【墨水補充】近戰命中！成功回補 ", amount, " 發，目前彈藥：", current_ammo, "/", max_ammo)
+		
+		if player_hud and player_hud.has_method("update_ammo"):
+			player_hud.update_ammo(current_ammo, max_ammo)
 
 # ==========================================
 # 戰鬥與受傷邏輯
@@ -319,14 +285,14 @@ func get_current_basic_attack_damage() -> float:
 			
 	return final_base_damage
 
-# 負責判斷是否滿能量，並給予對應的倍率
+# [🌟 墨水彈藥系統改動] 判斷是否處於「滿彈藥（過飽和）」狀態，給予 1.5 倍爆擊
 func get_oversaturation_buff() -> float: 
-	if current_energy >= max_energy: 
-		print("【過飽和狀態】發動！目前倍率：1.5 倍") 
+	if current_ammo >= max_ammo: 
+		print("【過飽和狀態】滿彈藥狀態下發射！目前倍率：1.5 倍") 
 		return 1.5 
 	return 1.0 
 
-# 專門用來接收怪物死掉時傳來的通知，並結算 006 手裡劍的回血效果
+# 專門用來接收怪物死掉時傳來的通知，結算 006 吸血
 func on_enemy_killed():
 	if DataManager.has_sticker("006"):
 		var heal_percent: float = DataManager.STICKER_DB["006"].value
@@ -336,10 +302,10 @@ func on_enemy_killed():
 		print("【手裡劍發動】成功擊殺敵人，吸取血量：", heal_amount, "，目前血量：", current_hp)
 
 func handle_hurt(): 
-	# [🌟 本次新增] 被打斷機制：看書時如果遭到攻擊，強制關閉筆記本並拿回控制權
+	# 被打斷機制：看書時如果遭到攻擊，強制關閉筆記本並拿回控制權
 	if is_reading_book:
 		is_reading_book = false
-		state_machine.process_mode = Node.PROCESS_MODE_INHERIT # 🌟 被打時強制喚醒狀態機！
+		state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 		if notebook_ui:
 			notebook_ui.close_notebook()
 		print("【戰鬥提示】看書時遭到攻擊，筆記本已強制關閉！")
@@ -353,17 +319,13 @@ func handle_hurt():
 	state_machine.change_state("PlayerHurt") 
 
 # ==========================================
-# 🌟 本次新增：外部補血接收器
+# 🌟 外部補血接收器
 # ==========================================
 func heal(amount: int) -> void:
 	if current_hp < max_hp:
 		current_hp = min(current_hp + amount, max_hp)
 		update_hp_bar() # 更新血條 UI 和身體顏色
 		print("【玩家】喝下道具！恢復了 ", amount, " 點生命！目前血量：", current_hp)
-		
-		# 💡 如果你有綠色十字架之類的補血特效，或是喝水的音效，以後可以直接加在這裡！
-
-
 
 # ==========================================
 # 狀態與 UI 更新

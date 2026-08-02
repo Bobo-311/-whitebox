@@ -9,7 +9,6 @@ extends CanvasLayer # 繼承 CanvasLayer，這樣 UI 才會獨立繪製在最上
 @onready var map_name_label: Label = $BackgroundDim/LocationFrame/Label # 抓取顯示「當前地圖名稱」的文字節點
 
 # 🌟 狀態標記：記錄玩家現在是不是在「存檔畫架」的狀態下打開了筆記本？
-# 這個很重要，用來判斷玩家按 TAB 關掉筆記本時，是要回到遊戲，還是要退回存檔畫架。
 var is_reading_from_savepoint: bool = false
 
 # ==========================================
@@ -17,7 +16,6 @@ var is_reading_from_savepoint: bool = false
 # ==========================================
 func _ready() -> void:
 	# 🌟 幫這個 UI 貼上一個名叫 "save_menu" 的群組標籤
-	# 這樣當玩家在筆記本裡按 TAB 時，玩家腳本才能用 get_tree().get_nodes_in_group("save_menu") 把它找出來重新顯示！
 	add_to_group("save_menu") 
 	
 	# 打開存檔選單時，自動問大腦 (DataManager) 現在在哪裡，並把地圖名字印在 UI 上
@@ -35,19 +33,18 @@ func _input(event: InputEvent) -> void:
 		if is_reading_from_savepoint:
 			var player = DataManager.player_node
 			if player and player.notebook_ui:
-				# 🌟 呼叫筆記本的無動畫/瞬間關閉函數，把筆記本收起來
 				player.notebook_ui.toggle_notebook(true) 
 				
 			show() # 把剛才藏起來的存檔畫架重新顯示出來！
-			is_reading_from_savepoint = false # 狀態重置，代表已經不在看筆記本了
-			get_viewport().set_input_as_handled() # 🌟 吃掉這個按鍵輸入，避免觸發其他腳本的 TAB 鍵功能
-			return # 直接中斷退出，不要往下執行
+			is_reading_from_savepoint = false # 狀態重置
+			get_viewport().set_input_as_handled() # 吃掉輸入
+			return 
 			
 		# 【情況 B】：現在是在看「存檔畫架」 ➡️ 關掉畫架，解除時間暫停，回到正常遊戲
 		if visible:
-			get_tree().paused = false # 🌟 解除時間暫停，世界開始運轉
-			queue_free() # 把存檔畫架這個 UI 徹底銷毀丟進垃圾桶
-			get_viewport().set_input_as_handled() # 🌟 吃掉按鍵
+			get_tree().paused = false # 解除時間暫停，世界開始運轉
+			queue_free() # 把存檔畫架銷毀
+			get_viewport().set_input_as_handled()
 
 # ==========================================
 # 💾 按鈕功能實作區
@@ -56,16 +53,26 @@ func _input(event: InputEvent) -> void:
 # --- 1️⃣ 按下「存檔」按鈕 ---
 func _on_save_pressed() -> void:
 	if DataManager and DataManager.player_node: 
-		# 把玩家現在的「最大血量」跟「最大體力」寫進小抄裡 (存檔)，這樣重載場景時，血量就會是滿的！
-		DataManager.saved_hp = DataManager.player_node.max_hp
-		DataManager.saved_sp = DataManager.player_node.max_sp
+		var player = DataManager.player_node
 		
-		# 能量(EP)保底機制：不能無腦回滿。如果低於 50% 就補到 50%，高於 50% 就保留現狀
-		var half_energy = int(DataManager.player_node.max_energy * 0.5) 
-		DataManager.saved_energy = max(DataManager.player_node.current_energy, half_energy) 
+		# 1. 記錄最大血量與體力 (存檔點全滿)
+		DataManager.saved_hp = player.max_hp
+		DataManager.saved_sp = player.max_sp
 		
-		# 🌟🌟🌟 補給機制啟動：呼叫大腦，把身上藥水從 0/2 補滿回 2/2，並扣除倉庫數量！
+		# 2. 能量(EP)保底機制 (防呆安全檢查)
+		if "max_energy" in player and "current_energy" in player:
+			var half_energy = int(player.max_energy * 0.5) 
+			DataManager.saved_energy = max(player.current_energy, half_energy) 
+		
+		# 3. [🌟 墨水彈藥系統] 存檔時將墨水彈藥補滿 (3/3)
+		player.current_ammo = player.max_ammo
+		if player.player_hud and player.player_hud.has_method("update_ammo"):
+			player.player_hud.update_ammo(player.current_ammo, player.max_ammo)
+			
+		# 4. [🌟 道具補給] 呼叫大腦，將快捷欄上的藥水/道具補滿，並扣除倉庫數量
 		DataManager.replenish_quick_slots()
+			
+		print("💾【存檔成功】血量、體力、墨水彈藥與快捷欄道具已全數補給完成！")
 	
 	# 存檔完畢，解除時間暫停
 	get_tree().paused = false 
@@ -77,13 +84,9 @@ func _on_save_pressed() -> void:
 
 # --- 2️⃣ 按下「貼紙」按鈕 ---
 func _on_sticker_pressed() -> void:
-	# 防呆：確保右邊面板有把貼紙場景拉進來
 	if sticker_ui_scene:
-		# 實體化 (Instantiate) 貼紙介面
 		var sticker_menu = sticker_ui_scene.instantiate()
-		# 把它加到遊戲最頂層 (root) 畫面上
 		get_tree().root.add_child(sticker_menu)
-		# 🌟 把自己 (存檔畫架) 隱藏起來，假裝切換了畫面
 		hide() 
 
 
@@ -92,29 +95,21 @@ func _on_teleport_pressed() -> void:
 	if portal_menu_scene:
 		var portal_menu = portal_menu_scene.instantiate()
 		get_tree().root.add_child(portal_menu)
-		
-		# 🌟 這裡跟貼紙不一樣！因為傳送選單有自己獨立的關閉邏輯，
-		# 所以我們直接把畫架銷毀 (queue_free)，把時間暫停的控制權無縫交接給傳送選單！
 		queue_free() 
 
 
 # --- 4️⃣ 按下「物品欄 (筆記本)」按鈕 ---
 func _on_inventory_pressed() -> void:
-	# 🌟 關鍵解法：必須先解除時間暫停，不然筆記本的「彈出動畫」會卡住不動！
 	get_tree().paused = false 
-	# 🌟 把畫架藏起來就好，絕對不能 queue_free()！因為等下玩家按 TAB 還要回到這裡！
 	hide() 
 	
 	var player = DataManager.player_node
-	# 確認有抓到玩家，且玩家現在沒有在看書
 	if player and not player.is_reading_book:
-		player.is_reading_book = true # 鎖死玩家的移動與攻擊
-		player.opened_from_savepoint = true # 🌟 留下線索：告訴玩家腳本，我是從畫架打開的！
+		player.is_reading_book = true 
+		player.opened_from_savepoint = true 
 		
-		# 強制讓玩家煞車，並把負責動作的狀態機關機
 		player.velocity = Vector2.ZERO 
 		player.state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
 		
 		if player.notebook_ui:
-			# 呼叫筆記本，播放正常的打開動畫
 			player.notebook_ui.toggle_notebook(false)

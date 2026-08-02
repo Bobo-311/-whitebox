@@ -4,14 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://ba484avslaatp" path="res://Asset/1FDB2840-EE5D-4728-92A7-9D929A34CA43.jpg" id="2_dpci0"]
 [ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/gold_ui.tscn" id="2_kdilq"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="3_lhy1a"]
+[ext_resource type="Texture2D" uid="uid://c543cvvw2e0kr" path="res://ink.svg" id="3_nd3l5"]
 [ext_resource type="Script" uid="uid://crf12s86ro37v" path="res://HealthUI/label_location.gd" id="4_fneal"]
 [ext_resource type="PackedScene" uid="uid://b6fvc0lb7ehpm" path="res://quickslot_ui/quick_slot_ui.tscn" id="6_nd3l5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhy1a"]
 bg_color = Color(0.91764706, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5o0p8"]
-bg_color = Color(0.8331232, 0.5549483, 0.30004564, 0.7137255)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpci0"]
 bg_color = Color(0.56078434, 1, 0.3137255, 0.7137255)
@@ -54,14 +52,6 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_lhy1a")
 value = 100.0
 show_percentage = false
 
-[node name="EnergyBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(150, 10)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_styles/fill = SubResource("StyleBoxFlat_5o0p8")
-value = 50.0
-show_percentage = false
-
 [node name="SpBar" type="ProgressBar" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 10)
 layout_mode = 2
@@ -69,6 +59,27 @@ size_flags_horizontal = 0
 theme_override_styles/fill = SubResource("StyleBoxFlat_dpci0")
 value = 50.0
 show_percentage = false
+
+[node name="InkContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Ink 1" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/InkContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("3_nd3l5")
+expand_mode = 2
+
+[node name="Ink 2" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/InkContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("3_nd3l5")
+expand_mode = 2
+
+[node name="Ink 3" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/InkContainer"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("3_nd3l5")
+expand_mode = 2
 
 [node name="OverheatOverlay" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)

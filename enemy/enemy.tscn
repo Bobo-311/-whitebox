@@ -999,9 +999,10 @@ offset_right = 74.0
 offset_bottom = -68.0
 
 [node name="AimPivot" type="Node2D" parent="."]
+position = Vector2(-49, -20)
 
 [node name="Muzzle" type="Marker2D" parent="AimPivot"]
-position = Vector2(68, 9)
+position = Vector2(-2, 2)
 
 [node name="VisionRay" type="RayCast2D" parent="."]
 
