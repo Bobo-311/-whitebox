@@ -38,6 +38,9 @@ var is_dashing: bool = false                # 記錄玩家現在是否正在衝�
 var is_reading_book: bool = false           # 記錄玩家是否正在看筆記本
 var opened_from_savepoint: bool = false     # 記錄筆記本是不是從存檔點捷徑打開的
 
+var is_shopping: bool = false # 記錄玩家現在是不是正在買東西(終止行動)
+
+
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
@@ -160,6 +163,9 @@ func _input(event):
 # 物理與邏輯更新
 # ==========================================
 func _physics_process(delta: float) -> void: 
+	# 🌟 新增這兩行：如果正在購物，直接中斷這個函數，玩家就不能動了！
+	if is_shopping:
+		return
 	
 	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的
 	if not is_dead: 

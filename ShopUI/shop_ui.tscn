@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://bdmlw1xhdv8xo" path="res://大家不為人知的祕密/試驗對象一號.png" id="2_6ggnr"]
 [ext_resource type="LabelSettings" uid="uid://cudyn1qk7ry8y" path="res://字體/gold_ui.tres" id="3_3d3cx"]
 [ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="4_kjlyx"]
-[ext_resource type="LabelSettings" uid="uid://cf06u104gjq3o" path="res://字體/chinese.tres" id="5_rqs1h"]
 [ext_resource type="Texture2D" uid="uid://ct6wcplh68p30" path="res://商店素材/游標.png" id="7_ddi8n"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="7_kddjk"]
 [ext_resource type="AudioStream" uid="uid://bl46y72v8a38i" path="res://商店素材/UI select voice.wav" id="9_ddi8n"]
@@ -26,9 +25,14 @@ border_color = Color(1, 1, 1, 1)
 font = ExtResource("4_kjlyx")
 font_size = 45
 
+[sub_resource type="LabelSettings" id="LabelSettings_xbj82"]
+paragraph_spacing = 3.0
+font = ExtResource("7_kddjk")
+font_size = 32
+
 [sub_resource type="LabelSettings" id="LabelSettings_ddi8n"]
 font = ExtResource("4_kjlyx")
-font_size = 45
+font_size = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kddjk"]
 bg_color = Color(0, 0, 0, 1)
@@ -43,17 +47,11 @@ paragraph_spacing = 3.0
 font = ExtResource("7_kddjk")
 font_size = 34
 
-[node name="ShopUI" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ShopUI" type="CanvasLayer"]
+layer = 50
 script = ExtResource("1_6ggnr")
 
 [node name="BackgroundImage" type="TextureRect" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -67,7 +65,6 @@ texture = ExtResource("1_pxxkw")
 expand_mode = 1
 
 [node name="MerchantImage" type="TextureRect" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -81,7 +78,6 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="BottomFrame" type="PanelContainer" parent="."]
-layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -154,20 +150,30 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="75G - 牛牛突击队贴纸" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+[node name="150G - 烤带骨牛排" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
-text = "75G - 牛牛突击队贴纸"
-label_settings = ExtResource("5_rqs1h")
+text = "150G - 烤带骨牛排"
+label_settings = SubResource("LabelSettings_xbj82")
 
 [node name="50G - 咕咕嘎嘎药水" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
 text = "50G - 咕咕嘎嘎药水"
-label_settings = ExtResource("5_rqs1h")
+label_settings = SubResource("LabelSettings_xbj82")
+
+[node name="30G - 奇迹苹果" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "30G - 奇迹苹果"
+label_settings = SubResource("LabelSettings_xbj82")
 
 [node name="25G - 西巴鲁玛" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
 text = "25G - 西巴鲁玛"
-label_settings = ExtResource("5_rqs1h")
+label_settings = SubResource("LabelSettings_xbj82")
+
+[node name="20G - 蓝色提神水" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "20G - 蓝色提神水"
+label_settings = SubResource("LabelSettings_xbj82")
 
 [node name="Exit" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
@@ -194,7 +200,6 @@ label_settings = ExtResource("3_3d3cx")
 autowrap_mode = 2
 
 [node name="Cursor" type="TextureRect" parent="."]
-layout_mode = 1
 offset_left = 874.0
 offset_top = 314.0
 offset_right = 920.0
@@ -203,7 +208,6 @@ texture = ExtResource("7_ddi8n")
 expand_mode = 1
 
 [node name="InfoBox" type="PanelContainer" parent="."]
-layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -244,7 +248,6 @@ stream = ExtResource("12_xbj82")
 [node name="Purchase failure sound" type="AudioStreamPlayer" parent="."]
 
 [node name="GoldUI" parent="." instance=ExtResource("11_ccdew")]
-layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0

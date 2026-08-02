@@ -22,6 +22,7 @@ region_rect = Rect2(111.9178, 66.01921, 48.224716, 14.112076)
 
 [node name="SaveMenuUI" type="CanvasLayer"]
 process_mode = 3
+layer = 2
 script = ExtResource("1_hol3n")
 sticker_ui_scene = ExtResource("2_g31nq")
 portal_menu_scene = ExtResource("3_4v6k8")

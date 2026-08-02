@@ -1,5 +1,5 @@
 extends Control
-
+#equip_page
 # --- 介面節點綁定 ---
 # 裝備格的容器
 @onready var center_slots = $MarginContainer/MainLayout/Center_Stage/Center_Slots
@@ -82,6 +82,20 @@ func setup_all_slots():
 			for child in grid.get_children():
 				if child is NotebookEquipSlot:
 					child.slot_clicked.connect(on_slot_clicked)
+					
+					# 🌟🌟🌟 本次新增：讓道具格一出生就去大腦讀取記憶 🌟🌟🌟
+					# 為什麼要做這步？因為你原本每次打開筆記本，格子都是空的。
+					# 現在我們讓它去問大腦：「我這格原本裝了什麼？」
+					if child.slot_type == "item":
+						# 數學小教室：UI 上的格子是 1~5，但大腦裡的陣列是 0~4，所以要減 1
+						var array_idx = child.slot_index - 1
+						var saved_item_id = DataManager.quick_slots[array_idx]
+						
+						# 如果大腦說這格有裝東西，而且圖鑑裡查得到這個東西
+						if saved_item_id != "" and DataManager.ITEM_DB.has(saved_item_id):
+							# 去圖鑑把圖片路徑抓出來，幫這格換上對應的圖片
+							var texture_path = DataManager.ITEM_DB[saved_item_id]["texture_path"]
+							child.set_icon(texture_path)
 
 func get_slot_node(type: String, index: int) -> NotebookEquipSlot:
 	# 🌟 2. 讓系統知道貼紙格要去哪裡找
@@ -153,10 +167,13 @@ func _on_visibility_changed():
 # --- 面板更新 ---
 func show_equipped_item_info(slot_type: String, index: int):
 	clear_info_panel() 
-	
 	# 去記憶體抓道具 ID，有抓到就顯示設定，沒有就顯示空欄位
 	if slot_type == "item":
+		# 🌟 以前你從局部的 equipped_items 拿資料，現在統一從大腦拿！
+		var array_index = index - 1
 		var item_id = equipped_items[index]
+		
+		# 如果大腦說這格有裝東西
 		if item_id and DataManager.ITEM_DB.has(item_id):
 			var data = DataManager.ITEM_DB[item_id]
 			info_name_label.text = data["name"]
@@ -165,6 +182,7 @@ func show_equipped_item_info(slot_type: String, index: int):
 				info_story_label.text = data["story"]
 				info_story_label.show()
 		else:
+			# 如果大腦說這格是空的
 			info_name_label.text = "空欄位"
 			info_desc_label.text = "再點擊一下以選擇道具。"
 
@@ -251,22 +269,37 @@ func refresh_inventory_ui():
 			)
 			list_content.add_child(btn)
 
-# --- 裝備執行 ---
+# ==========================================
+# 🌟 第三大修改：正式將道具裝備進大腦
+# ==========================================
 func equip_item_to_slot(item_id, item_data):
 	if current_selected_type == "item":
 		
-		# 防影分身：如果別格裝過同道具，把它拔掉並清空圖片
-		for slot_idx in equipped_items.keys():
-			if equipped_items[slot_idx] == item_id:
-				equipped_items[slot_idx] = null
-				var old_slot = get_slot_node("item", slot_idx)
+		# 🌟 第一步：把 UI 的格子編號 (1~5) 轉換成大腦陣列的編號 (0~4)
+		var array_index = current_selected_index - 1 
+		
+		# 🌟 第二步：防影分身機制 (超級重要！)
+		# 假設你原本第 1 格放蘋果，現在你想把蘋果改放到第 3 格。
+		# 必須先巡視大腦的 5 個格子，把「舊的蘋果」拔掉，才不會同時出現兩個蘋果！
+		for i in range(5):
+			# 如果發現大腦裡某一格裝的東西，跟我們現在要裝的東西一模一樣
+			if DataManager.quick_slots[i] == item_id:
+				# 1. 把大腦裡的那格洗白 (變成空字串)
+				DataManager.quick_slots[i] = "" 
+				# 2. 順便呼叫 UI，把那個舊格子的圖片清空
+				var old_slot = get_slot_node("item", i + 1)
 				if old_slot: old_slot.set_icon("") 
 		
-		# 裝上新道具：寫入記憶，並呼叫格子換圖
-		equipped_items[current_selected_index] = item_id 
-		var target_slot = get_slot_node("item", current_selected_index)
+		# 🌟 第三步：正式把新道具寫入大腦！
+		DataManager.quick_slots[array_index] = item_id 
 		
+		# 🌟 第四步：幫筆記本上「目前選中的這格」換上新道具的圖片
+		var target_slot = get_slot_node("item", current_selected_index)
 		if target_slot and item_data.has("texture_path"):
 			target_slot.set_icon(item_data["texture_path"]) 
+			
+		# 🌟🌟🌟 第五步：最核心的一行！發射廣播！🌟🌟🌟
+		# 大腦的資料改完了，現在大喊一聲，讓左下角的 QuickSlotUI 聽到後立刻重畫畫面！
+		DataManager.quick_slot_updated.emit()
 			
 	close_item_list()

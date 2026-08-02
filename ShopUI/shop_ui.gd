@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 # ==========================================
 # 節點抓取區 (取得場景樹上的 UI 元件)
@@ -9,6 +9,7 @@ extends Control
 @onready var check_sound = $CheckSound   # 確認進入、購買成功時播放 (check)
 @onready var back_sound = $BackSound     # 退出選單、關閉商店時播放 (back)
 @onready var purchase_success_sound = $"Purchase success sound"
+@onready var purchase_failure_sound = $"Purchase failure sound"
 
 @onready var main_menu_layout = $BottomFrame/MainMenu_Layout # 主選單容器 (Buy, Sell, Talk, Exit)
 @onready var buy_menu_layout = $BottomFrame/BuyMenu_Layout # 購買選單容器 (商品清單)
@@ -31,23 +32,33 @@ var cursor_offset: Vector2 = Vector2(-55, -20) # 游標相對於選項文字的�
 var current_state: int = 0 # 記錄目前的選單狀態：0 代表在主選單，1 代表在購買清單
 
 # ==========================================
-# 商品資料庫 (Database)
+# 🛒 商店商品資料庫
 # ==========================================
-# [修改] 移除了原本綁定的 ID，現在先單純作為商品處理，只記錄敘述 (desc) 和價格 (price)。
-# 注意：左邊引號內的字，必須跟場景裡的 Label 文字完全一樣。
 var item_database = {
-	"75G - 牛牛突击队贴纸": {
-		"desc": "这是一张很酷的贴纸。\n攻击力 +5",
-		"price": 75
-	},
 	"50G - 咕咕嘎嘎药水": {
 		"desc": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
 		"price": 50,
-		"item_id": "potion_gugu"
+		"item_id": "potion_gugu" 
+	},
+	"30G - 奇迹苹果": {
+		"desc": "又脆又甜的苹果。\n恢复 10 HP",
+		"price": 30,
+		"item_id": "miracle_apple"
+	},
+	"150G - 烤带骨牛排": {
+		"desc": "香气四溢的带骨肉排。\n恢复 50 HP",
+		"price": 150,
+		"item_id": "steak_bone"
+	},
+	"20G - 蓝色提神水": {
+		"desc": "喝起来像气泡水。\n恢复 5 HP",
+		"price": 20,
+		"item_id": "energy_drink"
 	},
 	"25G - 西巴鲁玛": {
 		"desc": "神秘的道具。\n速度 +10",
-		"price": 25
+		"price": 25,
+		"item_id": "item_xibaluma"
 	}
 }
 
@@ -60,6 +71,8 @@ func _ready():
 
 # 切換到主選單的邏輯
 func switch_to_main_menu():
+	if DataManager.player_node:
+		DataManager.player_node.is_shopping = true
 	current_state = 0 # 狀態設為 0 (主選單)
 	current_index = 0 # 游標歸零回到第一個選項
 	main_menu_layout.show() # 顯示主選單的 UI
@@ -125,7 +138,12 @@ func handle_selection():
 			switch_to_buy_menu() # 切換到購買選單
 		elif current_index == 3: # 如果游標在第四個選項 (Exit)
 			back_sound.play()
-			hide() # 關閉整個商店 UI
+			# 🌟 1. 商店關閉了，解除主角的購物模式 (恢復自由)
+			if DataManager.player_node:
+				DataManager.player_node.is_shopping = false
+				
+			# 🌟 2. 徹底銷毀商店 UI
+			queue_free()
 			
 	# 如果目前在購買選單
 	elif current_state == 1:

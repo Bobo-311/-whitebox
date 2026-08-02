@@ -74,36 +74,60 @@ const STICKER_DB = {
 const ITEM_DB = {
 	"potion_gugu": {
 		"name": "咕咕嘎嘎药水",
-		"max_carry": 2, # 最多只能帶 2 瓶
-		"heal_amount": 20, # 設定補 20 滴血
+		"max_carry": 2, 
+		"heal_amount": 20, 
 		"description": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
 		"story": "不知道是什么，但听起来很好吃。据说是某个在森林迷路的小孩发明的。",
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/99.png" 
 	},
-	"apple_test": {
-		"name": "奇蹟蘋果",
-		"max_carry": 3, # 最多可以帶 3 顆
-		"heal_amount": 10, # 設定補 10 滴血
-		"description": "又脆又甜的蘋果。\n恢復 10 HP",
-		"story": "森林裡隨處可見的野蘋果，據說在極度飢餓時吃下，會發生微小的奇蹟。",
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/98.png" 
+	"miracle_apple": {
+		"name": "奇迹苹果",
+		"max_carry": 3, 
+		"heal_amount": 10, 
+		"description": "又脆又甜的苹果。\n恢复 10 HP",
+		"story": "森林里随处可见的野苹果，据说在极度饥饿时吃下，会发生微小的奇迹。",
+		"texture_path": "res://FreePixelSurvivalItemsPack/Items/64.png" 
+	},
+	"steak_bone": {
+		"name": "烤带骨牛排",
+		"max_carry": 1, 
+		"heal_amount": 50, 
+		"description": "香气四溢的带骨肉排。\n恢复 50 HP",
+		"story": "表面烤得微焦，切开却是完美的粉红色。光是闻到味道就能让人涌现无限力量。",
+		# ⚠️請換成你素材包裡的肉類圖片
+		"texture_path": "res://FreePixelSurvivalItemsPack/Items/74.png" 
+	},
+	"energy_drink": {
+		"name": "蓝色提神水",
+		"max_carry": 5, 
+		"heal_amount": 5, 
+		"description": "喝起来像气泡水。\n恢复 5 HP",
+		"story": "标签上写着「未满十二岁请勿饮用」，但森林里根本没人在乎这种规定。",
+		# ⚠️請換成你素材包裡的藥水圖片
+		"texture_path": "res://FreePixelSurvivalItemsPack/Items/63.png" 
+	},
+	"item_xibaluma": {
+		"name": "西巴鲁玛",
+		"max_carry": 99, 
+		"heal_amount": 0, # 暫時不補血，純收藏或以後補速度
+		"description": "神秘的道具。\n速度 +10",
+		"story": "没人知道这是什么，但据说带着它会健步如飞。成分不明，请斟酌使用。",
+		# ⚠️請換成你素材包裡隨便一張神秘道具的圖片
+		"texture_path": "res://FreePixelSurvivalItemsPack/Items/28.png" 
 	}
 }
 
-# 2️⃣ 玩家真實道具背包狀態 (動態資料)
+# 2️⃣ 玩家真實道具背包狀態 (開局測試用，之後可以全改成 0 讓玩家自己去商店買)
 var inventory_items = {
-	"potion_gugu": {
-		"current_carry": 2, 
-		"reserve_amount": 5 
-	},
-	"apple_test": {
-		"current_carry": 1, 
-		"reserve_amount": 10
-	}
+	"potion_gugu": { "current_carry": 2, "reserve_amount": 5 },
+	"miracle_apple": { "current_carry": 1, "reserve_amount": 10 },
+	"steak_bone": { "current_carry": 1, "reserve_amount": 2 },
+	"energy_drink": { "current_carry": 5, "reserve_amount": 10 },
+	"item_xibaluma": { "current_carry": 1, "reserve_amount": 8 }
 }
 
 # 3️⃣ 快捷欄狀態
-var quick_slots: Array[String] = ["potion_gugu", "apple_test", "", "", ""]
+var quick_slots: Array[String] = ["", "", "", "", ""]
 var current_slot_index: int = 0
 
 

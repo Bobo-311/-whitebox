@@ -18,7 +18,8 @@ func _process(_delta): # 每一幀檢查
 		# 🌟 終極防護：確認玩家現在是不是正在看書？如果是，直接中斷裝瞎！
 		if DataManager.player_node and DataManager.player_node.is_reading_book:
 			return
-			
+		
+		
 		# 🌟 寫入存檔座標
 		if DataManager and DataManager.player_node:
 			DataManager.last_save_position = DataManager.player_node.global_position
