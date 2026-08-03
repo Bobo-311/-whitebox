@@ -9,6 +9,11 @@ class_name Player # 宣告這個腳本代表「玩家 (Player)」
 @export var dash_duration: float = 0.2     # 衝刺維持的時間長度 (秒)
 @export var basic_attack_damage: float = 15.0 # 玩家的基礎揮刀攻擊力
 
+# 🌟【本次新增】受傷微擊退與無敵時間 (Iframes) 參數
+@export var knockback_strength: float = 180.0   # 🌟 擊退力道 (180 剛好是輕微往後退一小步)
+@export var invincibility_duration: float = 0.6  # 🌟 無敵時間 (0.6 秒，防止連續挨打)
+var is_invincible: bool = false                  # 🌟 無敵狀態開關
+
 # 記住玩家一絲不掛時的「基礎最大血量」
 var base_max_hp: int = 100
 
@@ -55,7 +60,7 @@ var is_shopping: bool = false # 記錄玩家現在是不是正在買東西(終�
 func _ready(): 
 	super._ready() # 呼叫父類別準備函數，確保基本屬性初始化 (如血量補滿)
 	
-	DataManager.player_node = self # 玩家一出生，立刻將自己註冊到全域大腦裡
+	DataManager.player_node = self # 玩家一出生，庫存註冊到全域大腦裡
 	
 	# 訂閱裝備廣播頻道，確保裝備變動時重算能力
 	if not DataManager.equipment_changed.is_connected(recalculate_stats):
@@ -119,9 +124,6 @@ func recalculate_stats():
 # ==========================================
 # 開發者外掛與輸入偵測
 # ==========================================
-# ==========================================
-# 開發者外掛與輸入偵測
-# ==========================================
 func _input(event):
 	# 如果在商店買東西，完全阻斷
 	if is_shopping:
@@ -131,23 +133,17 @@ func _input(event):
 	if event.is_action_pressed("closeyamain"):
 		if is_reading_book:
 			if opened_from_savepoint:
-				# 情況 A：從存檔點打開的筆記本，準備退回存檔點
-				
-				# 1. 直接強制隱藏筆記本，不透過 toggle，最安全！
+				# 情況 A：從存檔點打開的筆記本，退回存檔點
 				if notebook_ui:
 					notebook_ui.hide()
 					notebook_ui.is_open = false
 					
 				opened_from_savepoint = false # 解除標記
 				
-				# 2. 把藏在背景的存檔畫架找出來，重新顯示
+				# 把藏在背景的存檔畫架重新顯示
 				var save_menus = get_tree().get_nodes_in_group("save_menu")
 				if save_menus.size() > 0:
 					save_menus[0].show()
-					
-				# 🚫 絕對不能在這裡加 get_tree().paused = true，否則會永久死機卡住！
-				# (保留 is_reading_book = true 狀態，讓玩家繼續乖乖在畫架前罰站)
-				
 			else:
 				# 情況 B：正常遊玩時，關閉筆記本
 				is_reading_book = false
@@ -179,21 +175,18 @@ func _physics_process(delta: float) -> void:
 	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的
 	if not is_dead: 
 		
-		# 🌟🌟🌟 [本次修改：統一看書與購物的狀態機阻斷] 🌟🌟🌟
+		# 🌟 看書與購物的狀態機阻斷
 		if is_reading_book or is_shopping:
 			velocity = Vector2.ZERO # 強制煞車，避免滑行
 			
-			# 把狀態機「關機」，這樣所有的攻擊、翻滾腳本就不會執行
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
 				
 			move_and_slide()        
 			return                  
 		else:
-			# 恢復自由時，將狀態機重新「開機」
 			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_INHERIT
-		# 🌟🌟🌟 [修改結束] 🌟🌟🌟
 		
 		# 🏃 移動向量計算
 		input_direction = Input.get_vector("left", "right", "up", "down") 
@@ -209,26 +202,19 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("skill_01"): 
 			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
 				
-				# 檢查是否有剩餘墨水彈藥
 				if current_ammo > 0:
 					current_ammo -= 1
-					
-					# 觸發 0.3 秒射擊沉重減速
-					shoot_slow_timer = 0.3
+					shoot_slow_timer = 0.3 # 觸發 0.3 秒射擊沉重減速
 					
 					print("【墨水發射】射出一發！剩餘彈藥：", current_ammo, "/", max_ammo)
 					
-					# 計算過飽和與貼紙倍率
 					var current_buff: float = get_oversaturation_buff() 
-					
 					if DataManager.has_sticker("004"):
 						current_buff *= DataManager.STICKER_DB["004"].value
 						print("【魔法棒生效】技能最終傷害倍率提升為：", current_buff)
 					
-					# 執行發射
 					skill_01.shoot(current_buff) 
 					
-					# 更新 UI
 					if player_hud and player_hud.has_method("update_ammo"):
 						player_hud.update_ammo(current_ammo, max_ammo)
 				else: 
@@ -294,8 +280,46 @@ func restore_ammo(amount: int = 1) -> void:
 			player_hud.update_ammo(current_ammo, max_ammo)
 
 # ==========================================
-# 戰鬥與受傷邏輯
+# 戰鬥、受傷與無敵邏輯
 # ==========================================
+
+# 🌟【本次新增】外部傷害接收中心 (包含扣血、擊退與無敵觸發)
+func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, _dir: Vector2 = Vector2.ZERO) -> void:
+	# 防呆 1：如果死掉，或者處於無敵狀態，免疫這次攻擊
+	if is_dead or is_invincible:
+		return
+		
+	# 扣血與更新 UI
+	current_hp = max(current_hp - amount, 0)
+	update_hp_bar()
+	
+	# 1️⃣ 輕微擊退效果：算出「攻擊者 ➔ 玩家」的方向，將玩家往後退一步
+	if attacker_pos != Vector2.ZERO:
+		var knockback_dir = (global_position - attacker_pos).normalized()
+		velocity = knockback_dir * knockback_strength
+		
+	# 2️⃣ 啟動無敵時間與半透明閃爍
+	start_invincibility()
+	
+	# 3️⃣ 檢查死亡或進入受傷狀態
+	if current_hp <= 0:
+		die()
+	else:
+		handle_hurt()
+
+# 🌟【本次新增】無敵時間倒數與半透明閃爍視覺處理
+func start_invincibility() -> void:
+	is_invincible = true
+	
+	# 視覺回饋：無敵期間人物變半透明快速閃爍 (0.05 秒切換一次透明度)
+	var tween = create_tween().set_loops(int(invincibility_duration / 0.1))
+	tween.tween_property(animated_sprite_2d, "modulate:a", 0.3, 0.05)
+	tween.tween_property(animated_sprite_2d, "modulate:a", 1.0, 0.05)
+	
+	# 倒數無敵時間，時間到解開無敵
+	await get_tree().create_timer(invincibility_duration).timeout
+	is_invincible = false
+	animated_sprite_2d.modulate.a = 1.0 # 防呆：確保恢復完全不透明
 
 # 負責計算包含「起床氣 (008)」機制在內的最終基礎普攻傷害
 func get_current_basic_attack_damage() -> float:
@@ -335,12 +359,11 @@ func handle_hurt():
 			notebook_ui.close_notebook()
 		print("【戰鬥提示】看書時遭到攻擊，筆記本已強制關閉！")
 	
-	# 🌟🌟🌟 [本次新增：方案 A 購物遭到攻擊強制打斷] 🌟🌟🌟
+	# 購物遭到攻擊強制打斷
 	if is_shopping:
 		is_shopping = false
-		state_machine.process_mode = Node.PROCESS_MODE_INHERIT # 喚醒狀態機，讓玩家能反擊逃跑
+		state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 		
-		# 掃描畫面並強制銷毀商店，把玩家趕出購物狀態
 		for node in get_tree().root.get_children():
 			if node.name == "ShopUI":
 				node.queue_free()

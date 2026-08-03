@@ -16,9 +16,9 @@ var stun_tween: Tween = null                    # 紀錄動畫物件
 # 🌟 召回狀態開關 (加速衝回玩家身邊)
 var is_recalling: bool = false
 
-# 🌟 自動記憶編輯器中設定的原始數值 (避免程式碼硬寫死 1.0)
+# 🌟 自動記憶編輯器中設定的原始數值
 var original_light_scale: Vector2 = Vector2.ONE # 預設圈圈大小
-var original_light_energy: float = 2.0          # 預設燈光亮度 (對齊 Inspector 2.0)
+var original_light_energy: float = 2.0          # 預設燈光亮度
 
 # 白貓主動監控的敵人動態清單
 var detected_enemies: Array[Node2D] = []
@@ -30,11 +30,12 @@ func _ready() -> void:
 	player_node = get_tree().get_first_node_in_group("player")
 	if not player_node and DataManager:
 		player_node = DataManager.player_node
+		
 	# 🌟【關鍵一行】將玩家設定為物理例外，貓與玩家絕對不會互相推擠/擋路！
 	if player_node:
 		add_collision_exception_with(player_node)	
 		
-	# 🌟【自動防呆】開局自動存下你在 Inspector 面板設定的亮度與縮放大小
+	# 開局自動存下 Inspector 面板設定的亮度與縮放大小
 	if light_area:
 		original_light_scale = light_area.scale
 	if point_light_2d:
@@ -64,7 +65,7 @@ func _check_initial_overlapping_enemies() -> void:
 			_on_light_area_body_entered(body)
 
 # ==========================================
-# 🌟 白貓受傷處置 (支援 1~3 個傳入參數防呆)
+# 🌟 白貓受傷處置
 # ==========================================
 func take_damage(damage_amount: float = 0.0, _attacker_pos: Vector2 = Vector2.ZERO, _dir: Vector2 = Vector2.ZERO) -> void:
 	if is_stunned: 
@@ -75,25 +76,19 @@ func take_damage(damage_amount: float = 0.0, _attacker_pos: Vector2 = Vector2.ZE
 	velocity = Vector2.ZERO # 立刻停在原地
 	print("😿【白貓受傷】受到了來自敵人的傷害！進入虛弱狀態 3 秒！")
 
-	# 如果有舊的動畫正在跑，先中斷
 	if stun_tween and stun_tween.is_running():
 		stun_tween.kill()
 
-	# 創建並行動畫 (set_parallel 讓燈光、感應圈、角色本體同時變動)
 	stun_tween = create_tween().set_parallel(true)
 
-	# 1. 燈光變暗：降為原亮度的 25% (約 0.5)
 	if point_light_2d:
 		stun_tween.tween_property(point_light_2d, "energy", original_light_energy * 0.25, 0.25)
 
-	# 2. 偵測範圍縮小：縮小為編輯器原始設定大小的 40%
 	if light_area:
 		stun_tween.tween_property(light_area, "scale", original_light_scale * 0.4, 0.25)
 
-	# 3. 白貓本體半透明 + 變暗發灰 (視覺受傷特效)
 	stun_tween.tween_property(self, "modulate", Color(0.6, 0.6, 0.6, 0.7), 0.25)
 
-	# 4. 啟動 3 秒計時器，時間到恢復原狀
 	get_tree().create_timer(3.0).timeout.connect(_recover_from_damage)
 
 # 🌟 復原狀態
@@ -107,21 +102,17 @@ func _recover_from_damage() -> void:
 
 	stun_tween = create_tween().set_parallel(true)
 
-	# 1. 燈光能量恢復：精準彈回 Inspector 設定的 2.0 全亮
 	if point_light_2d:
 		stun_tween.tween_property(point_light_2d, "energy", original_light_energy, 0.4)
 
-	# 2. 偵測範圍恢復：精準彈回 Inspector 設定的 100% 大小
 	if light_area:
 		stun_tween.tween_property(light_area, "scale", original_light_scale, 0.4)
 
-	# 3. 顏色恢復全亮白色
 	stun_tween.tween_property(self, "modulate", Color.WHITE, 0.4)
 
-	# 動畫播完後解鎖行動並重新掃描周圍敵人
 	stun_tween.chain().tween_callback(func():
 		is_stunned = false
-		_check_initial_overlapping_enemies() # 恢復大圈圈後，重新照亮範圍內的敵人
+		_check_initial_overlapping_enemies()
 	)
 
 # ==========================================
@@ -159,28 +150,12 @@ func _input(event: InputEvent) -> void:
 	# 🌟 虛弱期間直接屏蔽玩家操作指令
 	if is_stunned: return
 	
-	# 按下 Space 瞬間觸發一次召回
+	# 按下 Space 瞬間觸發一次召回通知
 	if (event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_SPACE) or event.is_action_pressed("cat_recall"):
 		if player_node:
 			is_recalling = true
 			nav_agent.target_position = player_node.global_position
 			print("🐱⚡【白貓召回】啟動 1.5 倍速衝回主角身邊！")
-		return
-
-	# 滑鼠右鍵指揮白貓移動
-	if event.is_action_pressed("cat_move"):
-		# 手動指派貓咪移動時，自動取消召回加速狀態
-		is_recalling = false
-		
-		var target_pos = get_global_mouse_position()
-		
-		if player_node:
-			var dist_to_player = player_node.global_position.distance_to(target_pos)
-			if dist_to_player > max_follow_distance:
-				var dir = (target_pos - player_node.global_position).normalized()
-				target_pos = player_node.global_position + dir * max_follow_distance
-		
-		nav_agent.target_position = target_pos
 
 func _physics_process(_delta: float) -> void:
 	# 🌟 虛弱期間停在原地，不執行尋路位移
@@ -189,20 +164,35 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		return
 
-	# 🌟 [新增：長按空白鍵貼身跟隨邏輯]
-	# 每一幀檢查玩家是否正按著空白鍵（或 cat_recall 按鍵）
-	var is_holding_space: bool = Input.is_key_pressed(KEY_SPACE) or Input.is_action_pressed("cat_recall")
+	# 1️⃣ 檢查是否正按著右鍵指派移動 (cat_move)
+	var is_holding_move: bool = Input.is_action_pressed("cat_move")
 	
-	if is_holding_space and player_node:
+	# 2️⃣ 檢查是否正按著空白鍵召回 (cat_recall)
+	var is_holding_space: bool = Input.is_key_pressed(KEY_SPACE) or Input.is_action_pressed("cat_recall")
+
+	# 🌟【長按右鍵邏輯】：每一幀即時追蹤滑鼠位置 (限制在主角範圍內)
+	if is_holding_move:
+		is_recalling = false # 手動指揮時，自動取消召回狀態
+		var target_pos = get_global_mouse_position()
+		
+		# 限制離玩家的極限距離
+		if player_node:
+			var dist_to_player = player_node.global_position.distance_to(target_pos)
+			if dist_to_player > max_follow_distance:
+				var dir = (target_pos - player_node.global_position).normalized()
+				target_pos = player_node.global_position + dir * max_follow_distance
+		
+		nav_agent.target_position = target_pos
+
+	# 🌟【召回邏輯】：長按或單次觸發時，即時更新玩家座標
+	elif is_holding_space and player_node:
 		is_recalling = true
 		nav_agent.target_position = player_node.global_position
 	elif is_recalling and player_node:
-		# 單次按空白鍵的召回：持續更新玩家最新位置直到抵達身邊
 		nav_agent.target_position = player_node.global_position
 
 	# 抵達目的地（回到身邊或指派點）
 	if nav_agent.is_navigation_finished():
-		# 只有在「沒有長按空白鍵」的情況下，抵達身邊才解除召回狀態
 		if not is_holding_space:
 			is_recalling = false
 		velocity = Vector2.ZERO
@@ -212,7 +202,7 @@ func _physics_process(_delta: float) -> void:
 	var next_path_pos: Vector2 = nav_agent.get_next_path_position()
 	var move_dir: Vector2 = global_position.direction_to(next_path_pos)
 	
-	# 計算實際移動速度：召回/跟隨狀態下為 1.5 倍速 (450)，平時為原速 (300)
+	# 計算實際移動速度：召回/跟隨狀態下為 1.5 倍速，平時為原速
 	var current_speed: float = move_speed * 1.5 if is_recalling else move_speed
 	velocity = move_dir * current_speed
 	

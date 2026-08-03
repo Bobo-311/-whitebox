@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="whitebox new"
+config/name="recolor mouse"
 run/main_scene="uid://dc6xujthm4cy4"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://雜/icon.svg"

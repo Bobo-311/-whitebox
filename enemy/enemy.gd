@@ -40,17 +40,20 @@ var fade_tween: Tween = null
 func _ready() -> void:
 	super._ready()                               # 呼叫父類別 BaseCharacter 的 _ready，確保血量補滿
 	
-	# 🌟 [修改] 不再禁用 Hitbox！讓 Hitbox 保持常開，隨時可以造成碰撞傷害
+	# 不再禁用 Hitbox，保持常開隨時檢測受傷與彈開
 	if hitbox:
-		# 自動連接 body_entered (防止玩家用實體 CharacterBody2D 撞上來)
 		if not hitbox.body_entered.is_connected(_on_hitbox_body_entered):
 			hitbox.body_entered.connect(_on_hitbox_body_entered)
 
-	# 預設藏在迷霧/黑暗中 (開局隱形且透明度為 0，等待白貓光圈照亮)
+	# 預設藏在迷霧/黑暗中
 	self.visible = false
 	self.modulate.a = 0.0
 
 func _physics_process(_delta: float) -> void:
+	# 🌟【本次新增：防推擠核心防呆】死掉時速度立刻清零，防範物理重疊推擠
+	if is_dead:
+		velocity = Vector2.ZERO
+		
 	move_and_slide()
 	
 	# 🌟 持續碰撞檢查：如果玩家一直貼著 Hitbox 擠壓，無敵時間過後繼續彈開
@@ -113,6 +116,7 @@ func handle_hurt() -> void:
 func die() -> void:
 	if is_dead: return                            # 防呆：死過就不再執行
 	is_dead = true
+	velocity = Vector2.ZERO                       # 🌟【防推擠】死掉瞬間將物理速度踩死
 	state_machine.change_state("EnemyDie")        # 狀態機切換至 EnemyDie
 	drop_coin()                                   # 在野豬消失前噴錢！
 
