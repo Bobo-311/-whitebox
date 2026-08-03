@@ -9,8 +9,6 @@ const STICKER_ITEM = preload("res://StickerItem/sticker_item.tscn")
 # ==========================================
 # 節點抓取區 (@onready 確保畫面載入完畢才抓取)
 # ==========================================
-
-
  
 # 抓取 4 個用來控制翻頁的小點點 (已更新為最新完美命名)
 @onready var dot1: TextureButton = $Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots/Dot1
@@ -64,9 +62,16 @@ func _ready() -> void:
 	# 5. UI 都架設好後，呼叫大腦把玩家擁有的貼紙發配到畫架上
 	load_inventory()
 
+# 🌟 自動偵測「被打斷」的自毀系統
+func _process(_delta: float) -> void:
+	if DataManager and DataManager.player_node:
+		# 如果大腦發現玩家的罰站狀態被強制解除了 (代表被打)
+		if not DataManager.player_node.is_reading_book:
+			queue_free() # 貼紙介面立刻自動銷毀，退回遊戲！
+
 # 🌟 新增：監聽 TAB 鍵關閉貼紙介面，並返回存檔選單
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("notebook"):
+	if event.is_action_pressed("closeyamain"):
 		# 尋找藏在背景的存檔主選單，把它叫回來
 		for child in get_tree().root.get_children():
 			if "SaveMenu" in child.name: 

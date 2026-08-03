@@ -2,19 +2,18 @@
 
 [ext_resource type="Script" uid="uid://bmwutle5bexps" path="res://ShopUI/shop_npc.gd" id="1_4ks1w"]
 [ext_resource type="PackedScene" uid="uid://v4f6gx7t7lh4" path="res://ShopUI/shop_ui.tscn" id="2_udjyi"]
-[ext_resource type="Texture2D" uid="uid://bb1hcv5fyhuql" path="res://雜/IMG_9447-removebg-preview.png" id="3_udjyi"]
+[ext_resource type="Texture2D" uid="uid://dhwjkan4psf82" path="res://大家不為人知的祕密/我是gay.png" id="3_udjyi"]
 [ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://雜/tilemap_packed.png" id="3_vbmfm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fk1ft"]
-radius = 182.06866
+radius = 192.02344
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udjyi"]
 atlas = ExtResource("3_vbmfm")
 region = Rect2(66.96332, 97.01159, 10.143608, 13.925972)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fk1ft"]
-radius = 41.0
-height = 150.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_2qngp"]
+radius = 101.07918
 
 [node name="ShopNPC" type="Area2D"]
 collision_layer = 0
@@ -23,7 +22,7 @@ script = ExtResource("1_4ks1w")
 shop_ui_scene = ExtResource("2_udjyi")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.19085991, 0.412)
+scale = Vector2(0.1295238, 0.137255)
 texture = ExtResource("3_udjyi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -37,8 +36,8 @@ texture = SubResource("AtlasTexture_udjyi")
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-1, 3)
-shape = SubResource("CapsuleShape2D_fk1ft")
+position = Vector2(-12, 27)
+shape = SubResource("CircleShape2D_2qngp")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

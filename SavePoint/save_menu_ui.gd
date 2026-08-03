@@ -27,7 +27,7 @@ func _ready() -> void:
 # ==========================================
 func _input(event: InputEvent) -> void:
 	# 當玩家按下 TAB 鍵 (綁定名稱為 "notebook") 時
-	if event.is_action_pressed("notebook"):
+	if event.is_action_pressed("closeyamain"):
 		
 		# 【情況 A】：現在是「存檔狀態下看筆記本」 ➡️ 關掉筆記本，退回存檔畫架
 		if is_reading_from_savepoint:
@@ -40,12 +40,21 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled() # 吃掉輸入
 			return 
 			
-		# 【情況 B】：現在是在看「存檔畫架」 ➡️ 關掉畫架，解除時間暫停，回到正常遊戲
+		# 【情況 B】：現在是在看「存檔畫架」 ➡️ 關掉畫架，解除罰站，回到正常遊戲
 		if visible:
-			get_tree().paused = false # 解除時間暫停，世界開始運轉
+			# 解除玩家的罰站狀態
+			if DataManager and DataManager.player_node:
+				DataManager.player_node.is_reading_book = false
 			queue_free() # 把存檔畫架銷毀
 			get_viewport().set_input_as_handled()
 
+# 🌟🌟🌟 [本次新增：自動偵測「被打斷」的自毀系統] 🌟🌟🌟
+func _process(_delta: float) -> void:
+	if DataManager and DataManager.player_node:
+		# 如果大腦發現玩家的罰站狀態被強制解除了 (代表被怪物攻擊了)
+		if not DataManager.player_node.is_reading_book:
+			queue_free() # 存檔畫面立刻自動銷毀，退回遊戲！
+# 🌟🌟🌟 [新增結束] 🌟🌟🌟
 # ==========================================
 # 💾 按鈕功能實作區
 # ==========================================
@@ -100,11 +109,11 @@ func _on_teleport_pressed() -> void:
 
 # --- 4️⃣ 按下「物品欄 (筆記本)」按鈕 ---
 func _on_inventory_pressed() -> void:
-	get_tree().paused = false 
 	hide() 
 	
 	var player = DataManager.player_node
-	if player and not player.is_reading_book:
+	# 🌟 直接要求執行，拿掉會造成衝突的 not player.is_reading_book 判斷
+	if player:
 		player.is_reading_book = true 
 		player.opened_from_savepoint = true 
 		

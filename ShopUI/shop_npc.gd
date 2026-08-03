@@ -25,11 +25,15 @@ func _process(_delta): # 每一幀檢查
 		if current_shop_instance == null and shop_ui_scene:
 			current_shop_instance = shop_ui_scene.instantiate()
 			
+			# 🌟🌟🌟 [本次修改：正統生命週期] 🌟🌟🌟
+			# 必須先將 UI 實體加入場景樹，UI 內的 @onready 才會開始抓取節點！
 			get_tree().root.add_child(current_shop_instance)
 			
-			# 確保一打開是主選單
+			# 確認加入場景後，再呼叫初始化選單
+			# (這裡不使用 get_tree().paused = true，讓世界保持運轉！)
 			if current_shop_instance.has_method("switch_to_main_menu"):
 				current_shop_instance.switch_to_main_menu()
+			# 🌟🌟🌟 [修改結束] 🌟🌟🌟
 				
 			
 			

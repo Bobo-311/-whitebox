@@ -119,35 +119,48 @@ func recalculate_stats():
 # ==========================================
 # 開發者外掛與輸入偵測
 # ==========================================
+# ==========================================
+# 開發者外掛與輸入偵測
+# ==========================================
 func _input(event):
-	# [🌟 本次新增] 監聽 Tab 鍵，開關素描本
-	if event.is_action_pressed("notebook"):
-		is_reading_book = !is_reading_book
-		
+	# 如果在商店買東西，完全阻斷
+	if is_shopping:
+		return
+
+	# 🌟 筆記本與存檔畫架的返回邏輯
+	if event.is_action_pressed("closeyamain"):
 		if is_reading_book:
-			# 打開書時：煞車、並強制關閉狀態機(無法攻擊/翻滾)
+			if opened_from_savepoint:
+				# 情況 A：從存檔點打開的筆記本，準備退回存檔點
+				
+				# 1. 直接強制隱藏筆記本，不透過 toggle，最安全！
+				if notebook_ui:
+					notebook_ui.hide()
+					notebook_ui.is_open = false
+					
+				opened_from_savepoint = false # 解除標記
+				
+				# 2. 把藏在背景的存檔畫架找出來，重新顯示
+				var save_menus = get_tree().get_nodes_in_group("save_menu")
+				if save_menus.size() > 0:
+					save_menus[0].show()
+					
+				# 🚫 絕對不能在這裡加 get_tree().paused = true，否則會永久死機卡住！
+				# (保留 is_reading_book = true 狀態，讓玩家繼續乖乖在畫架前罰站)
+				
+			else:
+				# 情況 B：正常遊玩時，關閉筆記本
+				is_reading_book = false
+				state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
+				if notebook_ui:
+					notebook_ui.toggle_notebook(false)
+		else:
+			# 情況 C：正常遊玩時，打開筆記本
+			is_reading_book = true
 			velocity = Vector2.ZERO 
 			state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-			
 			if notebook_ui:
-				notebook_ui.toggle_notebook(false) # 正常打開（有動畫）
-		else:
-			# 關上書時：重新啟動狀態機
-			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
-			
-			if notebook_ui:
-				# 🌟 核心判定：如果剛才是從存檔畫架進來的
-				if opened_from_savepoint:
-					notebook_ui.toggle_notebook(true) # 瞬間關閉筆記本
-					opened_from_savepoint = false # 重置防呆
-					
-					# 🌟 把藏在背景的畫架找出來，重新顯示，並再次時間暫停！
-					var save_menus = get_tree().get_nodes_in_group("save_menu")
-					if save_menus.size() > 0:
-						save_menus[0].show()
-						get_tree().paused = true
-				else:
-					notebook_ui.toggle_notebook(false) # 正常關閉（有動畫）
+				notebook_ui.toggle_notebook(false)
 
 	# 測試用外掛：按下指定按鍵直接加 100 元
 	if event.is_action_pressed("cheater") and DataManager: 
@@ -163,18 +176,24 @@ func _input(event):
 # 物理與邏輯更新
 # ==========================================
 func _physics_process(delta: float) -> void: 
-	# 🌟 新增這兩行：如果正在購物，直接中斷這個函數，玩家就不能動了！
-	if is_shopping:
-		return
-	
 	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的
 	if not is_dead: 
 		
-		# 🛑 狀態鎖定區：看書罰站機制
-		if is_reading_book:
-			velocity = Vector2.ZERO 
+		# 🌟🌟🌟 [本次修改：統一看書與購物的狀態機阻斷] 🌟🌟🌟
+		if is_reading_book or is_shopping:
+			velocity = Vector2.ZERO # 強制煞車，避免滑行
+			
+			# 把狀態機「關機」，這樣所有的攻擊、翻滾腳本就不會執行
+			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
+				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
+				
 			move_and_slide()        
 			return                  
+		else:
+			# 恢復自由時，將狀態機重新「開機」
+			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
+				state_machine.process_mode = Node.PROCESS_MODE_INHERIT
+		# 🌟🌟🌟 [修改結束] 🌟🌟🌟
 		
 		# 🏃 移動向量計算
 		input_direction = Input.get_vector("left", "right", "up", "down") 
@@ -315,6 +334,17 @@ func handle_hurt():
 		if notebook_ui:
 			notebook_ui.close_notebook()
 		print("【戰鬥提示】看書時遭到攻擊，筆記本已強制關閉！")
+	
+	# 🌟🌟🌟 [本次新增：方案 A 購物遭到攻擊強制打斷] 🌟🌟🌟
+	if is_shopping:
+		is_shopping = false
+		state_machine.process_mode = Node.PROCESS_MODE_INHERIT # 喚醒狀態機，讓玩家能反擊逃跑
+		
+		# 掃描畫面並強制銷毀商店，把玩家趕出購物狀態
+		for node in get_tree().root.get_children():
+			if node.name == "ShopUI":
+				node.queue_free()
+		print("【戰鬥警告】買東西時遭到攻擊！商店強制關閉！")
 	
 	var state_name = state_machine.current_state.name.to_lower() 
 	

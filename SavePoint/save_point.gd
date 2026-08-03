@@ -23,15 +23,17 @@ func _process(_delta): # 每一幀檢查
 		# 🌟 寫入存檔座標
 		if DataManager and DataManager.player_node:
 			DataManager.last_save_position = DataManager.player_node.global_position
-			
 			# 🌟 新增：讓大腦記住現在這張地圖的檔案路徑！
 			DataManager.save_map_path = get_tree().current_scene.scene_file_path
+			
+			# 🌟🌟🌟 [本次修改：打開存檔點時，強迫玩家進入罰站狀態] 🌟🌟🌟
+			DataManager.player_node.is_reading_book = true
 			
 		# 🌟 只負責叫出 UI 和暫停遊戲，不處理補血補體力！
 		if save_menu_scene:
 			var menu = save_menu_scene.instantiate()
 			get_tree().root.add_child(menu)
-			get_tree().paused = true
+			
 
 func show_prompt(): # 自訂函數：處理 E 鍵顯示與浮動動畫
 	interact_prompt.show() # 將 E 鍵圖片顯示出來
