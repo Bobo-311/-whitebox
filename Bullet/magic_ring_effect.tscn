@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf8if20ev6whp"]
+
+[ext_resource type="Script" uid="uid://jdlra211bo88" path="res://Bullet/magic_ring_effect.gd" id="1_jkjh1"]
+
+[node name="MagicRingEffect" type="Node2D"]
+script = ExtResource("1_jkjh1")

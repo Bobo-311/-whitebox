@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c543cvvw2e0kr"
-path="res://.godot/imported/ink.svg-2f5cd9be28cb6b216aa2a24016643ce6.ctex"
+uid="uid://6mfkbcw7u47q"
+path="res://.godot/imported/Ink_Bullet.png-6546b1ebcff6cb606e23d5723c02f27f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ink.svg"
-dest_files=["res://.godot/imported/ink.svg-2f5cd9be28cb6b216aa2a24016643ce6.ctex"]
+source_file="res://Bullet/Ink_Bullet.png"
+dest_files=["res://.godot/imported/Ink_Bullet.png-6546b1ebcff6cb606e23d5723c02f27f.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

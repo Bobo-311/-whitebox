@@ -94,7 +94,6 @@ const ITEM_DB = {
 		"heal_amount": 50, 
 		"description": "香气四溢的带骨肉排。\n恢复 50 HP",
 		"story": "表面烤得微焦，切开却是完美的粉红色。光是闻到味道就能让人涌现无限力量。",
-		# ⚠️請換成你素材包裡的肉類圖片
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/74.png" 
 	},
 	"energy_drink": {
@@ -103,7 +102,6 @@ const ITEM_DB = {
 		"heal_amount": 5, 
 		"description": "喝起来像气泡水。\n恢复 5 HP",
 		"story": "标签上写着「未满十二岁请勿饮用」，但森林里根本没人在乎这种规定。",
-		# ⚠️請換成你素材包裡的藥水圖片
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/63.png" 
 	},
 	"item_xibaluma": {
@@ -112,12 +110,11 @@ const ITEM_DB = {
 		"heal_amount": 0, # 暫時不補血，純收藏或以後補速度
 		"description": "神秘的道具。\n速度 +10",
 		"story": "没人知道这是什么，但据说带着它会健步如飞。成分不明，请斟酌使用。",
-		# ⚠️請換成你素材包裡隨便一張神秘道具的圖片
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/28.png" 
 	}
 }
 
-# 2️⃣ 玩家真實道具背包狀態 (開局測試用，之後可以全改成 0 讓玩家自己去商店買)
+# 2️⃣ 玩家真實道具背包狀態
 var inventory_items = {
 	"potion_gugu": { "current_carry": 2, "reserve_amount": 5 },
 	"miracle_apple": { "current_carry": 1, "reserve_amount": 10 },
@@ -222,8 +219,12 @@ func replenish_quick_slots() -> void:
 # ==========================================
 # 💥 打擊感卡頓/頓幀系統 (Hitstop)
 # ==========================================
-func hitstop(duration: float = 0.05, time_scale: float = 0.05) -> void:
-	Engine.time_scale = time_scale # 將遊戲總速度變慢到接近暫停 (0.05倍速)
-	# 建立一個無視時間縮放的獨立計時器倒數
-	await get_tree().create_timer(duration * time_scale, true, false, true).timeout
+func trigger_hitstop(duration: float = 0.05, freeze_scale: float = 0.05) -> void:
+	Engine.time_scale = freeze_scale # 將遊戲總速度變慢到接近暫停 (0.05倍速)
+	# 🌟 引數 4 (ignore_time_scale) 設為 true，確保計時器不會被 slow motion 拖慢！
+	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0 # 時間恢復正常的 1.0 倍速
+
+# 別名兼容 (相容以前呼叫 hitstop 的舊腳本)
+func hitstop(duration: float = 0.05, time_scale: float = 0.05) -> void:
+	trigger_hitstop(duration, time_scale)
