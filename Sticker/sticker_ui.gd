@@ -71,7 +71,7 @@ func _process(_delta: float) -> void:
 
 # 🌟 新增：監聽 TAB 鍵關閉貼紙介面，並返回存檔選單
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("closeyamain"):
+	if event.is_action_pressed("TAB") or event.is_action_pressed("ESC"):
 		# 尋找藏在背景的存檔主選單，把它叫回來
 		for child in get_tree().root.get_children():
 			if "SaveMenu" in child.name: 

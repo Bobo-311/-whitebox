@@ -68,7 +68,31 @@ var item_database = {
 func _ready():
 	# 遊戲一開始執行時，強制先切換到主選單狀態
 	switch_to_main_menu()
+# ==========================================
+# 玩家按鍵輸入處理
+# ==========================================
+func _input(event):
+	# 如果按下「往下」鍵
+	if event.is_action_pressed("down"):
+		# 游標索引值 +1。使用 % 取餘數可以讓游標到底部時，自動循環回到最上面
+		current_index = (current_index + 1) % menu_items.size()
+		update_cursor_position()
+		select_sound.play()
+		
+	# 如果按下「往上」鍵
+	elif event.is_action_pressed("up"):
+		# 游標索引值 -1。加上陣列大小再取餘數，可以讓游標在最上方時，自動循環到底部
+		current_index = (current_index - 1 + menu_items.size()) % menu_items.size()
+		update_cursor_position()
+		select_sound.play()
 
+	# 如果按下「確認」鍵 (Enter/空白鍵)
+	elif event.is_action_pressed("enter"):
+		handle_selection() # 執行確認邏輯
+
+# ==========================================
+# 確認鍵的判斷邏輯
+# ==========================================
 # 切換到主選單的邏輯
 func switch_to_main_menu():
 	if DataManager.player_node:
@@ -93,10 +117,21 @@ func switch_to_buy_menu():
 func refresh_menu_items(container):
 	menu_items.clear() # 先清空舊的選項陣列
 	
-	# 尋找傳入的容器 (container) 裡面所有的子節點
+	# 🌟🌟🌟 [本次修改：自動為每一個選項綁定滑鼠功能] 🌟🌟🌟
 	for child in container.get_children():
 		if child is Label:
-			menu_items.append(child) # 如果是 Label，就把他加進選項陣列裡
+			menu_items.append(child) 
+			
+			# 1. 開啟文字的滑鼠阻擋功能，讓它可以接收滑鼠訊號
+			child.mouse_filter = Control.MOUSE_FILTER_STOP
+			
+			# 2. 如果還沒綁定過滑鼠進入的訊號，就幫它綁定
+			if not child.mouse_entered.is_connected(_on_item_mouse_entered):
+				child.mouse_entered.connect(_on_item_mouse_entered.bind(child))
+				
+			# 3. 如果還沒綁定過滑鼠點擊的訊號，就幫它綁定
+			if not child.gui_input.is_connected(_on_item_gui_input):
+				child.gui_input.connect(_on_item_gui_input.bind(child))
 			
 	# 等待引擎重新計算 UI 排版兩次，確保抓到的座標是準確的
 	await get_tree().process_frame
@@ -104,32 +139,27 @@ func refresh_menu_items(container):
 	
 	# 排版完成後，更新游標的位置
 	update_cursor_position()
+# ==========================================
+# 🖱️ 滑鼠專用邏輯區
+# ==========================================
+# 當滑鼠「碰到」某個文字時
+func _on_item_mouse_entered(item_node: Label):
+	var idx = menu_items.find(item_node) # 找出這個文字是陣列裡的第幾個
+	if idx != -1 and current_index != idx: # 如果跟現在選的不一樣
+		current_index = idx # 把目前索引值換成它
+		update_cursor_position() # 更新游標位置與說明文字
+		if select_sound:
+			select_sound.play() # 播放切換音效
 
-# ==========================================
-# 玩家按鍵輸入處理
-# ==========================================
-func _input(event):
-	# 如果按下「往下」鍵
-	if event.is_action_pressed("ui_down"):
-		# 游標索引值 +1。使用 % 取餘數可以讓游標到底部時，自動循環回到最上面
-		current_index = (current_index + 1) % menu_items.size()
-		update_cursor_position()
-		select_sound.play()
-		
-	# 如果按下「往上」鍵
-	elif event.is_action_pressed("ui_up"):
-		# 游標索引值 -1。加上陣列大小再取餘數，可以讓游標在最上方時，自動循環到底部
-		current_index = (current_index - 1 + menu_items.size()) % menu_items.size()
-		update_cursor_position()
-		select_sound.play()
+# 當滑鼠在文字上「做出點擊動作」時
+func _on_item_gui_input(event: InputEvent, item_node: Label):
+	# 判斷是不是「滑鼠左鍵」且「按下去」的那一瞬間
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var idx = menu_items.find(item_node)
+		if idx != -1:
+			current_index = idx # 確保游標在點擊的目標上
+			handle_selection()  # 執行購買/確認邏輯
 
-	# 如果按下「確認」鍵 (Enter/空白鍵)
-	elif event.is_action_pressed("ui_accept"):
-		handle_selection() # 執行確認邏輯
-
-# ==========================================
-# 確認鍵的判斷邏輯
-# ==========================================
 func handle_selection():
 	# 如果目前在主選單
 	if current_state == 0:

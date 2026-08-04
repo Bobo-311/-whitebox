@@ -98,7 +98,57 @@ func _ready():
 				soul.lost_gold = DataManager.soul_stored_gold     
 				soul.scale = Vector2(2.0, 2.0) 
 				get_tree().current_scene.call_deferred("add_child", soul) 
+# ==========================================
+# 開發者外掛與輸入偵測
+# ==========================================
+func _input(event):
+	# 如果在商店買東西，完全阻斷
+	if is_shopping:
+		return
 
+	# 🌟 定義一個變數：只要玩家按了 TAB 或 ESC 其中一個，就是 true
+	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC")
+
+	# 【第一階段：關閉與返回】如果在看書，允許用 TAB 或 ESC 來關閉
+	if is_reading_book and pressed_cancel:
+		if opened_from_savepoint:
+			# 情況 A：從存檔點打開的筆記本，退回存檔點
+			if notebook_ui:
+				notebook_ui.hide()
+				notebook_ui.is_open = false
+				
+			opened_from_savepoint = false 
+			
+			# 把藏在背景的存檔畫架找出來，重新顯示
+			var save_menus = get_tree().get_nodes_in_group("save_menu")
+			if save_menus.size() > 0:
+				save_menus[0].show()
+		else:
+			# 情況 B：正常遊玩時，關閉筆記本
+			is_reading_book = false
+			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
+			if notebook_ui:
+				notebook_ui.toggle_notebook(false)
+				
+		return # 🌟 關閉完就直接離開，不要往下走
+	
+	# 【第二階段：打開】如果沒在看書，嚴格限定只能按 TAB 才能打開
+	if not is_reading_book and event.is_action_pressed("TAB"):
+		# 情況 C：正常遊玩時，打開筆記本
+		is_reading_book = true
+		velocity = Vector2.ZERO 
+		state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
+		if notebook_ui:
+			notebook_ui.toggle_notebook(false)
+
+	# 測試用外掛
+	if event.is_action_pressed("cheater") and DataManager: 
+		DataManager.total_gold += 100
+		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
+		
+	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
+		DataManager.add_item_to_reserve("potion_gugu", 1)
+		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 # ==========================================
 # 裝備能力統整計算中心
 # ==========================================
@@ -116,61 +166,7 @@ func recalculate_stats():
 	update_hp_bar() 
 	print("【系統】玩家能力已更新，目前最大血量：", max_hp)
 
-# ==========================================
-# 開發者外掛與輸入偵測
-# ==========================================
-# ==========================================
-# 開發者外掛與輸入偵測
-# ==========================================
-func _input(event):
-	# 如果在商店買東西，完全阻斷
-	if is_shopping:
-		return
 
-	# 🌟 筆記本與存檔畫架的返回邏輯
-	if event.is_action_pressed("closeyamain"):
-		if is_reading_book:
-			if opened_from_savepoint:
-				# 情況 A：從存檔點打開的筆記本，準備退回存檔點
-				
-				# 1. 直接強制隱藏筆記本，不透過 toggle，最安全！
-				if notebook_ui:
-					notebook_ui.hide()
-					notebook_ui.is_open = false
-					
-				opened_from_savepoint = false # 解除標記
-				
-				# 2. 把藏在背景的存檔畫架找出來，重新顯示
-				var save_menus = get_tree().get_nodes_in_group("save_menu")
-				if save_menus.size() > 0:
-					save_menus[0].show()
-					
-				# 🚫 絕對不能在這裡加 get_tree().paused = true，否則會永久死機卡住！
-				# (保留 is_reading_book = true 狀態，讓玩家繼續乖乖在畫架前罰站)
-				
-			else:
-				# 情況 B：正常遊玩時，關閉筆記本
-				is_reading_book = false
-				state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
-				if notebook_ui:
-					notebook_ui.toggle_notebook(false)
-		else:
-			# 情況 C：正常遊玩時，打開筆記本
-			is_reading_book = true
-			velocity = Vector2.ZERO 
-			state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-			if notebook_ui:
-				notebook_ui.toggle_notebook(false)
-
-	# 測試用外掛：按下指定按鍵直接加 100 元
-	if event.is_action_pressed("cheater") and DataManager: 
-		DataManager.total_gold += 100
-		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
-		
-	# 【全新測試外掛：按鍵盤 P 鍵，直接進貨一罐藥水】
-	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
-		DataManager.add_item_to_reserve("potion_gugu", 1)
-		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
 # 物理與邏輯更新
@@ -264,6 +260,7 @@ func _physics_process(delta: float) -> void:
 			velocity *= 0.05
 
 	move_and_slide() # 執行移動與物理碰撞
+
 
 # ==========================================
 # 資源消耗控制 (體力與彈藥)
