@@ -20,6 +20,11 @@ func state_physics_update(delta: float): # 內建虛擬函數：在物理引擎�
 		state_machine.change_state("PlayerIdle") # 命令大腦切換回待機狀態 (PlayerIdle)
 		return # 直接跳出函數
 
+	# --- 🌟 擊退鎖定：若擊退組件正處於發力/滑行狀態，暫停 WASD 速度覆蓋 ---
+	if character.knockback_component and character.knockback_component.knockback_force.length() > 0.0:
+		character.play_animation("move")
+		return # 不覆蓋 velocity，讓 KnockbackComponent 完整執行物理滑行
+
 	# --- 🌟 核心：動態跑速計算 (過熱減速懲罰) ---
 	var current_speed: float = character.walk_speed # 宣告一個暫存變數，先把玩家正常的走路速度裝進去
 	

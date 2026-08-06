@@ -19,6 +19,7 @@ var received_buff: float = 1.0                # 接收過飽和倍率 (1.0 或 1
 
 var raw_points: Array[Vector2] = []
 var raw_times: Array[float] = []
+var is_destroying: bool = false               # 🌟 防呆：避免同一幀重複執行銷毀
 
 func _ready() -> void:
 	if animated_sprite_2d:
@@ -40,6 +41,8 @@ func _ready() -> void:
 	)
 
 func _physics_process(delta: float) -> void:
+	if is_destroying: return
+
 	if direction == Vector2.ZERO and travel_dir != Vector2.ZERO:
 		direction = travel_dir
 
@@ -83,11 +86,18 @@ func spawn_impact_effect() -> void:
 		get_parent().add_child(effect)
 
 func destroy_bullet() -> void:
-	spawn_impact_effect() # 🌟 銷毀前生成墨汁爆裂
+	if is_destroying: return
+	is_destroying = true
+
+	spawn_impact_effect()
 	
+	# 🌟 觸發相機震動 (已適當下調至 6.0，避免過度搖晃)
+	get_tree().call_group("main_camera", "apply_shake", 8.0)
+	
+	# 🌟 將拖尾交給場景，使其平滑淡出後銷毀
 	if is_instance_valid(trail_line) and raw_points.size() > 0:
 		var world = get_parent()
-		if world:
+		if world and trail_line.get_parent() == self:
 			remove_child(trail_line)
 			world.add_child(trail_line)
 			
@@ -101,6 +111,8 @@ func destroy_bullet() -> void:
 # 🌟 碰撞判定
 # ==========================================
 func _on_area_entered(area: Area2D) -> void:
+	if is_destroying: return
+
 	var parent = area.get_parent()
 	if parent == shooter or (parent and (parent.is_in_group("player") or parent.is_in_group("white_cat") or parent is WhiteCat)):
 		return
@@ -114,6 +126,8 @@ func _on_area_entered(area: Area2D) -> void:
 		destroy_bullet()
 
 func _on_body_entered(body: Node2D) -> void:
+	if is_destroying: return
+
 	if body == shooter or body.is_in_group("player") or body.is_in_group("white_cat") or body is WhiteCat:
 		return
 

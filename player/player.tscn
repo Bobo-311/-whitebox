@@ -1,4 +1,4 @@
-[gd_scene load_steps=185 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=186 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
 [ext_resource type="Script" uid="uid://dklheqli3xyjo" path="res://player/player_heal.gd" id="16_65viv"]
 [ext_resource type="PackedScene" uid="uid://bqkyu35doaf21" path="res://NotebookUI/notebook_ui.tscn" id="22_bjvpn"]
+[ext_resource type="Script" uid="uid://brpsxbevfcnop" path="res://KnockbackComponent.gd" id="22_s7qer"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65viv"]
 resource_local_to_scene = true
@@ -1258,7 +1259,6 @@ collision_layer = 2
 collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_boqn2")
-knockback_strength = 600.0
 metadata/_edit_horizontal_guides_ = [-170.0, 85.0]
 metadata/_edit_vertical_guides_ = [-129.0]
 
@@ -1358,3 +1358,8 @@ volume_db = -14.195
 layer = 10
 
 [node name="NotebookUI" parent="MenuLayer" instance=ExtResource("22_bjvpn")]
+
+[node name="KnockbackComponent" type="Node" parent="."]
+script = ExtResource("22_s7qer")
+default_strength = 300.0
+metadata/_custom_type_script = "uid://brpsxbevfcnop"

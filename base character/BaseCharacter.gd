@@ -12,7 +12,8 @@ func _ready() -> void:           # 當節點進入遊戲場景時呼叫
 	current_hp = max_hp          # 遊戲一開始，將目前血量補滿至最大血量
 
 # --- 共通功能：受傷邏輯 (這是最核心的函數) ---
-func take_damage(amount: float, from_pos: Vector2, hit_dir: Vector2 = Vector2.ZERO): # 接收傷害量、攻擊者位置、攻擊方向(選填)
+# 🌟【關鍵修復】補上第 4 個參數 is_melee: bool = false，統一所有角色的受傷簽名
+func take_damage(amount: float, from_pos: Vector2 = Vector2.ZERO, hit_dir: Vector2 = Vector2.ZERO, is_melee: bool = false) -> void: 
 	if is_dead: return           # 防呆機制：如果角色已經死亡，就直接跳出函數，不再重複扣血
 
 	current_hp -= amount         # 將目前血量扣除受到的傷害量
@@ -23,7 +24,7 @@ func take_damage(amount: float, from_pos: Vector2, hit_dir: Vector2 = Vector2.ZE
 	# --- 擊退計算邏輯 ---
 	if hit_dir != Vector2.ZERO:  # 如果攻擊本身帶有明確方向（例如子彈的飛行方向）
 		knockback_force = hit_dir.normalized() * 500 # 就把那個方向標準化(長度為1)，然後乘以擊退力道 500
-	else:                        # 如果沒有給定方向（例如近戰揮刀）
+	elif from_pos != Vector2.ZERO: # 如果沒有給定方向（例如近戰揮刀）
 		knockback_force = (global_position - from_pos).normalized() * 500 # 用「自己的位置減去攻擊者的位置」算出反方向，再乘以 500
 
 	# --- 判斷生死 ---
@@ -33,14 +34,14 @@ func take_damage(amount: float, from_pos: Vector2, hit_dir: Vector2 = Vector2.ZE
 		handle_hurt()            # 呼叫受傷處理函數 (切換到受傷狀態)
 
 # --- 虛擬函數 (Virtual Functions)：留給子類別自己填寫實作細節 ---
-func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO): # 播放動畫的空殼函數
+func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void: # 播放動畫的空殼函數
 	pass                         # 內容留空，由 Player 或 Enemy 各自的腳本去寫怎麼播動畫
 
-func update_hp_bar():            # 更新血條的空殼函數
+func update_hp_bar() -> void:    # 更新血條的空殼函數
 	pass                         # 內容留空
 
-func handle_hurt():              # 處理受傷狀態的空殼函數
+func handle_hurt() -> void:      # 處理受傷狀態的空殼函數
 	pass                         # 內容留空
 
-func die():                      # 處理死亡狀態的空殼函數
+func die() -> void:              # 處理死亡狀態的空殼函數
 	pass                         # 內容留空

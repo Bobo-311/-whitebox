@@ -11,7 +11,7 @@ class_name WhiteCat
 
 var player_node: Node2D = null
 var is_stunned: bool = false                     # 受傷/暈眩狀態開關
-var stun_tween: Tween = null                    # 紀錄動畫物件
+var stun_tween: Tween = null                     # 紀錄動畫物件
 
 # 🌟 召回狀態開關 (加速衝回玩家身邊)
 var is_recalling: bool = false
@@ -67,7 +67,8 @@ func _check_initial_overlapping_enemies() -> void:
 # ==========================================
 # 🌟 白貓受傷處置
 # ==========================================
-func take_damage(damage_amount: float = 0.0, _attacker_pos: Vector2 = Vector2.ZERO, _dir: Vector2 = Vector2.ZERO) -> void:
+# 🌟【關鍵修改】新增第 4 個參數 _is_melee: bool = false，解決 4 個參數呼叫崩潰問題！
+func take_damage(damage_amount: float = 0.0, _attacker_pos: Vector2 = Vector2.ZERO, _dir: Vector2 = Vector2.ZERO, _is_melee: bool = false) -> void:
 	if is_stunned: 
 		return # 已經在虛弱狀態中不重複觸發
 		
