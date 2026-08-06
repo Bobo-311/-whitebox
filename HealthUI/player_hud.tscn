@@ -107,13 +107,5 @@ vertical_alignment = 1
 script = ExtResource("4_fneal")
 
 [node name="GoldUI" parent="." instance=ExtResource("2_kdilq")]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -103.0
-offset_top = 1.0
-offset_right = -103.0
-offset_bottom = 1.0
-grow_horizontal = 0
 
 [node name="QuickSlotUI" parent="." instance=ExtResource("6_nd3l5")]

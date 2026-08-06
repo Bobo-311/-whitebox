@@ -352,13 +352,22 @@ func handle_hurt():
 	state_machine.change_state("PlayerHurt") 
 
 # ==========================================
-# 🌟 外部補血接收器
+# 🌟 外部補血接收器 (實裝 016 漢堡貼紙效果)
 # ==========================================
 func heal(amount: int) -> void:
+	var final_amount = amount # 先把原本道具該補的血量存起來
+	
+	# 🍔 檢查大腦：玩家目前有沒有裝備 016-漢堡貼紙？
+	if DataManager.has_sticker("016"):
+		var bonus = DataManager.STICKER_DB["016"].value
+		final_amount += bonus
+		print("【漢堡發動】道具效果強化！額外回復 ", bonus, " 點！")
+		
+	# 執行最終回血邏輯
 	if current_hp < max_hp:
-		current_hp = min(current_hp + amount, max_hp)
+		current_hp = min(current_hp + final_amount, max_hp)
 		update_hp_bar() # 更新血條 UI 和身體顏色
-		print("【玩家】喝下道具！恢復了 ", amount, " 點生命！目前血量：", current_hp)
+		print("【玩家】喝下道具！恢復了 ", final_amount, " 點生命！目前血量：", current_hp)
 
 # ==========================================
 # 狀態與 UI 更新

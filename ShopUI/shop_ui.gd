@@ -59,6 +59,11 @@ var item_database = {
 		"desc": "神秘的道具。\n速度 +10",
 		"price": 25,
 		"item_id": "item_xibaluma"
+	},
+	"300G - 汉堡贴纸": {
+		"desc": "裝備後，所有回復道具額外恢復 10 HP。",
+		"price": 300,
+		"sticker_id": "016" # 這裡用 sticker_id 區分它是貼紙！
 	}
 }
 
@@ -200,6 +205,12 @@ func handle_selection():
 					if item_info.has("item_id"):
 						DataManager.add_item_to_reserve(item_info["item_id"], 1)
 						
+					elif item_info.has("sticker_id"):
+						# 情況 B：貼紙，解鎖進貼紙簿
+						var s_id = item_info["sticker_id"]
+						if not DataManager.owned_stickers.has(s_id):
+							DataManager.owned_stickers.append(s_id)
+							print("【商店】獲得新貼紙！")
 					print("【商店】購買成功！扣除 ", price, " G，剩餘 ", DataManager.total_gold, " G")
 					
 				else:

@@ -106,6 +106,7 @@ func switch_page(new_page: GridContainer, active_dot: TextureButton) -> void:
 	if new_page == current_page:
 		return 
 		
+	
 	# 記錄新舊狀態，準備交接
 	var old_page = current_page
 	current_page = new_page
