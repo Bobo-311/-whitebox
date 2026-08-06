@@ -44,6 +44,7 @@ texture_scale = 18.0
 height = 180.0
 
 [node name="LightArea" type="Area2D" parent="." groups=["cat_light_zone"]]
+scale = Vector2(1.2239996, 1.2239996)
 collision_layer = 0
 collision_mask = 4
 

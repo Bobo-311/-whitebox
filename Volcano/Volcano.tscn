@@ -1177,7 +1177,6 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
 position = Vector2(1567, 1746)
-knockback_strength = 300.0
 
 [node name="Arena" type="StaticBody2D" parent="."]
 

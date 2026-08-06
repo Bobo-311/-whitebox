@@ -12,6 +12,9 @@ class_name Enemy                  # 定義為 Enemy 類別
 
 const COIN_SCENE = preload("res://coin/coin.tscn") # 金幣場景
 
+# 🌟【預載受擊特效】背部貫穿粒子特效
+const HIT_IMPACT_PARTICLES = preload("res://近戰/hit_impact_particles.tscn")
+
 # ==========================================
 # 🔗 節點引用
 # ==========================================
@@ -54,8 +57,6 @@ func _ready() -> void:
 	self.modulate.a = 0.0
 
 func _physics_process(_delta: float) -> void:
-	# 🌟【組件化優化】擊退向量與煞車衰減已移至 KnockbackComponent 背景運算
-	# 這裡只需在死亡且擊退完全停止時維持靜止即可
 	if is_dead and (not knockback_component or knockback_component.knockback_force.length() <= 0.0):
 		velocity = Vector2.ZERO
 
@@ -109,11 +110,14 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 			if p.has_method("add_ammo"):
 				p.add_ammo(1)
 	
-	# 2️⃣ 🌟【組件化優化】完全委託 KnockbackComponent 處理擊退與抗性運算
+	# 2️⃣ 🌟【擊退與背部特效】
 	var knockback_dir = dir if dir != Vector2.ZERO else (global_position - attacker_pos).normalized()
 	if knockback_component and knockback_dir != Vector2.ZERO:
 		var extra_kb = 1.8 if (is_kill and is_melee) else 1.0
 		knockback_component.apply_knockback(knockback_dir, -1.0, extra_kb)
+	
+	# 🌟 生成背部貫穿爆發粒子
+	spawn_back_impact_particles(knockback_dir, is_kill, is_melee)
 	
 	# 3️⃣ 播放受擊特效與頓幀
 	play_hit_effects(attacker_pos, is_kill, is_melee)
@@ -123,6 +127,33 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 	else:
 		handle_hurt()
 
+# 🌟【確定能看到版】背部貫穿受擊粒子生成器
+func spawn_back_impact_particles(hit_dir: Vector2, is_kill: bool = false, is_melee: bool = false) -> void:
+	if not HIT_IMPACT_PARTICLES: return
+	
+	var final_dir = hit_dir if hit_dir != Vector2.ZERO else Vector2.RIGHT
+	var particles = HIT_IMPACT_PARTICLES.instantiate()
+	
+	# 1️⃣ 位置推離適中（30px）：剛好在野豬背後邊緣，不會推太遠進牆
+	var back_offset = final_dir.normalized() * 80.0
+	particles.global_position = global_position + back_offset
+	particles.rotation = final_dir.angle()
+	
+	# 2️⃣ 關鍵修復！層級改為比野豬高一點點 (+1)，絕對不會被 TileMap 地面蓋住
+	particles.z_index = self.z_index + 1
+	
+	# 3️⃣ 體積維持放大
+	if is_kill and is_melee:
+		particles.scale = Vector2(2.5, 2.5)
+	else:
+		particles.scale = Vector2(1.5, 1.5)
+		
+	get_parent().add_child(particles)
+	
+	if particles.has_method("restart"):
+		particles.restart()
+	particles.emitting = true
+	
 func play_hit_effects(_attacker_pos: Vector2 = Vector2.ZERO, is_kill: bool = false, is_melee: bool = false) -> void:
 	if is_kill:
 		if is_melee:

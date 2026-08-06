@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5upoxdargjaj"]
+
+[ext_resource type="Script" uid="uid://m5ssyh2cot5n" path="res://近戰/HitImpactParticles.gd" id="1_75tcm"]
+
+[sub_resource type="Curve" id="Curve_vc2id"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_yxmkb"]
+curve = SubResource("Curve_vc2id")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v0wit"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(2, 20, 1)
+spread = 25.0
+initial_velocity_min = 700.0
+initial_velocity_max = 850.0
+gravity = Vector3(0, 300, 0)
+scale_min = 10.0
+scale_max = 18.0
+scale_curve = SubResource("CurveTexture_yxmkb")
+
+[node name="HitImpactParticles" type="GPUParticles2D"]
+emitting = false
+amount = 16
+lifetime = 0.2
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_v0wit")
+script = ExtResource("1_75tcm")

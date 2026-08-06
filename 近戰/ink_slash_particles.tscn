@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://4oict2sjvq6h"]
+
+[ext_resource type="Script" uid="uid://dthueg616n3qr" path="res://近戰/ink_slash_particles.gd" id="1_yifwy"]
+
+[sub_resource type="Curve" id="Curve_yifwy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rrcla"]
+curve = SubResource("Curve_yifwy")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yifwy"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+spread = 40.0
+initial_velocity_min = 500.0
+initial_velocity_max = 800.0
+gravity = Vector3(0, 200, 0)
+scale_min = 5.0
+scale_max = 10.0
+scale_curve = SubResource("CurveTexture_rrcla")
+
+[node name="InkSlashParticles" type="GPUParticles2D"]
+visible = false
+z_index = 1
+emitting = false
+amount = 32
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_yifwy")
+script = ExtResource("1_yifwy")
