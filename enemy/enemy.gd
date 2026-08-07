@@ -159,15 +159,17 @@ func play_hit_effects(_attacker_pos: Vector2 = Vector2.ZERO, is_kill: bool = fal
 		if is_melee:
 			if DataManager and DataManager.has_method("trigger_execution_hitstop"):
 				DataManager.trigger_execution_hitstop(0.18, 0.08)
-			get_tree().call_group("main_camera", "apply_shake", 10.0)
+			get_tree().call_group("main_camera", "apply_shake", 20.0)
 		else:
 			if DataManager and DataManager.has_method("trigger_hitstop"):
 				DataManager.trigger_hitstop(0.08, 0.05)
-			get_tree().call_group("main_camera", "apply_shake", 6.5)
+			get_tree().call_group("main_camera", "apply_shake", 15.0)
 	else:
+		# 🌟【關鍵修復】將普通受擊 Hitstop 時間從 0.04s 微調至 0.07s
+		# 讓畫面多停頓 2~3 幀，配合 5.5 的震動值，打擊感就會非常清晰且不破圖！
 		if DataManager and DataManager.has_method("trigger_hitstop"):
-			DataManager.trigger_hitstop(0.04, 0.1)
-		get_tree().call_group("main_camera", "apply_shake", 3.5)
+			DataManager.trigger_hitstop(0.07, 0.05)
+		get_tree().call_group("main_camera", "apply_shake", 10.0)
 		
 	# 畫面精靈圖閃光與變形
 	if animated_sprite_2d:

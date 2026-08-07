@@ -1173,6 +1173,7 @@ grow_vertical = 2
 color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]

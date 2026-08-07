@@ -1347,6 +1347,9 @@ limit_top = 3
 limit_right = 4685
 limit_bottom = 2388
 script = ExtResource("5_tnfn2")
+trauma_decay = 1.8
+max_shake_offset = Vector2(50, 40)
+max_roll = 0.1
 
 [node name="SFXSword" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_boad6")
