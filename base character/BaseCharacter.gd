@@ -12,8 +12,8 @@ func _ready() -> void:           # 當節點進入遊戲場景時呼叫
 	current_hp = max_hp          # 遊戲一開始，將目前血量補滿至最大血量
 
 # --- 共通功能：受傷邏輯 (這是最核心的函數) ---
-# 🌟【關鍵修復】補上第 4 個參數 is_melee: bool = false，統一所有角色的受傷簽名
-func take_damage(amount: float, from_pos: Vector2 = Vector2.ZERO, hit_dir: Vector2 = Vector2.ZERO, is_melee: bool = false) -> void: 
+# 🌟【終極統一】補上第 5 個參數 extra_knockback: float = 1.0，讓所有的子類別都不會報錯！
+func take_damage(amount: float, from_pos: Vector2 = Vector2.ZERO, hit_dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void: 
 	if is_dead: return           # 防呆機制：如果角色已經死亡，就直接跳出函數，不再重複扣血
 
 	current_hp -= amount         # 將目前血量扣除受到的傷害量
@@ -23,9 +23,11 @@ func take_damage(amount: float, from_pos: Vector2 = Vector2.ZERO, hit_dir: Vecto
 
 	# --- 擊退計算邏輯 ---
 	if hit_dir != Vector2.ZERO:  # 如果攻擊本身帶有明確方向（例如子彈的飛行方向）
-		knockback_force = hit_dir.normalized() * 500 # 就把那個方向標準化(長度為1)，然後乘以擊退力道 500
+		# 🌟 把額外擊退倍率 (extra_knockback) 乘上去！
+		knockback_force = hit_dir.normalized() * (500 * extra_knockback)
 	elif from_pos != Vector2.ZERO: # 如果沒有給定方向（例如近戰揮刀）
-		knockback_force = (global_position - from_pos).normalized() * 500 # 用「自己的位置減去攻擊者的位置」算出反方向，再乘以 500
+		# 🌟 同樣乘上 extra_knockback，這樣通用邏輯也能支援被打飛得更遠
+		knockback_force = (global_position - from_pos).normalized() * (500 * extra_knockback)
 
 	# --- 判斷生死 ---
 	if current_hp <= 0:          # 如果扣血後，目前血量小於或等於 0

@@ -27,6 +27,7 @@
 shader = ExtResource("2_pg32h")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/state_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_05kf6"]
 atlas = ExtResource("2_pmsee")
@@ -934,7 +935,7 @@ material = SubResource("ShaderMaterial_nfy00")
 position = Vector2(-4, -21)
 scale = Vector2(4.875, 3.8046877)
 sprite_frames = SubResource("SpriteFrames_2mvqj")
-animation = &"idle_left"
+animation = &"run_left"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -954,7 +955,7 @@ rotation = 1.5707964
 shape = SubResource("RectangleShape2D_rovcg")
 
 [node name="Hitbox" type="Area2D" parent="."]
-scale = Vector2(0.64691365, 0.6800033)
+scale = Vector2(0.81157166, 0.8530835)
 collision_layer = 64
 collision_mask = 8
 monitorable = false
@@ -1011,13 +1012,13 @@ offset_bottom = -68.0
 position = Vector2(-49, -20)
 
 [node name="Muzzle" type="Marker2D" parent="AimPivot"]
-position = Vector2(-2, 2)
+position = Vector2(49, 4)
 
 [node name="VisionRay" type="RayCast2D" parent="."]
 
 [node name="KnockbackComponent" type="Node" parent="."]
 script = ExtResource("22_nfy00")
-friction = 2000.0
+friction = 4000.0
 metadata/_custom_type_script = "uid://brpsxbevfcnop"
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

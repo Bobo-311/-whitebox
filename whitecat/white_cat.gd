@@ -68,7 +68,7 @@ func _check_initial_overlapping_enemies() -> void:
 # 🌟 白貓受傷處置
 # ==========================================
 # 🌟【關鍵修改】新增第 4 個參數 _is_melee: bool = false，解決 4 個參數呼叫崩潰問題！
-func take_damage(damage_amount: float = 0.0, _attacker_pos: Vector2 = Vector2.ZERO, _dir: Vector2 = Vector2.ZERO, _is_melee: bool = false) -> void:
+func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_stunned: 
 		return # 已經在虛弱狀態中不重複觸發
 		

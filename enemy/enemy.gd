@@ -48,13 +48,19 @@ func _ready() -> void:
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale
-	
+		# 🌟【保險機制】確保精靈圖本身絕對是純白的
+		animated_sprite_2d.modulate = Color.WHITE
+		animated_sprite_2d.self_modulate = Color.WHITE
+		
 	if hitbox:
 		if not hitbox.body_entered.is_connected(_on_hitbox_body_entered):
 			hitbox.body_entered.connect(_on_hitbox_body_entered)
 
 	self.visible = false
-	self.modulate.a = 0.0
+	
+	# 🆕【本次修復 1】修正了錯字 (modulated -> modulate)
+	# 並強制開局為「透明的純白」，徹底洗掉黑色！
+	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 
 func _physics_process(_delta: float) -> void:
 	if is_dead and (not knockback_component or knockback_component.knockback_force.length() <= 0.0):
@@ -62,6 +68,8 @@ func _physics_process(_delta: float) -> void:
 
 	move_and_slide()
 	_check_hitbox_overlap()
+	
+	# 🆕【狀態機接管】已將「撞牆暈眩判定」完全移交給 enemy_attack.gd 處理！
 	
 	if player_node != null:
 		vision_ray.target_position = to_local(player_node.global_position)
@@ -81,9 +89,13 @@ func update_visibility() -> void:
 	
 	if is_illuminated_by_cat:
 		self.visible = true
-		fade_tween.tween_property(self, "modulate:a", 1.0, 0.35)
+		
+		# 🆕【本次修復 2】拋棄半套的 "modulate:a"
+		# 強制賦予完整的 Color(1, 1, 1, 1) 純白色，這樣野豬現形時絕對是原本漂亮的棕色！
+		fade_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.35)
 	else:
-		fade_tween.tween_property(self, "modulate:a", 0.0, 0.35)
+		# 🌟 隱形時也給定 Color(1, 1, 1, 0) 透明的純白
+		fade_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.35)
 		fade_tween.tween_callback(func():
 			if not is_illuminated_by_cat:
 				self.visible = false
@@ -92,7 +104,7 @@ func update_visibility() -> void:
 # ==========================================
 # 💥 戰鬥受擊與處決邏輯
 # ==========================================
-func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false) -> void:
+func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_dead: return
 	
 	current_hp = max(current_hp - amount, 0)
@@ -134,15 +146,12 @@ func spawn_back_impact_particles(hit_dir: Vector2, is_kill: bool = false, is_mel
 	var final_dir = hit_dir if hit_dir != Vector2.ZERO else Vector2.RIGHT
 	var particles = HIT_IMPACT_PARTICLES.instantiate()
 	
-	# 1️⃣ 位置推離適中（30px）：剛好在野豬背後邊緣，不會推太遠進牆
 	var back_offset = final_dir.normalized() * 80.0
 	particles.global_position = global_position + back_offset
 	particles.rotation = final_dir.angle()
 	
-	# 2️⃣ 關鍵修復！層級改為比野豬高一點點 (+1)，絕對不會被 TileMap 地面蓋住
 	particles.z_index = self.z_index + 1
 	
-	# 3️⃣ 體積維持放大
 	if is_kill and is_melee:
 		particles.scale = Vector2(2.5, 2.5)
 	else:
@@ -165,8 +174,6 @@ func play_hit_effects(_attacker_pos: Vector2 = Vector2.ZERO, is_kill: bool = fal
 				DataManager.trigger_hitstop(0.08, 0.05)
 			get_tree().call_group("main_camera", "apply_shake", 15.0)
 	else:
-		# 🌟【關鍵修復】將普通受擊 Hitstop 時間從 0.04s 微調至 0.07s
-		# 讓畫面多停頓 2~3 幀，配合 5.5 的震動值，打擊感就會非常清晰且不破圖！
 		if DataManager and DataManager.has_method("trigger_hitstop"):
 			DataManager.trigger_hitstop(0.07, 0.05)
 		get_tree().call_group("main_camera", "apply_shake", 10.0)
@@ -248,11 +255,28 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		_apply_damage_and_knockback(body, null)
 
 func _apply_damage_and_knockback(target: Node2D, target_area: Area2D = null) -> void:
+	var is_dashing = (state_machine.current_state and state_machine.current_state.name == "EnemyAttack")
+	if is_dashing:
+		has_hit_player = true
+
+	# 維持原始方向的長度為 1
 	var knockback_dir: Vector2 = (target.global_position - global_position).normalized()
+	
+	# 🌟【設定擊退倍率】衝撞時 3 倍，平時 1 倍
+	var extra_kb: float = 2.0 if is_dashing else 1.0
+	
+	# 將 extra_kb 塞在第 5 個參數傳出去！
 	if target_area and target_area.has_method("take_damage"):
-		target_area.take_damage(melee_damage, global_position)
+		target_area.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
 	elif target.has_method("take_damage"):
-		target.take_damage(melee_damage, global_position, knockback_dir)
+		target.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
+	
+	# 3. 呼叫 take_damage，維持 4 個參數不報錯！
+	# 這裡傳過去的 knockback_dir 已經是放大過後的版本了！
+	if target_area and target_area.has_method("take_damage"):
+		target_area.take_damage(melee_damage, global_position, knockback_dir, false)
+	elif target.has_method("take_damage"):
+		target.take_damage(melee_damage, global_position, knockback_dir, false)
 
 func _check_hitbox_overlap() -> void:
 	if not hitbox: return

@@ -268,31 +268,29 @@ func refill_full_ammo() -> void:
 # ==========================================
 
 # 外部傷害接收中心 (包含扣血、擊退、相機震動與無敵觸發)
-func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false) -> void:
+# 🌟【新增參數】：在最後面補上 extra_knockback: float = 1.0
+# 🌟【本次新增】：在最後面加上 extra_knockback: float = 1.0
+func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_dead or is_invincible:
 		return
 		
 	current_hp = max(current_hp - amount, 0)
 	update_hp_bar()
 	
-	# 1️⃣ 觸發受擊頓幀
 	if DataManager and DataManager.has_method("trigger_hitstop"):
 		DataManager.trigger_hitstop(0.07, 0.05)
 	
-	# 2️⃣ 🌟【關鍵修復 2】改由 KnockbackComponent 負責平滑擊退計算，移除舊式 Tween
 	var knockback_dir = dir if dir != Vector2.ZERO else (global_position - attacker_pos).normalized()
 	if knockback_component and knockback_dir != Vector2.ZERO:
-		knockback_component.apply_knockback(knockback_dir)
+		# 🌟【關鍵修復】將額外擊退倍率傳給組件！
+		# 第一個參數是方向，第二個 -1.0 是使用預設力量，第三個是我們傳過來的倍率！
+		knockback_component.apply_knockback(knockback_dir, -1.0, extra_knockback)
 		
-	# 3️⃣ 受傷相機打擊震動
 	var camera = get_viewport().get_camera_2d()
 	if camera and camera.has_method("apply_shake"):
 		camera.apply_shake(14.0)
 		
-	# 4️⃣ 觸發受擊紅閃 + 變形擠壓視覺特效
 	play_hurt_effects()
-		
-	# 5️⃣ 啟動無敵時間與半透明閃爍
 	start_invincibility()
 	
 	if current_hp <= 0:
