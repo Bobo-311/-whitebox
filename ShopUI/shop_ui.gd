@@ -4,7 +4,7 @@ extends CanvasLayer
 # 節點抓取區 (取得場景樹上的 UI 元件)
 # ==========================================
 @onready var cursor = $Cursor # 指示目前選項的游標
-# 🌟 [音效節點修改] 替換成你剛剛建立的三個音效節點
+
 @onready var select_sound = $SelectSound
 @onready var check_sound = $CheckSound   # 確認進入、購買成功時播放 (check)
 @onready var back_sound = $BackSound     # 退出選單、關閉商店時播放 (back)
@@ -59,6 +59,11 @@ var item_database = {
 		"desc": "神秘的道具。\n速度 +10",
 		"price": 25,
 		"item_id": "item_xibaluma"
+	},
+	"300G - 汉堡贴纸": {
+		"desc": "裝備後，所有回復道具額外恢復 10 HP。",
+		"price": 300,
+		"sticker_id": "016" # 這裡用 sticker_id 區分它是貼紙！
 	}
 }
 
@@ -68,7 +73,31 @@ var item_database = {
 func _ready():
 	# 遊戲一開始執行時，強制先切換到主選單狀態
 	switch_to_main_menu()
+# ==========================================
+# 玩家按鍵輸入處理
+# ==========================================
+func _input(event):
+	# 如果按下「往下」鍵
+	if event.is_action_pressed("down"):
+		# 游標索引值 +1。使用 % 取餘數可以讓游標到底部時，自動循環回到最上面
+		current_index = (current_index + 1) % menu_items.size()
+		update_cursor_position()
+		select_sound.play()
+		
+	# 如果按下「往上」鍵
+	elif event.is_action_pressed("up"):
+		# 游標索引值 -1。加上陣列大小再取餘數，可以讓游標在最上方時，自動循環到底部
+		current_index = (current_index - 1 + menu_items.size()) % menu_items.size()
+		update_cursor_position()
+		select_sound.play()
 
+	# 如果按下「確認」鍵 (Enter/空白鍵)
+	elif event.is_action_pressed("enter"):
+		handle_selection() # 執行確認邏輯
+
+# ==========================================
+# 確認鍵的判斷邏輯
+# ==========================================
 # 切換到主選單的邏輯
 func switch_to_main_menu():
 	if DataManager.player_node:
@@ -93,10 +122,31 @@ func switch_to_buy_menu():
 func refresh_menu_items(container):
 	menu_items.clear() # 先清空舊的選項陣列
 	
-	# 尋找傳入的容器 (container) 裡面所有的子節點
+	# 🌟🌟🌟 [本次修改：自動為每一個選項綁定滑鼠功能，並檢查售罄] 🌟🌟🌟
+	# 🌟🌟🌟 [本次修改：自動為每一個選項綁定滑鼠功能，並檢查售罄] 🌟🌟🌟
 	for child in container.get_children():
 		if child is Label:
-			menu_items.append(child) # 如果是 Label，就把他加進選項陣列裡
+			menu_items.append(child) 
+			
+			# 1. 開啟文字的滑鼠阻擋功能，讓它可以接收滑鼠訊號
+			child.mouse_filter = Control.MOUSE_FILTER_STOP
+			
+			# 2. 如果還沒綁定過滑鼠進入的訊號，就幫它綁定
+			if not child.mouse_entered.is_connected(_on_item_mouse_entered):
+				child.mouse_entered.connect(_on_item_mouse_entered.bind(child))
+				
+			# 3. 如果還沒綁定過滑鼠點擊的訊號，就幫它綁定
+			if not child.gui_input.is_connected(_on_item_gui_input):
+				child.gui_input.connect(_on_item_gui_input.bind(child))
+				
+			# 🌟 新增：售罄檢查機制 (讓文字變暗)
+			var item_name = child.text
+			if item_database.has(item_name):
+				var item_info = item_database[item_name]
+				if item_info.has("sticker_id") and DataManager.owned_stickers.has(item_info["sticker_id"]):
+					child.modulate = Color(0.3, 0.3, 0.3, 1.0) # 已擁有貼紙，文字變暗灰
+				else:
+					child.modulate = Color(1.0, 1.0, 1.0, 1.0) # 保持正常白色
 			
 	# 等待引擎重新計算 UI 排版兩次，確保抓到的座標是準確的
 	await get_tree().process_frame
@@ -104,32 +154,31 @@ func refresh_menu_items(container):
 	
 	# 排版完成後，更新游標的位置
 	update_cursor_position()
+# ==========================================
+# 🖱️ 滑鼠專用邏輯區
+# ==========================================
+# 當滑鼠「碰到」某個文字時
+func _on_item_mouse_entered(item_node: Label):
+	var idx = menu_items.find(item_node) # 找出這個文字是陣列裡的第幾個
+	if idx != -1 and current_index != idx: # 如果跟現在選的不一樣
+		current_index = idx # 把目前索引值換成它
+		update_cursor_position() # 更新游標位置與說明文字
+		if select_sound:
+			select_sound.play() # 播放切換音效
 
-# ==========================================
-# 玩家按鍵輸入處理
-# ==========================================
-func _input(event):
-	# 如果按下「往下」鍵
-	if event.is_action_pressed("ui_down"):
-		# 游標索引值 +1。使用 % 取餘數可以讓游標到底部時，自動循環回到最上面
-		current_index = (current_index + 1) % menu_items.size()
-		update_cursor_position()
-		select_sound.play()
+# 當滑鼠在文字上「做出點擊動作」時
+func _on_item_gui_input(event: InputEvent, item_node: Label):
+	# 判斷是不是「滑鼠左鍵」且「按下去」的那一瞬間
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		# 🌟 保險 1：強制吃掉這個點擊訊號，不讓它穿透到底層的遊戲世界！
+		Input.action_release("attack")
+		get_viewport().set_input_as_handled()
 		
-	# 如果按下「往上」鍵
-	elif event.is_action_pressed("ui_up"):
-		# 游標索引值 -1。加上陣列大小再取餘數，可以讓游標在最上方時，自動循環到底部
-		current_index = (current_index - 1 + menu_items.size()) % menu_items.size()
-		update_cursor_position()
-		select_sound.play()
+		var idx = menu_items.find(item_node)
+		if idx != -1:
+			current_index = idx # 確保游標在點擊的目標上
+			handle_selection()  # 執行購買/確認邏輯
 
-	# 如果按下「確認」鍵 (Enter/空白鍵)
-	elif event.is_action_pressed("ui_accept"):
-		handle_selection() # 執行確認邏輯
-
-# ==========================================
-# 確認鍵的判斷邏輯
-# ==========================================
 func handle_selection():
 	# 如果目前在主選單
 	if current_state == 0:
@@ -162,6 +211,14 @@ func handle_selection():
 				var item_info = item_database[item_name]
 				var price = item_info["price"] # 從資料庫讀取這個商品的價格
 				
+				# 🌟 攔截器：不論鍵盤還是滑鼠，只要是已擁有的貼紙，直接阻擋！
+				if item_info.has("sticker_id") and DataManager.owned_stickers.has(item_info["sticker_id"]):
+					if back_sound: back_sound.play() # 發出錯誤音效
+					buy_prompt_label.text = "You already have this item!" # 提示已擁有
+					await get_tree().create_timer(1.0).timeout
+					buy_prompt_label.text = "What would you like to buy?"
+					return # ⚠️ 核心！直接中斷函數，絕對不往下執行扣錢！
+					
 				# 去 DataManager 檢查玩家目前的總金額是否大於等於商品價格
 				if DataManager.total_gold >= price:
 					purchase_success_sound.play() 
@@ -170,6 +227,15 @@ func handle_selection():
 					if item_info.has("item_id"):
 						DataManager.add_item_to_reserve(item_info["item_id"], 1)
 						
+					elif item_info.has("sticker_id"):
+						# 情況 B：貼紙，解鎖進貼紙簿
+						var s_id = item_info["sticker_id"]
+						if not DataManager.owned_stickers.has(s_id):
+							DataManager.owned_stickers.append(s_id)
+							print("【商店】獲得新貼紙！")
+							
+					# 🌟 購買成功後，立刻刷新清單，讓剛剛買的貼紙瞬間變暗！
+					refresh_menu_items(buy_vbox)
 					print("【商店】購買成功！扣除 ", price, " G，剩餘 ", DataManager.total_gold, " G")
 					
 				else:
@@ -202,7 +268,12 @@ func update_cursor_position():
 			var item_name = target_node.text
 			
 			if item_database.has(item_name):
-				# 讀取資料庫裡的 desc 並顯示在 UI 上
-				desc_label.text = item_database[item_name]["desc"]
+				var item_info = item_database[item_name]
+				
+				# 🌟 說明更新：如果是已擁有的貼紙，說明文字改成 Sold Out
+				if item_info.has("sticker_id") and DataManager.owned_stickers.has(item_info["sticker_id"]):
+					desc_label.text = "【已售罄】\n你已經擁有這件物品了。"
+				else:
+					desc_label.text = item_info["desc"]
 			elif item_name == "Exit":
 				desc_label.text = "" # 游標指到 Exit 時清空說明

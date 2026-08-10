@@ -23,7 +23,7 @@ var base_max_hp: int = 100
 # [🌟 墨水彈藥系統] 與 體力 (SP) 系統
 # ==========================================
 @export var max_ammo: int = 6               # 🌟 墨水彈藥上限 (改為 6 發)
-var current_ammo: int = 6                  # 🌟 當前剩餘墨水彈藥 (開局滿彈 6 發)
+var current_ammo: int = 6                   # 🌟 當前剩餘墨水彈藥 (開局滿彈 6 發)
 
 @export var max_sp: float = 100.0          # 體力上限 (揮刀、翻滾消耗用)
 var current_sp: float = 50                  # 開局預設體力
@@ -107,6 +107,58 @@ func _ready():
 				get_tree().current_scene.call_deferred("add_child", soul) 
 
 # ==========================================
+# 開發者外掛與輸入偵測
+# ==========================================
+func _input(event):
+	# 如果在商店買東西，完全阻斷
+	if is_shopping:
+		return
+
+	# 🌟 定義一個變數：只要玩家按了 TAB、ESC 或 closeyamain 其中一個，就是 true
+	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC") or event.is_action_pressed("closeyamain")
+
+	# 【第一階段：關閉與返回】如果在看書，允許按指定按鍵來關閉
+	if is_reading_book and pressed_cancel:
+		if opened_from_savepoint:
+			# 情況 A：從存檔點打開的筆記本，退回存檔點
+			if notebook_ui:
+				notebook_ui.hide()
+				notebook_ui.is_open = false
+				
+			opened_from_savepoint = false 
+			
+			# 把藏在背景的存檔畫架找出來，重新顯示
+			var save_menus = get_tree().get_nodes_in_group("save_menu")
+			if save_menus.size() > 0:
+				save_menus[0].show()
+		else:
+			# 情況 B：正常遊玩時，關閉筆記本
+			is_reading_book = false
+			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
+			if notebook_ui:
+				notebook_ui.toggle_notebook(false)
+				
+		return # 🌟 關閉完就直接離開，不要往下走
+	
+	# 【第二階段：打開】如果沒在看書，允許按 TAB 或 closeyamain 打開
+	if not is_reading_book and (event.is_action_pressed("TAB") or event.is_action_pressed("closeyamain")):
+		# 情況 C：正常遊玩時，打開筆記本
+		is_reading_book = true
+		velocity = Vector2.ZERO 
+		state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
+		if notebook_ui:
+			notebook_ui.toggle_notebook(false)
+
+	# 測試用外掛
+	if event.is_action_pressed("cheater") and DataManager: 
+		DataManager.total_gold += 100
+		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
+		
+	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
+		DataManager.add_item_to_reserve("potion_gugu", 1)
+		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
+
+# ==========================================
 # 裝備能力統整計算中心
 # ==========================================
 func recalculate_stats():
@@ -122,45 +174,6 @@ func recalculate_stats():
 		
 	update_hp_bar() 
 	print("【系統】玩家能力已更新，目前最大血量：", max_hp)
-
-# ==========================================
-# 開發者外掛與輸入偵測
-# ==========================================
-func _input(event):
-	if is_shopping:
-		return
-
-	if event.is_action_pressed("closeyamain"):
-		if is_reading_book:
-			if opened_from_savepoint:
-				if notebook_ui:
-					notebook_ui.hide()
-					notebook_ui.is_open = false
-					
-				opened_from_savepoint = false
-				
-				var save_menus = get_tree().get_nodes_in_group("save_menu")
-				if save_menus.size() > 0:
-					save_menus[0].show()
-			else:
-				is_reading_book = false
-				state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
-				if notebook_ui:
-					notebook_ui.toggle_notebook(false)
-		else:
-			is_reading_book = true
-			velocity = Vector2.ZERO 
-			state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-			if notebook_ui:
-				notebook_ui.toggle_notebook(false)
-
-	if event.is_action_pressed("cheater") and DataManager: 
-		DataManager.total_gold += 100
-		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
-		
-	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
-		DataManager.add_item_to_reserve("potion_gugu", 1)
-		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
 # 物理與邏輯更新
@@ -269,7 +282,6 @@ func refill_full_ammo() -> void:
 
 # 外部傷害接收中心 (包含扣血、擊退、相機震動與無敵觸發)
 # 🌟【新增參數】：在最後面補上 extra_knockback: float = 1.0
-# 🌟【本次新增】：在最後面加上 extra_knockback: float = 1.0
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_dead or is_invincible:
 		return
@@ -358,10 +370,23 @@ func handle_hurt():
 		
 	state_machine.change_state("PlayerHurt") 
 
+# ==========================================
+# 🌟 外部補血接收器 (實裝 016 漢堡貼紙效果)
+# ==========================================
 func heal(amount: int) -> void:
+	var final_amount = amount # 先把原本道具該補的血量存起來
+	
+	# 🍔 檢查大腦：玩家目前有沒有裝備 016-漢堡貼紙？
+	if DataManager.has_sticker("016"):
+		var bonus = DataManager.STICKER_DB["016"].value
+		final_amount += bonus
+		print("【漢堡發動】道具效果強化！額外回復 ", bonus, " 點！")
+		
+	# 執行最終回血邏輯
 	if current_hp < max_hp:
-		current_hp = min(current_hp + amount, max_hp)
-		update_hp_bar()
+		current_hp = min(current_hp + final_amount, max_hp)
+		update_hp_bar() # 更新血條 UI 和身體顏色
+		print("【玩家】喝下道具！恢復了 ", final_amount, " 點生命！目前血量：", current_hp)
 
 func die(): 
 	if is_dead: return 

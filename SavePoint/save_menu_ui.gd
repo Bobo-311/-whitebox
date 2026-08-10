@@ -27,7 +27,7 @@ func _ready() -> void:
 # ==========================================
 func _input(event: InputEvent) -> void:
 	# 當玩家按下 TAB 鍵 (綁定名稱為 "notebook") 時
-	if event.is_action_pressed("closeyamain"):
+	if event.is_action_pressed("TAB") or event.is_action_pressed("ESC"):
 		
 		# 【情況 A】：現在是「存檔狀態下看筆記本」 ➡️ 關掉筆記本，退回存檔畫架
 		if is_reading_from_savepoint:

@@ -31,6 +31,7 @@ font_color = Color(0, 0, 0, 1)
 
 [node name="StickerUI" type="CanvasLayer"]
 process_mode = 3
+layer = 101
 script = ExtResource("1_wuxxh")
 
 [node name="BackgroundDim" type="ColorRect" parent="."]
@@ -47,10 +48,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -1095.0
-offset_top = -649.0
-offset_right = 1093.0
-offset_bottom = 999.0
+offset_left = -1108.7405
+offset_top = -659.3578
+offset_right = 1093.0042
+offset_bottom = 998.9946
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 0.00039556818
@@ -179,7 +180,7 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/margin_left = 50
 
-[node name="HBox_UnequippedTitle" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle"]
+[node name="HBox_UnequippedTitle" type="VBoxContainer" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
@@ -192,31 +193,31 @@ label_settings = SubResource("LabelSettings_plff1")
 
 [node name="HBox_PageDots" type="HBoxContainer" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 2
 
 [node name="Dot1" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
-custom_minimum_size = Vector2(25, 10)
+custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Dot2" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
-custom_minimum_size = Vector2(25, 10)
+custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Dot3" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
-custom_minimum_size = Vector2(25, 10)
+custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
 stretch_mode = 5
 
 [node name="Dot4" type="TextureButton" parent="Easel/MainLayout/LeftPanel/Margin_UnequippedTitle/HBox_UnequippedTitle/HBox_PageDots"]
-custom_minimum_size = Vector2(25, 10)
+custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 texture_normal = SubResource("AtlasTexture_b1cfg")
 ignore_texture_size = true
@@ -224,32 +225,33 @@ stretch_mode = 5
 
 [node name="Margin_Pages" type="MarginContainer" parent="Easel/MainLayout/LeftPanel"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 60
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 260
+theme_override_constants/margin_bottom = 235
 
 [node name="Page1" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 layout_mode = 2
-theme_override_constants/h_separation = 38
+theme_override_constants/h_separation = 25
 columns = 4
 
 [node name="Page2" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 visible = false
 layout_mode = 2
-theme_override_constants/h_separation = 38
+theme_override_constants/h_separation = 25
 columns = 4
 
 [node name="Page3" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 visible = false
 layout_mode = 2
-theme_override_constants/h_separation = 38
+theme_override_constants/h_separation = 25
 columns = 4
 
 [node name="Page4" type="GridContainer" parent="Easel/MainLayout/LeftPanel/Margin_Pages"]
 visible = false
 layout_mode = 2
-theme_override_constants/h_separation = 38
+theme_override_constants/h_separation = 25
 columns = 4
 
 [node name="RightPanel" type="Control" parent="Easel/MainLayout"]

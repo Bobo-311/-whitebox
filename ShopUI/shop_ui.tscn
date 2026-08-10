@@ -28,7 +28,7 @@ font_size = 45
 [sub_resource type="LabelSettings" id="LabelSettings_xbj82"]
 paragraph_spacing = 3.0
 font = ExtResource("7_kddjk")
-font_size = 32
+font_size = 26
 
 [sub_resource type="LabelSettings" id="LabelSettings_ddi8n"]
 font = ExtResource("4_kjlyx")
@@ -148,9 +148,14 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BottomFrame/BuyMenu_Layout/LeftItemList"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
-[node name="150G - 烤带骨牛排" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+[node name="300G - 汉堡贴纸" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
+layout_mode = 2
+text = "300G - 汉堡贴纸"
+label_settings = SubResource("LabelSettings_xbj82")
+
+[node name="150G - 烤带骨牛排2" type="Label" parent="BottomFrame/BuyMenu_Layout/LeftItemList/VBoxContainer"]
 layout_mode = 2
 text = "150G - 烤带骨牛排"
 label_settings = SubResource("LabelSettings_xbj82")
@@ -248,15 +253,3 @@ stream = ExtResource("12_xbj82")
 [node name="Purchase failure sound" type="AudioStreamPlayer" parent="."]
 
 [node name="GoldUI" parent="." instance=ExtResource("11_ccdew")]
-visible = false
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -271.0
-offset_top = -68.0
-offset_right = -271.0
-offset_bottom = -68.0
-grow_horizontal = 0
-grow_vertical = 0

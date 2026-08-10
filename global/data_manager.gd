@@ -13,7 +13,7 @@ signal quick_slot_updated                 # 廣播：道具數量變了！左下
 var current_map_name: String = "鐘塔" # 記錄玩家現在在哪張地圖，預設是鐘塔
 var is_teleporting: bool = false # 記錄玩家是不是正在使用傳送門 (防呆用)
 
-var total_gold: int = 150 # 玩家口袋裡的總財產
+var total_gold: int = 500 # 玩家口袋裡的總財產
 var player_node: Node2D = null # 一個變數用來「抓住」玩家實體，讓所有 UI 都能透過大腦找到玩家
 
 # --- 存檔點 (篝火) 系統 ---
@@ -57,9 +57,15 @@ const STICKER_DB = {
 	"008": {
 		"name": "起床氣",
 		"texture_path": "res://Stickers/008起床氣.png", 
-		"type": "low_hp_atk_boost",
-		"value": 1.35,              
-		"threshold": 0.35           
+		"type": "low_hp_atk_boost", # 類型：低血量加攻
+		"value": 1.35,              # 數值：加 1.35 倍
+		"threshold": 0.35           # 發動條件：血量低於 35%
+	},
+	"016": {
+		"name": "漢堡",
+		"texture_path": "res://Stickers/016漢堡.png", # ⚠️ 記得換成你隨便塞的那張圖片路徑
+		"type": "heal_item_boost", # 類型：回復道具強化
+		"value": 10              # 數值：額外回 10 滴血
 	}
 }
 
@@ -77,7 +83,7 @@ const ITEM_DB = {
 	},
 	"miracle_apple": {
 		"name": "奇迹苹果",
-		"max_carry": 3, 
+		"max_carry": 1, 
 		"heal_amount": 10, 
 		"description": "又脆又甜的苹果。\n恢复 10 HP",
 		"story": "森林里随处可见的野苹果，据说在极度饥饿时吃下，会发生微小的奇迹。",
@@ -93,7 +99,7 @@ const ITEM_DB = {
 	},
 	"energy_drink": {
 		"name": "蓝色提神水",
-		"max_carry": 5, 
+		"max_carry": 1, 
 		"heal_amount": 5, 
 		"description": "喝起来像气泡水。\n恢复 5 HP",
 		"story": "标签上写着「未满十二岁请勿饮用」，但森林里根本没人在乎这种规定。",
@@ -101,8 +107,8 @@ const ITEM_DB = {
 	},
 	"item_xibaluma": {
 		"name": "西巴鲁玛",
-		"max_carry": 99, 
-		"heal_amount": 0,
+		"max_carry": 1, 
+		"heal_amount": 0, # 暫時不補血，純收藏或以後補速度
 		"description": "神秘的道具。\n速度 +10",
 		"story": "没人知道这是什么，但据说带着它会健步如飞。成分不明，请斟酌使用。",
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/28.png" 
@@ -111,10 +117,10 @@ const ITEM_DB = {
 
 var inventory_items = {
 	"potion_gugu": { "current_carry": 2, "reserve_amount": 5 },
-	"miracle_apple": { "current_carry": 1, "reserve_amount": 10 },
-	"steak_bone": { "current_carry": 1, "reserve_amount": 2 },
-	"energy_drink": { "current_carry": 5, "reserve_amount": 10 },
-	"item_xibaluma": { "current_carry": 1, "reserve_amount": 8 }
+	"miracle_apple": { "current_carry": 1, "reserve_amount": 5 },
+	"steak_bone": { "current_carry": 1, "reserve_amount": 5 },
+	"energy_drink": { "current_carry": 1, "reserve_amount": 5 },
+	"item_xibaluma": { "current_carry": 1, "reserve_amount": 5 }
 }
 
 var quick_slots: Array[String] = ["", "", "", "", ""]
@@ -154,28 +160,33 @@ func rotate_quick_slot(direction: int) -> void:
 			quick_slot_updated.emit() 
 			return
 
+# 🍎 使用道具 (所有道具用完皆保留並變灰)
 func use_current_item() -> void:
 	var item_id = quick_slots[current_slot_index]
-	if item_id == "" or get_item_count(item_id) <= 0: 
-		print("【系統】沒東西或數量不足 (喀喀聲)")
+	
+	# 防呆 1：格子是空的
+	if item_id == "": 
 		return
 		
+	# 防呆 2：數量已經是 0，發出喀喀聲，不執行補血
+	if get_item_count(item_id) <= 0: 
+		print("【系統】道具數量不足 (喀喀聲)")
+		return
+		
+	# 執行消耗邏輯：數量扣 1
 	inventory_items[item_id]["current_carry"] -= 1
 	print("【系統】使用了 ", item_id, "，身上剩餘：", inventory_items[item_id]["current_carry"])
 	
+	# 執行補血邏輯
 	if player_node and ITEM_DB[item_id].has("heal_amount"):
 		var heal_value = ITEM_DB[item_id]["heal_amount"]
 		player_node.heal(heal_value)
 		
+	# 數量歸零時的判定 (🌟 這次改動的核心：不移除裝備，只印提示)
 	if inventory_items[item_id]["current_carry"] <= 0:
-		var is_replenishable = item_id.begins_with("potion")
-		if is_replenishable:
-			print("【系統】藥水喝光了！留在快捷欄上顯示 0 數量。")
-		else:
-			print("【系統】一次性道具用盡！自動解除裝備並切換。")
-			quick_slots[current_slot_index] = "" 
-			rotate_quick_slot(1) 
+		print("【系統】道具用盡！留在快捷欄上顯示 0 數量並變灰。")
 			
+	# 大喊一聲，叫 UI 更新畫面
 	quick_slot_updated.emit() 
 
 func replenish_quick_slots() -> void:
@@ -207,7 +218,6 @@ func replenish_quick_slots() -> void:
 # 🌟 一般打擊頓幀
 func trigger_hitstop(duration: float = 0.08, freeze_scale: float = 0.05) -> void:
 	Engine.time_scale = freeze_scale
-	# 修正：第四個參數設為 true 代表使用真實時間，直接傳入 duration 即可 (例如 0.08 秒)
 	await get_tree().create_timer(duration, true, false, true).timeout
 	Engine.time_scale = 1.0
 
@@ -215,17 +225,14 @@ func hitstop(duration: float = 0.08, time_scale: float = 0.05) -> void:
 	trigger_hitstop(duration, time_scale)
 
 # 🌟 近戰處決專用：輕微慢動作 (Bullet Time) + 俐落短暫過渡
-
 func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -> void:
-	Engine.time_scale = slow_scale # 放慢至原本的 20% 速度，保持流動感
+	Engine.time_scale = slow_scale
 	
 	var camera = get_viewport().get_camera_2d()
 	if camera:
 		var orig_zoom = camera.zoom
-		camera.zoom = orig_zoom * 1.06 # 鏡頭微微拉近 6% 特寫
+		camera.zoom = orig_zoom * 1.06
 		
-		# 使用真實時間倒數
 		await get_tree().create_timer(duration, true, false, true).timeout
 		
-		Engine.time_scale = 1.0 # 時間恢復正常
-		
+		Engine.time_scale = 1.0
