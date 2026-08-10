@@ -114,10 +114,10 @@ func _input(event):
 	if is_shopping:
 		return
 
-	# 🌟 定義一個變數：只要玩家按了 TAB、ESC 或 closeyamain 其中一個，就是 true
-	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC") or event.is_action_pressed("closeyamain")
+	# 🌟 定義一個變數：只要玩家按了 TAB 或 ESC 其中一個，就是 true
+	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC")
 
-	# 【第一階段：關閉與返回】如果在看書，允許按指定按鍵來關閉
+	# 【第一階段：關閉與返回】如果在看書，允許用 TAB 或 ESC 來關閉
 	if is_reading_book and pressed_cancel:
 		if opened_from_savepoint:
 			# 情況 A：從存檔點打開的筆記本，退回存檔點
@@ -140,8 +140,8 @@ func _input(event):
 				
 		return # 🌟 關閉完就直接離開，不要往下走
 	
-	# 【第二階段：打開】如果沒在看書，允許按 TAB 或 closeyamain 打開
-	if not is_reading_book and (event.is_action_pressed("TAB") or event.is_action_pressed("closeyamain")):
+	# 【第二階段：打開】如果沒在看書，嚴格限定只能按 TAB 才能打開
+	if not is_reading_book and event.is_action_pressed("TAB"):
 		# 情況 C：正常遊玩時，打開筆記本
 		is_reading_book = true
 		velocity = Vector2.ZERO 
@@ -157,7 +157,6 @@ func _input(event):
 	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
 		DataManager.add_item_to_reserve("potion_gugu", 1)
 		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
-
 # ==========================================
 # 裝備能力統整計算中心
 # ==========================================
