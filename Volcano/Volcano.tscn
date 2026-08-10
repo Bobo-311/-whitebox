@@ -1177,7 +1177,7 @@ visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(1853, 700)
+position = Vector2(1480, 790)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 
@@ -1218,7 +1218,7 @@ position = Vector2(-241, 1000)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
-position = Vector2(2009, 822)
+position = Vector2(1667, 653)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
 position = Vector2(2593, 1228)
@@ -1250,10 +1250,10 @@ tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAI
 tile_set = SubResource("TileSet_167qa")
 
 [node name="enemy" parent="." instance=ExtResource("9_0p35i")]
-position = Vector2(2182, 683)
+position = Vector2(2342, 777)
 
 [node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
-position = Vector2(2282, 564)
+position = Vector2(1847.0001, 1702)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -1264,4 +1264,4 @@ texture = ExtResource("10_167qa")
 texture_scale = 10.0
 
 [node name="ShopNPC" parent="." instance=ExtResource("10_q0gaw")]
-position = Vector2(1418, 310)
+position = Vector2(1435, 446)

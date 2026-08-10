@@ -5,7 +5,7 @@ extends Node
 # ==========================================
 signal map_changed(new_map_name: String) # 廣播：玩家跨地圖了！UI 快更新地圖名字！
 signal equipment_changed                  # 廣播：玩家換裝備了！玩家肉體快重新計算血量！
-signal quick_slot_updated                 # 🌟 廣播：道具數量變了！左下角快捷欄快更新數字！
+signal quick_slot_updated                 # 廣播：道具數量變了！左下角快捷欄快更新數字！
 
 # ==========================================
 # 🧠 全域變數儲存區 (跨場景大腦記憶體)
@@ -32,30 +32,27 @@ var soul_map_path: String = "" # 記錄玩家死掉、噴裝的那張地圖是�
 # ==========================================
 # 📔 貼紙系統核心資料庫
 # ==========================================
-# 玩家目前裝備在筆記本上的 4 張貼紙 ID。空字串 "" 代表沒裝。
 var equipped_stickers: Array[String] = ["", "", "", ""]
-# 玩家背包裡實際擁有的貼紙清單。
 var owned_stickers: Array[String] = ["001", "004", "006", "008"]
 
-# 貼紙的「圖鑑字典」。這是一份唯讀 (const) 的清單，記錄每張貼紙叫什麼、有什麼功能。
 const STICKER_DB = {
 	"001": {
 		"name": "愛心",
 		"texture_path": "res://Stickers/001愛心.png", 
-		"type": "max_hp_boost", # 類型：加最大血量
-		"value": 20             # 數值：加 20 滴
+		"type": "max_hp_boost",
+		"value": 20             
 	},
 	"004": {
 		"name": "魔法棒",
 		"texture_path": "res://Stickers/004魔法棒.png", 
-		"type": "skill_dmg_multiplier", # 類型：技能傷害倍率
-		"value": 1.35                    # 數值：1.35倍
+		"type": "skill_dmg_multiplier",
+		"value": 1.35                    
 	},
 	"006": {
 		"name": "手裡劍",
 		"texture_path": "res://Stickers/006手裡劍.png", 
-		"type": "heal_on_kill", # 類型：殺敵吸血
-		"value": 0.10           # 數值：吸 10%
+		"type": "heal_on_kill",
+		"value": 0.10           
 	},
 	"008": {
 		"name": "起床氣",
@@ -75,8 +72,6 @@ const STICKER_DB = {
 # ==========================================
 # 🎒 道具與快捷欄系統 (全面升級版)
 # ==========================================
-
-# 1️⃣ 道具圖鑑資料庫 (ITEM_DB)
 const ITEM_DB = {
 	"potion_gugu": {
 		"name": "咕咕嘎嘎药水",
@@ -100,7 +95,6 @@ const ITEM_DB = {
 		"heal_amount": 50, 
 		"description": "香气四溢的带骨肉排。\n恢复 50 HP",
 		"story": "表面烤得微焦，切开却是完美的粉红色。光是闻到味道就能让人涌现无限力量。",
-		# ⚠️請換成你素材包裡的肉類圖片
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/74.png" 
 	},
 	"energy_drink": {
@@ -109,7 +103,6 @@ const ITEM_DB = {
 		"heal_amount": 5, 
 		"description": "喝起来像气泡水。\n恢复 5 HP",
 		"story": "标签上写着「未满十二岁请勿饮用」，但森林里根本没人在乎这种规定。",
-		# ⚠️請換成你素材包裡的藥水圖片
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/63.png" 
 	},
 	"item_xibaluma": {
@@ -118,12 +111,10 @@ const ITEM_DB = {
 		"heal_amount": 0, # 暫時不補血，純收藏或以後補速度
 		"description": "神秘的道具。\n速度 +10",
 		"story": "没人知道这是什么，但据说带着它会健步如飞。成分不明，请斟酌使用。",
-		# ⚠️請換成你素材包裡隨便一張神秘道具的圖片
 		"texture_path": "res://FreePixelSurvivalItemsPack/Items/28.png" 
 	}
 }
 
-# 2️⃣ 玩家真實道具背包狀態 (開局測試用，之後可以全改成 0 讓玩家自己去商店買)
 var inventory_items = {
 	"potion_gugu": { "current_carry": 2, "reserve_amount": 5 },
 	"miracle_apple": { "current_carry": 1, "reserve_amount": 5 },
@@ -132,25 +123,19 @@ var inventory_items = {
 	"item_xibaluma": { "current_carry": 1, "reserve_amount": 5 }
 }
 
-# 3️⃣ 快捷欄狀態
 var quick_slots: Array[String] = ["", "", "", "", ""]
 var current_slot_index: int = 0
-
 
 # ==========================================
 # ⚙️ 系統與工具函數
 # ==========================================
-
-# 工具函數：用來更新地圖名稱，並立刻發射廣播
 func update_map_name(new_name: String) -> void:
 	current_map_name = new_name 
 	map_changed.emit(current_map_name) 
 
-# 工具函數：檢查玩家是否有裝備某貼紙
 func has_sticker(sticker_id: String) -> bool:
 	return sticker_id in equipped_stickers 
 
-# 📥 獲得新道具 (商店買的、地上撿的，通通先丟進倉庫)
 func add_item_to_reserve(item_id: String, amount: int) -> void:
 	if inventory_items.has(item_id):
 		inventory_items[item_id]["reserve_amount"] += amount
@@ -161,13 +146,11 @@ func add_item_to_reserve(item_id: String, amount: int) -> void:
 		}
 	print("【大腦】獲得道具：", item_id, "，目前庫存總數：", inventory_items[item_id]["reserve_amount"])
 
-# 🔍 獲取身上攜帶的數量
 func get_item_count(item_id: String) -> int:
 	if inventory_items.has(item_id):
 		return inventory_items[item_id]["current_carry"]
 	return 0
 
-# 🔄 滾輪切換邏輯
 func rotate_quick_slot(direction: int) -> void:
 	var slots_count = quick_slots.size()
 	for i in range(slots_count):
@@ -188,8 +171,6 @@ func use_current_item() -> void:
 	# 防呆 2：數量已經是 0，發出喀喀聲，不執行補血
 	if get_item_count(item_id) <= 0: 
 		print("【系統】道具數量不足 (喀喀聲)")
-		# [未來擴充] 這裡可以呼叫音效管理器播放喀喀聲，例如：
-		# if player_node and player_node.has_node("EmptyClickSound"): player_node.get_node("EmptyClickSound").play()
 		return
 		
 	# 執行消耗邏輯：數量扣 1
@@ -205,10 +186,9 @@ func use_current_item() -> void:
 	if inventory_items[item_id]["current_carry"] <= 0:
 		print("【系統】道具用盡！留在快捷欄上顯示 0 數量並變灰。")
 			
-	# 大喊一聲，叫 UI 更新畫面 (會觸發 quick_slot_ui.gd 裡面的變灰邏輯)
+	# 大喊一聲，叫 UI 更新畫面
 	quick_slot_updated.emit() 
 
-# 🏕️ 存檔點補給邏輯
 func replenish_quick_slots() -> void:
 	print("【系統】抵達存檔點！開始從倉庫調用物資補給...")
 	var has_replenished = false
@@ -234,8 +214,25 @@ func replenish_quick_slots() -> void:
 # ==========================================
 # 💥 打擊感卡頓/頓幀系統 (Hitstop)
 # ==========================================
-func hitstop(duration: float = 0.05, time_scale: float = 0.05) -> void:
-	Engine.time_scale = time_scale # 將遊戲總速度變慢到接近暫停 (0.05倍速)
-	# 建立一個無視時間縮放的獨立計時器倒數
-	await get_tree().create_timer(duration * time_scale, true, false, true).timeout
-	Engine.time_scale = 1.0 # 時間恢復正常的 1.0 倍速
+
+# 🌟 一般打擊頓幀
+func trigger_hitstop(duration: float = 0.08, freeze_scale: float = 0.05) -> void:
+	Engine.time_scale = freeze_scale
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = 1.0
+
+func hitstop(duration: float = 0.08, time_scale: float = 0.05) -> void:
+	trigger_hitstop(duration, time_scale)
+
+# 🌟 近戰處決專用：輕微慢動作 (Bullet Time) + 俐落短暫過渡
+func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -> void:
+	Engine.time_scale = slow_scale
+	
+	var camera = get_viewport().get_camera_2d()
+	if camera:
+		var orig_zoom = camera.zoom
+		camera.zoom = orig_zoom * 1.06
+		
+		await get_tree().create_timer(duration, true, false, true).timeout
+		
+		Engine.time_scale = 1.0

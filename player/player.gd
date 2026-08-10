@@ -9,14 +9,21 @@ class_name Player # 宣告這個腳本代表「玩家 (Player)」
 @export var dash_duration: float = 0.2     # 衝刺維持的時間長度 (秒)
 @export var basic_attack_damage: float = 15.0 # 玩家的基礎揮刀攻擊力
 
+# 受傷無敵時間 (Iframes) 參數
+@export var invincibility_duration: float = 0.6  # 無敵時間 (0.6 秒)
+var is_invincible: bool = false                  # 無敵狀態開關
+
+# 🌟【防縮水修復】自動記憶 Inspector 設定的原始精靈圖大小
+var original_sprite_scale: Vector2 = Vector2.ONE
+
 # 記住玩家一絲不掛時的「基礎最大血量」
 var base_max_hp: int = 100
 
 # ==========================================
 # [🌟 墨水彈藥系統] 與 體力 (SP) 系統
 # ==========================================
-@export var max_ammo: int = 3               # 墨水彈藥上限 (預設 3 發)
-var current_ammo: int = 3                  # 當前剩餘墨水彈藥
+@export var max_ammo: int = 6               # 🌟 墨水彈藥上限 (改為 6 發)
+var current_ammo: int = 6                   # 🌟 當前剩餘墨水彈藥 (開局滿彈 6 發)
 
 @export var max_sp: float = 100.0          # 體力上限 (揮刀、翻滾消耗用)
 var current_sp: float = 50                  # 開局預設體力
@@ -40,11 +47,13 @@ var opened_from_savepoint: bool = false     # 記錄筆記本是不是從存檔�
 
 var is_shopping: bool = false # 記錄玩家現在是不是正在買東西(終止行動)
 
-
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
 @onready var skill_01: Node2D = $Skill_01                              # 掛在玩家身上的技能發射器 (槍管)
+
+# 🌟【組件化引用】自動抓取玩家身上的擊退組件
+@onready var knockback_component: KnockbackComponent = get_node_or_null("KnockbackComponent")
 
 # 抓取素描本 UI 節點
 @onready var notebook_ui = $MenuLayer/NotebookUI
@@ -54,22 +63,22 @@ var is_shopping: bool = false # 記錄玩家現在是不是正在買東西(終�
 # ==========================================
 func _ready(): 
 	super._ready() # 呼叫父類別準備函數，確保基本屬性初始化 (如血量補滿)
+	print("以防大家沒看到 菜心楊是傻逼")
+	if animated_sprite_2d:
+		original_sprite_scale = animated_sprite_2d.scale
 	
-	DataManager.player_node = self # 玩家一出生，立刻將自己註冊到全域大腦裡
+	DataManager.player_node = self
 	
-	# 訂閱裝備廣播頻道，確保裝備變動時重算能力
 	if not DataManager.equipment_changed.is_connected(recalculate_stats):
 		DataManager.equipment_changed.connect(recalculate_stats)
 	
-	# 開局防呆：手動算一次裝備屬性
 	recalculate_stats()
 	
 	# --- 讀取存檔資料 ---
 	if DataManager and DataManager.last_save_position != Vector2.ZERO: 
-		global_position = DataManager.last_save_position # 將位置強制移動到存檔點
+		global_position = DataManager.last_save_position
 		
 	if DataManager and DataManager.saved_hp > 0: 
-		# 讀檔時，現在的血量不能超過算完裝備後的新血量上限
 		current_hp = min(DataManager.saved_hp, max_hp) 
 		current_sp = DataManager.saved_sp 
 	else: 
@@ -77,15 +86,13 @@ func _ready():
 		
 	# --- 初始化 UI 介面 ---
 	if player_hud: 
-		player_hud.update_hp(current_hp, max_hp)             # 更新紅血條
-		player_hud.update_sp(current_sp, max_sp)             # 更新綠體力條
-		player_hud.set_overheat_visual(false)                # 確保開局沒有過熱特效
+		player_hud.update_hp(current_hp, max_hp) 
+		player_hud.update_sp(current_sp, max_sp) 
+		player_hud.set_overheat_visual(false) 
 		
-		# 墨水彈藥系統自動更新
 		if player_hud.has_method("update_ammo"):
 			player_hud.update_ammo(current_ammo, max_ammo)
 		
-	# 依照當前 current_hp 算出最精準的身體顏色！
 	update_hp_bar()
 		
 	# --- 靈魂回收系統 (撿屍體) ---
@@ -98,6 +105,7 @@ func _ready():
 				soul.lost_gold = DataManager.soul_stored_gold     
 				soul.scale = Vector2(2.0, 2.0) 
 				get_tree().current_scene.call_deferred("add_child", soul) 
+
 # ==========================================
 # 開發者外掛與輸入偵測
 # ==========================================
@@ -166,65 +174,41 @@ func recalculate_stats():
 	update_hp_bar() 
 	print("【系統】玩家能力已更新，目前最大血量：", max_hp)
 
-
-
 # ==========================================
 # 物理與邏輯更新
 # ==========================================
 func _physics_process(delta: float) -> void: 
-	# 【第一關防呆】：檢查玩家死了沒。死人是不會動的
 	if not is_dead: 
-		
-		# 🌟🌟🌟 [本次修改：統一看書與購物的狀態機阻斷] 🌟🌟🌟
 		if is_reading_book or is_shopping:
-			velocity = Vector2.ZERO # 強制煞車，避免滑行
-			
-			# 把狀態機「關機」，這樣所有的攻擊、翻滾腳本就不會執行
+			velocity = Vector2.ZERO
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-				
 			move_and_slide()        
 			return                  
 		else:
-			# 恢復自由時，將狀態機重新「開機」
 			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_INHERIT
-		# 🌟🌟🌟 [修改結束] 🌟🌟🌟
 		
-		# 🏃 移動向量計算
 		input_direction = Input.get_vector("left", "right", "up", "down") 
 
-		# 🎒 快捷欄切換區 (1鍵與3鍵)
 		if Input.is_action_just_pressed("slot_left"): 
 			DataManager.rotate_quick_slot(-1)
 			
 		if Input.is_action_just_pressed("slot_right"): 
 			DataManager.rotate_quick_slot(1)
 
-		# ⚔️ 戰鬥與技能區：射擊墨水彈 (skill_01 鍵)
 		if Input.is_action_just_pressed("skill_01"): 
 			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
-				
-				# 檢查是否有剩餘墨水彈藥
 				if current_ammo > 0:
 					current_ammo -= 1
-					
-					# 觸發 0.3 秒射擊沉重減速
 					shoot_slow_timer = 0.3
 					
-					print("【墨水發射】射出一發！剩餘彈藥：", current_ammo, "/", max_ammo)
-					
-					# 計算過飽和與貼紙倍率
 					var current_buff: float = get_oversaturation_buff() 
-					
 					if DataManager.has_sticker("004"):
 						current_buff *= DataManager.STICKER_DB["004"].value
-						print("【魔法棒生效】技能最終傷害倍率提升為：", current_buff)
 					
-					# 執行發射
 					skill_01.shoot(current_buff) 
 					
-					# 更新 UI
 					if player_hud and player_hud.has_method("update_ammo"):
 						player_hud.update_ammo(current_ammo, max_ammo)
 				else: 
@@ -233,15 +217,13 @@ func _physics_process(delta: float) -> void:
 			elif is_overheated: 
 				print("系統過熱中！無法釋放技能！") 
 
-		# 🎒 使用快捷欄道具 (USESKILL / Q 鍵)
 		if Input.is_action_just_pressed("USESKILL"): 
 			if state_machine.current_state.name != "PlayerHeal": 
 				DataManager.use_current_item() 
 
-		# 💚 體力 (SP) 自動恢復邏輯
 		if sp_delay_timer > 0:            
 			sp_delay_timer -= delta       
-		else:                                      
+		else:                                     
 			if current_sp < max_sp: 
 				var regen_rate = 10.0 if is_overheated else 12.0 
 				current_sp = min(current_sp + regen_rate * delta, max_sp) 
@@ -249,18 +231,17 @@ func _physics_process(delta: float) -> void:
 				if is_overheated and current_sp >= max_sp * 0.7: 
 					is_overheated = false 
 					player_hud.set_overheat_visual(false) 
-					print("體力恢復至 70%，解除過熱狀態！") 
 					
 				player_hud.update_sp(current_sp, max_sp) 
 
-	# 🌟 [射擊沉重減速懲罰]
+	# 🌟【關鍵修復 1】只有在非擊退狀態下，發射減速才會生效，避免強行清空擊退速度
+	var is_in_knockback: bool = knockback_component and knockback_component.knockback_force.length() > 0.0
 	if shoot_slow_timer > 0:
 		shoot_slow_timer -= delta
-		if not is_dashing: # 衝刺閃避不受減速影響
+		if not is_dashing and not is_in_knockback:
 			velocity *= 0.05
 
-	move_and_slide() # 執行移動與物理碰撞
-
+	move_and_slide()
 
 # ==========================================
 # 資源消耗控制 (體力與彈藥)
@@ -272,81 +253,118 @@ func use_sp(amount: float) -> bool:
 		current_sp = max(current_sp - amount, 0.0) 
 		sp_delay_timer = sp_regen_delay 
 		
-		if current_sp <= 0:         
+		if current_sp <= 0:          
 			is_overheated = true
 			player_hud.set_overheat_visual(true) 
-			print("體力耗盡！進入過熱狀態！") 
 
 		player_hud.update_sp(current_sp, max_sp) 
 		return true 
 	return false 
 
-# [🌟 墨水彈藥系統改動] 近戰命中時呼叫此函數補充墨水
-func restore_ammo(amount: int = 1) -> void:
+func add_ammo(amount: int = 1) -> void:
 	if current_ammo < max_ammo:
 		current_ammo = min(current_ammo + amount, max_ammo)
-		print("【墨水補充】近戰命中！成功回補 ", amount, " 發，目前彈藥：", current_ammo, "/", max_ammo)
-		
 		if player_hud and player_hud.has_method("update_ammo"):
 			player_hud.update_ammo(current_ammo, max_ammo)
 
+func restore_ammo(amount: int = 1) -> void:
+	add_ammo(amount)
+
+func refill_full_ammo() -> void:
+	current_ammo = max_ammo
+	if player_hud and player_hud.has_method("update_ammo"):
+		player_hud.update_ammo(current_ammo, max_ammo)
+
 # ==========================================
-# 戰鬥與受傷邏輯
+# 戰鬥、受傷與無敵邏輯
 # ==========================================
 
-# 負責計算包含「起床氣 (008)」機制在內的最終基礎普攻傷害
+# 外部傷害接收中心 (包含扣血、擊退、相機震動與無敵觸發)
+# 🌟【新增參數】：在最後面補上 extra_knockback: float = 1.0
+func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
+	if is_dead or is_invincible:
+		return
+		
+	current_hp = max(current_hp - amount, 0)
+	update_hp_bar()
+	
+	if DataManager and DataManager.has_method("trigger_hitstop"):
+		DataManager.trigger_hitstop(0.07, 0.05)
+	
+	var knockback_dir = dir if dir != Vector2.ZERO else (global_position - attacker_pos).normalized()
+	if knockback_component and knockback_dir != Vector2.ZERO:
+		# 🌟【關鍵修復】將額外擊退倍率傳給組件！
+		# 第一個參數是方向，第二個 -1.0 是使用預設力量，第三個是我們傳過來的倍率！
+		knockback_component.apply_knockback(knockback_dir, -1.0, extra_knockback)
+		
+	var camera = get_viewport().get_camera_2d()
+	if camera and camera.has_method("apply_shake"):
+		camera.apply_shake(14.0)
+		
+	play_hurt_effects()
+	start_invincibility()
+	
+	if current_hp <= 0:
+		die()
+	else:
+		handle_hurt()
+
+func play_hurt_effects() -> void:
+	if animated_sprite_2d:
+		var tween = create_tween().set_parallel(true)
+		animated_sprite_2d.modulate = Color(3.0, 0.4, 0.4)
+		tween.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.15)
+		
+		animated_sprite_2d.scale = Vector2(original_sprite_scale.x * 1.2, original_sprite_scale.y * 0.8)
+		tween.tween_property(animated_sprite_2d, "scale", original_sprite_scale, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func start_invincibility() -> void:
+	is_invincible = true
+	
+	var tween = create_tween().set_loops(int(invincibility_duration / 0.1))
+	tween.tween_property(animated_sprite_2d, "modulate:a", 0.3, 0.05)
+	tween.tween_property(animated_sprite_2d, "modulate:a", 1.0, 0.05)
+	
+	await get_tree().create_timer(invincibility_duration).timeout
+	is_invincible = false
+	animated_sprite_2d.modulate.a = 1.0
+
 func get_current_basic_attack_damage() -> float:
 	var final_base_damage: float = basic_attack_damage
-	
 	if DataManager.has_sticker("008"):
 		var threshold: float = DataManager.STICKER_DB["008"].threshold 
-		
 		if float(current_hp) / float(max_hp) <= threshold:
 			final_base_damage *= DataManager.STICKER_DB["008"].value 
-			print("【起床氣發動】血量低於 35%，基礎普攻傷害飆升至：", final_base_damage)
-			
 	return final_base_damage
 
-# [🌟 墨水彈藥系統改動] 判斷是否處於「滿彈藥（過飽和）」狀態，給予 1.5 倍爆擊
 func get_oversaturation_buff() -> float: 
 	if current_ammo >= max_ammo: 
-		print("【過飽和狀態】滿彈藥狀態下發射！目前倍率：1.5 倍") 
 		return 1.5 
 	return 1.0 
 
-# 專門用來接收怪物死掉時傳來的通知，結算 006 吸血
 func on_enemy_killed():
 	if DataManager.has_sticker("006"):
 		var heal_percent: float = DataManager.STICKER_DB["006"].value
 		var heal_amount: int = int(max_hp * heal_percent)
 		current_hp = min(current_hp + heal_amount, max_hp)
 		update_hp_bar()
-		print("【手裡劍發動】成功擊殺敵人，吸取血量：", heal_amount, "，目前血量：", current_hp)
 
 func handle_hurt(): 
-	# 被打斷機制：看書時如果遭到攻擊，強制關閉筆記本並拿回控制權
 	if is_reading_book:
 		is_reading_book = false
 		state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 		if notebook_ui:
 			notebook_ui.close_notebook()
-		print("【戰鬥提示】看書時遭到攻擊，筆記本已強制關閉！")
 	
-	# 🌟🌟🌟 [本次新增：方案 A 購物遭到攻擊強制打斷] 🌟🌟🌟
 	if is_shopping:
 		is_shopping = false
-		state_machine.process_mode = Node.PROCESS_MODE_INHERIT # 喚醒狀態機，讓玩家能反擊逃跑
-		
-		# 掃描畫面並強制銷毀商店，把玩家趕出購物狀態
+		state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 		for node in get_tree().root.get_children():
 			if node.name == "ShopUI":
 				node.queue_free()
-		print("【戰鬥警告】買東西時遭到攻擊！商店強制關閉！")
 	
 	var state_name = state_machine.current_state.name.to_lower() 
-	
 	if "stun" in state_name or "pant" in state_name: 
-		velocity = knockback_force 
 		return 
 		
 	state_machine.change_state("PlayerHurt") 
@@ -369,9 +387,6 @@ func heal(amount: int) -> void:
 		update_hp_bar() # 更新血條 UI 和身體顏色
 		print("【玩家】喝下道具！恢復了 ", final_amount, " 點生命！目前血量：", current_hp)
 
-# ==========================================
-# 狀態與 UI 更新
-# ==========================================
 func die(): 
 	if is_dead: return 
 	is_dead = true 
@@ -385,9 +400,6 @@ func update_hp_bar():
 		var tween = get_tree().create_tween() 
 		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) 
 
-# ==========================================
-# 動畫播放控制器
-# ==========================================
 func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO): 
 	var anim = get_node_or_null("AnimatedSprite2D") 
 	if anim == null: return 

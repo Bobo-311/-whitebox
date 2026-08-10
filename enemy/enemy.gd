@@ -1,36 +1,42 @@
-extends BaseCharacter             # 繼承基礎角色類別，獲得扣血、死亡等功能
+extends BaseCharacter             # 繼承基礎角色類別
 class_name Enemy                  # 定義為 Enemy 類別
 
 # ==========================================
 # ⚙️ 匯出參數與預載資源
 # ==========================================
-@export var walk_speed: int = 150                   # 野豬的漫遊走路速度
-@export var sprint_speed: int = 450                # 野豬追擊玩家時的衝刺速度
-@export var attack_speed_multiplier: float = 2.5  # 野豬發動衝撞攻擊時的速度倍率
-@export var attack_time: float = 0.45              # 攻擊狀態維持的時間長度
-@export var melee_damage: float = 15.0             # 野豬肉身衝撞造成的近戰傷害量
+@export var walk_speed: int = 150                   # 野豬漫遊速度
+@export var sprint_speed: int = 450                # 野豬追擊速度
+@export var attack_speed_multiplier: float = 2.5  # 衝撞攻擊速度倍率
+@export var attack_time: float = 0.45              # 攻擊狀態維持時間
+@export var melee_damage: float = 15.0             # 肉身衝撞傷害
 
-const COIN_SCENE = preload("res://coin/coin.tscn") # 預載入金幣場景
+const COIN_SCENE = preload("res://coin/coin.tscn") # 金幣場景
+
+# 🌟【預載受擊特效】背部貫穿粒子特效
+const HIT_IMPACT_PARTICLES = preload("res://近戰/hit_impact_particles.tscn")
 
 # ==========================================
 # 🔗 節點引用
 # ==========================================
-@onready var state_machine: StateMachine = $StateMachine       # 狀態機節點
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D # 動畫播放器
-@onready var hp_bar: ProgressBar = $HealthBar                  # 血條 UI 節點
-@onready var vision_ray: RayCast2D = $VisionRay                 # 視線雷射
-@onready var hitbox: Area2D = get_node_or_null("Hitbox")       # 🌟 抓取原有的 Hitbox
+@onready var state_machine: StateMachine = $StateMachine       
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D 
+@onready var hp_bar: ProgressBar = $HealthBar                  
+@onready var vision_ray: RayCast2D = $VisionRay                 
+@onready var hitbox: Area2D = get_node_or_null("Hitbox")       
+
+# 🌟【組件化引用】擊退力與煞車摩擦力已交由 KnockbackComponent 節點在 Inspector 統一調整
+@onready var knockback_component: KnockbackComponent = get_node_or_null("KnockbackComponent")
 
 # ==========================================
 # 📊 狀態與變數
 # ==========================================
-var can_see_player: bool = false                # 野豬自身 AI 追擊判定：到底有沒有看見玩家？
-var player_node: CharacterBody2D = null           # 記憶目前鎖定的玩家實體
-var last_facing_vec: Vector2 = Vector2.DOWN       # 記憶野豬最後面朝的方向
-var has_hit_player: bool = false                  # 標記開關：衝刺狀態使用的傷害開關
-var can_attack: bool = true                       # 攻擊冷卻開關
+var can_see_player: bool = false                
+var player_node: CharacterBody2D = null           
+var last_facing_vec: Vector2 = Vector2.DOWN       
+var has_hit_player: bool = false                  
+var can_attack: bool = true                       
 
-# 🌟【整合白貓視覺】是否被白貓燈光照到與漸變控制
+var original_sprite_scale: Vector2 = Vector2.ONE
 var is_illuminated_by_cat: bool = false
 var fade_tween: Tween = null
 
@@ -38,39 +44,42 @@ var fade_tween: Tween = null
 # 🚀 初始化與物理幀處理
 # ==========================================
 func _ready() -> void:
-	super._ready()                               # 呼叫父類別 BaseCharacter 的 _ready，確保血量補滿
+	super._ready()
 	
-	# 🌟 [修改] 不再禁用 Hitbox！讓 Hitbox 保持常開，隨時可以造成碰撞傷害
+	if animated_sprite_2d:
+		original_sprite_scale = animated_sprite_2d.scale
+		# 🌟【保險機制】確保精靈圖本身絕對是純白的
+		animated_sprite_2d.modulate = Color.WHITE
+		animated_sprite_2d.self_modulate = Color.WHITE
+		
 	if hitbox:
-		# 自動連接 body_entered (防止玩家用實體 CharacterBody2D 撞上來)
 		if not hitbox.body_entered.is_connected(_on_hitbox_body_entered):
 			hitbox.body_entered.connect(_on_hitbox_body_entered)
 
-	# 預設藏在迷霧/黑暗中 (開局隱形且透明度為 0，等待白貓光圈照亮)
 	self.visible = false
-	self.modulate.a = 0.0
+	
+	# 🆕【本次修復 1】修正了錯字 (modulated -> modulate)
+	# 並強制開局為「透明的純白」，徹底洗掉黑色！
+	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
 
 func _physics_process(_delta: float) -> void:
+	if is_dead and (not knockback_component or knockback_component.knockback_force.length() <= 0.0):
+		velocity = Vector2.ZERO
+
 	move_and_slide()
-	
-	# 🌟 持續碰撞檢查：如果玩家一直貼著 Hitbox 擠壓，無敵時間過後繼續彈開
 	_check_hitbox_overlap()
 	
-	# --- 真實視野雷射掃描系統 (供野豬 AI 追擊玩家使用) ---
-	if player_node != null:                      # 玩家在藍色感知圈圈內
+	# 🆕【狀態機接管】已將「撞牆暈眩判定」完全移交給 enemy_attack.gd 處理！
+	
+	if player_node != null:
 		vision_ray.target_position = to_local(player_node.global_position)
-		vision_ray.force_raycast_update()        # 強制雷射在一幀內更新結果
-		
-		# 檢查雷射光有沒有撞到障礙物（牆壁/柱子）
-		if vision_ray.is_colliding():
-			can_see_player = false               # 雷射被擋住 ＝ 視線被遮擋
-		else:
-			can_see_player = true                # 雷射一路暢通 ＝ 野豬看到玩家，準備鎖定追擊！
+		vision_ray.force_raycast_update()
+		can_see_player = not vision_ray.is_colliding()
 	else:
-		can_see_player = false                   # 不在圈圈內
+		can_see_player = false
 
 # ==========================================
-# 👁️ 迷霧與白貓照亮現形系統 (Tween 動畫)
+# 👁️ 迷霧現形系統
 # ==========================================
 func update_visibility() -> void:
 	if fade_tween and fade_tween.is_running():
@@ -80,41 +89,123 @@ func update_visibility() -> void:
 	
 	if is_illuminated_by_cat:
 		self.visible = true
-		# 0.35 秒內平滑漸變現形
-		fade_tween.tween_property(self, "modulate:a", 1.0, 0.35)
+		
+		# 🆕【本次修復 2】拋棄半套的 "modulate:a"
+		# 強制賦予完整的 Color(1, 1, 1, 1) 純白色，這樣野豬現形時絕對是原本漂亮的棕色！
+		fade_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.35)
 	else:
-		# 0.35 秒內平滑漸變隱形
-		fade_tween.tween_property(self, "modulate:a", 0.0, 0.35)
+		# 🌟 隱形時也給定 Color(1, 1, 1, 0) 透明的純白
+		fade_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.35)
 		fade_tween.tween_callback(func():
 			if not is_illuminated_by_cat:
 				self.visible = false
 		)
 
 # ==========================================
-# 💥 戰鬥、受傷與死亡邏輯
+# 💥 戰鬥受擊與處決邏輯
 # ==========================================
+func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
+	if is_dead: return
+	
+	current_hp = max(current_hp - amount, 0)
+	update_hp_bar()
+	
+	var is_kill = (current_hp <= 0)
+	
+	# 1️⃣ 近戰邏輯處理：彈藥回復機制
+	if is_melee and DataManager and DataManager.player_node:
+		var p = DataManager.player_node
+		if is_kill:
+			if p.has_method("refill_full_ammo"):
+				p.refill_full_ammo()
+		else:
+			if p.has_method("add_ammo"):
+				p.add_ammo(1)
+	
+	# 2️⃣ 🌟【擊退與背部特效】
+	var knockback_dir = dir if dir != Vector2.ZERO else (global_position - attacker_pos).normalized()
+	if knockback_component and knockback_dir != Vector2.ZERO:
+		var extra_kb = 1.8 if (is_kill and is_melee) else 1.0
+		knockback_component.apply_knockback(knockback_dir, -1.0, extra_kb)
+	
+	# 🌟 生成背部貫穿爆發粒子
+	spawn_back_impact_particles(knockback_dir, is_kill, is_melee)
+	
+	# 3️⃣ 播放受擊特效與頓幀
+	play_hit_effects(attacker_pos, is_kill, is_melee)
+	
+	if is_kill:
+		die()
+	else:
+		handle_hurt()
+
+# 🌟【確定能看到版】背部貫穿受擊粒子生成器
+func spawn_back_impact_particles(hit_dir: Vector2, is_kill: bool = false, is_melee: bool = false) -> void:
+	if not HIT_IMPACT_PARTICLES: return
+	
+	var final_dir = hit_dir if hit_dir != Vector2.ZERO else Vector2.RIGHT
+	var particles = HIT_IMPACT_PARTICLES.instantiate()
+	
+	var back_offset = final_dir.normalized() * 80.0
+	particles.global_position = global_position + back_offset
+	particles.rotation = final_dir.angle()
+	
+	particles.z_index = self.z_index + 1
+	
+	if is_kill and is_melee:
+		particles.scale = Vector2(2.5, 2.5)
+	else:
+		particles.scale = Vector2(1.5, 1.5)
+		
+	get_parent().add_child(particles)
+	
+	if particles.has_method("restart"):
+		particles.restart()
+	particles.emitting = true
+	
+func play_hit_effects(_attacker_pos: Vector2 = Vector2.ZERO, is_kill: bool = false, is_melee: bool = false) -> void:
+	if is_kill:
+		if is_melee:
+			if DataManager and DataManager.has_method("trigger_execution_hitstop"):
+				DataManager.trigger_execution_hitstop(0.18, 0.08)
+			get_tree().call_group("main_camera", "apply_shake", 20.0)
+		else:
+			if DataManager and DataManager.has_method("trigger_hitstop"):
+				DataManager.trigger_hitstop(0.08, 0.05)
+			get_tree().call_group("main_camera", "apply_shake", 15.0)
+	else:
+		if DataManager and DataManager.has_method("trigger_hitstop"):
+			DataManager.trigger_hitstop(0.07, 0.05)
+		get_tree().call_group("main_camera", "apply_shake", 10.0)
+		
+	# 畫面精靈圖閃光與變形
+	if animated_sprite_2d:
+		var tween = create_tween().set_parallel(true)
+		var flash_dur = 0.2 if (is_kill and is_melee) else 0.06
+		
+		if animated_sprite_2d.material is ShaderMaterial:
+			var mat = animated_sprite_2d.material as ShaderMaterial
+			mat.set_shader_parameter("flash_modifier", 1.0)
+			tween.tween_property(mat, "shader_parameter/flash_modifier", 0.0, flash_dur)
+		else:
+			animated_sprite_2d.modulate = Color(5, 5, 5) if is_kill else Color(3, 3, 3)
+			tween.tween_property(animated_sprite_2d, "modulate", Color.WHITE, flash_dur)
+		
+		var scale_x = original_sprite_scale.x * (1.4 if (is_kill and is_melee) else 1.2)
+		var scale_y = original_sprite_scale.y * (0.6 if (is_kill and is_melee) else 0.8)
+		animated_sprite_2d.scale = Vector2(scale_x, scale_y)
+		tween.tween_property(animated_sprite_2d, "scale", original_sprite_scale, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
 func handle_hurt() -> void:
 	var state_name = state_machine.current_state.name.to_lower()
-	
-	# 破綻鎖定：如果正在暈眩 (stun) 或喘氣 (pant) 期間
-	if "stun" in state_name or "pant" in state_name: 
-		velocity = knockback_force 
-		
-		# 瞬間變白打擊高亮特效
-		var hit_tween = get_tree().create_tween()
-		animated_sprite_2d.modulate = Color(3, 3, 3)
-		hit_tween.tween_property(animated_sprite_2d, "modulate", Color.WHITE, 0.1)
-		
-		return 
-		
-	# 平常走路或站立被打時，切換到受傷狀態
+	if "stun" in state_name or "pant" in state_name: return 
 	state_machine.change_state("EnemyHurt")
 
 func die() -> void:
-	if is_dead: return                            # 防呆：死過就不再執行
+	if is_dead: return
 	is_dead = true
-	state_machine.change_state("EnemyDie")        # 狀態機切換至 EnemyDie
-	drop_coin()                                   # 在野豬消失前噴錢！
+	state_machine.change_state("EnemyDie")
+	drop_coin()
 
 func update_hp_bar() -> void:
 	if hp_bar and hp_bar.has_method("update_bar"):
@@ -123,17 +214,12 @@ func update_hp_bar() -> void:
 func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
 	var suffix = "" 
 	var target_dir = dir if dir != Vector2.ZERO else last_facing_vec
-	
 	if abs(target_dir.x) > abs(target_dir.y): 
 		suffix = "_right" if target_dir.x > 0 else "_left" 
 	else: 
 		suffix = "_down" if target_dir.y > 0 else "_up" 
-	
 	animated_sprite_2d.play(prefix + suffix)
 
-# ==========================================
-# 💰 掉落物品系統
-# ==========================================
 func drop_coin() -> void:
 	if COIN_SCENE:
 		for i in range(5):
@@ -141,7 +227,6 @@ func drop_coin() -> void:
 			get_tree().create_timer(delay).connect("timeout", func():
 				var coin = COIN_SCENE.instantiate()
 				var spawn_pos = global_position
-				
 				if DataManager and DataManager.player_node:
 					var dir_to_player = global_position.direction_to(DataManager.player_node.global_position)
 					var safe_offset = dir_to_player * randf_range(15.0, 30.0)
@@ -149,54 +234,56 @@ func drop_coin() -> void:
 					spawn_pos = global_position + safe_offset + random_jitter
 				else:
 					spawn_pos = global_position + Vector2(randf_range(-20.0, 20.0), randf_range(-20.0, 20.0))
-				
 				var local_pos = get_parent().to_local(spawn_pos)
 				coin.position = local_pos
 				get_parent().add_child(coin)
 			)
 
 # ==========================================
-# 🛡️ 🌟 利用原有的 Hitbox 處理肉身碰撞傷害
+# 🛡️ 碰撞傷害機制
 # ==========================================
-# 1. 檢測 Area2D (例如 Player 的 Hurtbox)
 func _on_hitbox_area_entered(area: Area2D) -> void: 
 	var parent = area.get_parent() 
-
-	# 🎯 打中玩家的 Hurtbox
 	if parent is Player or parent.is_in_group("player") or parent.name == "player":
 		_apply_damage_and_knockback(parent, area)
-
-	# 🐱 打中白貓
 	elif parent is WhiteCat or parent.is_in_group("white_cat"):
 		if parent.has_method("take_damage"):
 			parent.take_damage(melee_damage, global_position)
 
-# 2. 檢測 CharacterBody2D (當玩家實體撞上野豬 Hitbox)
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is Player or body.is_in_group("player") or body.name == "player":
 		_apply_damage_and_knockback(body, null)
 
-# 3. 執行傷害與彈開的統一核心邏輯
 func _apply_damage_and_knockback(target: Node2D, target_area: Area2D = null) -> void:
+	var is_dashing = (state_machine.current_state and state_machine.current_state.name == "EnemyAttack")
+	if is_dashing:
+		has_hit_player = true
+
+	# 維持原始方向的長度為 1
 	var knockback_dir: Vector2 = (target.global_position - global_position).normalized()
 	
+	# 🌟【設定擊退倍率】衝撞時 3 倍，平時 1 倍
+	var extra_kb: float = 2.0 if is_dashing else 1.0
+	
+	# 將 extra_kb 塞在第 5 個參數傳出去！
 	if target_area and target_area.has_method("take_damage"):
-		target_area.take_damage(melee_damage, global_position)
+		target_area.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
 	elif target.has_method("take_damage"):
-		target.take_damage(melee_damage, global_position, knockback_dir)
+		target.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
+	
+	# 3. 呼叫 take_damage，維持 4 個參數不報錯！
+	# 這裡傳過去的 knockback_dir 已經是放大過後的版本了！
+	if target_area and target_area.has_method("take_damage"):
+		target_area.take_damage(melee_damage, global_position, knockback_dir, false)
+	elif target.has_method("take_damage"):
+		target.take_damage(melee_damage, global_position, knockback_dir, false)
 
-# 4. 物理幀持續檢查 (防止玩家死貼著野豬)
 func _check_hitbox_overlap() -> void:
 	if not hitbox: return
-	
-	# 檢查被 Hitbox 疊加的所有實體
 	for body in hitbox.get_overlapping_bodies():
 		if body is Player or body.is_in_group("player") or body.name == "player":
 			_apply_damage_and_knockback(body, null)
 
-# ==========================================
-# 📡 視野與感知訊號
-# ==========================================
 func _on_detect_player_body_entered(body) -> void: 
 	if body is Player or body.is_in_group("player") or body.name == "player": 
 		player_node = body

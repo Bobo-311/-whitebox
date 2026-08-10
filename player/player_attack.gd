@@ -1,5 +1,7 @@
-#player_attack
 extends State # 讓這個腳本繼承自狀態機的 State 模板
+
+# 🌟【預載粒子】揮刀墨汁弧光粒子特效路徑
+const INK_SLASH_PARTICLES = preload("res://近戰/ink_slash_particles.tscn")
 
 func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
 	# 第一步：先向身體申請扣除揮刀所需的體力
@@ -12,39 +14,70 @@ func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
 		if sfx_sword: # 防呆檢查：如果有找到音效節點
 			sfx_sword.play() # 播放揮劍的咻咻聲音效
 		
+		# 揮刀瞬間生成墨汁殘影粒子特效
+		spawn_slash_particles()
+
 		var sword_hitbox = character.get_node("Hitbox") # 抓取玩家身上負責近戰攻擊判定的 Hitbox (Area2D) 節點
 		var target_coll = sword_hitbox.get_node("CollisionShape_" + character.facing_direction) # 依照玩家目前面朝的方向，找出真正該啟用的那個碰撞框形狀
 		
 		sword_hitbox.monitoring = true # 將 Hitbox 的偵測雷達開啟，開始監聽有沒有碰到敵人
 		target_coll.disabled = false   # 將我們剛剛找出的那個方向的碰撞框啟用，賦予它實體感應能力
 		
-		await character.get_tree().create_timer(0.25).timeout # 使用等待指令暫停 0.25 秒，配合動畫播到「武器揮出去」那一瞬間的發力延遲
+		# 🌟【極速打擊關鍵】對齊物理幀 (physics_frame)，消除 Timer 帶來的微小延遲感！
+		await character.get_tree().physics_frame
 		
 		var targets = sword_hitbox.get_overlapping_areas() # 抓取此時此刻，重疊在感應區裡的所有物體 (回傳陣列)
-		var hit_enemy: bool = false # [🌟 墨水彈藥系統] 開關：確保一次揮刀最多只補 1 發子彈，防止多重命中刷彈藥
 		
 		for t in targets: # 使用迴圈，逐一檢查刀子砍到的每一個目標物
 			if t is Hurtbox and t.get_parent() != character: # 條件判斷：確保砍到的是受傷判定區 (Hurtbox)，且該區域的主人不是玩家自己
 				
-				# 🌟 算最終真實傷害：
-				# 1. 呼叫 get_current_basic_attack_damage() 拿普攻基底傷害 (包含起床氣貼紙加成)
-				# 2. 呼叫 get_oversaturation_buff() 拿過飽和倍率 (滿彈藥狀態下是 1.5 倍爆擊，沒滿是 1.0)
+				# 算最終真實傷害
 				var final_damage: float = character.get_current_basic_attack_damage() * character.get_oversaturation_buff() 
 				
-				t.take_damage(final_damage, character.global_position) # 呼叫敵人 Hurtbox 的受傷函數，傳入算好的最終傷害量與玩家座標
+				# 1. 計算攻擊擊退方向
+				var attack_dir: Vector2 = (t.global_position - character.global_position).normalized()
 				
-				# [🌟 墨水彈藥系統改動] 只要砍中敵人，立刻幫玩家補充 1 發墨水！
-				if t.get_parent() is Enemy and not hit_enemy: 
-					hit_enemy = true # 標記這一刀已經補過子彈了
-					if character.has_method("restore_ammo"):
-						character.restore_ammo(1) # 呼叫玩家的補彈函數，補充 1 發墨水！
+				# 2. 傳入第 4 個參數 true！標記「這是近戰傷害」，讓 Enemy 觸發處決/補彈機制與背部粒子
+				t.take_damage(final_damage, character.global_position, attack_dir, true)
 		
 		target_coll.disabled = true     # 傷害判定結算完畢，將該方向的碰撞框重新關閉 (收刀)
 		sword_hitbox.monitoring = false # 將 Hitbox 的偵測雷達關閉，結束這回合的攻擊判定
 		
-		await character.get_tree().create_timer(0.25).timeout # 再次使用等待指令暫停 0.25 秒，讓角色的收招動作動畫完整播完
+		# 保留收招後搖 (0.2 秒)，讓玩家揮刀收尾動作完整呈現，隨後切回待機
+		await character.get_tree().create_timer(0.2).timeout 
 		state_machine.change_state("PlayerIdle") # 整個攻擊動作完整結束，命令大腦切換回「待機狀態 (Idle)」
 
 	else: # 如果一開始體力扣除失敗 (沒體力了，或是系統正在過熱中)
 		print("體力不足或系統過熱，無法揮刀！") # 在後台印出拒絕揮刀的警告訊息
 		state_machine.change_state("PlayerIdle") # 強制中斷攻擊流程，命令大腦立刻退回「待機狀態」
+
+# ==========================================
+# 🌟 揮刀墨汁殘影生成器
+# ==========================================
+func spawn_slash_particles() -> void:
+	if not INK_SLASH_PARTICLES: return
+	
+	var particles = INK_SLASH_PARTICLES.instantiate()
+	var spawn_offset = Vector2.ZERO
+	var attack_dir = Vector2.RIGHT
+	
+	# 依據玩家當前朝向，計算粒子噴發的位置偏移與角度
+	match character.facing_direction:
+		"right":
+			spawn_offset = Vector2(25, -5)
+			attack_dir = Vector2.RIGHT
+		"left":
+			spawn_offset = Vector2(-25, -5)
+			attack_dir = Vector2.LEFT
+		"up":
+			spawn_offset = Vector2(0, -30)
+			attack_dir = Vector2.UP
+		"down":
+			spawn_offset = Vector2(0, 20)
+			attack_dir = Vector2.DOWN
+			
+	particles.global_position = character.global_position + spawn_offset
+	particles.rotation = attack_dir.angle()
+	
+	# 加到當前地圖層級，避免玩家移動時粒子跟著身軀甩動
+	character.get_parent().add_child(particles)

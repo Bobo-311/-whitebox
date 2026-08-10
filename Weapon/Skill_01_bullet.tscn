@@ -1,48 +1,52 @@
 [gd_scene load_steps=7 format=3 uid="uid://ciuf34knad4lr"]
 
 [ext_resource type="Script" uid="uid://db2xl2rl8c37j" path="res://Weapon/skill_01_bullet.gd" id="1_ovq7q"]
-[ext_resource type="Texture2D" uid="uid://clgmd00rq7vpr" path="res://Asset/VFX/All_Fire_Bullet_Pixel_16x16_00.png" id="2_ahnrg"]
+[ext_resource type="Texture2D" uid="uid://6mfkbcw7u47q" path="res://Bullet/Ink_Bullet.png" id="2_ovq7q"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bqjtr"]
-atlas = ExtResource("2_ahnrg")
-region = Rect2(512, 288, 32, 32)
+[sub_resource type="Curve" id="Curve_ovq7q"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.99999, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o7ffk"]
-atlas = ExtResource("2_ahnrg")
-region = Rect2(544, 288, 32, 32)
+[sub_resource type="Gradient" id="Gradient_ahnrg"]
+colors = PackedColorArray(0.11764706, 0.105882354, 0.29411766, 0, 0.11764706, 0.105882354, 0.29411766, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_t2bd8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bqjtr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o7ffk")
+"texture": ExtResource("2_ovq7q")
 }],
 "loop": false,
 "name": &"default",
 "speed": 30.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_h0pa3"]
-radius = 63.03174
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ahnrg"]
+radius = 30.081747
+height = 60.163494
 
 [node name="Skill_01_bullet" type="Area2D"]
 collision_layer = 32
 collision_mask = 17
 script = ExtResource("1_ovq7q")
-speed = 600.0
+
+[node name="TrailLine" type="Line2D" parent="."]
+width = 13.0
+width_curve = SubResource("Curve_ovq7q")
+gradient = SubResource("Gradient_ahnrg")
+joint_mode = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(4.609375, 4.609375)
+scale = Vector2(3.5, 3.5)
 sprite_frames = SubResource("SpriteFrames_t2bd8")
 autoplay = "default"
-frame = 1
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_h0pa3")
+position = Vector2(0.9999999, 2)
+rotation = -1.5700276
+scale = Vector2(-0.31150228, 1.263224)
+shape = SubResource("CapsuleShape2D_ahnrg")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ba484avslaatp" path="res://Asset/1FDB2840-EE5D-4728-92A7-9D929A34CA43.jpg" id="2_dpci0"]
 [ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/gold_ui.tscn" id="2_kdilq"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="3_lhy1a"]
-[ext_resource type="Texture2D" uid="uid://c543cvvw2e0kr" path="res://ink.svg" id="3_nd3l5"]
+[ext_resource type="Texture2D" uid="uid://c543cvvw2e0kr" path="res://Bullet/ink.svg" id="3_nd3l5"]
 [ext_resource type="Script" uid="uid://crf12s86ro37v" path="res://HealthUI/label_location.gd" id="4_fneal"]
 [ext_resource type="PackedScene" uid="uid://b6fvc0lb7ehpm" path="res://quickslot_ui/quick_slot_ui.tscn" id="6_nd3l5"]
 

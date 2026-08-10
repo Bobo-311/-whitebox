@@ -10,11 +10,8 @@ func enter():                    # 進入受傷狀態時執行
 func state_physics_update(delta: float): # 每一幀物理更新
 	hurt_timer -= delta          # 扣除受傷時間
 
-	# 🌟 接管擊退物理：把速度強制設定為地基算好的「擊退力道」
-	character.velocity = character.knockback_force
-	
-	# 滑行煞車：讓擊退力道每幀減少 15%，產生摩擦地面的感覺
-	character.knockback_force = character.knockback_force.lerp(Vector2.ZERO, 0.15)
+	# 🌟【關鍵修復】刪除了寫死的 lerp(0.15) 摩擦力與 velocity 覆蓋！
+	# 現在野豬受傷時的滑行與煞車，會 100% 依照你在 KnockbackComponent 裡的設定運作。
 
 	if hurt_timer <= 0:          # 如果 0.4 秒硬直結束
 		if character.current_hp > 0: # 如果野豬還活著

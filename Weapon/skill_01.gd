@@ -1,32 +1,33 @@
 extends Node2D                   # 繼承自 2D 節點，這個節點綁在玩家身上當作發射器skill_01
 
+# 🌟 預載筆尖墨力漣漪特效 (若報錯 Parse Error，請確認檔案是否有存放在 Bullet 資料夾)
+const MAGIC_RING = preload("res://Bullet/magic_ring_effect.tscn")
+
 @export var bullet_scene: PackedScene # 屬性欄位：讓你在編輯器拖入技能(子彈)的藍圖
 
 @onready var bullet_spawn: Marker2D = $BulletSpawn # 抓取發射點的座標記號
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D # 音效播放器
 
-# 🌟 [關鍵修復] 抓取槍管的精靈圖節點 (如果你的槍管圖示叫其他名字，請自行修改路徑)
+# 🌟 抓取槍管/畫筆的精靈圖節點
 @onready var sprite_2d: Sprite2D = get_node_or_null("Sprite2D") 
 
 func _process(_delta):           # 每一幀執行
-	look_at(get_global_mouse_position()) # 神級函數：讓發射器(槍管)永遠死盯著滑鼠游標轉動
+	look_at(get_global_mouse_position()) # 讓發射器永遠死盯著滑鼠游標轉動
 	
-	# 🌟 [關鍵修復] 翻轉「Sprite2D 圖片」的 flip_y，而不是翻轉整體父節點的 scale.y！
-	# 這樣能確保 $BulletSpawn 的 Transform 矩陣永遠穩定不變形。
 	if sprite_2d:
 		if get_global_mouse_position().x < global_position.x:
-			sprite_2d.flip_v = true   # 🌟 修正為 flip_v (垂直翻轉)
+			sprite_2d.flip_v = true   # 垂直翻轉
 		else:
-			sprite_2d.flip_v = false  # 🌟 修正為 flip_v
+			sprite_2d.flip_v = false  # 取消翻轉
 
 # 🌟 發射函數
 func shoot(buff: float):         
 	var bullet = bullet_scene.instantiate() # 照藍圖做出一顆新子彈
-	var muzzle = bullet_spawn               # 找出槍口
+	var muzzle = bullet_spawn               # 找出槍口/筆尖
 	
-	# 🛑 關鍵修復：必須【先加入場景樹】，Godot 才能正確計算 global_position！
+	# 🛑 必須先加入場景樹，Godot 才能正確計算 global_position
 	get_tree().current_scene.add_child(bullet) 
-	bullet.global_position = muzzle.global_position # 👈 加進場景後再給座標
+	bullet.global_position = muzzle.global_position
 	
 	# 計算子彈飛行方向
 	bullet.direction = (get_global_mouse_position() - muzzle.global_position).normalized() 
@@ -34,7 +35,14 @@ func shoot(buff: float):
 	bullet.shooter = get_parent()           # 記錄發射者
 	bullet.received_buff = buff             # 塞入過飽和倍率
 	
-	# 槍管後縮動畫
+	# 🌟 生成筆尖墨力漣漪衝擊環
+	if MAGIC_RING:
+		var ring = MAGIC_RING.instantiate()
+		get_tree().current_scene.add_child(ring)
+		ring.global_position = muzzle.global_position
+		ring.rotation = bullet.direction.angle()
+
+	# 槍管/畫筆後縮動畫
 	if sprite_2d:
 		sprite_2d.scale.x = 0.7
 		var tween = create_tween()
