@@ -1365,4 +1365,5 @@ layer = 10
 [node name="KnockbackComponent" type="Node" parent="."]
 script = ExtResource("22_s7qer")
 default_strength = 300.0
+friction = 2500.0
 metadata/_custom_type_script = "uid://brpsxbevfcnop"
