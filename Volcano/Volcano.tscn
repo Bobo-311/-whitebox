@@ -1177,7 +1177,7 @@ visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(1480, 790)
+position = Vector2(1830, 1739)
 
 [node name="Arena" type="StaticBody2D" parent="."]
 
@@ -1250,10 +1250,10 @@ tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAI
 tile_set = SubResource("TileSet_167qa")
 
 [node name="enemy" parent="." instance=ExtResource("9_0p35i")]
-position = Vector2(2342, 777)
+position = Vector2(2454, 1131)
 
 [node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
-position = Vector2(1847.0001, 1702)
+position = Vector2(2158, 1565)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
