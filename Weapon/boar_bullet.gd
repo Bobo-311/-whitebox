@@ -1,4 +1,4 @@
-extends Area2D                   # 繼承自 Area2D，子彈只需感應區不需實體碰撞推擠 enemy_bullet
+extends Area2D                   # 繼承自 Area2D，子彈只需感應區不需實體碰撞推擠 BoarBullet
 
 @export var speed: float = 600.0          # 子彈飛行速度
 @export var ranged_damage: float = 15.0   # 遠程波導彈的專屬傷害量
@@ -10,7 +10,7 @@ var travel_dir: Vector2 = Vector2.ZERO    # 用來儲存擊退方向
 
 func _ready():                   # 遊戲一開始執行
 	if animated_sprite_2d:
-		animated_sprite_2d.play() # 播放子彈飛旋的動畫
+		animated_sprite_2d.play("default") # 播放子彈飛旋的動畫
 
 	await get_tree().create_timer(3.0).timeout # 飛了 3 秒如果都沒撞到東西
 	queue_free()                 # 自動銷毀，避免遊戲卡頓或記憶體爆炸

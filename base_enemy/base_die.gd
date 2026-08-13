@@ -1,4 +1,4 @@
-#繼承自狀態模板 enemy_die
+#繼承自狀態模板 base_die
 extends State # 繼承自狀態模板 enemy_die
 
 func enter(): # 進入死亡狀態時執行

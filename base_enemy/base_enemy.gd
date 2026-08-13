@@ -5,9 +5,6 @@ class_name Enemy                  # 定義為 Enemy 類別
 # ⚙️ 匯出參數與預載資源
 # ==========================================
 @export var walk_speed: int = 150                   # 野豬漫遊速度
-@export var sprint_speed: int = 450                # 野豬追擊速度
-@export var attack_speed_multiplier: float = 2.5  # 衝撞攻擊速度倍率
-@export var attack_time: float = 0.45              # 攻擊狀態維持時間
 @export var melee_damage: float = 15.0             # 肉身衝撞傷害
 
 const COIN_SCENE = preload("res://coin/coin.tscn") # 金幣場景
@@ -61,6 +58,10 @@ func _ready() -> void:
 	# 🆕【本次修復 1】修正了錯字 (modulated -> modulate)
 	# 並強制開局為「透明的純白」，徹底洗掉黑色！
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
+	# 🌟【正規作法核心】
+	# 老爸的 @onready 都抓完了，裝備也穿好了。現在，啟動大腦！
+	if state_machine:
+		state_machine.init(self)
 
 func _physics_process(_delta: float) -> void:
 	if is_dead and (not knockback_component or knockback_component.knockback_force.length() <= 0.0):
@@ -199,12 +200,12 @@ func play_hit_effects(_attacker_pos: Vector2 = Vector2.ZERO, is_kill: bool = fal
 func handle_hurt() -> void:
 	var state_name = state_machine.current_state.name.to_lower()
 	if "stun" in state_name or "pant" in state_name: return 
-	state_machine.change_state("EnemyHurt")
+	state_machine.change_state("Hurt")
 
 func die() -> void:
 	if is_dead: return
 	is_dead = true
-	state_machine.change_state("EnemyDie")
+	state_machine.change_state("Die")
 	drop_coin()
 
 func update_hp_bar() -> void:

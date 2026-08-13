@@ -1,4 +1,4 @@
-extends State
+extends State #boar_stun
 
 var stun_timer: float = 3.0      
 var flash_tween: Tween           
@@ -23,9 +23,9 @@ func state_physics_update(delta: float):
 		
 	if stun_timer <= 0:        
 		if character.player_node and character.can_see_player:
-			state_machine.change_state("EnemyRun")
+			state_machine.change_state("Chase")
 		else:
-			state_machine.change_state("EnemyMove")
+			state_machine.change_state("Move")
 
 func exit():                     
 	if flash_tween and flash_tween.is_valid(): flash_tween.kill() 

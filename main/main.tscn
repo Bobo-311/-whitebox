@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://xe47s0ts0pp7" path="res://RRRRRRRR/time.png" id="2_73k8k"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="3_0i4oc"]
 [ext_resource type="Texture2D" uid="uid://iytth4pcsbfk" path="res://RRRRRRRR/柱子右側.png" id="3_bsumw"]
-[ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://enemy/enemy.tscn" id="4_bsumw"]
+[ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="4_bsumw"]
 [ext_resource type="Texture2D" uid="uid://d1syug57hw73p" path="res://RRRRRRRR/地板.png" id="4_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="6_na0o7"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="8_5xyti"]

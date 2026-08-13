@@ -1,4 +1,4 @@
-extends State                    # 繼承自狀態模板 enemy_shoot
+extends State                    # 繼承自狀態模板 boar_shoot
 
 @export var bullet_scene: PackedScene # 提供一個插槽，讓你在編輯器把子彈的場景檔 (tscn) 拖進來
 
@@ -66,9 +66,9 @@ func _end_shoot():               # 射擊完畢後的善後
 	
 	await character.get_tree().create_timer(0.5).timeout # 射擊後搖硬直
 	
-	var pant_state = state_machine.states.get("enemypant") # 從大腦拿出喘氣狀態
+	var pant_state = state_machine.states.get("pant") # 從大腦拿出喘氣狀態
 	if pant_state: pant_state.pant_timer = 1.5   # 把喘氣時間設為 1.5 秒
-	state_machine.change_state("EnemyPant")      # 切換到喘氣狀態
+	state_machine.change_state("Pant")      # 切換到喘氣狀態
 
 func exit():                     # 離開射擊狀態時的保險機制
 	if flash_tween and flash_tween.is_valid(): flash_tween.kill() # 砍掉紅色閃爍

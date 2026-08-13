@@ -105,6 +105,10 @@ func _ready():
 				soul.lost_gold = DataManager.soul_stored_gold     
 				soul.scale = Vector2(2.0, 2.0) 
 				get_tree().current_scene.call_deferred("add_child", soul) 
+	
+	# 🌟【加在這裡！】親自幫玩家的大腦開機
+	if state_machine:
+		state_machine.init(self)
 
 # ==========================================
 # 開發者外掛與輸入偵測

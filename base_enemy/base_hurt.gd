@@ -1,4 +1,4 @@
-extends State                    # 繼承自狀態模板 enemy_hurt
+extends State                    # 繼承自狀態模板 base_hurt
 
 var hurt_timer: float = 0.4      # 受傷硬直計時器：預設被打退 0.4 秒
 
@@ -18,6 +18,6 @@ func state_physics_update(delta: float): # 每一幀物理更新
 			character.can_attack = true # 恢復攻擊權力
 
 			if character.player_node:   # 如果視野內還有玩家
-				state_machine.change_state("EnemyRun")  # 進入追擊狀態
+				state_machine.change_state("Chase")  # 進入追擊狀態
 			else:                       # 如果玩家不見了
-				state_machine.change_state("EnemyMove") # 進入隨機漫遊狀態
+				state_machine.change_state("Move") # 進入隨機漫遊狀態
