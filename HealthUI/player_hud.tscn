@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://b6fvc0lb7ehpm" path="res://quickslot_ui/quick_slot_ui.tscn" id="6_nd3l5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3g2e"]
-bg_color = Color(0.12591085, 0.12591085, 0.12591082, 1)
+bg_color = Color(0.043137256, 0.050980393, 0.043137256, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmitr"]
 bg_color = Color(1, 1, 1, 1)
@@ -18,7 +18,7 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x12ao"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhy1a"]
-bg_color = Color(0.08627451, 0.9372549, 0.34901962, 1)
+bg_color = Color(0.21960784, 0.84705883, 0.50980395, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpci0"]
 bg_color = Color(0.9647059, 1, 0, 0.76862746)

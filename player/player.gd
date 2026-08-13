@@ -47,6 +47,18 @@ var opened_from_savepoint: bool = false     # 記錄筆記本是不是從存檔�
 
 var is_shopping: bool = false # 記錄玩家現在是不是正在買東西(終止行動)
 
+# ==========================================
+# 🌟 墨水武器系統變數
+# ==========================================
+# 宣告三種武器模式 (對應 InkBar 的 0, 1, 2)
+enum WeaponMode { BLUE, RED, YELLOW }
+var current_weapon: WeaponMode = WeaponMode.BLUE
+
+# 墨水池數值
+var max_ink: float = 60.0
+var current_ink: float = 60.0
+
+
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
@@ -92,6 +104,11 @@ func _ready():
 		
 		if player_hud.has_method("update_ammo"):
 			player_hud.update_ammo(current_ammo, max_ammo)
+			
+		# 🌟【新增】初始化時，同步當前的墨水池與武器模式 UI
+		if player_hud.has_method("set_ink_mode"):
+			player_hud.set_ink_mode(current_weapon)
+			player_hud.update_ink(current_ink, max_ink)
 		
 	update_hp_bar()
 		
@@ -197,6 +214,10 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("slot_right"): 
 			DataManager.rotate_quick_slot(1)
 
+		# 🌟【新增】監聽切換武器按鍵 (E 鍵)
+		if Input.is_action_just_pressed("switch_weapon"):
+			switch_next_weapon()
+
 		if Input.is_action_just_pressed("skill_01"): 
 			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
 				if current_ammo > 0:
@@ -242,6 +263,19 @@ func _physics_process(delta: float) -> void:
 			velocity *= 0.05
 
 	move_and_slide()
+
+# ==========================================
+# 🌟【新增】武器切換系統
+# ==========================================
+func switch_next_weapon() -> void:
+	# 循環切換：藍(0) -> 紅(1) -> 黃(2) -> 藍(0)...
+	current_weapon = (current_weapon + 1) % 3 as WeaponMode
+	
+	# 呼叫 PlayerHUD 更新左上角的 UI 顏色與刻度
+	if player_hud and player_hud.has_method("set_ink_mode"):
+		player_hud.set_ink_mode(current_weapon)
+		
+	print("已切換武器至：", current_weapon)
 
 # ==========================================
 # 資源消耗控制 (體力與彈藥)
@@ -410,4 +444,4 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 		else: 
 			facing_direction = "down" if input_direction.y > 0 else "up" 
 				
-	anim.play(prefix + "_" + facing_direction)
+	anim.play(prefix + "_" + facing_direction)	

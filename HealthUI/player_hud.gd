@@ -21,6 +21,7 @@ var sp_pixel_ratio: float = 3.0
 
 var original_hud_pos: Vector2 # 記錄 UI 初始位置
 var damage_tween: Tween       # 專門控制白血殘影的動畫計時器
+var hp_heal_tween: Tween      # 🌟 專門用來控制回血閃爍的動畫
 
 func _ready():
 	if margin_container:
@@ -44,6 +45,7 @@ func update_hp(new_hp: int, max_hp: int):
 	if new_hp < health_bar.value:
 		# 💥【受傷邏輯】：瞬間扣血 + UI震動 + 白血延遲掉落
 		health_bar.value = new_hp # 主血條瞬間減少，露出底下的白血
+		health_bar.modulate = Color.WHITE # 🌟 確保受傷時中斷發光，恢復正常顏色
 		shake_ui() # 整個 UI 介面用力震動一下
 		
 		if damage_bar:
@@ -52,12 +54,22 @@ func update_hp(new_hp: int, max_hp: int):
 			damage_tween = get_tree().create_tween()
 			damage_tween.tween_interval(0.4) # 白血停頓 0.4 秒 (Damage Chunk)
 			damage_tween.tween_property(damage_bar, "value", new_hp, 0.4).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	else:
-		# 💖【補血邏輯】：兩條血一起平滑增加
-		var tween = get_tree().create_tween().set_parallel(true)
-		tween.tween_property(health_bar, "value", new_hp, 0.3)
+			
+	elif new_hp > health_bar.value:
+		# 💖【補血邏輯】：平滑增長綠條 + 瞬間閃白光
+		if hp_heal_tween and hp_heal_tween.is_running():
+			hp_heal_tween.kill()
+			
+		hp_heal_tween = create_tween().set_parallel(true)
+		
+		# 1. 讓主血條與白血條一起平滑生長
+		hp_heal_tween.tween_property(health_bar, "value", new_hp, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		if damage_bar:
-			tween.tween_property(damage_bar, "value", new_hp, 0.3)
+			hp_heal_tween.tween_property(damage_bar, "value", new_hp, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		
+		# 2. UI 瞬間變亮 (數值 > 1 代表發光)，然後在 0.3 秒內平滑褪回正常的白色
+		health_bar.modulate = Color(2.0, 2.0, 2.0, 1.0)
+		hp_heal_tween.tween_property(health_bar, "modulate", Color.WHITE, 0.3)
 
 # 💥 UI 震動特效 (Shake)
 func shake_ui():
