@@ -123,3 +123,11 @@ func set_overheat_visual(is_active: bool):
 		tween.tween_property(overheat_overlay, "modulate:a", 0.0, 0.3) 
 		
 	sp_bar.add_theme_stylebox_override("fill", style_box)
+
+func preview_ink(preview_val: float) -> void:
+	if ink_bar and ink_bar.has_method("preview_ink"):
+		ink_bar.preview_ink(preview_val)
+
+func confirm_ink(final_val: float) -> void:
+	if ink_bar and ink_bar.has_method("confirm_ink_drop"):
+		ink_bar.confirm_ink_drop(final_val)

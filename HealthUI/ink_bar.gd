@@ -100,6 +100,26 @@ func update_ink(current: float, maximum: float = -1.0) -> void:
 		heal_tween.tween_property(self, "modulate", Color.WHITE, 0.3)
 
 
+# 🌟 【新增】果汁感提示：蓄力時只縮主色，不動白條
+func preview_ink(target_ink: float) -> void:
+	target_ink = clamp(target_ink, 0.0, max_ink)
+	
+	# 打斷原本的補血/扣血動畫
+	if heal_tween and heal_tween.is_running(): heal_tween.kill()
+	if drain_tween and drain_tween.is_running(): drain_tween.kill()
+	
+	current_ink = target_ink
+	# 注意：這裡刻意不去更動 trail_ink，所以白條會保留在原處！
+
+# 🌟 【新增】確定發射：讓白條掉落追上當前墨水
+func confirm_ink_drop(target_ink: float) -> void:
+	target_ink = clamp(target_ink, 0.0, max_ink)
+	current_ink = target_ink
+	
+	if drain_tween and drain_tween.is_running(): drain_tween.kill()
+	drain_tween = create_tween()
+	drain_tween.tween_interval(0.2) # 停頓一下再掉落，打擊感更好
+	drain_tween.tween_property(self, "trail_ink", target_ink, 0.35).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 # ==========================================
 # 🎨 自訂繪製核心 (_draw) 🌟 動態吸附完美像素版
 # ==========================================

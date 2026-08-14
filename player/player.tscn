@@ -1,4 +1,4 @@
-[gd_scene load_steps=186 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=189 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -8,14 +8,16 @@
 [ext_resource type="Script" uid="uid://dtv1jytooehf1" path="res://camera/camera_2d.gd" id="5_tnfn2"]
 [ext_resource type="AudioStream" uid="uid://bn4gy1h1qjiml" path="res://audio/玩家_攻擊_3.wav" id="6_boad6"]
 [ext_resource type="Script" uid="uid://b62eph5co61o2" path="res://player/player_hurt.gd" id="7_32hag"]
-[ext_resource type="PackedScene" uid="uid://bkatu3uq16087" path="res://Weapon/Skill_01.tscn" id="7_e7oew"]
+[ext_resource type="PackedScene" uid="uid://bkatu3uq16087" path="res://Weapon/magic_brush.tscn" id="7_e7oew"]
 [ext_resource type="Script" uid="uid://ct4xhpe6n0y17" path="res://StateMachine/StateMachine.gd" id="8_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://chfnojldf7nvp" path="res://Asset/Animations/Player_Die.png" id="8_yllr7"]
 [ext_resource type="Script" uid="uid://b6x886sdt3a6j" path="res://player/player_idle.gd" id="9_8t03j"]
 [ext_resource type="Script" uid="uid://bh23c76ar5wg4" path="res://player/player_dash.gd" id="9_ebec5"]
+[ext_resource type="PackedScene" uid="uid://ciuf34knad4lr" path="res://Weapon/Skill_01_bullet.tscn" id="9_g4c7l"]
 [ext_resource type="Texture2D" uid="uid://c8p00886gaui6" path="res://Asset/Animations/Player_Hurt.png" id="9_wodsf"]
 [ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="9_x7c3f"]
 [ext_resource type="Script" uid="uid://b6ny5oi70xkn4" path="res://player/player_move.gd" id="10_8t03j"]
+[ext_resource type="PackedScene" uid="uid://cpy0sriaegb3m" path="res://skill02_lazer/skill_02_lazer.tscn" id="10_knn7v"]
 [ext_resource type="Script" uid="uid://otmwch1l851y" path="res://player/player_attack.gd" id="11_2ieo8"]
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
@@ -1253,6 +1255,16 @@ size = Vector2(90.03125, 122)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7xcs"]
 size = Vector2(83.125, 127.5)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2y0mv"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -80.0
+radial_accel_max = -50.0
+scale_min = 2.0
+scale_max = 3.0
+
 [node name="player" type="CharacterBody2D"]
 y_sort_enabled = true
 collision_layer = 2
@@ -1280,9 +1292,15 @@ libraries = {
 &"": SubResource("AnimationLibrary_bjvpn")
 }
 
-[node name="Skill_01" parent="." instance=ExtResource("7_e7oew")]
-position = Vector2(0.9999995, -2)
+[node name="MagicBrush" parent="." instance=ExtResource("7_e7oew")]
+position = Vector2(-0.9999999, -42)
 rotation = 1.5107642
+blue_bullet_scene = ExtResource("9_g4c7l")
+red_laser_scene = ExtResource("10_knn7v")
+
+[node name="ChargeParticles" parent="MagicBrush" index="3"]
+visible = false
+position = Vector2(-46.397102, 5.225772)
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 8
@@ -1362,8 +1380,19 @@ layer = 10
 
 [node name="NotebookUI" parent="MenuLayer" instance=ExtResource("22_bjvpn")]
 
+[node name="ChargeParticles" type="GPUParticles2D" parent="."]
+z_index = 3
+position = Vector2(2.2737368e-13, -46.000004)
+scale = Vector2(2.6272295, 2.6272297)
+emitting = false
+amount = 20
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_2y0mv")
+
 [node name="KnockbackComponent" type="Node" parent="."]
 script = ExtResource("22_s7qer")
 default_strength = 300.0
 friction = 2500.0
 metadata/_custom_type_script = "uid://brpsxbevfcnop"
+
+[editable path="MagicBrush"]

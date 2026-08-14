@@ -20,11 +20,8 @@ var original_sprite_scale: Vector2 = Vector2.ONE
 var base_max_hp: int = 100
 
 # ==========================================
-# [🌟 墨水彈藥系統] 與 體力 (SP) 系統
+# [🌟 墨水系統] 與 體力 (SP) 系統
 # ==========================================
-@export var max_ammo: int = 6               # 🌟 墨水彈藥上限 (改為 6 發)
-var current_ammo: int = 6                   # 🌟 當前剩餘墨水彈藥 (開局滿彈 6 發)
-
 @export var max_sp: float = 100.0          # 體力上限 (揮刀、翻滾消耗用)
 var current_sp: float = 50                  # 開局預設體力
 var is_overheated: bool = false            # 狀態開關：記錄玩家現在是否處於「過熱力竭」狀態
@@ -54,27 +51,36 @@ var is_shopping: bool = false # 記錄玩家現在是不是正在買東西(終�
 enum WeaponMode { BLUE, RED, YELLOW }
 var current_weapon: WeaponMode = WeaponMode.BLUE
 
-# 墨水池數值
+# 🌟 徹底改用純墨水數值
 var max_ink: float = 60.0
 var current_ink: float = 60.0
-
 
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
-@onready var skill_01: Node2D = $Skill_01                              # 掛在玩家身上的技能發射器 (槍管)
+@onready var magic_brush: Node2D = $MagicBrush                         # 🌟 掛在玩家身上的全能魔法畫筆
 
 # 🌟【組件化引用】自動抓取玩家身上的擊退組件
 @onready var knockback_component: KnockbackComponent = get_node_or_null("KnockbackComponent")
 
 # 抓取素描本 UI 節點
 @onready var notebook_ui = $MenuLayer/NotebookUI
-	
+
+# ==========================================
+# 武器墨水消耗表
+# ==========================================
+func get_weapon_cost() -> float:
+	match current_weapon:
+		WeaponMode.BLUE: return 10.0
+		WeaponMode.RED: return 15.0  # 紅色最低門檻需要 15 墨水
+		WeaponMode.YELLOW: return 25.0
+	return 10.0
+
 # ==========================================
 # 遊戲初始化 (_ready)
 # ==========================================
 func _ready(): 
-	super._ready() # 呼叫父類別準備函數，確保基本屬性初始化 (如血量補滿)
+	super._ready() 
 	print("以防大家沒看到 菜心楊是傻逼")
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale
@@ -101,11 +107,8 @@ func _ready():
 		player_hud.update_hp(current_hp, max_hp) 
 		player_hud.update_sp(current_sp, max_sp) 
 		player_hud.set_overheat_visual(false) 
-		
-		if player_hud.has_method("update_ammo"):
-			player_hud.update_ammo(current_ammo, max_ammo)
 			
-		# 🌟【新增】初始化時，同步當前的墨水池與武器模式 UI
+		# 🌟 初始化時，同步當前的墨水池與武器模式 UI
 		if player_hud.has_method("set_ink_mode"):
 			player_hud.set_ink_mode(current_weapon)
 			player_hud.update_ink(current_ink, max_ink)
@@ -127,46 +130,36 @@ func _ready():
 # 開發者外掛與輸入偵測
 # ==========================================
 func _input(event):
-	# 如果在商店買東西，完全阻斷
-	if is_shopping:
-		return
+	if is_shopping: return
 
-	# 🌟 定義一個變數：只要玩家按了 TAB 或 ESC 其中一個，就是 true
 	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC")
 
-	# 【第一階段：關閉與返回】如果在看書，允許用 TAB 或 ESC 來關閉
 	if is_reading_book and pressed_cancel:
 		if opened_from_savepoint:
-			# 情況 A：從存檔點打開的筆記本，退回存檔點
 			if notebook_ui:
 				notebook_ui.hide()
 				notebook_ui.is_open = false
 				
 			opened_from_savepoint = false 
 			
-			# 把藏在背景的存檔畫架找出來，重新顯示
 			var save_menus = get_tree().get_nodes_in_group("save_menu")
 			if save_menus.size() > 0:
 				save_menus[0].show()
 		else:
-			# 情況 B：正常遊玩時，關閉筆記本
 			is_reading_book = false
 			state_machine.process_mode = Node.PROCESS_MODE_INHERIT 
 			if notebook_ui:
 				notebook_ui.toggle_notebook(false)
 				
-		return # 🌟 關閉完就直接離開，不要往下走
+		return 
 	
-	# 【第二階段：打開】如果沒在看書，嚴格限定只能按 TAB 才能打開
 	if not is_reading_book and event.is_action_pressed("TAB"):
-		# 情況 C：正常遊玩時，打開筆記本
 		is_reading_book = true
 		velocity = Vector2.ZERO 
 		state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
 		if notebook_ui:
 			notebook_ui.toggle_notebook(false)
 
-	# 測試用外掛
 	if event.is_action_pressed("cheater") and DataManager: 
 		DataManager.total_gold += 100
 		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
@@ -174,19 +167,17 @@ func _input(event):
 	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
 		DataManager.add_item_to_reserve("potion_gugu", 1)
 		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
+
 # ==========================================
 # 裝備能力統整計算中心
 # ==========================================
 func recalculate_stats():
 	var bonus_hp = 0 
-	
 	if DataManager.has_sticker("001"):
 		bonus_hp += DataManager.STICKER_DB["001"].value 
 		
 	max_hp = base_max_hp + bonus_hp
-	
-	if current_hp > max_hp:
-		current_hp = max_hp
+	if current_hp > max_hp: current_hp = max_hp
 		
 	update_hp_bar() 
 	print("【系統】玩家能力已更新，目前最大血量：", max_hp)
@@ -206,45 +197,86 @@ func _physics_process(delta: float) -> void:
 			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_INHERIT
 		
+		# 正常讀取玩家的 WASD 方向
 		input_direction = Input.get_vector("left", "right", "up", "down") 
 
-		if Input.is_action_just_pressed("slot_left"): 
-			DataManager.rotate_quick_slot(-1)
+		# 🌟【新增攔截器】：狙擊槍蓄力罰站系統
+		if magic_brush and magic_brush.is_charging:
+			input_direction = Vector2.ZERO # 騙狀態機「玩家現在沒有按方向鍵」，這樣就會自動切換成站立(Idle)動畫
 			
-		if Input.is_action_just_pressed("slot_right"): 
-			DataManager.rotate_quick_slot(1)
+			var is_in_knockback: bool = knockback_component and knockback_component.knockback_force.length() > 0.0
+			# 如果玩家不是在衝刺中、也沒有被怪物打飛，就強制瞬間煞車定住！
+			if not is_dashing and not is_in_knockback:
+				velocity = Vector2.ZERO    
 
-		# 🌟【新增】監聽切換武器按鍵 (E 鍵)
+		# ----------------------------------------------
+		
+		if Input.is_action_just_pressed("slot_left"): DataManager.rotate_quick_slot(-1)
+		if Input.is_action_just_pressed("slot_right"): DataManager.rotate_quick_slot(1)
+
+		# 🌟 監聽切換武器按鍵
 		if Input.is_action_just_pressed("switch_weapon"):
 			switch_next_weapon()
 
-		if Input.is_action_just_pressed("skill_01"): 
-			if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
-				if current_ammo > 0:
-					current_ammo -= 1
-					shoot_slow_timer = 0.3
-					
+		# ==========================================
+		# 🌟 發射與蓄力邏輯 (純淨墨水系統)
+		# ==========================================
+		if state_machine.current_state.name != "PlayerHeal" and not is_overheated: 
+			var cost = get_weapon_cost()
+			
+			# 1. 玩家【按下】攻擊鍵 (藍色連發/黃色散彈，或紅色開始蓄力)
+			if Input.is_action_just_pressed("skill_01"): 
+				if current_ink >= cost:
 					var current_buff: float = get_oversaturation_buff() 
 					if DataManager.has_sticker("004"):
 						current_buff *= DataManager.STICKER_DB["004"].value
 					
-					skill_01.shoot(current_buff) 
-					
-					if player_hud and player_hud.has_method("update_ammo"):
-						player_hud.update_ammo(current_ammo, max_ammo)
+					if current_weapon == WeaponMode.RED:
+						# 紅色模式：算出目前最多能蓄力幾段
+						var max_stages = floor(current_ink / 15.0)
+						magic_brush.press_shoot(current_buff, max_stages)
+					else:
+						# 其他模式：瞬間發射、瞬間扣墨水
+						magic_brush.press_shoot(current_buff)
+						current_ink -= cost
+						shoot_slow_timer = 0.3
+						if player_hud and player_hud.has_method("update_ink"): 
+							player_hud.update_ink(current_ink, max_ink)
 				else: 
 					print("⚠️ 墨水用盡！請使用近戰揮刀補充墨水！") 
+			
+			# 2. 🌟 玩家【按住】攻擊鍵 (紅色專屬：UI 預覽扣除墨水)
+			if Input.is_action_pressed("skill_01") and current_weapon == WeaponMode.RED:
+				if magic_brush and magic_brush.is_charging:
+					var stage = magic_brush.get_current_stage()
+					var preview_val = current_ink - (stage * 15.0)
+					if player_hud and player_hud.has_method("preview_ink"): 
+						# 呼叫 UI，讓主色條縮減預覽，白條留著
+						player_hud.preview_ink(preview_val)
+			
+			# 3. 玩家【放開】攻擊鍵 (紅色專屬：確定發射)
+			if Input.is_action_just_released("skill_01"):
+				if current_weapon == WeaponMode.RED and magic_brush and magic_brush.is_charging:
+					var stage = magic_brush.get_current_stage()
+					var current_buff = get_oversaturation_buff() 
+					if DataManager.has_sticker("004"):
+						current_buff *= DataManager.STICKER_DB["004"].value
+						
+					magic_brush.release_shoot(current_buff)
 					
-			elif is_overheated: 
-				print("系統過熱中！無法釋放技能！") 
-
+					# 正式扣除蓄力段數的墨水，並讓白條掉落！
+					current_ink -= (stage * 15.0)
+					shoot_slow_timer = 0.6 
+					if player_hud and player_hud.has_method("confirm_ink"): 
+						player_hud.confirm_ink(current_ink)
+				
 		if Input.is_action_just_pressed("USESKILL"): 
 			if state_machine.current_state.name != "PlayerHeal": 
 				DataManager.use_current_item() 
 
 		if sp_delay_timer > 0:            
 			sp_delay_timer -= delta       
-		else:                                     
+		else:                                         
 			if current_sp < max_sp: 
 				var regen_rate = 10.0 if is_overheated else 12.0 
 				current_sp = min(current_sp + regen_rate * delta, max_sp) 
@@ -255,7 +287,7 @@ func _physics_process(delta: float) -> void:
 					
 				player_hud.update_sp(current_sp, max_sp) 
 
-	# 🌟【關鍵修復 1】只有在非擊退狀態下，發射減速才會生效，避免強行清空擊退速度
+	# 只有在非擊退狀態下，發射減速才會生效
 	var is_in_knockback: bool = knockback_component and knockback_component.knockback_force.length() > 0.0
 	if shoot_slow_timer > 0:
 		shoot_slow_timer -= delta
@@ -265,20 +297,20 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 # ==========================================
-# 🌟【新增】武器切換系統
+# 🌟 武器切換系統
 # ==========================================
 func switch_next_weapon() -> void:
-	# 循環切換：藍(0) -> 紅(1) -> 黃(2) -> 藍(0)...
 	current_weapon = (current_weapon + 1) % 3 as WeaponMode
+	if magic_brush and magic_brush.has_method("set_mode"):
+		magic_brush.set_mode(current_weapon)
 	
-	# 呼叫 PlayerHUD 更新左上角的 UI 顏色與刻度
 	if player_hud and player_hud.has_method("set_ink_mode"):
 		player_hud.set_ink_mode(current_weapon)
 		
 	print("已切換武器至：", current_weapon)
 
 # ==========================================
-# 資源消耗控制 (體力與彈藥)
+# 資源消耗控制 (體力與墨水)
 # ==========================================
 func use_sp(amount: float) -> bool: 
 	if is_overheated: return false 
@@ -295,29 +327,44 @@ func use_sp(amount: float) -> bool:
 		return true 
 	return false 
 
+# 🌟 新版：回復墨水 (核心邏輯)
+func add_ink(amount: float = 10.0) -> void:
+	if current_ink < max_ink:
+		current_ink = min(current_ink + amount, max_ink)
+		if player_hud and player_hud.has_method("update_ink"):
+			player_hud.update_ink(current_ink, max_ink)
+
+func refill_full_ink() -> void:
+	current_ink = max_ink
+	if player_hud and player_hud.has_method("update_ink"):
+		player_hud.update_ink(current_ink, max_ink)
+
+# ==========================================
+# 🌟 舊版近戰回血系統 (無縫橋接新版墨水！)
+# ==========================================
+# 讓你的近戰腳本不用改任何一個字，就能完美對接！
+# 以前近戰命中回 1 發彈藥，現在會自動轉換成回復 10 點墨水！
 func add_ammo(amount: int = 1) -> void:
-	if current_ammo < max_ammo:
-		current_ammo = min(current_ammo + amount, max_ammo)
-		if player_hud and player_hud.has_method("update_ammo"):
-			player_hud.update_ammo(current_ammo, max_ammo)
+	add_ink(amount * 10.0)
 
 func restore_ammo(amount: int = 1) -> void:
-	add_ammo(amount)
+	add_ink(amount * 10.0)
 
+# 近戰擊殺敵人時，自動回滿墨水池！
 func refill_full_ammo() -> void:
-	current_ammo = max_ammo
-	if player_hud and player_hud.has_method("update_ammo"):
-		player_hud.update_ammo(current_ammo, max_ammo)
+	refill_full_ink()
+
+func get_oversaturation_buff() -> float: 
+	# 判斷墨水是否全滿
+	if current_ink >= max_ink: 
+		return 1.5 
+	return 1.0
 
 # ==========================================
 # 戰鬥、受傷與無敵邏輯
 # ==========================================
-
-# 外部傷害接收中心 (包含扣血、擊退、相機震動與無敵觸發)
-# 🌟【新增參數】：在最後面補上 extra_knockback: float = 1.0
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
-	if is_dead or is_invincible:
-		return
+	if is_dead or is_invincible: return
 		
 	current_hp = max(current_hp - amount, 0)
 	update_hp_bar()
@@ -327,8 +374,6 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 	
 	var knockback_dir = dir if dir != Vector2.ZERO else (global_position - attacker_pos).normalized()
 	if knockback_component and knockback_dir != Vector2.ZERO:
-		# 🌟【關鍵修復】將額外擊退倍率傳給組件！
-		# 第一個參數是方向，第二個 -1.0 是使用預設力量，第三個是我們傳過來的倍率！
 		knockback_component.apply_knockback(knockback_dir, -1.0, extra_knockback)
 		
 	var camera = get_viewport().get_camera_2d()
@@ -354,7 +399,6 @@ func play_hurt_effects() -> void:
 
 func start_invincibility() -> void:
 	is_invincible = true
-	
 	var tween = create_tween().set_loops(int(invincibility_duration / 0.1))
 	tween.tween_property(animated_sprite_2d, "modulate:a", 0.3, 0.05)
 	tween.tween_property(animated_sprite_2d, "modulate:a", 1.0, 0.05)
@@ -370,11 +414,6 @@ func get_current_basic_attack_damage() -> float:
 		if float(current_hp) / float(max_hp) <= threshold:
 			final_base_damage *= DataManager.STICKER_DB["008"].value 
 	return final_base_damage
-
-func get_oversaturation_buff() -> float: 
-	if current_ammo >= max_ammo: 
-		return 1.5 
-	return 1.0 
 
 func on_enemy_killed():
 	if DataManager.has_sticker("006"):
@@ -403,23 +442,15 @@ func handle_hurt():
 		
 	state_machine.change_state("PlayerHurt") 
 
-# ==========================================
-# 🌟 外部補血接收器 (實裝 016 漢堡貼紙效果)
-# ==========================================
 func heal(amount: int) -> void:
-	var final_amount = amount # 先把原本道具該補的血量存起來
-	
-	# 🍔 檢查大腦：玩家目前有沒有裝備 016-漢堡貼紙？
+	var final_amount = amount 
 	if DataManager.has_sticker("016"):
 		var bonus = DataManager.STICKER_DB["016"].value
 		final_amount += bonus
-		print("【漢堡發動】道具效果強化！額外回復 ", bonus, " 點！")
 		
-	# 執行最終回血邏輯
 	if current_hp < max_hp:
 		current_hp = min(current_hp + final_amount, max_hp)
-		update_hp_bar() # 更新血條 UI 和身體顏色
-		print("【玩家】喝下道具！恢復了 ", final_amount, " 點生命！目前血量：", current_hp)
+		update_hp_bar() 
 
 func die(): 
 	if is_dead: return 
@@ -444,4 +475,4 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 		else: 
 			facing_direction = "down" if input_direction.y > 0 else "up" 
 				
-	anim.play(prefix + "_" + facing_direction)	
+	anim.play(prefix + "_" + facing_direction)
