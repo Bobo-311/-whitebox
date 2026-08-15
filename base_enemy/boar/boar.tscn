@@ -891,7 +891,7 @@ max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_8o6hk")
-animation = &"idle_down"
+animation = &"run_up"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]

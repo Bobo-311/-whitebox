@@ -109,6 +109,8 @@ func _ready():
 	# 🌟【加在這裡！】親自幫玩家的大腦開機
 	if state_machine:
 		state_machine.init(self)
+	
+	_run_bug_radar(get_tree().root)
 
 # ==========================================
 # 開發者外掛與輸入偵測
@@ -404,14 +406,42 @@ func update_hp_bar():
 		var tween = get_tree().create_tween() 
 		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) 
 
-func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO): 
-	var anim = get_node_or_null("AnimatedSprite2D") 
-	if anim == null: return 
-	
-	if not is_dashing and input_direction != Vector2.ZERO: 
-		if abs(input_direction.x) > abs(input_direction.y): 
-			facing_direction = "right" if input_direction.x > 0 else "left" 
-		else: 
-			facing_direction = "down" if input_direction.y > 0 else "up" 
-				
-	anim.play(prefix + "_" + facing_direction)
+func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
+	var anim = get_node_or_null("AnimatedSprite2D")
+	if anim == null:
+		return
+
+	# 只有正常移動時才更新面朝方向
+	if not is_dashing and input_direction != Vector2.ZERO:
+		if abs(input_direction.x) > abs(input_direction.y):
+			facing_direction = "right" if input_direction.x > 0 else "left"
+		else:
+			facing_direction = "down" if input_direction.y > 0 else "up"
+
+	# 組合真正要播放的動畫名稱
+	var animation_name = prefix + "_" + facing_direction
+
+	# 防止要求播放不存在的動畫
+	if not anim.sprite_frames.has_animation(animation_name):
+		print("⚠️【玩家動畫錯誤】找不到動畫：", animation_name)
+		print("   prefix = ", prefix)
+		print("   facing_direction = ", facing_direction)
+		return
+
+	anim.play(animation_name)
+
+
+# 🌟🌟🌟 終極 Bug 掃描雷達 🌟🌟🌟
+func _run_bug_radar(node: Node):
+	if node is AnimatedSprite2D:
+		# 如果抓到哪個傢伙的動畫是空的
+		if node.animation == "":
+			print("\n====================================")
+			print("🚨🚨🚨 抓到真兇了！空動畫節點在這裡 🚨🚨🚨")
+			print("👉 節點絕對路徑：", node.get_path())
+			print("👉 來源場景檔案：", node.owner.scene_file_path if node.owner else "無")
+			print("====================================\n")
+			
+	# 繼續往下挖出所有的子孫節點
+	for child in node.get_children():
+		_run_bug_radar(child)

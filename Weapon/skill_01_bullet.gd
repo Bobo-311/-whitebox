@@ -23,7 +23,7 @@ var is_destroying: bool = false               # 🌟 防呆：避免同一幀重
 
 func _ready() -> void:
 	if animated_sprite_2d:
-		animated_sprite_2d.play()
+		animated_sprite_2d.play("default")
 		
 	if direction == Vector2.ZERO and travel_dir != Vector2.ZERO:
 		direction = travel_dir

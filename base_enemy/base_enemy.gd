@@ -213,13 +213,31 @@ func update_hp_bar() -> void:
 		hp_bar.update_bar(current_hp, max_hp)
 
 func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
-	var suffix = "" 
+	var suffix = ""
 	var target_dir = dir if dir != Vector2.ZERO else last_facing_vec
-	if abs(target_dir.x) > abs(target_dir.y): 
-		suffix = "_right" if target_dir.x > 0 else "_left" 
-	else: 
-		suffix = "_down" if target_dir.y > 0 else "_up" 
-	animated_sprite_2d.play(prefix + suffix)
+
+	if abs(target_dir.x) > abs(target_dir.y):
+		suffix = "_right" if target_dir.x > 0 else "_left"
+	else:
+		suffix = "_down" if target_dir.y > 0 else "_up"
+
+	var animation_name = prefix + suffix
+
+	print("【野豬動畫】要求播放：", animation_name)
+
+	if animation_name == "":
+		print("❌❌❌ 發現空動畫名稱！")
+		print_stack()
+		return
+
+	if not animated_sprite_2d.sprite_frames.has_animation(animation_name):
+		print("❌❌❌ 動畫不存在：", animation_name)
+		print("目前 prefix：", prefix)
+		print("目前方向：", target_dir)
+		print_stack()
+		return
+
+	animated_sprite_2d.play(animation_name)
 
 func drop_coin() -> void:
 	if COIN_SCENE:
@@ -271,13 +289,6 @@ func _apply_damage_and_knockback(target: Node2D, target_area: Area2D = null) -> 
 		target_area.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
 	elif target.has_method("take_damage"):
 		target.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
-	
-	# 3. 呼叫 take_damage，維持 4 個參數不報錯！
-	# 這裡傳過去的 knockback_dir 已經是放大過後的版本了！
-	if target_area and target_area.has_method("take_damage"):
-		target_area.take_damage(melee_damage, global_position, knockback_dir, false)
-	elif target.has_method("take_damage"):
-		target.take_damage(melee_damage, global_position, knockback_dir, false)
 
 func _check_hitbox_overlap() -> void:
 	if not hitbox: return
