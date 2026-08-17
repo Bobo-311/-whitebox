@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkatu3uq16087"]
+[gd_scene load_steps=8 format=3 uid="uid://bkatu3uq16087"]
 
 [ext_resource type="Script" uid="uid://brkum6ucl36du" path="res://Weapon/magic_brush.gd" id="1_cyq0q"]
+[ext_resource type="PackedScene" uid="uid://ciuf34knad4lr" path="res://Weapon/Skill_01_bullet.tscn" id="2_0renh"]
 [ext_resource type="Texture2D" uid="uid://cqvwy8c5l0aod" path="res://Asset/VFX/tiles/tile_0001.png" id="3_0renh"]
+[ext_resource type="PackedScene" uid="uid://cpy0sriaegb3m" path="res://skill02_lazer/skill_02_lazer.tscn" id="3_lr5jh"]
+[ext_resource type="PackedScene" uid="uid://dumrunfsgsagu" path="res://skill_03/skill_03_shotgun.tscn" id="4_kqvyw"]
 [ext_resource type="AudioStream" uid="uid://bkwcnomsc4y1k" path="res://audio/shoot-a.ogg" id="4_lr5jh"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2y0mv"]
@@ -17,6 +20,9 @@ color = Color(0.9137255, 0, 0.03137255, 1)
 
 [node name="MagicBrush" type="Node2D"]
 script = ExtResource("1_cyq0q")
+blue_bullet_scene = ExtResource("2_0renh")
+red_laser_scene = ExtResource("3_lr5jh")
+yellow_shotgun_scene = ExtResource("4_kqvyw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, 1)

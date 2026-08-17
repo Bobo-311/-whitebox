@@ -154,7 +154,31 @@ func _shoot_red_laser(buff: float) -> void:
 	_play_shoot_effects(effect_intensity) 
 
 func _shoot_yellow(buff: float) -> void:
-	pass
+	if not yellow_shotgun_scene: return
+	
+	var shotgun = yellow_shotgun_scene.instantiate()
+	_spawn_projectile(shotgun)
+	
+	# 鎖定方向並旋轉扇形
+	var dir = (get_global_mouse_position() - bullet_spawn.global_position).normalized()
+	shotgun.direction = dir
+	shotgun.rotation = dir.angle()
+	shotgun.shooter = player_node
+	shotgun.received_buff = buff
+	
+	# ==========================================
+	# 🌟 散彈槍的極致果汁感 (Juice)
+	# ==========================================
+	# 1. 超強度的發射特效 (光環與槍管縮放)
+	_play_shoot_effects(2.5) 
+	
+	# 2. 螢幕劇烈震動 (比紅雷射 1 段還要晃)
+	get_tree().call_group("main_camera", "apply_shake", 15.0)
+	
+	# 3. 專屬的低沉爆破音效 (把音調拉低，聽起來更像重型火砲)
+	if audio_player:
+		audio_player.pitch_scale = randf_range(0.4, 0.6) 
+		audio_player.play()
 
 func _spawn_projectile(proj: Node) -> void:
 	get_tree().current_scene.add_child(proj)

@@ -87,6 +87,11 @@ func update_visibility() -> void:
 		
 	fade_tween = create_tween()
 	
+	if is_dead:
+		self.visible = true # 確保屍體永遠可見
+		return # 只要死掉了，就不再受白貓燈光影響
+		
+		
 	if is_illuminated_by_cat:
 		self.visible = true
 		

@@ -5,7 +5,7 @@ func enter(): # 進入死亡狀態時執行
 	character.velocity = Vector2.ZERO # 物理速度徹底歸零，不再滑行
 	
 	# 🌟 視覺修正 1：死掉瞬間變半透明，讓屍體「不太明顯」(0.5 代表 50% 透明度)
-	character.modulate.a = 0.5 
+	character.modulate.a = 1.0
 	
 	var anim_dir = character.last_facing_vec # 沿用野豬原本的面朝方向播放動畫
 	

@@ -35,7 +35,7 @@ var trail_ink: float = 60.0:
 
 @export var blue_color: Color = Color(0.23, 0.51, 0.96)    # 藍色手槍
 @export var red_color: Color = Color(0.97, 0.44, 0.44)     # 紅色狙擊
-@export var yellow_color: Color = Color(0.99, 0.83, 0.30)   # 黃色散彈
+@export var yellow_color: Color = Color(0.99, 0.83, 0.3, 1.0)   # 黃色散彈
 
 var current_mode: Mode = Mode.BLUE
 var drain_tween: Tween # 專門控制殘影掉落的計時器
