@@ -127,7 +127,8 @@ func set_overheat_visual(is_active: bool):
 func preview_ink(preview_val: float) -> void:
 	if ink_bar and ink_bar.has_method("preview_ink"):
 		ink_bar.preview_ink(preview_val)
-
-func confirm_ink(final_val: float) -> void:
+# ✅ 改成跟 player.gd 呼叫的一模一樣
+func confirm_ink_drop(final_val: float) -> void:
 	if ink_bar and ink_bar.has_method("confirm_ink_drop"):
 		ink_bar.confirm_ink_drop(final_val)
+		

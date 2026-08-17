@@ -245,30 +245,47 @@ func _physics_process(delta: float) -> void:
 				else: 
 					print("⚠️ 墨水用盡！請使用近戰揮刀補充墨水！") 
 			
-			# 2. 🌟 玩家【按住】攻擊鍵 (紅色專屬：UI 預覽扣除墨水)
+			# 2. 🌟 玩家【按住】攻擊鍵 (紅色專屬：UI 預覽同步扣除墨水)
 			if Input.is_action_pressed("skill_01") and current_weapon == WeaponMode.RED:
 				if magic_brush and magic_brush.is_charging:
+					# 🌟 改為直接取得「當前已達成的段數」(get_current_stage)
+					# 0段(未滿1秒)時扣0；滿1秒的瞬間變成1段，UI 才會跟著白光與震動一起往回縮！
 					var stage = magic_brush.get_current_stage()
 					var preview_val = current_ink - (stage * 15.0)
 					if player_hud and player_hud.has_method("preview_ink"): 
-						# 呼叫 UI，讓主色條縮減預覽，白條留著
 						player_hud.preview_ink(preview_val)
 			
-			# 3. 玩家【放開】攻擊鍵 (紅色專屬：確定發射)
+			# 3. 🌟 玩家【放開】攻擊鍵 (紅色專屬：確定發射或啞火)
 			if Input.is_action_just_released("skill_01"):
 				if current_weapon == WeaponMode.RED and magic_brush and magic_brush.is_charging:
 					var stage = magic_brush.get_current_stage()
-					var current_buff = get_oversaturation_buff() 
-					if DataManager.has_sticker("004"):
-						current_buff *= DataManager.STICKER_DB["004"].value
-						
-					magic_brush.release_shoot(current_buff)
 					
-					# 正式扣除蓄力段數的墨水，並讓白條掉落！
-					current_ink -= (stage * 15.0)
-					shoot_slow_timer = 0.6 
-					if player_hud and player_hud.has_method("confirm_ink"): 
-						player_hud.confirm_ink(current_ink)
+					# 🌟 必須蓄力滿 1 級以上才允許開槍
+					if stage > 0:
+						var current_buff = get_oversaturation_buff() 
+						if DataManager.has_sticker("004"):
+							current_buff *= DataManager.STICKER_DB["004"].value
+							
+						magic_brush.release_shoot(current_buff)
+						
+						# 成功發射！正式扣除墨水
+						current_ink -= (stage * 15.0)
+						shoot_slow_timer = 0.6 
+						
+						# 🌟 呼叫你剛剛寫好的 confirm_ink_drop，讓白色殘影完美掉落
+						if player_hud and player_hud.has_method("confirm_ink_drop"): 
+							player_hud.confirm_ink_drop(current_ink)
+						elif player_hud and player_hud.has_method("update_ink"):
+							# 🐛 在這裡補上第二個參數 max_ink！這樣就不會報錯了
+							player_hud.update_ink(current_ink, max_ink)
+					
+					else:
+						# 🌟 啞火！(未滿 1 秒)
+						magic_brush.cancel_shoot()
+						
+						# UI 恢復原狀 (把 0 段的墨水傳回去，確保畫面沒有殘留的縮減)
+						if player_hud and player_hud.has_method("preview_ink"): 
+							player_hud.preview_ink(current_ink)
 				
 		if Input.is_action_just_pressed("USESKILL"): 
 			if state_machine.current_state.name != "PlayerHeal": 
