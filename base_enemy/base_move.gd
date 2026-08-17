@@ -1,5 +1,8 @@
 extends State # 繼承狀態模板 base_move
 
+# 🌟【升級版】把寫死的秒數變成可調整的變數
+@export var walk_time: float = 3.0  # 預設漫遊走幾秒
+@export var stop_time: float = 1.5  # 預設發呆停幾秒
 var timer: float = 0.0 # 漫遊計時器
 var is_moving: bool = true # 狀態開關
 var wander_dir: Vector2 = Vector2.ZERO # 宣告變數：記住現在散步的方向
@@ -10,7 +13,7 @@ func enter(): # 進入漫遊
 
 func _start_moving(): # 開始走路邏輯
 	is_moving = true # 標記走路
-	timer = 3.0 # 固定走 3 秒
+	timer = walk_time # 固定走 3 秒
 	
 	wander_dir = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized() # 隨機決定一個方向
 	character.velocity = wander_dir * character.walk_speed # 給予速度
@@ -19,7 +22,7 @@ func _start_moving(): # 開始走路邏輯
 
 func _stop_moving(): # 停下邏輯
 	is_moving = false # 標記停止
-	timer = 1.5 # 🌟 自然走完 3 秒後，固定發呆 1.5 秒
+	timer = stop_time # 🌟 自然走完 3 秒後，固定發呆 1.5 秒
 	
 	character.velocity = Vector2.ZERO # 速度歸零
 	character.play_animation("idle", character.last_facing_vec) # 播待機動畫

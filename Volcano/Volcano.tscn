@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=65 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="10_167qa"]
 [ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/boar/boar.tscn" id="10_877dg"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="10_q0gaw"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(8076, 134.75)
@@ -1265,3 +1266,6 @@ position = Vector2(1435, 446)
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
 position = Vector2(2574, 508)
+
+[node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
+position = Vector2(1244, 845)

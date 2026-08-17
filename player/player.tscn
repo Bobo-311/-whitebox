@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
 [ext_resource type="Script" uid="uid://dklheqli3xyjo" path="res://player/player_heal.gd" id="16_65viv"]
 [ext_resource type="PackedScene" uid="uid://bqkyu35doaf21" path="res://NotebookUI/notebook_ui.tscn" id="22_bjvpn"]
-[ext_resource type="Script" uid="uid://brpsxbevfcnop" path="res://KnockbackComponent.gd" id="22_s7qer"]
+[ext_resource type="Script" uid="uid://brpsxbevfcnop" path="res://近戰/KnockbackComponent.gd" id="22_s7qer"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_65viv"]
 resource_local_to_scene = true

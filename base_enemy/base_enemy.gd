@@ -83,6 +83,8 @@ func _physics_process(_delta: float) -> void:
 # 👁️ 迷霧現形系統
 # ==========================================
 func update_visibility() -> void:
+	
+	
 	if fade_tween and fade_tween.is_running():
 		fade_tween.kill()
 		
@@ -223,18 +225,14 @@ func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
 
 	var animation_name = prefix + suffix
 
-	print("【野豬動畫】要求播放：", animation_name)
+	
 
 	if animation_name == "":
-		print("❌❌❌ 發現空動畫名稱！")
-		print_stack()
+		
 		return
 
 	if not animated_sprite_2d.sprite_frames.has_animation(animation_name):
-		print("❌❌❌ 動畫不存在：", animation_name)
-		print("目前 prefix：", prefix)
-		print("目前方向：", target_dir)
-		print_stack()
+		
 		return
 
 	animated_sprite_2d.play(animation_name)

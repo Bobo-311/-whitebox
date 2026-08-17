@@ -354,13 +354,13 @@ region = Rect2(64, 32, 32, 32)
 atlas = ExtResource("6_v3jgy")
 region = Rect2(96, 32, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_upxm4"]
-atlas = ExtResource("6_v3jgy")
-region = Rect2(128, 32, 32, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_mwk4t"]
 atlas = ExtResource("6_v3jgy")
 region = Rect2(160, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upxm4"]
+atlas = ExtResource("6_v3jgy")
+region = Rect2(128, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k3n4y"]
 atlas = ExtResource("7_7sjdu")
@@ -796,10 +796,10 @@ animations = [{
 "texture": SubResource("AtlasTexture_2nrdu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_upxm4")
+"texture": SubResource("AtlasTexture_mwk4t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mwk4t")
+"texture": SubResource("AtlasTexture_upxm4")
 }],
 "loop": true,
 "name": &"move_up",
@@ -891,8 +891,11 @@ max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_8o6hk")
-animation = &"run_up"
+animation = &"run_down"
 autoplay = "idle_down"
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(-0.49999985, -25)
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
 disabled = true
