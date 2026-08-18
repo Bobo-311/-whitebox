@@ -1,7 +1,7 @@
 extends Area2D
 
 @export_group("Shotgun Settings")
-@export var base_damage: float = 35.0
+@export var base_damage: float = 30.0
 @export var knockback_force: float = 3.5  # 🌟 散彈槍專屬的超強擊退倍率
 @export var duration: float = 0.2         # 特效殘留時間
 
@@ -41,15 +41,18 @@ func _deal_damage() -> void:
 			
 		var final_damage = base_damage * received_buff
 		
-		# 🌟 呼叫你們寫好的傷害系統，並傳入超強的 knockback_force (第 5 個參數)
+		# 🌟 1. 改回 3 個參數，野豬就吃得到傷害了！
 		if target.has_method("take_damage"):
-			target.take_damage(final_damage, global_position, direction, false, knockback_force)
+			target.take_damage(final_damage, global_position, direction)
 			has_hit_something = true
+			
+			# 🌟 2. 呼叫野豬身上的暈眩函數！傳入 1.0 秒
+			if target.has_method("apply_stun"):
+				target.apply_stun(1.0)
 			
 		elif target.get_parent() and target.get_parent().has_method("take_damage"):
-			target.get_parent().take_damage(final_damage, global_position, direction, false, knockback_force)
+			target.get_parent().take_damage(final_damage, global_position, direction)
 			has_hit_something = true
 			
-	# 如果有打中任何東西，可以額外觸發更重的頓幀！
-	if has_hit_something and DataManager and DataManager.has_method("hitstop"):
-		DataManager.hitstop(0.12) # 散彈槍專屬的重擊頓幀
+			if target.get_parent().has_method("apply_stun"):
+				target.get_parent().apply_stun(1.0)

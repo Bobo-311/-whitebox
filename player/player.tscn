@@ -1,4 +1,4 @@
-[gd_scene load_steps=189 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=187 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://cstckdh70d4ky" path="res://Asset/Animations/Player_Attack.png" id="2_6ea11"]
@@ -13,11 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://chfnojldf7nvp" path="res://Asset/Animations/Player_Die.png" id="8_yllr7"]
 [ext_resource type="Script" uid="uid://b6x886sdt3a6j" path="res://player/player_idle.gd" id="9_8t03j"]
 [ext_resource type="Script" uid="uid://bh23c76ar5wg4" path="res://player/player_dash.gd" id="9_ebec5"]
-[ext_resource type="PackedScene" uid="uid://ciuf34knad4lr" path="res://Weapon/Skill_01_bullet.tscn" id="9_g4c7l"]
 [ext_resource type="Texture2D" uid="uid://c8p00886gaui6" path="res://Asset/Animations/Player_Hurt.png" id="9_wodsf"]
 [ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="9_x7c3f"]
 [ext_resource type="Script" uid="uid://b6ny5oi70xkn4" path="res://player/player_move.gd" id="10_8t03j"]
-[ext_resource type="PackedScene" uid="uid://cpy0sriaegb3m" path="res://skill02_lazer/skill_02_lazer.tscn" id="10_knn7v"]
 [ext_resource type="Script" uid="uid://otmwch1l851y" path="res://player/player_attack.gd" id="11_2ieo8"]
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
@@ -400,31 +398,31 @@ region = Rect2(576, 96, 96, 96)
 atlas = ExtResource("9_wodsf")
 region = Rect2(672, 96, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lr8d0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdjat"]
 atlas = ExtResource("3_83lag")
 region = Rect2(0, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_n2bp3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_j420s"]
 atlas = ExtResource("3_83lag")
 region = Rect2(96, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mh5vw"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kcq4v"]
 atlas = ExtResource("3_83lag")
 region = Rect2(192, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hkkab"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qavcc"]
 atlas = ExtResource("3_83lag")
 region = Rect2(288, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0kapy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd26m"]
 atlas = ExtResource("3_83lag")
 region = Rect2(384, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yl01x"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_lufic"]
 atlas = ExtResource("3_83lag")
 region = Rect2(480, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eswor"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxclr"]
 atlas = ExtResource("3_83lag")
 region = Rect2(576, 0, 96, 96)
 
@@ -980,25 +978,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lr8d0")
+"texture": SubResource("AtlasTexture_jdjat")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_n2bp3")
+"texture": SubResource("AtlasTexture_j420s")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mh5vw")
+"texture": SubResource("AtlasTexture_kcq4v")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hkkab")
+"texture": SubResource("AtlasTexture_qavcc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0kapy")
+"texture": SubResource("AtlasTexture_bd26m")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yl01x")
+"texture": SubResource("AtlasTexture_lufic")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_eswor")
+"texture": SubResource("AtlasTexture_nxclr")
 }],
 "loop": true,
 "name": &"idle_down",
@@ -1295,8 +1293,6 @@ libraries = {
 [node name="MagicBrush" parent="." instance=ExtResource("7_e7oew")]
 position = Vector2(-0.9999999, -42)
 rotation = 1.5107642
-blue_bullet_scene = ExtResource("9_g4c7l")
-red_laser_scene = ExtResource("10_knn7v")
 
 [node name="ChargeParticles" parent="MagicBrush" index="3"]
 visible = false

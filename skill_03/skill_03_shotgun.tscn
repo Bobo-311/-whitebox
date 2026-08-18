@@ -16,6 +16,7 @@ color = Color(0.99, 0.83, 0.3, 1)
 
 [node name="skill_03_shotgun" type="Area2D"]
 z_index = 3
+collision_mask = 17
 script = ExtResource("1_ii17b")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
@@ -27,4 +28,6 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_hfh2e")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(0, 0, 22, -4, 22, 0, 22, 4)
+position = Vector2(2, 1)
+scale = Vector2(9.017921, 9.017923)
+polygon = PackedVector2Array(0, 0, 29.496819, -13.639504, 29.247314, -0.17204301, 29.27504, 14.193955)
