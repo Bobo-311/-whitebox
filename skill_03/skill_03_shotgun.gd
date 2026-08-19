@@ -17,9 +17,9 @@ func _ready() -> void:
 		particles.restart()
 		particles.emitting = true
 		
-	# 2. 等待一個物理幀，讓 Area2D 確實覆蓋到怪物身上
+	# 2. 等待兩個物理幀，讓 Area2D 的碰撞遮罩確實覆蓋到怪物身上
 	await get_tree().physics_frame
-	await get_tree().physics_frame # 保險起見等兩幀，絕對不會漏判
+	await get_tree().physics_frame 
 	
 	_deal_damage()
 	
@@ -35,24 +35,34 @@ func _deal_damage() -> void:
 	var has_hit_something = false
 	
 	for target in targets:
-		# 排除玩家與白貓自己
+		# 排除發射者自己與貓咪
 		if target == shooter or target.is_in_group("player") or target.is_in_group("white_cat"):
 			continue
 			
 		var final_damage = base_damage * received_buff
 		
-		# 🌟 1. 改回 3 個參數，野豬就吃得到傷害了！
+		# ==========================================
+		# 🌟 1. 處理扣血與超強擊退
+		# ==========================================
 		if target.has_method("take_damage"):
-			target.take_damage(final_damage, global_position, direction)
+			target.take_damage(final_damage, global_position, direction, false, knockback_force)
 			has_hit_something = true
-			
-			# 🌟 2. 呼叫野豬身上的暈眩函數！傳入 1.0 秒
-			if target.has_method("apply_stun"):
-				target.apply_stun(1.0)
 			
 		elif target.get_parent() and target.get_parent().has_method("take_damage"):
-			target.get_parent().take_damage(final_damage, global_position, direction)
+			target.get_parent().take_damage(final_damage, global_position, direction, false, knockback_force)
 			has_hit_something = true
 			
-			if target.get_parent().has_method("apply_stun"):
-				target.get_parent().apply_stun(1.0)
+		# ==========================================
+		# 🌟 2. 處理暈眩控場 (直接越過 Hurtbox 問老爸)
+		# ==========================================
+		if target.has_method("apply_stun"):
+			target.apply_stun(1.0)
+			
+		elif target.get_parent() and target.get_parent().has_method("apply_stun"):
+			target.get_parent().apply_stun(1.0)
+			
+	# ==========================================
+	# 🌟 3. 擊中停頓 (Hitstop)
+	# ==========================================
+	if has_hit_something and DataManager and DataManager.has_method("hitstop"):
+		DataManager.hitstop(0.12)
