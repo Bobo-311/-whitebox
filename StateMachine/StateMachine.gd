@@ -3,7 +3,8 @@ class_name StateMachine          # 定義類別為 StateMachine (狀態機)
 
 var current_state: State = null  # 用來記錄「現在」正在執行的狀態節點，預設為空
 var states: Dictionary = {}      # 建立一個字典(口袋)，用來儲存底下所有的狀態節點
-@onready var character: BaseCharacter = get_parent() # 抓取自己的父節點當作主人 (通常是 Player 或 Enemy)
+# 🌟 移除這裡的 @onready 抓老爸，我們等老爸自己傳進來
+var character: BaseCharacter = null
 
 func _ready() -> void:           # 遊戲開始時執行一次
 	for child in get_children(): # 迴圈拜訪掛在這個狀態機底下的所有子節點
@@ -11,9 +12,21 @@ func _ready() -> void:           # 遊戲開始時執行一次
 			states[child.name.to_lower()] = child # 把節點的名字轉成小寫當作鑰匙，把節點存進字典裡
 			child.character = character           # 告訴這個狀態：「你的主人是這個角色」
 			child.state_machine = self            # 告訴這個狀態：「管理你的大腦是我(self)」
+
+
+#🌟【正規作法核心】新增一個公開的初始化開關
+func init(parent_character: BaseCharacter) -> void:
+	character = parent_character # 接收老爸傳進來的肉體
 	
-	if get_child_count() > 0:    # 如果狀態機底下有掛載至少一個狀態
-		change_state(get_child(0).name) # 預設切換到最上面的第一個狀態作為開局狀態
+	# 把肉體分發給大腦底下的每一個狀態
+	for child in get_children():
+		if child is State:
+			child.character = character 
+			
+	# 老爸說準備好了，我們現在可以安全啟動第一個狀態了！
+	if get_child_count() > 0:
+		change_state(get_child(0).name)
+
 
 func _physics_process(delta: float) -> void: # 每一幀執行一次的物理更新
 	if current_state:            # 如果目前有正在執行的狀態

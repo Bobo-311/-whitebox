@@ -79,7 +79,7 @@ const ITEM_DB = {
 		"heal_amount": 20, 
 		"description": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
 		"story": "不知道是什么，但听起来很好吃。据说是某个在森林迷路的小孩发明的。",
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/99.png" 
+		"texture_path": "res://ItemsPack/Items/99.png" 
 	},
 	"miracle_apple": {
 		"name": "奇迹苹果",
@@ -87,7 +87,7 @@ const ITEM_DB = {
 		"heal_amount": 10, 
 		"description": "又脆又甜的苹果。\n恢复 10 HP",
 		"story": "森林里随处可见的野苹果，据说在极度饥饿时吃下，会发生微小的奇迹。",
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/64.png" 
+		"texture_path": "res://ItemsPack/Items/64.png" 
 	},
 	"steak_bone": {
 		"name": "烤带骨牛排",
@@ -95,7 +95,7 @@ const ITEM_DB = {
 		"heal_amount": 50, 
 		"description": "香气四溢的带骨肉排。\n恢复 50 HP",
 		"story": "表面烤得微焦，切开却是完美的粉红色。光是闻到味道就能让人涌现无限力量。",
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/74.png" 
+		"texture_path": "res://ItemsPack/Items/74.png" 
 	},
 	"energy_drink": {
 		"name": "蓝色提神水",
@@ -103,7 +103,7 @@ const ITEM_DB = {
 		"heal_amount": 5, 
 		"description": "喝起来像气泡水。\n恢复 5 HP",
 		"story": "标签上写着「未满十二岁请勿饮用」，但森林里根本没人在乎这种规定。",
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/63.png" 
+		"texture_path": "res://ItemsPack/Items/63.png" 
 	},
 	"item_xibaluma": {
 		"name": "西巴鲁玛",
@@ -111,7 +111,7 @@ const ITEM_DB = {
 		"heal_amount": 0, # 暫時不補血，純收藏或以後補速度
 		"description": "神秘的道具。\n速度 +10",
 		"story": "没人知道这是什么，但据说带着它会健步如飞。成分不明，请斟酌使用。",
-		"texture_path": "res://FreePixelSurvivalItemsPack/Items/28.png" 
+		"texture_path": "res://ItemsPack/Items/28.png" 
 	}
 }
 
