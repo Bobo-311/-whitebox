@@ -1219,7 +1219,7 @@ position = Vector2(-241, 1000)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
-position = Vector2(1667, 653)
+position = Vector2(2027, 493)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
 position = Vector2(2593, 1228)
@@ -1265,7 +1265,7 @@ texture_scale = 10.0
 position = Vector2(1435, 446)
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
-position = Vector2(2574, 508)
+position = Vector2(3064, 503)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
 position = Vector2(1244, 845)

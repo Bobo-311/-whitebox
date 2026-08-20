@@ -116,11 +116,11 @@ const ITEM_DB = {
 }
 
 var inventory_items = {
-	"potion_gugu": { "current_carry": 2, "reserve_amount": 5 },
-	"miracle_apple": { "current_carry": 1, "reserve_amount": 5 },
-	"steak_bone": { "current_carry": 1, "reserve_amount": 5 },
-	"energy_drink": { "current_carry": 1, "reserve_amount": 5 },
-	"item_xibaluma": { "current_carry": 1, "reserve_amount": 5 }
+	"potion_gugu": { "current_carry": 2, "reserve_amount": 0 },
+	"miracle_apple": { "current_carry": 1, "reserve_amount": 0 },
+	"steak_bone": { "current_carry": 1, "reserve_amount": 0 },
+	"energy_drink": { "current_carry": 1, "reserve_amount": 0 },
+	"item_xibaluma": { "current_carry": 1, "reserve_amount": 0 }
 }
 
 var quick_slots: Array[String] = ["", "", "", "", ""]

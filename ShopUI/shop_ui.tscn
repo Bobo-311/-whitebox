@@ -9,7 +9,7 @@
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="7_kddjk"]
 [ext_resource type="AudioStream" uid="uid://bl46y72v8a38i" path="res://商店素材/UI select voice.wav" id="9_ddi8n"]
 [ext_resource type="AudioStream" uid="uid://w8n532p0w0ko" path="res://商店素材/UI check voice.wav" id="10_xbj82"]
-[ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/gold_ui.tscn" id="11_ccdew"]
+[ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/GoldCanvasLayer_ui.tscn" id="11_ccdew"]
 [ext_resource type="AudioStream" uid="uid://cbcn4plhs6hj1" path="res://商店素材/UI back voice.wav" id="11_okugu"]
 [ext_resource type="AudioStream" uid="uid://cqjhj2v2dq7hs" path="res://商店素材/UI - buy.wav" id="12_xbj82"]
 

@@ -1,67 +1,67 @@
 [gd_scene load_steps=22 format=3 uid="uid://cagrqr4h0ce63"]
 
-[ext_resource type="Texture2D" uid="uid://c27fx6q6espw2" path="res://coin/coin_anim.png" id="1_8m408"]
-[ext_resource type="Script" uid="uid://b06gcvyogorl1" path="res://coin/gold_label.gd" id="1_crr2w"]
-[ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="3_64mpr"]
+[ext_resource type="Texture2D" uid="uid://c27fx6q6espw2" path="res://coin/coin_anim.png" id="1_jstu8"]
+[ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="2_0vu20"]
+[ext_resource type="Script" uid="uid://b06gcvyogorl1" path="res://coin/gold_label.gd" id="3_8m2y5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_63d2v"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x6itx"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vrp5e"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x5vc7"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tnin8"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a2f84"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_psie7"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_86gyc"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(112, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qmodh"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(128, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bptqw"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(144, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cf03t"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(160, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sb1qa"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(176, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qghbs"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(192, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gvi7g"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(208, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u7tne"]
-atlas = ExtResource("1_8m408")
+atlas = ExtResource("1_jstu8")
 region = Rect2(224, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vtdmk"]
@@ -118,16 +118,16 @@ animations = [{
 }]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pvjy0"]
-font = ExtResource("3_64mpr")
+font = ExtResource("2_0vu20")
 font_size = 29
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_7cbnw"]
-font = ExtResource("3_64mpr")
+font = ExtResource("2_0vu20")
 font_size = 29
 font_color = Color(0, 0, 0, 1)
 
-[node name="GoldCanvasLayer" type="CanvasLayer"]
+[node name="GoldCanvasLayer_ui" type="CanvasLayer"]
 layer = 150
 
 [node name="GoldUI" type="Control" parent="."]
@@ -146,7 +146,8 @@ grow_vertical = 2
 
 [node name="Layout" type="HBoxContainer" parent="GoldUI/GoldContainer"]
 layout_mode = 1
-offset_right = 60.0
+offset_left = 449.0
+offset_right = 509.0
 offset_bottom = 40.0
 
 [node name="IconWrapper" type="Control" parent="GoldUI/GoldContainer/Layout"]
@@ -170,4 +171,4 @@ label_settings = SubResource("LabelSettings_pvjy0")
 [node name="GoldLabel" type="Label" parent="GoldUI/GoldContainer/Layout"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_7cbnw")
-script = ExtResource("1_crr2w")
+script = ExtResource("3_8m2y5")

@@ -80,24 +80,23 @@ func _physics_process(_delta: float) -> void:
 		can_see_player = false
 
 # ==========================================
-# 👁️ 迷霧現形系統
+# 👁️ 迷霧現形系統 (🌟 已修復 Tween 報錯)
 # ==========================================
 func update_visibility() -> void:
-	
-	
 	if fade_tween and fade_tween.is_running():
 		fade_tween.kill()
 		
+	if is_dead:
+		self.visible = true # 確保屍體永遠可見
+		return # 只要死掉了，就不再受白貓燈光影響，直接退出
+		
+	# 🌟 把創建 Tween 移到死亡判斷的後面！這樣就不會留下空計時器了
 	fade_tween = create_tween()
-	
+		
 	if is_illuminated_by_cat:
 		self.visible = true
-		
-		# 🆕【本次修復 2】拋棄半套的 "modulate:a"
-		# 強制賦予完整的 Color(1, 1, 1, 1) 純白色，這樣野豬現形時絕對是原本漂亮的棕色！
 		fade_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.35)
 	else:
-		# 🌟 隱形時也給定 Color(1, 1, 1, 0) 透明的純白
 		fade_tween.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 0.0), 0.35)
 		fade_tween.tween_callback(func():
 			if not is_illuminated_by_cat:
@@ -301,3 +300,19 @@ func _on_detect_player_body_entered(body) -> void:
 func _on_detect_player_body_exited(body) -> void: 
 	if body == player_node or body.is_in_group("player"): 
 		player_node = null
+		
+# ==========================================
+# 🌟 控場系統 (對接黃色散彈槍)
+# ==========================================
+func apply_stun(duration: float = 1.0) -> void:
+	if is_dead: return 
+	
+	if state_machine and state_machine.has_node("Stun"):
+		var stun_node = state_machine.get_node("Stun")
+		
+		# 🌟 1. 先把散彈槍的 1.0 秒投遞進「預約信箱」裡
+		if "custom_duration" in stun_node:
+			stun_node.custom_duration = duration
+			
+		# 🌟 2. 呼叫大腦切換狀態 (切換的瞬間，它就會去讀取信箱的秒數)
+		state_machine.change_state("Stun")

@@ -73,10 +73,9 @@ func _on_save_pressed() -> void:
 			var half_energy = int(player.max_energy * 0.5) 
 			DataManager.saved_energy = max(player.current_energy, half_energy) 
 		
-		# 3. [🌟 墨水彈藥系統] 存檔時將墨水彈藥補滿 (3/3)
-		player.current_ammo = player.max_ammo
-		if player.player_hud and player.player_hud.has_method("update_ammo"):
-			player.player_hud.update_ammo(player.current_ammo, player.max_ammo)
+		# 3. [🌟 墨水武器系統] 存檔時自動補滿墨水池
+		if player.has_method("refill_full_ink"):
+			player.refill_full_ink()
 			
 		# 4. [🌟 道具補給] 呼叫大腦，將快捷欄上的藥水/道具補滿，並扣除倉庫數量
 		DataManager.replenish_quick_slots()

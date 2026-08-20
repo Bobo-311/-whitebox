@@ -103,10 +103,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -515.0
-offset_top = -342.0
-offset_right = 191.77344
-offset_bottom = 725.56287
+offset_left = -755.08203
+offset_top = -498.48203
+offset_right = 144.1618
+offset_bottom = 1066.7498
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.5729063
@@ -271,10 +271,10 @@ size_flags_horizontal = 3
 
 [node name="PencilBackground" type="NinePatchRect" parent="EquipPage/MarginContainer/MainLayout/Right_Panel"]
 layout_mode = 0
-offset_left = -60.0
-offset_top = -124.0
-offset_right = 571.0
-offset_bottom = 525.0
+offset_left = -49.216003
+offset_top = -92.048004
+offset_right = 581.784
+offset_bottom = 556.952
 texture = ExtResource("10_hb2fw")
 
 [node name="InfoTextContainer" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout/Right_Panel"]
