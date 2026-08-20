@@ -1,5 +1,9 @@
 extends State                    # 繼承自狀態模板 base_hurt
 
+# 🌟 新增這行：讓受傷結束後，可以自訂要切換去哪個狀態 (預設是 Chase 照顧野豬)
+@export var aggro_state: String = "Chase"
+
+
 var hurt_timer: float = 0.4      # 受傷硬直計時器：預設被打退 0.4 秒
 
 func enter():                    # 進入受傷狀態時執行
@@ -18,6 +22,6 @@ func state_physics_update(delta: float): # 每一幀物理更新
 			character.can_attack = true # 恢復攻擊權力
 
 			if character.player_node:   # 如果視野內還有玩家
-				state_machine.change_state("Chase")  # 進入追擊狀態
+				state_machine.change_state(aggro_state)  # 進入追擊狀態
 			else:                       # 如果玩家不見了
 				state_machine.change_state("Move") # 進入隨機漫遊狀態

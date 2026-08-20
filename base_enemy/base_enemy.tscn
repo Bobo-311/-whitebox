@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://brpsxbevfcnop" path="res://近戰/KnockbackComponent.gd" id="22_nfy00"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nfy00"]
+resource_local_to_scene = true
 shader = ExtResource("2_pg32h")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)

@@ -170,9 +170,6 @@ func _input(event):
 		DataManager.total_gold += 100
 		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
 		
-	if Input.is_physical_key_pressed(KEY_P) and event.is_pressed() and not event.is_echo():
-		DataManager.add_item_to_reserve("potion_gugu", 1)
-		print("【開發者外掛】憑空獲得 1 罐咕咕嘎嘎藥水！")
 
 # ==========================================
 # 裝備能力統整計算中心

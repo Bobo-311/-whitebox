@@ -1,6 +1,7 @@
-[gd_scene load_steps=122 format=3 uid="uid://bp8w3w2c8ul04"]
+[gd_scene load_steps=124 format=3 uid="uid://bp8w3w2c8ul04"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_g2mt0"]
+[ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_fb2q3"]
 [ext_resource type="Texture2D" uid="uid://cej6672qwm4pn" path="res://ASEPRITE/Boar/Attack/Boar_Attack.png" id="2_hdtff"]
 [ext_resource type="Texture2D" uid="uid://ehh2c543avux" path="res://ASEPRITE/Boar/Death/Boar_Death.png" id="3_5wb70"]
 [ext_resource type="Texture2D" uid="uid://bd58qfkm343y0" path="res://ASEPRITE/Boar/Death/Boar_Hurt.png" id="4_0heh4"]
@@ -13,6 +14,13 @@
 [ext_resource type="PackedScene" uid="uid://djijcljiiq58n" path="res://Weapon/boar_bullet.tscn" id="11_6sogc"]
 [ext_resource type="Script" uid="uid://d4cisj1maof8e" path="res://base_enemy/boar/boar_stun.gd" id="11_evh06"]
 [ext_resource type="Script" uid="uid://wwaiocgt54mo" path="res://base_enemy/boar/boar_pant.gd" id="12_4p2u1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_evh06"]
+resource_local_to_scene = true
+shader = ExtResource("2_fb2q3")
+shader_parameter/flash_modifier = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/state_color = Color(1, 1, 1, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sogc"]
 atlas = ExtResource("2_hdtff")
@@ -890,8 +898,9 @@ animations = [{
 max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
+material = SubResource("ShaderMaterial_evh06")
 sprite_frames = SubResource("SpriteFrames_8o6hk")
-animation = &"run_down"
+animation = &"idle_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

@@ -1,6 +1,7 @@
 extends State # dango_chase.gd
 
-var chase_speed: float = 180.0 
+# 🌟 加上 @export，把變數暴露到右邊的屬性面板！
+@export var chase_speed: float = 180.0
 
 func state_physics_update(_delta: float):
 	# 1️⃣ 🌟【修正為掃描 Area】：檢查 Hitbox 裡有沒有玩家的 Hurtbox！

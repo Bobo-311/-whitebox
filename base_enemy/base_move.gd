@@ -3,6 +3,11 @@ extends State # 繼承狀態模板 base_move
 # 🌟【升級版】把寫死的秒數變成可調整的變數
 @export var walk_time: float = 3.0  # 預設漫遊走幾秒
 @export var stop_time: float = 1.5  # 預設發呆停幾秒
+
+# 🌟 新增這行：開放面板調整發現玩家後要進入什麼狀態
+@export var aggro_state: String = "Chase"
+
+
 var timer: float = 0.0 # 漫遊計時器
 var is_moving: bool = true # 狀態開關
 var wander_dir: Vector2 = Vector2.ZERO # 宣告變數：記住現在散步的方向
@@ -30,7 +35,7 @@ func _stop_moving(): # 停下邏輯
 func state_physics_update(delta: float): # 物理更新
 	# 🌟 加上 and character.can_see_player，確保散步時也不會透視！
 	if character.player_node and character.can_see_player:
-		state_machine.change_state("Chase") # 追擊
+		state_machine.change_state(aggro_state) # 追擊
 		return
 
 	# 扣除防卡牆的冷卻時間

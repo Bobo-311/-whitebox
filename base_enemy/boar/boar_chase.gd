@@ -4,7 +4,7 @@ extends State                    # 繼承自狀態模板 boar_chase
 
 
 # 🌟 把野豬的追擊速度放在這裡，一樣可以用 Inspector 調整
-@export var sprint_speed: float = 200.0
+@export var chase_speed: float = 200.0
 
 
 
@@ -37,7 +37,7 @@ func state_physics_update(_delta: float): # 追擊狀態每一幀的更新
 		return                   # 決定好攻擊後立刻跳出
 
 	else:                        # 如果距離大於 500，還沒進攻擊圈
-		character.velocity = dir * sprint_speed # 把速度設為：朝向玩家方向 * 追擊速度
+		character.velocity = dir * chase_speed # 把速度設為：朝向玩家方向 * 追擊速度
 		character.play_animation("run", dir) # 播放追擊奔跑動畫
 		
 		# 🌟 核心修正：加入正面撞擊判定，避免擦牆暈眩

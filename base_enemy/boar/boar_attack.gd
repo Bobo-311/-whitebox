@@ -7,7 +7,7 @@ var dash_dir: Vector2 = Vector2.ZERO
 var flash_tween: Tween 
 
 # 🌟 補上衝刺速度變數 (數值可以自由調整)
-@export var sprint_speed: float = 200.0
+@export var chase_speed: float = 200.0
 
 
 func enter(): 
@@ -42,7 +42,7 @@ func state_physics_update(_delta: float):
 			_start_dash() 
 	else: 
 		dash_timer -= _delta 
-		character.velocity = dash_dir * (sprint_speed * 3.0)
+		character.velocity = dash_dir * (chase_speed * 3.0)
 		character.play_animation("run", dash_dir) 
 
 		# 🌟🌟🌟【全新修改：狀態機獨立雷達系統】🌟🌟🌟
