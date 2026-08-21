@@ -23,6 +23,7 @@ var base_max_hp: int = 100
 # [🌟 墨水系統] 與 體力 (SP) 系統
 # ==========================================
 @export var max_sp: float = 100.0          # 體力上限 (揮刀、翻滾消耗用)
+
 var current_sp: float = 50                  # 開局預設體力
 var is_overheated: bool = false            # 狀態開關：記錄玩家現在是否處於「過熱力竭」狀態
 var sp_regen_delay: float = 0.5            # 體力恢復延遲：消耗後需等待 0.5 秒才能開始回體
@@ -370,10 +371,10 @@ func restore_ammo(amount: int = 1) -> void:
 func refill_full_ammo() -> void:
 	refill_full_ink()
 
-func get_oversaturation_buff() -> float: 
+func get_oversaturation_buff() -> float:
 	# 判斷墨水是否全滿
 	if current_ink >= max_ink: 
-		return 1.5 
+		return 1.5
 	return 1.0
 
 # ==========================================
@@ -498,9 +499,6 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 
 	# 防止要求播放不存在的動畫
 	if not anim.sprite_frames.has_animation(animation_name):
-		print("⚠️【玩家動畫錯誤】找不到動畫：", animation_name)
-		print("   prefix = ", prefix)
-		print("   facing_direction = ", facing_direction)
 		return
 
 	anim.play(animation_name)

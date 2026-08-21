@@ -19,7 +19,6 @@ var player_node: Node2D = null # 一個變數用來「抓住」玩家實體，�
 # --- 存檔點 (篝火) 系統 ---
 var last_save_position: Vector2 = Vector2.ZERO # 記錄玩家點擊畫架時腳踩的確切座標，死掉就在這裡重生
 var saved_hp: float = 0     # 存檔時的小抄：玩家最大血量 (重載場景時用來把血補滿)
-var saved_energy: float = 0 # 存檔時的小抄：玩家目前的能量
 var saved_sp: float = 0     # 存檔時的小抄：玩家最大體力
 
 # --- 靈魂回收系統 (撿屍體機制) ---

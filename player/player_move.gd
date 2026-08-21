@@ -11,9 +11,6 @@ func state_physics_update(delta: float): # 內建虛擬函數：在物理引擎�
 		state_machine.change_state("PlayerAttack") # 命令大腦切換到攻擊狀態
 		return # 直接跳出函數
 		
-	if Input.is_action_just_pressed("heal"):      # 偵測玩家是否按下了補血鍵 (Heal)
-		state_machine.change_state("PlayerHeal") # 命令大腦切換到補血狀態
-		return # 直接跳出函數
 
 	# --- 停止移動偵測 ---
 	if character.input_direction == Vector2.ZERO: # 條件判斷：如果玩家沒有輸入任何方向鍵 (原地站著)

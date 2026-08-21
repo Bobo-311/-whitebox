@@ -21,6 +21,3 @@ func state_physics_update(_delta: float):
 		state_machine.change_state("PlayerAttack") 
 		return
 		
-	if Input.is_action_just_pressed("heal"):      # 偵測補血
-		state_machine.change_state("PlayerHeal")
-		return
