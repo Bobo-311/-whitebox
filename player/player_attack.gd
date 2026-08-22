@@ -32,7 +32,7 @@ func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
 			if t is Hurtbox and t.get_parent() != character: # 條件判斷：確保砍到的是受傷判定區 (Hurtbox)，且該區域的主人不是玩家自己
 				
 				# 算最終真實傷害
-				var final_damage: float = character.get_current_basic_attack_damage() * character.get_oversaturation_buff() 
+				var final_damage: float = character.get_current_basic_attack_damage()
 				
 				# 1. 計算攻擊擊退方向
 				var attack_dir: Vector2 = (t.global_position - character.global_position).normalized()
