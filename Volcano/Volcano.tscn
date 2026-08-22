@@ -1176,10 +1176,13 @@ grow_vertical = 2
 color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
 position = Vector2(2237, 511)
+base_max_hp = 100
+max_hp = 100
 
 [node name="Arena" type="StaticBody2D" parent="."]
 

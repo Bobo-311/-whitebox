@@ -322,12 +322,3 @@ func apply_stun(duration: float = 1.0) -> void:
 			
 		# 🌟 2. 呼叫大腦切換狀態 (切換的瞬間，它就會去讀取信箱的秒數)
 		state_machine.change_state("Stun")
-
-func set_berserk_visual(is_berserk_mode: bool) -> void:
-	if not animated_sprite_2d:
-		return
-	
-	if is_berserk_mode:
-		animated_sprite_2d.modulate = Color(1.0, 0.0, 0.0, 1.0)
-	else:
-		animated_sprite_2d.modulate = Color.WHITE

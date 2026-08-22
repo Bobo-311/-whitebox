@@ -22,6 +22,9 @@ func _ready() -> void:
 	
 	# 呼叫老爸的 _ready，啟動血條與大腦
 	super._ready() 
+# 🆕【新增】：時時刻刻監視玩家生死，處理退回一階的邏輯
+
+
 
 # 🌟🌟🌟【核心覆寫】攔截受傷邏輯，加入鎖血機制 🌟🌟🌟
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:

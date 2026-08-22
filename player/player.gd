@@ -17,7 +17,7 @@ var is_invincible: bool = false                  # 無敵狀態開關
 var original_sprite_scale: Vector2 = Vector2.ONE
 
 # 記住玩家一絲不掛時的「基礎最大血量」
-var base_max_hp: int = 100
+@export var base_max_hp: int = 100
 
 # ==========================================
 # [🌟 墨水系統] 與 體力 (SP) 系統

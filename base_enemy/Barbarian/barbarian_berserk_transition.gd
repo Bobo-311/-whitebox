@@ -8,14 +8,16 @@ extends State
 @export var berserk_damage: float = 75.0   
 
 var transition_timer: float = 2.0 # 變身發呆時間 (秒)
-
+	
 func enter():
 	transition_timer = 2.0
 	character.velocity = Vector2.ZERO 
 	character.play_animation("idle", character.last_facing_vec)
 	
-	# 🆕 【強制變色】直接將精靈圖 modulate 設為純紅，且不使用 Tween 避免被其他特效蓋掉
-	character.animated_sprite_2d.modulate = Color(1.0, 0.0, 0.0, 1.0)
+	# 🌟【絕殺應用】直接呼叫這個 Shader，把預留的 state_color 改成紅色！
+	if character.animated_sprite_2d.material is ShaderMaterial:
+		var mat = character.animated_sprite_2d.material as ShaderMaterial
+		mat.set_shader_parameter("state_color", Color(1.0, 0.0, 0.0, 1.0))
 
 func state_physics_update(delta: float):
 	transition_timer -= delta

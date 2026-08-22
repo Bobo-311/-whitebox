@@ -1,4 +1,4 @@
-[gd_scene load_steps=182 format=3 uid="uid://c18hxnw2ugyv3"]
+[gd_scene load_steps=183 format=3 uid="uid://c18hxnw2ugyv3"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_yijmc"]
 [ext_resource type="Script" uid="uid://dhda62vduc7gc" path="res://base_enemy/Barbarian/barbarian.gd" id="2_2pk4u"]
@@ -1265,10 +1265,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rc5g4"]
-size = Vector2(113, 136)
+size = Vector2(114, 119)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6q2qa"]
-size = Vector2(115, 138)
+size = Vector2(114, 119)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cu41e"]
 radius = 44.315582
@@ -1286,10 +1286,13 @@ height = 220.44366
 radius = 49.321983
 height = 220.44366
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ghnye"]
+radius = 67.06713
+
 [node name="barbarian" instance=ExtResource("1_yijmc")]
 script = ExtResource("2_2pk4u")
 stage1_max_hp = 100.0
-stage1_walk_speed = 80.0
+stage1_walk_speed = 200.0
 stage1_damage = 50.0
 berserk_hp_threshold = 1.0
 max_hp = 100
@@ -1297,15 +1300,15 @@ max_hp = 100
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ahywi")
 sprite_frames = SubResource("SpriteFrames_ni38p")
-animation = &"attack_down"
+animation = &"run_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-4.000001, -41.5)
+position = Vector2(-2.499999, -40)
 shape = SubResource("RectangleShape2D_rc5g4")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-4.000004, -40.5)
+position = Vector2(-2.5, -40)
 shape = SubResource("RectangleShape2D_6q2qa")
 
 [node name="CollisionShape_down" type="CollisionShape2D" parent="Hitbox" index="0"]
@@ -1332,6 +1335,14 @@ rotation = -0.010729744
 shape = SubResource("CapsuleShape2D_dprkn")
 disabled = true
 
+[node name="BodyHitbox" type="Area2D" parent="." index="4"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHitbox" index="0"]
+position = Vector2(-6, -38)
+shape = SubResource("CircleShape2D_ghnye")
+
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("10_cnc3a")
 
@@ -1341,10 +1352,11 @@ windup_time = 0.6
 
 [node name="BerserkTransition" type="Node" parent="StateMachine" index="6"]
 script = ExtResource("10_78bna")
+berserk_speed = 450.0
 
 [node name="BerserkCharge" type="Node" parent="StateMachine" index="7"]
 script = ExtResource("11_dprkn")
 
-[node name="HealthBar" parent="." index="6"]
+[node name="HealthBar" parent="." index="7"]
 offset_top = -127.0
 offset_bottom = -100.0
