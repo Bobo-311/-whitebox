@@ -27,7 +27,7 @@ func _start_moving(): # 開始走路邏輯
 
 func _stop_moving(): # 停下邏輯
 	is_moving = false # 標記停止
-	timer = stop_time # 🌟 自然走完 3 秒後，固定發呆 1.5 秒
+	timer = stop_time # 🌟 自然走完 3 秒後，固定發呆 1.5 秒	
 	
 	character.velocity = Vector2.ZERO # 速度歸零
 	character.play_animation("idle", character.last_facing_vec) # 播待機動畫

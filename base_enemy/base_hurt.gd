@@ -21,7 +21,11 @@ func state_physics_update(delta: float): # 每一幀物理更新
 		if character.current_hp > 0: # 如果野豬還活著
 			character.can_attack = true # 恢復攻擊權力
 
-			if character.player_node:   # 如果視野內還有玩家
-				state_machine.change_state(aggro_state)  # 進入追擊狀態
-			else:                       # 如果玩家不見了
-				state_machine.change_state("Move") # 進入隨機漫遊狀態
+			if character.player_node:   
+				# 🌟【新增判斷】檢查這隻怪是不是野蠻人，而且是不是已經狂暴了？
+				if "is_berserk" in character and character.is_berserk:
+					state_machine.change_state("BerserkCharge") # 狂暴後被打，繼續起來衝撞！
+				else:
+					state_machine.change_state(aggro_state) # 沒狂暴，或是其他怪，照舊切換回預設狀態 (Chase)
+			else:                       
+				state_machine.change_state("Move")

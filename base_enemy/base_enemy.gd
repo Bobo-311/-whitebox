@@ -1,5 +1,5 @@
 extends BaseCharacter             # 繼承基礎角色類別
-class_name Enemy                  # 定義為 Enemy 類別
+class_name BaseEnemy                  # 定義為 Enemy 類別
 
 # ==========================================
 # ⚙️ 匯出參數與預載資源
@@ -271,7 +271,13 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		_apply_damage_and_knockback(body, null)
 
 func _apply_damage_and_knockback(target: Node2D, target_area: Area2D = null) -> void:
-	var is_dashing = (state_machine.current_state and state_machine.current_state.name == "EnemyAttack")
+	# 🌟【修改這裡】把野蠻人的衝刺狀態也加進去判斷
+	var is_dashing = false
+	if state_machine.current_state:
+		var current_state_name = state_machine.current_state.name
+		# 只要是老爸的 EnemyAttack，或是野蠻人的 BerserkCharge，都算在衝刺！
+		if current_state_name == "EnemyAttack" or current_state_name == "BerserkCharge":
+			is_dashing = true
 	if is_dashing:
 		has_hit_player = true
 
@@ -288,7 +294,7 @@ func _apply_damage_and_knockback(target: Node2D, target_area: Area2D = null) -> 
 		target.take_damage(melee_damage, global_position, knockback_dir, false, extra_kb)
 
 func _check_hitbox_overlap() -> void:
-	if not hitbox: return
+	if not hitbox or not hitbox.monitoring: return
 	for body in hitbox.get_overlapping_bodies():
 		if body is Player or body.is_in_group("player") or body.name == "player":
 			_apply_damage_and_knockback(body, null)
@@ -316,3 +322,12 @@ func apply_stun(duration: float = 1.0) -> void:
 			
 		# 🌟 2. 呼叫大腦切換狀態 (切換的瞬間，它就會去讀取信箱的秒數)
 		state_machine.change_state("Stun")
+
+func set_berserk_visual(is_berserk_mode: bool) -> void:
+	if not animated_sprite_2d:
+		return
+	
+	if is_berserk_mode:
+		animated_sprite_2d.modulate = Color(1.0, 0.0, 0.0, 1.0)
+	else:
+		animated_sprite_2d.modulate = Color.WHITE

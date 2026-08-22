@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://7konynseeonc"]
+[gd_scene load_steps=15 format=3 uid="uid://7konynseeonc"]
 
 [ext_resource type="Script" uid="uid://dh16hqvcwfi3e" path="res://base_enemy/base_enemy.gd" id="1_ofsxj"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_pg32h"]
@@ -23,9 +23,6 @@ size = Vector2(78, 107)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rovcg"]
 size = Vector2(68, 88)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_34gv7"]
-radius = 61.008198
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1wwld"]
 radius = 537.5816
@@ -65,10 +62,6 @@ scale = Vector2(0.81157166, 0.8530835)
 collision_layer = 64
 collision_mask = 8
 monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(1, -18)
-shape = SubResource("CircleShape2D_34gv7")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("8_5ffra")

@@ -61,7 +61,7 @@ func _check_initial_overlapping_enemies() -> void:
 	if not light_area: return
 	var bodies = light_area.get_overlapping_bodies()
 	for body in bodies:
-		if body.is_in_group("enemies") or body is Enemy:
+		if body.is_in_group("enemies") or body is BaseEnemy:
 			_on_light_area_body_entered(body)
 
 # ==========================================
@@ -120,7 +120,7 @@ func _recover_from_damage() -> void:
 # 白貓探測敵人的主動邏輯
 # ==========================================
 func _on_light_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemies") or body is Enemy:
+	if body.is_in_group("enemies") or body is BaseEnemy:
 		if not detected_enemies.has(body):
 			detected_enemies.append(body)
 			

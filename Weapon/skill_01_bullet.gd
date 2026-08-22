@@ -131,7 +131,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if body == shooter or body.is_in_group("player") or body.is_in_group("white_cat") or body is WhiteCat:
 		return
 
-	if body is Enemy or body.is_in_group("enemies"):
+	if body is BaseEnemy or body.is_in_group("enemies"):
 		var final_damage: float = skill_01_attack_damage * received_buff
 		if body.has_method("take_damage"):
 			body.take_damage(final_damage, global_position, direction)

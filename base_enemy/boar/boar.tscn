@@ -1,4 +1,4 @@
-[gd_scene load_steps=124 format=3 uid="uid://bp8w3w2c8ul04"]
+[gd_scene load_steps=125 format=3 uid="uid://bp8w3w2c8ul04"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_g2mt0"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_fb2q3"]
@@ -8,12 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://b1a3xkui63d7u" path="res://ASEPRITE/Boar/Idle/Boar_Idle.png" id="5_32ox0"]
 [ext_resource type="Texture2D" uid="uid://cmg7u7r27v3iq" path="res://ASEPRITE/Boar/Walk/Boar_Walk.png" id="6_v3jgy"]
 [ext_resource type="Texture2D" uid="uid://datx13uycs3x8" path="res://ASEPRITE/Boar/Run/Boar_Run.png" id="7_7sjdu"]
-[ext_resource type="Script" uid="uid://c0ce0h6iqrkew" path="res://base_enemy/boar/boar_chase.gd" id="8_7sjdu"]
-[ext_resource type="Script" uid="uid://cj2uofh4c3bhg" path="res://base_enemy/boar/boar_attack.gd" id="9_6sogc"]
-[ext_resource type="Script" uid="uid://cexvd1rjuc4pq" path="res://base_enemy/boar/boar_shoot.gd" id="10_fb2q3"]
+[ext_resource type="Script" uid="uid://c0ce0h6iqrkew" path="res://base_enemy/Boar/boar_chase.gd" id="8_7sjdu"]
+[ext_resource type="Script" uid="uid://cj2uofh4c3bhg" path="res://base_enemy/Boar/boar_attack.gd" id="9_6sogc"]
+[ext_resource type="Script" uid="uid://cexvd1rjuc4pq" path="res://base_enemy/Boar/boar_shoot.gd" id="10_fb2q3"]
 [ext_resource type="PackedScene" uid="uid://djijcljiiq58n" path="res://Weapon/boar_bullet.tscn" id="11_6sogc"]
-[ext_resource type="Script" uid="uid://d4cisj1maof8e" path="res://base_enemy/boar/boar_stun.gd" id="11_evh06"]
-[ext_resource type="Script" uid="uid://wwaiocgt54mo" path="res://base_enemy/boar/boar_pant.gd" id="12_4p2u1"]
+[ext_resource type="Script" uid="uid://d4cisj1maof8e" path="res://base_enemy/Boar/boar_stun.gd" id="11_evh06"]
+[ext_resource type="Script" uid="uid://wwaiocgt54mo" path="res://base_enemy/Boar/boar_pant.gd" id="12_4p2u1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_evh06"]
 resource_local_to_scene = true
@@ -894,20 +894,23 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_j6x0r"]
+radius = 59.190945
+
 [node name="Boar" instance=ExtResource("1_g2mt0")]
-max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_evh06")
 sprite_frames = SubResource("SpriteFrames_8o6hk")
-animation = &"idle_down"
+animation = &"dead_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(-0.49999985, -25)
 
-[node name="CollisionShape2D" parent="Hitbox" index="0"]
-disabled = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(-2.464354, -22.272146)
+shape = SubResource("CircleShape2D_j6x0r")
 
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("8_7sjdu")

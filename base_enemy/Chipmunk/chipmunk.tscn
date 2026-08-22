@@ -889,8 +889,8 @@ size = Vector2(99, 82)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t5pwu"]
 size = Vector2(100, 82)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_e4ewt"]
-radius = 68.30413
+[sub_resource type="CircleShape2D" id="CircleShape2D_ov2oe"]
+radius = 60.388046
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ylylp"]
 radius = 537.5816
@@ -914,8 +914,9 @@ shape = SubResource("RectangleShape2D_e4ewt")
 position = Vector2(-1.0000004, -21)
 shape = SubResource("RectangleShape2D_t5pwu")
 
-[node name="CollisionShape2D" parent="Hitbox" index="0"]
-shape = SubResource("CircleShape2D_e4ewt")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(-7.3930626, -24.616583)
+shape = SubResource("CircleShape2D_ov2oe")
 
 [node name="Idle" parent="StateMachine" index="0"]
 aggro_state = "Shoot"

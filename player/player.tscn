@@ -1242,16 +1242,16 @@ _data = {
 size = Vector2(66, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_83lag"]
-size = Vector2(124.5, 79)
+size = Vector2(192, 127.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tnfn2"]
-size = Vector2(121.125, 80)
+size = Vector2(189, 124)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uebeq"]
-size = Vector2(90.03125, 122)
+size = Vector2(120.015625, 165)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7xcs"]
-size = Vector2(83.125, 127.5)
+size = Vector2(121.5625, 164)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2y0mv"]
 particle_flag_disable_z = true
@@ -1316,19 +1316,19 @@ collision_mask = 16
 monitorable = false
 
 [node name="CollisionShape_up" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -105)
+position = Vector2(-1, -129.25)
 shape = SubResource("RectangleShape2D_83lag")
 
 [node name="CollisionShape_down" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-2, 2)
+position = Vector2(-0.5, 24)
 shape = SubResource("RectangleShape2D_tnfn2")
 
 [node name="CollisionShape_left" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-74, -44)
+position = Vector2(-88.99219, -52.5)
 shape = SubResource("RectangleShape2D_uebeq")
 
 [node name="CollisionShape_right" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(69, -44)
+position = Vector2(88.21875, -51)
 shape = SubResource("RectangleShape2D_p7xcs")
 
 [node name="StateMachine" type="Node" parent="."]

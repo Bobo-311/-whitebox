@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://iytth4pcsbfk" path="res://RRRRRRRR/柱子右側.png" id="3_bsumw"]
 [ext_resource type="Texture2D" uid="uid://d1syug57hw73p" path="res://RRRRRRRR/地板.png" id="4_fwcvl"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="6_na0o7"]
-[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/boar/boar.tscn" id="7_na0o7"]
+[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/Boar/boar.tscn" id="7_na0o7"]
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="8_5xyti"]
 [ext_resource type="Texture2D" uid="uid://dpsyenp8nm0qg" path="res://RRRRRRRR/紅通通1.png" id="11_5xyti"]
 [ext_resource type="Texture2D" uid="uid://dknp78gsbqpoc" path="res://RRRRRRRR/紅通通2.png" id="12_n3o0a"]
