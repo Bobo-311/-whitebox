@@ -231,7 +231,7 @@ func _physics_process(delta: float) -> void:
 			# 1. 🌟 玩家【按下】攻擊鍵 (藍色連發 / 黃色散彈，或紅色開始蓄力)
 			if Input.is_action_just_pressed("skill_01"): 
 				if current_ink >= cost:
-					var current_buff: float = get_oversaturation_buff() 
+					var current_buff: float = 1.0
 					if DataManager.has_sticker("004"):
 						current_buff *= DataManager.STICKER_DB["004"].value
 					
@@ -269,7 +269,7 @@ func _physics_process(delta: float) -> void:
 					var stage = magic_brush.get_current_stage()
 					
 					if stage > 0:
-						var current_buff = get_oversaturation_buff() 
+						var current_buff = 1.0
 						if DataManager.has_sticker("004"):
 							current_buff *= DataManager.STICKER_DB["004"].value
 							
@@ -371,11 +371,6 @@ func restore_ammo(amount: int = 1) -> void:
 func refill_full_ammo() -> void:
 	refill_full_ink()
 
-func get_oversaturation_buff() -> float:
-	# 判斷墨水是否全滿
-	if current_ink >= max_ink: 
-		return 1.5
-	return 1.0
 
 # ==========================================
 # 戰鬥、受傷與無敵邏輯
