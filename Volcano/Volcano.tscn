@@ -8,9 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="9_167qa"]
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="10_167qa"]
-[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/Boar/boar.tscn" id="10_877dg"]
+[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/boar/boar.tscn" id="10_877dg"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="10_q0gaw"]
-[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
 
@@ -1176,7 +1176,6 @@ grow_vertical = 2
 color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]

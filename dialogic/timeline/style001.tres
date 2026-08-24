@@ -1,0 +1,89 @@
+[gd_resource type="Resource" script_class="DialogicStyle" load_steps=19 format=3 uid="uid://cckvjlcr357m0"]
+
+[ext_resource type="PackedScene" uid="uid://cqpb3ie51rwl5" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_Default/default_layout_base.tscn" id="1_0nd4n"]
+[ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="2_rqn7n"]
+[ext_resource type="PackedScene" uid="uid://c1k5m0w3r40xf" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_FullBackground/full_background_layer.tscn" id="3_bjycg"]
+[ext_resource type="PackedScene" uid="uid://cn674foxwedqu" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Input/full_advance_input_layer.tscn" id="4_p6im3"]
+[ext_resource type="PackedScene" uid="uid://dsbwnp5hegnu3" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Glossary/glossary_popup_layer.tscn" id="6_3mb3u"]
+[ext_resource type="PackedScene" uid="uid://dhk6j6eb6e3q" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.tscn" id="7_a6mpi"]
+[ext_resource type="PackedScene" uid="uid://cvgf4c6gg0tsy" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_TextInput/text_input_layer.tscn" id="8_llsdl"]
+[ext_resource type="PackedScene" uid="uid://bmo4jfcc63itk" path="res://recolor_textbox.tscn" id="9_0nd4n"]
+[ext_resource type="PackedScene" uid="uid://lx24i8fl6uo" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_History/history_layer.tscn" id="9_oel74"]
+[ext_resource type="Script" uid="uid://dv08k6ljua6fm" path="res://addons/dialogic/Resources/dialogic_style.gd" id="10_yttnm"]
+
+[sub_resource type="Resource" id="Resource_xi8ji"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("1_0nd4n")
+
+[sub_resource type="Resource" id="Resource_5po6u"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("3_bjycg")
+
+[sub_resource type="Resource" id="Resource_ow2qd"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("4_p6im3")
+
+[sub_resource type="Resource" id="Resource_j145j"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("6_3mb3u")
+overrides = {
+"font_custom": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"font_use_global": "false"
+}
+
+[sub_resource type="Resource" id="Resource_bk6xh"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("7_a6mpi")
+overrides = {
+"font_custom": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"font_size_use_global": "false",
+"font_use_global": "false",
+"text_color_use_global": "false"
+}
+
+[sub_resource type="Resource" id="Resource_adjgo"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("8_llsdl")
+
+[sub_resource type="Resource" id="Resource_ntp24"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("9_oel74")
+overrides = {
+"font_custom_normal": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"font_use_global_fonts": "false",
+"font_use_global_size": "false"
+}
+
+[sub_resource type="Resource" id="Resource_rqn7n"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("9_0nd4n")
+overrides = {
+"box_modulate_custom_color": "Color(0, 0, 0, 0.59607846)",
+"box_modulate_global_color": "false",
+"box_size": "Vector2(1200, 200)",
+"custom_normal_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"name_label_custom_size": "24.0",
+"name_label_customfont": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"name_label_use_global_font": "false",
+"name_label_use_global_size": "false",
+"text_custom_size": "32.0",
+"text_use_global_color": "false",
+"text_use_global_size": "false",
+"use_global_fonts": "false"
+}
+
+[resource]
+script = ExtResource("10_yttnm")
+name = "style001"
+layer_list = Array[String](["10", "11", "13", "14", "15", "16", "12"])
+layer_info = {
+"": SubResource("Resource_xi8ji"),
+"10": SubResource("Resource_5po6u"),
+"11": SubResource("Resource_ow2qd"),
+"12": SubResource("Resource_rqn7n"),
+"13": SubResource("Resource_j145j"),
+"14": SubResource("Resource_bk6xh"),
+"15": SubResource("Resource_adjgo"),
+"16": SubResource("Resource_ntp24")
+}
+metadata/_latest_layer = "12"
