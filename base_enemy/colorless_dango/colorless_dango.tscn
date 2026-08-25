@@ -643,7 +643,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_g15x4")
 }],
 "loop": false,
-"name": &"dead_down",
+"name": &"die_down",
 "speed": 12.0
 }, {
 "frames": [{
@@ -678,7 +678,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_me8xq")
 }],
 "loop": false,
-"name": &"dead_left",
+"name": &"die_left",
 "speed": 12.0
 }, {
 "frames": [{
@@ -713,7 +713,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_3ijfa")
 }],
 "loop": false,
-"name": &"dead_right",
+"name": &"die_right",
 "speed": 12.0
 }, {
 "frames": [{
@@ -748,7 +748,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_lvpgt")
 }],
 "loop": false,
-"name": &"dead_up",
+"name": &"die_up",
 "speed": 12.0
 }, {
 "frames": [{
@@ -1171,12 +1171,12 @@ height = 170.0192
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8a4f"]
 radius = 769.6246
 
-[node name="colorless_dango" instance=ExtResource("1_xmo1u")]
+[node name="Colorless_Dango" instance=ExtResource("1_xmo1u")]
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ynskx")
 sprite_frames = SubResource("SpriteFrames_xmo1u")
-animation = &"idle_down"
+animation = &"move_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=183 format=3 uid="uid://c18hxnw2ugyv3"]
+[gd_scene load_steps=184 format=3 uid="uid://c18hxnw2ugyv3"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_yijmc"]
 [ext_resource type="Script" uid="uid://dhda62vduc7gc" path="res://base_enemy/Barbarian/barbarian.gd" id="2_2pk4u"]
@@ -805,7 +805,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_adrec")
 }],
 "loop": false,
-"name": &"dead_down",
+"name": &"die_down",
 "speed": 12.0
 }, {
 "frames": [{
@@ -834,7 +834,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_enjuk")
 }],
 "loop": false,
-"name": &"dead_left",
+"name": &"die_left",
 "speed": 12.0
 }, {
 "frames": [{
@@ -863,7 +863,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_fip24")
 }],
 "loop": false,
-"name": &"dead_right",
+"name": &"die_right",
 "speed": 12.0
 }, {
 "frames": [{
@@ -892,7 +892,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_8x3u8")
 }],
 "loop": false,
-"name": &"dead_up",
+"name": &"die_up",
 "speed": 12.0
 }, {
 "frames": [{
@@ -1289,7 +1289,10 @@ height = 220.44366
 [sub_resource type="CircleShape2D" id="CircleShape2D_ghnye"]
 radius = 67.06713
 
-[node name="barbarian" instance=ExtResource("1_yijmc")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_rh1c1"]
+radius = 1371.0638
+
+[node name="Barbarian" instance=ExtResource("1_yijmc")]
 script = ExtResource("2_2pk4u")
 stage1_max_hp = 100.0
 stage1_walk_speed = 200.0
@@ -1300,7 +1303,7 @@ max_hp = 100
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ahywi")
 sprite_frames = SubResource("SpriteFrames_ni38p")
-animation = &"run_down"
+animation = &"idle_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -1356,6 +1359,9 @@ berserk_speed = 450.0
 
 [node name="BerserkCharge" type="Node" parent="StateMachine" index="7"]
 script = ExtResource("11_dprkn")
+
+[node name="CollisionShape2D2" parent="DetectPlayer" index="0"]
+shape = SubResource("CircleShape2D_rh1c1")
 
 [node name="HealthBar" parent="." index="7"]
 offset_top = -127.0

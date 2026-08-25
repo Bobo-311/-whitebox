@@ -276,7 +276,8 @@ func _apply_damage_and_knockback(target: Node2D, target_area: Area2D = null) -> 
 	if state_machine.current_state:
 		var current_state_name = state_machine.current_state.name
 		# 只要是老爸的 EnemyAttack，或是野蠻人的 BerserkCharge，都算在衝刺！
-		if current_state_name == "EnemyAttack" or current_state_name == "BerserkCharge":
+		# 🌟【修改這行】把 ShieldPush 也加進去！
+		if current_state_name == "EnemyAttack" or current_state_name == "BerserkCharge" or current_state_name == "ShieldPush":
 			is_dashing = true
 	if is_dashing:
 		has_hit_player = true

@@ -489,7 +489,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_kg0xn")
 }],
 "loop": false,
-"name": &"dead_down",
+"name": &"die_down",
 "speed": 12.0
 }, {
 "frames": [{
@@ -515,7 +515,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_q72ea")
 }],
 "loop": false,
-"name": &"dead_left",
+"name": &"die_left",
 "speed": 12.0
 }, {
 "frames": [{
@@ -541,7 +541,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_jypg3")
 }],
 "loop": false,
-"name": &"dead_right",
+"name": &"die_right",
 "speed": 12.0
 }, {
 "frames": [{
@@ -567,7 +567,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_121tb")
 }],
 "loop": false,
-"name": &"dead_up",
+"name": &"die_up",
 "speed": 12.0
 }, {
 "frames": [{
@@ -903,7 +903,7 @@ max_hp = 30
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_2t0or")
 sprite_frames = SubResource("SpriteFrames_ac88p")
-animation = &"idle_down"
+animation = &"die_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

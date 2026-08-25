@@ -770,7 +770,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_x7c3f")
 }],
 "loop": false,
-"name": &"dead_down",
+"name": &"die_down",
 "speed": 12.0
 }, {
 "frames": [{
@@ -799,7 +799,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_r7pn3")
 }],
 "loop": false,
-"name": &"dead_left",
+"name": &"die_left",
 "speed": 12.0
 }, {
 "frames": [{
@@ -828,7 +828,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_pnw6m")
 }],
 "loop": false,
-"name": &"dead_right",
+"name": &"die_right",
 "speed": 12.0
 }, {
 "frames": [{
@@ -857,7 +857,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_xcnuv")
 }],
 "loop": false,
-"name": &"dead_up",
+"name": &"die_up",
 "speed": 12.0
 }, {
 "frames": [{
@@ -1242,16 +1242,16 @@ _data = {
 size = Vector2(66, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_83lag"]
-size = Vector2(192, 127.5)
+size = Vector2(192, 68.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tnfn2"]
-size = Vector2(189, 124)
+size = Vector2(189, 69)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uebeq"]
-size = Vector2(120.015625, 165)
+size = Vector2(67.015625, 165)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7xcs"]
-size = Vector2(121.5625, 164)
+size = Vector2(65.5625, 164)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2y0mv"]
 particle_flag_disable_z = true
@@ -1281,7 +1281,6 @@ scale = Vector2(2.3125, 2.1875)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
 animation = &"idle_down"
 autoplay = "idle_down"
-frame_progress = 0.560949
 offset = Vector2(0, -20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -1318,19 +1317,19 @@ collision_mask = 16
 monitorable = false
 
 [node name="CollisionShape_up" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-1, -129.25)
+position = Vector2(-1, -99.75)
 shape = SubResource("RectangleShape2D_83lag")
 
 [node name="CollisionShape_down" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-0.5, 24)
+position = Vector2(-0.5, -3.5)
 shape = SubResource("RectangleShape2D_tnfn2")
 
 [node name="CollisionShape_left" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-88.99219, -52.5)
+position = Vector2(-62.492188, -52.5)
 shape = SubResource("RectangleShape2D_uebeq")
 
 [node name="CollisionShape_right" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(88.21875, -51)
+position = Vector2(60.21875, -51)
 shape = SubResource("RectangleShape2D_p7xcs")
 
 [node name="StateMachine" type="Node" parent="."]

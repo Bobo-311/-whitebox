@@ -1,7 +1,7 @@
 extends State # 繼承自狀態模板 player_die
 
 func enter(): # 進入死亡狀態時執行
-	character.play_animation("dead") # 播放玩家死亡倒地動畫
+	character.play_animation("die") # 播放玩家死亡倒地動畫
 	
 	if DataManager: # 如果全域大腦節點存在
 		var penalty = int(DataManager.total_gold / 2) # 將身上總金幣除以二並取整數
