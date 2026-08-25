@@ -4,6 +4,10 @@ extends State # 讓這個腳本繼承自狀態機的 State 模板
 const INK_SLASH_PARTICLES = preload("res://近戰/ink_slash_particles.tscn")
 
 func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
+	# 🌟 終極防線：如果正在跑劇情，這份腳本底下所有關於攻擊跟移動的程式直接跳過！
+	if Dialogic.current_timeline != null:
+		return
+	
 	# 第一步：先向身體申請扣除揮刀所需的體力
 	if character.use_sp(7.0): # 呼叫玩家的 use_sp 函數申請扣除 7 點體力，並檢查是否扣除成功
 		

@@ -56,6 +56,7 @@ var current_weapon: WeaponMode = WeaponMode.BLUE
 var max_ink: float = 60.0
 var current_ink: float = 60.0
 
+
 @onready var state_machine: StateMachine = $StateMachine               # 控制玩家行為的大腦節點 (狀態機)
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D  # 負責播放動畫的精靈圖
 @onready var player_hud: CanvasLayer = $PlayerHUD                      # 畫面左上角的狀態條介面 (UI)
@@ -67,6 +68,8 @@ var current_ink: float = 60.0
 # 抓取素描本 UI 節點
 @onready var notebook_ui = $MenuLayer/NotebookUI
 
+# 🌟 新增這行：記錄阿尼是不是正在看劇情
+var is_in_dialogue: bool = false
 # ==========================================
 # 武器墨水消耗表
 # ==========================================
@@ -137,6 +140,10 @@ func _ready():
 # 開發者外掛與輸入偵測
 # ==========================================
 func _input(event):
+	# 🌟 新增：劇情中禁止按 TAB 筆記本或使用外掛
+	if is_in_dialogue:
+		return
+		
 	if is_shopping: return
 
 	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC")
@@ -190,6 +197,12 @@ func recalculate_stats():
 # 物理與邏輯更新
 # ==========================================
 func _physics_process(delta: float) -> void: 
+	# 🌟 新增：如果正在播劇情，強制煞車並鎖死所有動作！
+	if is_in_dialogue:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
 	if not is_dead: 
 		if is_reading_book or is_shopping:
 			velocity = Vector2.ZERO

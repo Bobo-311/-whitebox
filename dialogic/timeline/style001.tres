@@ -23,6 +23,24 @@ scene = ExtResource("3_bjycg")
 script = ExtResource("2_rqn7n")
 scene = ExtResource("4_p6im3")
 
+[sub_resource type="Resource" id="Resource_rqn7n"]
+script = ExtResource("2_rqn7n")
+scene = ExtResource("9_0nd4n")
+overrides = {
+"box_modulate_custom_color": "Color(0, 0, 0, 0.59607846)",
+"box_modulate_global_color": "false",
+"box_size": "Vector2(1200, 200)",
+"custom_normal_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"name_label_custom_size": "24.0",
+"name_label_customfont": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"name_label_use_global_font": "false",
+"name_label_use_global_size": "false",
+"text_custom_size": "32.0",
+"text_use_global_color": "false",
+"text_use_global_size": "false",
+"use_global_fonts": "false"
+}
+
 [sub_resource type="Resource" id="Resource_j145j"]
 script = ExtResource("2_rqn7n")
 scene = ExtResource("6_3mb3u")
@@ -52,24 +70,6 @@ overrides = {
 "font_custom_normal": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
 "font_use_global_fonts": "false",
 "font_use_global_size": "false"
-}
-
-[sub_resource type="Resource" id="Resource_rqn7n"]
-script = ExtResource("2_rqn7n")
-scene = ExtResource("9_0nd4n")
-overrides = {
-"box_modulate_custom_color": "Color(0, 0, 0, 0.59607846)",
-"box_modulate_global_color": "false",
-"box_size": "Vector2(1200, 200)",
-"custom_normal_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
-"name_label_custom_size": "24.0",
-"name_label_customfont": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
-"name_label_use_global_font": "false",
-"name_label_use_global_size": "false",
-"text_custom_size": "32.0",
-"text_use_global_color": "false",
-"text_use_global_size": "false",
-"use_global_fonts": "false"
 }
 
 [resource]

@@ -13,6 +13,13 @@ extends CanvasLayer # 繼承自畫布層，確保 UI 永遠顯示在遊戲畫面
 @onready var overheat_overlay: ColorRect = $OverheatOverlay
 @onready var ink_bar = get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/InkBar")
 
+# 在 @onready var ink_bar = ... 的下方加上這兩行：
+@onready var top_bar: ColorRect = get_node_or_null("CinematicBars/TopBar")
+@onready var bottom_bar: ColorRect = get_node_or_null("CinematicBars/BottomBar")
+# 請確認這兩個節點在場景樹裡的正確名稱與路徑
+@onready var quick_slot_ui: Control = $QuickSlotUI
+@onready var gold_canvas_layer: CanvasLayer = $GoldCanvasLayer
+
 # ==========================================
 # 比例尺與全域變數
 # ==========================================
@@ -26,7 +33,10 @@ var hp_heal_tween: Tween      # 🌟 專門用來控制回血閃爍的動畫
 func _ready():
 	if margin_container:
 		original_hud_pos = margin_container.position
-
+	
+	# 🌟 新增：讓 UI 監聽 Dialogic 的全域廣播
+	Dialogic.timeline_started.connect(_on_dialogic_started)
+	Dialogic.timeline_ended.connect(_on_dialogic_ended)
 # ==========================================
 # 🌟 狀態更新函數 (果汁感血條升級版)
 # ==========================================
@@ -132,3 +142,37 @@ func confirm_ink_drop(final_val: float) -> void:
 	if ink_bar and ink_bar.has_method("confirm_ink_drop"):
 		ink_bar.confirm_ink_drop(final_val)
 		
+# ==========================================
+# 🎬 🌟 新增：電影模式 (對話黑邊與 UI 淡出)
+# ==========================================
+func _on_dialogic_started():
+	var tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	
+	if margin_container: tween.tween_property(margin_container, "modulate:a", 0.0, 0.5)
+	
+	# 🌟 把原本的 skill_icon 換成 quick_slot_ui (它可以完美淡出)
+	if quick_slot_ui: tween.tween_property(quick_slot_ui, "modulate:a", 0.0, 0.5)
+	
+	# ⚠️ 注意：CanvasLayer 本身沒有透明度可以調，所以我們直接把它隱藏
+	if gold_canvas_layer: gold_canvas_layer.visible = false
+	
+	if top_bar and bottom_bar:
+		tween.tween_property(top_bar, "size:y", 120.0, 0.5)
+		tween.tween_property(bottom_bar, "size:y", 120.0, 0.5)
+
+
+func _on_dialogic_ended():
+	print("【系統】對話結束，關閉電影黑邊") 
+	var tween = create_tween().set_parallel(true).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	
+	if margin_container: tween.tween_property(margin_container, "modulate:a", 1.0, 0.5)
+	
+	# 🌟 恢復左下角 UI
+	if quick_slot_ui: tween.tween_property(quick_slot_ui, "modulate:a", 1.0, 0.5)
+	
+	# 🌟 恢復右上角金幣顯示
+	if gold_canvas_layer: gold_canvas_layer.visible = true
+	
+	if top_bar and bottom_bar:
+		tween.tween_property(top_bar, "size:y", 0.0, 0.5)
+		tween.tween_property(bottom_bar, "size:y", 0.0, 0.5)

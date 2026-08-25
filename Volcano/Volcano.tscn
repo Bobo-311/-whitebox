@@ -1277,4 +1277,4 @@ position = Vector2(223, 1871)
 position = Vector2(798, 2097)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
-position = Vector2(2815, 586)
+position = Vector2(3471, 1024)

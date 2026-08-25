@@ -31,21 +31,24 @@ func _process(delta: float) -> void:
 	# 這樣就算 Hitstop 時停 (time_scale 接近 0)，相機衰減與探頭依然能順暢運作
 	var real_delta: float = delta / max(Engine.time_scale, 0.001)
 
-	# --------------------------------------
+# --------------------------------------
 	# 1. 計算 Ease-In 漸進式的滑鼠探頭向量
-	# --------------------------------------
-	var mouse_pos = get_local_mouse_position()
-	var mouse_dist = mouse_pos.length()
-	
+# --------------------------------------
 	var target_look = Vector2.ZERO
 	
-	if mouse_dist > deadzone_radius:
-		var raw_t = (mouse_dist - deadzone_radius) / (max_mouse_dist - deadzone_radius)
-		raw_t = clamp(raw_t, 0.0, 1.0)
+	# 🌟 新增防護網：只有在「沒有播放劇情」的時候，才允許滑鼠探頭
+	if DataManager.player_node and not DataManager.player_node.is_in_dialogue:
+		var mouse_pos = get_local_mouse_position()
+		var mouse_dist = mouse_pos.length()
 		
-		var ease_t = raw_t * raw_t
-		target_look = mouse_pos.normalized() * (ease_t * max_look_distance)
+		if mouse_dist > deadzone_radius:
+			var raw_t = (mouse_dist - deadzone_radius) / (max_mouse_dist - deadzone_radius)
+			raw_t = clamp(raw_t, 0.0, 1.0)
+			
+			var ease_t = raw_t * raw_t
+			target_look = mouse_pos.normalized() * (ease_t * max_look_distance)
 	
+	# 💡 這個 lerp 留著！這樣劇情一開始，鏡頭就會「平滑地」回到主角正中央
 	current_look_offset = current_look_offset.lerp(target_look, look_smooth_speed * real_delta)
 	
 	# --------------------------------------

@@ -28,7 +28,8 @@ directories/dch_directory={
 "阿尼": "res://dialogic/character/阿尼.dch"
 }
 directories/dtl_directory={
-"001": "res://dialogic/timeline/001.dtl"
+"001": "res://dialogic/timeline/001.dtl",
+"opening": "res://dialogic/timeline/opening.dtl"
 }
 layout/style_directory={
 "": "res://dialogic/timeline/style001.tres",

@@ -22,6 +22,8 @@ var original_light_energy: float = 2.0          # 預設燈光亮度
 
 # 白貓主動監控的敵人動態清單
 var detected_enemies: Array[Node2D] = []
+# 🌟 新增這行：記錄阿尼是不是正在看劇情
+var is_in_dialogue: bool = false
 
 func _ready() -> void:
 	add_to_group("white_cat")
@@ -148,6 +150,8 @@ func _on_light_area_body_exited(body: Node2D) -> void:
 # 操作與移動邏輯 (受傷時禁止移動)
 # ==========================================
 func _input(event: InputEvent) -> void:
+	if is_in_dialogue:
+		return
 	# 🌟 虛弱期間直接屏蔽玩家操作指令
 	if is_stunned: return
 	
@@ -159,6 +163,10 @@ func _input(event: InputEvent) -> void:
 			print("🐱⚡【白貓召回】啟動 1.5 倍速衝回主角身邊！")
 
 func _physics_process(_delta: float) -> void:
+# 🌟 貓咪也要聽話：跑劇情時不准亂動！
+	if is_in_dialogue:
+		return
+		
 	# 🌟 虛弱期間停在原地，不執行尋路位移
 	if is_stunned:
 		velocity = Vector2.ZERO

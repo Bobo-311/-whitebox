@@ -29,6 +29,7 @@ font = ExtResource("3_lhy1a")
 font_size = 27
 
 [node name="PlayerHUD" type="CanvasLayer"]
+layer = 0
 script = ExtResource("1_5o0p8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -91,7 +92,6 @@ layout_mode = 2
 script = ExtResource("3_tmitr")
 
 [node name="OverheatOverlay" type="ColorRect" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -117,9 +117,37 @@ vertical_alignment = 1
 script = ExtResource("4_fneal")
 
 [node name="QuickSlotUI" parent="." instance=ExtResource("6_nd3l5")]
-offset_left = -7.0
-offset_top = 26.0
-offset_right = -7.0
-offset_bottom = 26.0
 
 [node name="GoldCanvasLayer" parent="." instance=ExtResource("2_kdilq")]
+
+[node name="CinematicBars" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="ColorRect" parent="CinematicBars"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 2.0
+offset_right = 2.0
+offset_bottom = 200.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BottomBar" type="ColorRect" parent="CinematicBars"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1, -1)
+color = Color(0, 0, 0, 1)
