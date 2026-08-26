@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=68 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
+[ext_resource type="PackedScene" uid="uid://kxt85cuvkhat" path="res://interactable.tscn" id="14_4kxmv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(8076, 134.75)
@@ -1161,6 +1162,7 @@ sources/4 = SubResource("TileSetAtlasSource_scycs")
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
+position = Vector2(-44, -40)
 script = ExtResource("1_scycs")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -1179,7 +1181,7 @@ color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(2237, 511)
+position = Vector2(1514, 1813)
 base_max_hp = 100
 max_hp = 100
 
@@ -1254,11 +1256,12 @@ tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAI
 tile_set = SubResource("TileSet_167qa")
 
 [node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
-position = Vector2(2397, 564)
+position = Vector2(1697, 1763)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 position = Vector2(2495, 1658)
 energy = 1.5
 texture = ExtResource("10_167qa")
@@ -1278,3 +1281,14 @@ position = Vector2(798, 2097)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
 position = Vector2(3471, 1024)
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+position = Vector2(2364, 1673)
+energy = 1.5
+texture = ExtResource("10_167qa")
+texture_scale = 10.0
+
+[node name="Interactable" parent="." instance=ExtResource("14_4kxmv")]
+position = Vector2(2363, 1673)
+timeline_name = "flower_talk"
+is_one_time = true

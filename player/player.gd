@@ -85,15 +85,14 @@ func get_weapon_cost() -> float:
 # ==========================================
 func _ready(): 
 	super._ready() 
-	print("以防大家沒看到 菜心楊是傻逼")
+	print("以防大家沒看到 洪川育是傻逼")
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale
 	
 	DataManager.player_node = self
-	
-	if not DataManager.equipment_changed.is_connected(recalculate_stats):
-		DataManager.equipment_changed.connect(recalculate_stats)
-	
+		
+	if not Dialogic.signal_event.is_connected(_on_dialogic_signal):
+		Dialogic.signal_event.connect(_on_dialogic_signal)
 	recalculate_stats()
 	
 	# --- 讀取存檔資料 ---
@@ -135,7 +134,11 @@ func _ready():
 		state_machine.init(self)
 	
 	_run_bug_radar(get_tree().root)
-
+	
+	# 🌟【新增這行】讓阿尼自動連接 Dialogic 的訊號廣播！
+	if not DataManager.equipment_changed.is_connected(recalculate_stats):
+		DataManager.equipment_changed.connect(recalculate_stats)
+	
 # ==========================================
 # 開發者外掛與輸入偵測
 # ==========================================
@@ -526,3 +529,16 @@ func _run_bug_radar(node: Node):
 	# 繼續往下挖出所有的子孫節點
 	for child in node.get_children():
 		_run_bug_radar(child)
+		
+
+# ==========================================
+# 🎬 演員接收器：阿尼專屬的過場動作庫 (第一軌廣播系統) 負責管理阿尼的動畫，之後新加動畫就在這裡加
+# ==========================================
+func _on_dialogic_signal(argument: String):
+	match argument:
+		"ani_stand_up":
+			if animated_sprite_2d:
+				animated_sprite_2d.play("idle_right") # 或你們站起來的動畫名稱
+		"ani_search":
+			if animated_sprite_2d:
+				animated_sprite_2d.play("idle_down")  # 或搜口袋的動畫名稱

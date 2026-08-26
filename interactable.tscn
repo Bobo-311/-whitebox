@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://kxt85cuvkhat"]
+
+[ext_resource type="Script" uid="uid://cef0jv8eraq5g" path="res://interactable.gd" id="1_jcy0q"]
+[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://雜/tilemap_packed.png" id="1_wh154"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jcy0q"]
+radius = 53.037724
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0k2he"]
+atlas = ExtResource("1_wh154")
+region = Rect2(66.96332, 97.01159, 10.143608, 13.925972)
+
+[node name="Interactable" type="Area2D"]
+collision_mask = 15
+script = ExtResource("1_jcy0q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jcy0q")
+
+[node name="InteractPrompt" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+position = Vector2(3.5527137e-15, -76)
+scale = Vector2(3.8730767, 2.5519223)
+texture = SubResource("AtlasTexture_0k2he")

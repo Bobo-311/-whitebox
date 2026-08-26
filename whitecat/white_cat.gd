@@ -22,11 +22,13 @@ var original_light_energy: float = 2.0          # 預設燈光亮度
 
 # 白貓主動監控的敵人動態清單
 var detected_enemies: Array[Node2D] = []
-# 🌟 新增這行：記錄阿尼是不是正在看劇情
-var is_in_dialogue: bool = false
+
+# 🗑️ (已經幫你把白貓自己身上沒用的 is_in_dialogue 鎖刪除了)
 
 func _ready() -> void:
 	add_to_group("white_cat")
+	
+	# 🗑️ (已經幫你把會導致開局卡死的 if is_in_dialogue: return 刪除了)
 	
 	# 自動抓取場景中的玩家
 	player_node = get_tree().get_first_node_in_group("player")
@@ -150,8 +152,10 @@ func _on_light_area_body_exited(body: Node2D) -> void:
 # 操作與移動邏輯 (受傷時禁止移動)
 # ==========================================
 func _input(event: InputEvent) -> void:
-	if is_in_dialogue:
+	# 🌟 改為判斷阿尼(主人)的狀態，主人在看劇情時，貓咪不接收操作指令
+	if DataManager.player_node and DataManager.player_node.is_in_dialogue:
 		return
+		
 	# 🌟 虛弱期間直接屏蔽玩家操作指令
 	if is_stunned: return
 	
@@ -163,8 +167,11 @@ func _input(event: InputEvent) -> void:
 			print("🐱⚡【白貓召回】啟動 1.5 倍速衝回主角身邊！")
 
 func _physics_process(_delta: float) -> void:
-# 🌟 貓咪也要聽話：跑劇情時不准亂動！
-	if is_in_dialogue:
+	# 🌟 改為判斷阿尼(主人)的狀態：跑劇情時不准亂動，並且「踩煞車」避免滑行！
+	if DataManager.player_node and DataManager.player_node.is_in_dialogue:
+		is_recalling = false # 手動指揮時，自動取消召回狀態
+		velocity = Vector2.ZERO # 踩煞車
+		move_and_slide() # 套用靜止狀態
 		return
 		
 	# 🌟 虛弱期間停在原地，不執行尋路位移

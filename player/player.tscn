@@ -1394,4 +1394,7 @@ default_strength = 300.0
 friction = 2500.0
 metadata/_custom_type_script = "uid://brpsxbevfcnop"
 
+[node name="BubbleMaker" type="Marker2D" parent="."]
+position = Vector2(13, -80)
+
 [editable path="MagicBrush"]
