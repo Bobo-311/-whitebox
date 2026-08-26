@@ -1131,26 +1131,20 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cyc6h"]
-size = Vector2(147, 78)
+size = Vector2(145, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ao5cn"]
-size = Vector2(79, 94)
+size = Vector2(81, 85)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2bana"]
-size = Vector2(52, 76)
+size = Vector2(55, 79)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k16pf"]
-size = Vector2(78.733154, 94)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vlpbl"]
+size = Vector2(80, 85)
 
 [node name="BigShieldBrother" instance=ExtResource("1_pgcmc")]
 script = ExtResource("2_1dygt")
-shield_direction = Vector2(0, 1)
-tex_down = null
-tex_up = null
-tex_left = null
-tex_right = null
-shield_image_scale = Vector2(1, 1)
-offset_distance = 25.0
+melee_damage = 30.0
 max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
@@ -1159,44 +1153,41 @@ sprite_frames = SubResource("SpriteFrames_pgcmc")
 animation = &"idle_down"
 autoplay = "idle_down"
 
-[node name="ShieldSprite" type="Sprite2D" parent="." index="1"]
-z_index = 1
-position = Vector2(-10.499994, 32.999996)
-scale = Vector2(0.11915368, 0.09090908)
-texture = ExtResource("9_8wk33")
-
-[node name="CollisionShape2D" parent="." index="2"]
-position = Vector2(-10.000001, 6.5)
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(-9.000001, 2.5)
 shape = SubResource("RectangleShape2D_cyc6h")
 
-[node name="ShieldPivot" type="Node2D" parent="." index="3"]
+[node name="ShieldSprite" type="Sprite2D" parent="." index="2"]
+position = Vector2(-8.999997, 32)
+scale = Vector2(0.12249444, 0.08377897)
+texture = ExtResource("9_8wk33")
 
-[node name="ShieldWallBody" type="StaticBody2D" parent="ShieldPivot" index="0"]
+[node name="ShieldWallBody" type="StaticBody2D" parent="." index="3"]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldPivot/ShieldWallBody" index="0"]
-position = Vector2(-10.5, 33)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShieldWallBody" index="0"]
+position = Vector2(-8.5, 32.5)
 shape = SubResource("RectangleShape2D_ao5cn")
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="ShieldPivot" index="1"]
-position = Vector2(-11, 32)
-remote_path = NodePath("../../Hitbox")
-
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-11, -41)
+position = Vector2(-9.5, -42.5)
 shape = SubResource("RectangleShape2D_2bana")
 
 [node name="Hitbox" parent="." index="5"]
-position = Vector2(-11, 32)
+position = Vector2(-11, 31)
 scale = Vector2(1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2(1, 1)
-scale = Vector2(0.9999998, 1)
-shape = SubResource("RectangleShape2D_k16pf")
+position = Vector2(2, 0.5)
+shape = SubResource("RectangleShape2D_vlpbl")
 
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("10_thvxi")
 
 [node name="ShieldPush" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("11_ao5cn")
+push_speed = 600.0
+
+[node name="HealthBar" parent="." index="8"]
+offset_top = -102.0
+offset_bottom = -75.0

@@ -1292,15 +1292,3 @@ position = Vector2(295, 1185)
 
 [node name="BigShieldBrother" parent="." instance=ExtResource("14_4kxmv")]
 position = Vector2(3602, 1223)
-
-[node name="BigShieldBrother2" parent="." instance=ExtResource("14_4kxmv")]
-position = Vector2(4303, 1228)
-shield_direction = Vector2(0, -1)
-
-[node name="BigShieldBrother3" parent="." instance=ExtResource("14_4kxmv")]
-position = Vector2(3947, 1529)
-shield_direction = Vector2(-1, 0)
-
-[node name="BigShieldBrother4" parent="." instance=ExtResource("14_4kxmv")]
-position = Vector2(3936, 928)
-shield_direction = Vector2(1, 0)
