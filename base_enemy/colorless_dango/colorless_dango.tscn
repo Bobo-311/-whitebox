@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://c7pgy55dhd1e5" path="res://slime-pack/PNG/Slime2/Idle/Slime2_Idle_body.png" id="4_qbl1b"]
 [ext_resource type="Texture2D" uid="uid://cou8pb75jrurq" path="res://slime-pack/PNG/Slime2/Walk/Slime2_Walk_body.png" id="5_s2o76"]
 [ext_resource type="Texture2D" uid="uid://bd87hj5wqvt6q" path="res://slime-pack/PNG/Slime2/Run/Slime2_Run_body.png" id="6_ynskx"]
-[ext_resource type="Script" uid="uid://e4p5ihxvsf1s" path="res://base_enemy/Colorless_dango/colorless_dango_chase.gd" id="7_4hn16"]
-[ext_resource type="Script" uid="uid://d4mhjddn7vcon" path="res://base_enemy/Colorless_dango/colorless_dango_pant.gd" id="8_qbl1b"]
+[ext_resource type="Script" uid="uid://e4p5ihxvsf1s" path="res://base_enemy/Colorless_Dango/colorless_dango_chase.gd" id="7_4hn16"]
+[ext_resource type="Script" uid="uid://d4mhjddn7vcon" path="res://base_enemy/Colorless_Dango/colorless_dango_pant.gd" id="8_qbl1b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ynskx"]
 resource_local_to_scene = true
@@ -1176,8 +1176,10 @@ radius = 769.6246
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ynskx")
 sprite_frames = SubResource("SpriteFrames_xmo1u")
-animation = &"move_down"
+animation = &"idle_down"
 autoplay = "idle_down"
+frame = 1
+frame_progress = 0.7231318
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(3, -30)

@@ -1290,7 +1290,7 @@ height = 220.44366
 radius = 67.06713
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rh1c1"]
-radius = 1371.0638
+radius = 793.0006
 
 [node name="Barbarian" instance=ExtResource("1_yijmc")]
 script = ExtResource("2_2pk4u")
@@ -1303,7 +1303,7 @@ max_hp = 100
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ahywi")
 sprite_frames = SubResource("SpriteFrames_ni38p")
-animation = &"idle_down"
+animation = &"attack_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

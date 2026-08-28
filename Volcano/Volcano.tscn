@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=69 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -10,10 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="10_167qa"]
 [ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/Boar/boar.tscn" id="10_877dg"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="10_q0gaw"]
-[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_Dango/colorless_dango.tscn" id="11_q0gaw"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
 [ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="14_4kxmv"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="15_741bu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(8076, 134.75)
@@ -1288,7 +1289,10 @@ position = Vector2(223, 1871)
 position = Vector2(798, 2097)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
-position = Vector2(295, 1185)
+position = Vector2(-8, 969)
 
 [node name="BigShieldBrother" parent="." instance=ExtResource("14_4kxmv")]
-position = Vector2(3602, 1223)
+position = Vector2(638, 1030)
+
+[node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
+position = Vector2(3263, 1076)

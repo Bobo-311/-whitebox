@@ -4,13 +4,13 @@ extends State
 @export var attack_range: float = 150.0 
 
 func enter():
-	# 進入追擊時，播放 move (走路) 動畫
+	# 進入追擊時，播放run (走路) 動畫
 	character.play_animation("move", character.last_facing_vec)
 
 func state_physics_update(_delta: float):
 	# 防呆：如果玩家不見了，退回待機
 	if not character.player_node or not character.can_see_player:
-		state_machine.change_state("Idle")
+		state_machine.change_state("move")
 		return
 
 	# 計算野蠻人與玩家的直線距離

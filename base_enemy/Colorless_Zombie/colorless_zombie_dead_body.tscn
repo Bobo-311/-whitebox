@@ -1,0 +1,101 @@
+[gd_scene load_steps=17 format=3 uid="uid://bxx886kqwe2k5"]
+
+[ext_resource type="Texture2D" uid="uid://bbcv3mi634v7y" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_1.png" id="1_7p37d"]
+[ext_resource type="Texture2D" uid="uid://8h122u5yu3c5" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_2.png" id="2_8xu5a"]
+[ext_resource type="Texture2D" uid="uid://7vbqs3i22xix" path="res://base_enemy/Colorless_Zombie/寇格魔/屍體.png" id="2_dtu7k"]
+[ext_resource type="Texture2D" uid="uid://btku85uh0vtje" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_3.png" id="3_tful8"]
+[ext_resource type="Texture2D" uid="uid://c6d1vipndaukf" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_4.png" id="4_aaasc"]
+[ext_resource type="Texture2D" uid="uid://d23g8nxvb2te1" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_5.png" id="5_0mfe5"]
+[ext_resource type="Texture2D" uid="uid://by2wi77bca6xm" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_6.png" id="6_qjltj"]
+[ext_resource type="Texture2D" uid="uid://7eomex2on23q" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_7.png" id="7_myibh"]
+[ext_resource type="Texture2D" uid="uid://cnk8mti18lc01" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_8.png" id="8_kial5"]
+[ext_resource type="Texture2D" uid="uid://ctbti32tywt0n" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_9.png" id="9_25n3c"]
+[ext_resource type="Texture2D" uid="uid://cu8ftnnqf5d7u" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_5/Explosion_10.png" id="10_x4h7g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m8v2"]
+atlas = ExtResource("2_dtu7k")
+region = Rect2(41, 82, 146, 207)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mryjr"]
+atlas = ExtResource("2_dtu7k")
+region = Rect2(187, 82, 146, 207)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_183l4"]
+atlas = ExtResource("2_dtu7k")
+region = Rect2(333, 82, 146, 207)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7p37d"]
+atlas = ExtResource("2_dtu7k")
+region = Rect2(479, 82, 146, 207)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8xu5a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7p37d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_8xu5a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tful8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_aaasc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0mfe5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_qjltj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_myibh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_kial5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_25n3c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_x4h7g")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8m8v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mryjr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_183l4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7p37d")
+}],
+"loop": true,
+"name": &"move",
+"speed": 12.0
+}]
+
+[node name="ColorlessZombieDeadBody" type="CharacterBody2D"]
+collision_layer = 4
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8xu5a")
+animation = &"explode"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+
+[node name="Timer" type="Timer" parent="."]

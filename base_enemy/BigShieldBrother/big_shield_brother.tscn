@@ -1,4 +1,4 @@
-[gd_scene load_steps=162 format=3 uid="uid://ddkdojri5t6at"]
+[gd_scene load_steps=163 format=3 uid="uid://ddkdojri5t6at"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_pgcmc"]
 [ext_resource type="Script" uid="uid://d03tv0caqq5mx" path="res://base_enemy/BigShieldBrother/big_shield_brother.gd" id="2_1dygt"]
@@ -1142,6 +1142,9 @@ size = Vector2(55, 79)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlpbl"]
 size = Vector2(80, 85)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ao5cn"]
+radius = 629.42035
+
 [node name="BigShieldBrother" instance=ExtResource("1_pgcmc")]
 script = ExtResource("2_1dygt")
 melee_damage = 30.0
@@ -1150,8 +1153,9 @@ max_hp = 100
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_w26d7")
 sprite_frames = SubResource("SpriteFrames_pgcmc")
-animation = &"idle_down"
+animation = &"run_left"
 autoplay = "idle_down"
+frame_progress = 0.4963749
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(-9.000001, 2.5)
@@ -1187,6 +1191,9 @@ script = ExtResource("10_thvxi")
 [node name="ShieldPush" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("11_ao5cn")
 push_speed = 600.0
+
+[node name="CollisionShape2D2" parent="DetectPlayer" index="0"]
+shape = SubResource("CircleShape2D_ao5cn")
 
 [node name="HealthBar" parent="." index="8"]
 offset_top = -102.0

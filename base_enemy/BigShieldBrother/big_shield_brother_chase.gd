@@ -7,7 +7,7 @@ extends State # 繼承狀態模板
 @export var attack_range: float = 250.0       
 # 【追擊動畫】
 # 追著玩家跑時要播放什麼動畫 (預設為 move)
-@export var chase_anim: String = "move"      
+@export var chase_anim: String = "run"      
 
 func enter():
 	pass # 進入這個狀態時不用特別做什麼，交給物理更新處理
