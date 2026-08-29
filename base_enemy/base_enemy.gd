@@ -6,10 +6,11 @@ class_name BaseEnemy                  # 定義為 Enemy 類別
 # ==========================================
 @export var walk_speed: int = 150                   # 野豬漫遊速度
 @export var melee_damage: float = 15.0             # 肉身衝撞傷害
+@export var coin_drop_count: int = 5                # 🌟 新增：這隻怪物死掉會噴幾枚金幣？預設為 5
 
 const COIN_SCENE = preload("res://coin/coin.tscn") # 金幣場景
 
-# 🌟【預載受擊特效】背部貫穿粒子特效
+# 【預載受擊特效】背部貫穿粒子特效
 const HIT_IMPACT_PARTICLES = preload("res://近戰/hit_impact_particles.tscn")
 
 # ==========================================
@@ -21,7 +22,7 @@ const HIT_IMPACT_PARTICLES = preload("res://近戰/hit_impact_particles.tscn")
 @onready var vision_ray: RayCast2D = $VisionRay                 
 @onready var hitbox: Area2D = get_node_or_null("Hitbox")       
 
-# 🌟【組件化引用】擊退力與煞車摩擦力已交由 KnockbackComponent 節點在 Inspector 統一調整
+# 【組件化引用】擊退力與煞車摩擦力已交由 KnockbackComponent 節點在 Inspector 統一調整
 @onready var knockback_component: KnockbackComponent = get_node_or_null("KnockbackComponent")
 
 # ==========================================
@@ -45,7 +46,7 @@ func _ready() -> void:
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale
-		# 🌟【保險機制】確保精靈圖本身絕對是純白的
+		# 【保險機制】確保精靈圖本身絕對是純白的
 		animated_sprite_2d.modulate = Color.WHITE
 		animated_sprite_2d.self_modulate = Color.WHITE
 		
@@ -58,7 +59,7 @@ func _ready() -> void:
 	# 🆕【本次修復 1】修正了錯字 (modulated -> modulate)
 	# 並強制開局為「透明的純白」，徹底洗掉黑色！
 	self.modulate = Color(1.0, 1.0, 1.0, 0.0)
-	# 🌟【正規作法核心】
+	# 【正規作法核心】
 	# 老爸的 @onready 都抓完了，裝備也穿好了。現在，啟動大腦！
 	if state_machine:
 		state_machine.init(self)
@@ -80,7 +81,7 @@ func _physics_process(_delta: float) -> void:
 		can_see_player = false
 
 # ==========================================
-# 👁️ 迷霧現形系統 (🌟 已修復 Tween 報錯)
+# 👁️ 迷霧現形系統 ( 已修復 Tween 報錯)
 # ==========================================
 func update_visibility() -> void:
 	if fade_tween and fade_tween.is_running():
@@ -90,7 +91,7 @@ func update_visibility() -> void:
 		self.visible = true # 確保屍體永遠可見
 		return # 只要死掉了，就不再受白貓燈光影響，直接退出
 		
-	# 🌟 把創建 Tween 移到死亡判斷的後面！這樣就不會留下空計時器了
+	#  把創建 Tween 移到死亡判斷的後面！這樣就不會留下空計時器了
 	fade_tween = create_tween()
 		
 	if is_illuminated_by_cat:
@@ -124,13 +125,13 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 			if p.has_method("add_ammo"):
 				p.add_ammo(1)
 	
-	# 2️⃣ 🌟【擊退與背部特效】
+	# 2️⃣ 【擊退與背部特效】
 	var knockback_dir = dir if dir != Vector2.ZERO else (global_position - attacker_pos).normalized()
 	if knockback_component and knockback_dir != Vector2.ZERO:
 		var extra_kb = 1.8 if (is_kill and is_melee) else 1.0
 		knockback_component.apply_knockback(knockback_dir, -1.0, extra_kb)
 	
-	# 🌟 生成背部貫穿爆發粒子
+	#  生成背部貫穿爆發粒子
 	spawn_back_impact_particles(knockback_dir, is_kill, is_melee)
 	
 	# 3️⃣ 播放受擊特效與頓幀
@@ -141,7 +142,7 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 	else:
 		handle_hurt()
 
-# 🌟【確定能看到版】背部貫穿受擊粒子生成器
+# 【確定能看到版】背部貫穿受擊粒子生成器
 func spawn_back_impact_particles(hit_dir: Vector2, is_kill: bool = false, is_melee: bool = false) -> void:
 	if not HIT_IMPACT_PARTICLES: return
 	
@@ -237,8 +238,11 @@ func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
 	animated_sprite_2d.play(animation_name)
 
 func drop_coin() -> void:
-	if COIN_SCENE:
-		for i in range(5):
+	# 🌟 改動 1：加上 coin_drop_count > 0 的判斷，設為 0 就不會噴錢
+	if COIN_SCENE and coin_drop_count > 0:
+		
+		# 🌟 改動 2：把原本寫死的 range(5) 換成這個變數
+		for i in range(coin_drop_count):
 			var delay = randf_range(0.01, 0.1)
 			get_tree().create_timer(delay).connect("timeout", func():
 				var coin = COIN_SCENE.instantiate()

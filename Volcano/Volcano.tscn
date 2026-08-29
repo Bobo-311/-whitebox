@@ -1280,19 +1280,25 @@ texture = ExtResource("10_167qa")
 texture_scale = 10.0
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
-position = Vector2(562, 1460)
+position = Vector2(339, 1570)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
-position = Vector2(223, 1871)
+position = Vector2(142, 2084)
 
 [node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
-position = Vector2(798, 2097)
+position = Vector2(632, 2075)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
-position = Vector2(-8, 969)
+position = Vector2(186, 1804)
 
 [node name="BigShieldBrother" parent="." instance=ExtResource("14_4kxmv")]
-position = Vector2(638, 1030)
+position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(3263, 1076)
+position = Vector2(3051, 1258)
+
+[node name="ColorlessZombie2" parent="." instance=ExtResource("15_741bu")]
+position = Vector2(4062, 601)
+
+[node name="ColorlessZombie3" parent="." instance=ExtResource("15_741bu")]
+position = Vector2(3870, 1910)

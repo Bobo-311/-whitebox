@@ -1298,6 +1298,7 @@ stage1_max_hp = 100.0
 stage1_walk_speed = 200.0
 stage1_damage = 50.0
 berserk_hp_threshold = 1.0
+coin_drop_count = 30
 max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]

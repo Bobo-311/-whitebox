@@ -898,6 +898,7 @@ radius = 537.5816
 [node name="Chipmunk" instance=ExtResource("1_7irn1")]
 walk_speed = 100
 melee_damage = 5.0
+coin_drop_count = 8
 max_hp = 30
 
 [node name="AnimatedSprite2D" parent="." index="0"]

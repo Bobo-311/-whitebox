@@ -1,4 +1,4 @@
-[gd_scene load_steps=199 format=3 uid="uid://bufi7m0i0aj7c"]
+[gd_scene load_steps=200 format=3 uid="uid://bufi7m0i0aj7c"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_58mlq"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_mfkhu"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://4cdbkkmmgxpn" path="res://SuckBloodGhost-sprite-pack/PNG/Vampires1/With_shadow/Vampires1_Run_with_shadow.png" id="8_1all8"]
 [ext_resource type="Script" uid="uid://v8ntlkt6s8lt" path="res://base_enemy/Colorless_Zombie/colorless_zombie_chase.gd" id="9_clk6l"]
 [ext_resource type="Script" uid="uid://hd85h4qbw8sa" path="res://base_enemy/Colorless_Zombie/colorless_zombie_die.gd" id="9_t4lru"]
+[ext_resource type="PackedScene" uid="uid://bxx886kqwe2k5" path="res://base_enemy/Colorless_Zombie/colorless_zombie_dead_body.tscn" id="10_1all8"]
 [ext_resource type="Script" uid="uid://broalbxsb2n70" path="res://base_enemy/Colorless_Zombie/colorless_zombie_attack.gd" id="10_t4lru"]
 [ext_resource type="Script" uid="uid://c5ugain68mmnf" path="res://base_enemy/Colorless_Zombie/colorless_zombie_pant.gd" id="12_itwug"]
 
@@ -1417,11 +1418,13 @@ radius = 452.13382
 
 [node name="ColorlessZombie" instance=ExtResource("1_58mlq")]
 melee_damage = 30.0
+coin_drop_count = 10
+max_hp = 10
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_rbn8d")
 sprite_frames = SubResource("SpriteFrames_muy0c")
-animation = &"attack_up"
+animation = &"idle_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -1438,7 +1441,8 @@ shape = SubResource("CircleShape2D_bxyma")
 
 [node name="Die" parent="StateMachine" index="3"]
 script = ExtResource("9_t4lru")
-wraith_scene = null
+wraith_scene = ExtResource("10_1all8")
+spawn_delay = 1.0
 
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("9_clk6l")
