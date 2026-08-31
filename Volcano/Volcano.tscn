@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
-[ext_resource type="PackedScene" uid="uid://kxt85cuvkhat" path="res://interactable.tscn" id="14_4kxmv"]
+[ext_resource type="PackedScene" uid="uid://kxt85cuvkhat" path="res://劇情配件/interactable.tscn" id="14_4kxmv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(8076, 134.75)
