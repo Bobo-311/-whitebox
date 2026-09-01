@@ -61,5 +61,8 @@ script = ExtResource("4_q2jyu")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
 shape = SubResource("CircleShape2D_bcxv7")
 
+[node name="BubbleMaker" type="Marker2D" parent="."]
+position = Vector2(0, -0.59999996)
+
 [connection signal="body_entered" from="LightArea" to="." method="_on_light_area_body_entered"]
 [connection signal="body_exited" from="LightArea" to="." method="_on_light_area_body_exited"]

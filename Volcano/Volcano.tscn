@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=71 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -14,6 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
 [ext_resource type="PackedScene" uid="uid://kxt85cuvkhat" path="res://劇情配件/interactable.tscn" id="14_4kxmv"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="15_xrg6c"]
+[ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="16_qq5g5"]
+[ext_resource type="Resource" uid="uid://chc8j1xbdk7gt" path="res://dialogic/character/路克斯.dch" id="17_oa6jy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1oghe"]
 size = Vector2(8076, 134.75)
@@ -1292,3 +1295,22 @@ texture_scale = 10.0
 position = Vector2(2363, 1673)
 timeline_name = "flower_talk"
 is_one_time = true
+
+[node name="CutsceneDirector" parent="." node_paths=PackedStringArray("target_npc") instance=ExtResource("15_xrg6c")]
+position = Vector2(2073, 1782.0001)
+scale = Vector2(5.639952, 5.3822837)
+collision_mask = 2
+target_timeline = "test timeline01"
+target_npc = NodePath("../WhiteCat")
+markers = {
+"ani_left": NodePath("Marker2D"),
+"ani_right": NodePath("Marker2D2")
+}
+player_dch = ExtResource("16_qq5g5")
+npc_dch = ExtResource("17_oa6jy")
+
+[node name="Marker2D" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(-78.01485, -0.18579471)
+
+[node name="Marker2D2" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(79.78791, -0.9289737)

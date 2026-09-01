@@ -1,0 +1,8 @@
+阿尼: 123
+白貓: 123
+[signal arg="walk:player:ani_left"]
+[wait time="1.5"]
+阿尼: 321
+[signal arg="walk:npc:ani_right"]
+[wait time="1.5"]
+白貓: 321

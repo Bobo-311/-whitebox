@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dd7re0um1ofn0"]
+[gd_scene load_steps=3 format=3 uid="uid://dd7re0um1ofn0"]
 
 [ext_resource type="Script" uid="uid://bey25eym7r7ec" path="res://劇情配件/cutscene_director.gd" id="1_u73bl"]
 
-[node name="CutsceneDirector" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_u73bl"]
+radius = 23.0
+
+[node name="CutsceneDirector" type="Area2D"]
 script = ExtResource("1_u73bl")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_u73bl")
