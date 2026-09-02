@@ -25,6 +25,7 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 directories/dch_directory={
 "unit_test_character": "res://Tests/Resources/unit_test_character.dch",
+"商人": "res://dialogic/character/商人.dch",
 "白貓": "res://dialogic/character/路克斯.dch",
 "阿尼": "res://dialogic/character/阿尼.dch",
 "？？？": "res://dialogic/character/？？？.dch"
@@ -47,6 +48,16 @@ directories/dtl_directory={
 "A012": "res://dialogic/timeline/A series/A012.dtl",
 "A013": "res://dialogic/timeline/A series/A013.dtl",
 "A014": "res://dialogic/timeline/A series/A014.dtl",
+"A014B": "res://dialogic/timeline/A series/A014B.dtl",
+"A014C": "res://dialogic/timeline/A series/A014C.dtl",
+"A014D": "res://dialogic/timeline/A series/A014D.dtl",
+"A014E": "res://dialogic/timeline/A series/A014E.dtl",
+"A015": "res://dialogic/timeline/A series/A015.dtl",
+"A016": "res://dialogic/timeline/A series/A016.dtl",
+"A016B": "res://dialogic/timeline/A series/A016B.dtl",
+"A017": "res://dialogic/timeline/A series/A017.dtl",
+"A018": "res://dialogic/timeline/A series/A018.dtl",
+"A019": "res://dialogic/timeline/A series/A019.dtl",
 "flower_talk": "res://dialogic/timeline/flower_talk.dtl",
 "opening": "res://dialogic/timeline/opening.dtl",
 "test timeline01": "res://dialogic/timeline/test timeline01.dtl"
