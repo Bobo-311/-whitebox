@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm0afww1tvcft"]
+
+[ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_eew4c"]
+[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_si6vv"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13909.0
+offset_top = -5974.0
+offset_right = 19683.832
+offset_bottom = 17356.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.7660208, 0.7142027, 0.81310016, 1)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.07058824, 0.07058824, 0.12156863, 1)
+
+[node name="PortalSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(1370, 1857)
+
+[node name="WhiteCat" parent="." instance=ExtResource("1_eew4c")]
+position = Vector2(1697, 1763)
+scale = Vector2(0.3, 0.3)
+max_follow_distance = 700.0
+
+[node name="player" parent="." instance=ExtResource("2_si6vv")]
