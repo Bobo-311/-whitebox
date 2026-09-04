@@ -1169,9 +1169,10 @@ radius = 35.201115
 height = 118.31129
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8a4f"]
-radius = 769.6246
+radius = 1489.1212
 
 [node name="Colorless_Dango" instance=ExtResource("1_xmo1u")]
+coin_drop_count = 0
 max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
@@ -1197,7 +1198,7 @@ shape = SubResource("CapsuleShape2D_hjsdk")
 
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("7_4hn16")
-chase_speed = 550.0
+chase_speed = 300.0
 
 [node name="Pant" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("8_qbl1b")

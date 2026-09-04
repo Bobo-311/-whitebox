@@ -12,6 +12,48 @@ var hp_thresholds: Array[float] = [0.8, 0.6, 0.4, 0.2]
 var current_phase_index: int = 0
 var is_invincible: bool = false # 專屬無敵星星開關 (紫光時開啟)
 
+
+# ==========================================
+# 🚀 Boss 開局設定
+# ==========================================
+func _ready() -> void:
+	super._ready() # 讓老爸先跑完基礎設定
+	
+	# 確保 DataManager 有抓到玩家
+	if DataManager and DataManager.player_node:
+		player_node = DataManager.player_node 
+		can_see_player = true # 房間內全圖視野，無視牆壁
+		
+		# 🌟 一開局，直接命令狀態機進入「風箏模式」！
+		if state_machine:
+			state_machine.change_state("BossKiting")
+
+# ==========================================
+# 🚀 生命週期與霸體強制覆寫 (Override)
+# ==========================================
+func _physics_process(delta: float) -> void:
+	
+	# 🌟 解決痛點 2：絕對霸體 (Absolute Super Armor)
+	# 正規作法：在老爸執行任何移動邏輯前，直接把擊退組件的力量「歸零沒收」。
+	# 這樣不論老爸的 take_damage 怎麼計算擊退，到了物理幀都會化為烏有！
+	var kb = get_node_or_null("KnockbackComponent")
+	if kb and "knockback_force" in kb:
+		kb.knockback_force = Vector2.ZERO
+
+	# 讓老爸去跑他該跑的物理與動畫更新
+	super._physics_process(delta)
+
+	# 🌟 解決痛點 1：動態索敵 (Lazy Initialization)
+	# 如果開局沒抓到玩家，就在物理幀「持續監聽」，直到玩家落地為止！
+	if not player_node and DataManager and DataManager.player_node:
+		player_node = DataManager.player_node
+		can_see_player = true # 獲得全圖視野
+		
+		# 抓到玩家的瞬間，啟動戰鬥大腦！
+		if state_machine and state_machine.current_state.name != "BossKiting":
+			state_machine.change_state("BossKiting")
+
+
 # ==========================================
 # 🛡️ 霸體機制 (覆寫老爸的受傷硬直)
 # ==========================================
@@ -51,7 +93,7 @@ func _check_hp_threshold() -> void:
 		if state_machine:
 			# 🌟【技能二：溫稀哩爸爸】
 			# 強制打斷大腦目前的所有動作，進入鎖血反擊狀態！
-			state_machine.change_state("CounterSpawn")
+			state_machine.change_state("LockHpSpawn")
 
 # ==========================================
 # 💥 自爆賴皮豬 (覆寫老爸的死亡邏輯)
