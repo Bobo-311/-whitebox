@@ -1,4 +1,4 @@
-[gd_scene load_steps=166 format=3 uid="uid://dufj7xit8pgpx"]
+[gd_scene load_steps=168 format=3 uid="uid://dufj7xit8pgpx"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_l2fed"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_0nvv6"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://bd87hj5wqvt6q" path="res://slime-pack/PNG/Slime2/Run/Slime2_Run_body.png" id="7_dm3wv"]
 [ext_resource type="Script" uid="uid://cc75r834fqr4f" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_lock_hp_spawn.gd" id="10_8mbbp"]
 [ext_resource type="Script" uid="uid://j7sme2r0uarp" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_kiting.gd" id="11_egvgl"]
+[ext_resource type="Script" uid="uid://d1a7ppiyjh3ak" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_spit_poison.gd" id="12_mee13"]
+[ext_resource type="PackedScene" uid="uid://cnlf8nvsdpw8t" path="res://base_enemy/Big_Colorless_Dango/PoisonBomb/poison_bomb.tscn" id="13_1jgug"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ynskx"]
 resource_local_to_scene = true
@@ -1206,15 +1208,31 @@ disabled = true
 script = ExtResource("11_egvgl")
 chase_speed = 120.0
 retreat_speed = 100.0
-chase_distance = 700.0
+chase_distance = 750.0
 retreat_distance = 650.0
+close_counter_distance = 450.0
+poison_cd_time = 5.0
+poison_close_cd_time = 8.0
 show_debug_print = true
 
 [node name="LockHpSpawn" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("10_8mbbp")
 invincible_duration = 5.0
-minion_spawn_count = 1
 screen_shake_intensity = 50.0
+
+[node name="SpitPoison" type="Node" parent="StateMachine" index="5"]
+script = ExtResource("12_mee13")
+bomb_scene = ExtResource("13_1jgug")
+ranged_bomb_count = 5
+melee_bomb_count = 3
+
+[node name="SpitPoisonClose" type="Node" parent="StateMachine" index="6"]
+script = ExtResource("12_mee13")
+bomb_scene = ExtResource("13_1jgug")
+ranged_bomb_count = 5
+melee_bomb_count = 3
+is_melee_counter = true
+melee_push_distance = 80.0
 
 [node name="DetectPlayer" parent="." index="5"]
 monitoring = false
