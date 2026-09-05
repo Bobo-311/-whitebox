@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdqjjfukcu0vp"]
+
+[ext_resource type="Script" uid="uid://blfi2e87iyr8b" path="res://base_enemy/Big_Colorless_Dango/PoisonPuddle/poison_puddle.gd" id="1_8ah35"]
+[ext_resource type="Texture2D" uid="uid://bh6l78asjpooa" path="res://base_enemy/Big_Colorless_Dango/素材/毒液.png" id="1_oyme7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8ah35"]
+radius = 87.0
+height = 230.0
+
+[node name="PoisonPuddle" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_8ah35")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.562, 0.562)
+texture = ExtResource("1_oyme7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_8ah35")

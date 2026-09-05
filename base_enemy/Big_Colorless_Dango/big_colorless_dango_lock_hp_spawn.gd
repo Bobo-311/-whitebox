@@ -4,40 +4,45 @@ extends State
 @export_category("🛡️ 鎖血召喚設定")
 
 @export_group("時間與機制")
-@export var invincible_duration: float = 0.5    # 無敵與發呆維持幾秒
-@export var flash_color: Color = Color(0.6, 0.0, 0.8, 1.0) # 發光顏色 (預設紫光)
+@export var invincible_duration: float = 1.5    # 🌟 修改：無敵總時長。因為你要等 1 秒才吐，無敵必須大於 1 秒
+@export var spawn_delay: float = 1.0            # 🌟 新增：發呆幾秒後才把小怪吐出來？
+@export var flash_color: Color = Color(0.6, 0.0, 0.8, 1.0) # 發光顏色
 
 @export_group("召喚物設定")
-@export var minion_spawn_count: int = 2         # 一次吐幾隻小怪
-@export var minion_spit_force: float = 300.0    # 小怪噴飛的力道
+@export var minion_spawn_count: int = 2         # 一次吐幾隻
+@export var minion_spit_force: float = 300.0    # 噴飛力道
 
 @export_group("視覺衝擊")
-@export var screen_shake_intensity: float = 15.0 # 震動螢幕的強度
+@export var screen_shake_intensity: float = 15.0 # 震屏強度
 
-var state_timer: float = 0.0 # 內部倒數計時器
+var state_timer: float = 0.0  # 內部計時器
+var has_spawned: bool = false # 🌟 狀態標記：記錄這回合是不是已經吐過了
 
 func enter():
-	state_timer = invincible_duration
+	state_timer = 0.0   # 🌟 為了方便算「第幾秒吐」，計時器改從 0 開始往上加
+	has_spawned = false # 進來時重置吐怪狀態
 	
-	character.velocity = Vector2.ZERO # 1. 煞車停下
-	character.is_invincible = true    # 2. 開啟無敵，免疫傷害
+	character.velocity = Vector2.ZERO # 1. 煞車停好
+	character.is_invincible = true    # 2. 開啟無敵
 	
-	_play_custom_flash()              # 3. 播放變色閃光
+	_play_custom_flash()              # 3. 播紫光
 	
-	# 4. 呼叫震屏
-	var camera = character.get_tree().get_first_node_in_group("camera")
-	if camera and camera.has_method("apply_shake"):
-		camera.apply_shake(screen_shake_intensity)
-		
-	_spawn_minions(minion_spawn_count) # 5. 吐出小怪
-
 func state_physics_update(delta: float):
-	state_timer -= delta
+	state_timer += delta # 時間每一幀往上加
 	
-	if state_timer <= 0:
-		# 🌟 0.5 秒無敵結束後，重新開始拉開距離！
-		state_machine.change_state("BossKiting")
-
+	# 🌟 核心邏輯 1：時間到了設定的「延遲秒數 (1.0)」，且還沒吐過，就吐怪！
+	if state_timer >= spawn_delay and not has_spawned:
+		_spawn_minions(minion_spawn_count)
+		has_spawned = true # 標記吐過了，避免瘋狂狂吐
+		
+		# 吐怪瞬間呼叫震屏，這樣才有「用力噴出來」的感覺
+		var camera = character.get_tree().get_first_node_in_group("camera")
+		if camera and camera.has_method("apply_shake"):
+			camera.apply_shake(screen_shake_intensity)
+	
+	# 🌟 核心邏輯 2：總時間到了設定的「無敵時間 (1.5)」，結束狀態
+	if state_timer >= invincible_duration:
+		state_machine.change_state("move") # 🌟 切回小寫的 move，繼續風箏
 
 # --- 內部功能函數 ---
 
@@ -57,20 +62,16 @@ func _spawn_minions(count: int):
 		var minion = character.minion_scene.instantiate()
 		var random_dir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		
-		# 把小怪生在世界上
-		# ✅ 正規寫法 (排隊延遲加入)
+		# ✅ 正規延遲加入，避免物理碰撞報錯
 		character.get_parent().call_deferred("add_child", minion)
 		minion.global_position = character.global_position + (random_dir * 30.0)
 		
-		# 給予噴飛的物理力道
 		if "velocity" in minion:
 			minion.velocity = random_dir * minion_spit_force
 
-
 func exit():
-	character.is_invincible = false # 離開時務必關閉無敵
+	character.is_invincible = false # 離開務必關閉無敵
 	
-	# 強制把顏色調回純白，避免卡在紫光
 	var mat = character.animated_sprite_2d.material as ShaderMaterial
 	if mat:
-		mat.set_shader_parameter("state_color", Color.WHITE) 
+		mat.set_shader_parameter("state_color", Color.WHITE)

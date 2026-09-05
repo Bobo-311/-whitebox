@@ -1159,12 +1159,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vsfu5"]
-radius = 165.0
-height = 526.0
+radius = 100.0
+height = 332.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8mbbp"]
-radius = 165.0
-height = 526.0
+radius = 104.0
+height = 350.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_egvgl"]
 radius = 206.40152
@@ -1181,7 +1181,7 @@ max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ynskx")
-scale = Vector2(27.54297, 21.495878)
+scale = Vector2(17.041994, 13.300404)
 sprite_frames = SubResource("SpriteFrames_xmo1u")
 animation = &"idle_down"
 autoplay = "idle_down"
@@ -1189,11 +1189,11 @@ frame = 1
 frame_progress = 0.7231318
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(11, -10)
+position = Vector2(4, -14)
 shape = SubResource("CapsuleShape2D_vsfu5")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(9, -7)
+position = Vector2(5, -13)
 shape = SubResource("CapsuleShape2D_8mbbp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
@@ -1203,16 +1203,18 @@ shape = SubResource("CapsuleShape2D_egvgl")
 disabled = true
 
 [node name="Move" parent="StateMachine" index="1"]
-script = null
+script = ExtResource("11_egvgl")
+chase_speed = 120.0
+retreat_speed = 100.0
+chase_distance = 700.0
+retreat_distance = 650.0
+show_debug_print = true
 
 [node name="LockHpSpawn" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("10_8mbbp")
 invincible_duration = 5.0
 minion_spawn_count = 1
 screen_shake_intensity = 50.0
-
-[node name="BossKiting" type="Node" parent="StateMachine" index="5"]
-script = ExtResource("11_egvgl")
 
 [node name="DetectPlayer" parent="." index="5"]
 monitoring = false

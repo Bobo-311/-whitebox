@@ -1183,7 +1183,7 @@ visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(2237, 511)
+position = Vector2(3004, 1239)
 base_max_hp = 100
 max_hp = 100
 

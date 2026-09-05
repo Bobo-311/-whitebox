@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnlf8nvsdpw8t"]
+
+[ext_resource type="Texture2D" uid="uid://cd6daf7sqkls3" path="res://base_enemy/Big_Colorless_Dango/素材/橢圓形影子.png" id="1_j0m8h"]
+[ext_resource type="Texture2D" uid="uid://d3ecmo88gmibq" path="res://base_enemy/Big_Colorless_Dango/素材/毒彈.png" id="2_nqnc1"]
+
+[node name="PoisonBomb" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_j0m8h")
+
+[node name="BombSprite" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(20, -99.000015)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_nqnc1")
