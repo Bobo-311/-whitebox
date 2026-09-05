@@ -1198,7 +1198,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
-size = Vector2(66, 91.5)
+size = Vector2(45, 18)
 
 [sub_resource type="Animation" id="Animation_x7c3f"]
 length = 0.001
@@ -1263,8 +1263,9 @@ radial_accel_max = -50.0
 scale_min = 2.0
 scale_max = 3.0
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 y_sort_enabled = true
+position = Vector2(-653, 546)
 collision_layer = 2
 collision_mask = 5
 motion_mode = 1
@@ -1276,16 +1277,16 @@ metadata/_edit_vertical_guides_ = [-129.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_65viv")
-position = Vector2(3.8146973e-06, 1)
+position = Vector2(653, -591)
 scale = Vector2(2.3125, 2.1875)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
 animation = &"idle_down"
 autoplay = "idle_down"
-frame_progress = 0.560949
-offset = Vector2(0, -20)
+frame = 6
+frame_progress = 0.9445786
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -47.25)
+position = Vector2(650, -555)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1294,14 +1295,15 @@ libraries = {
 }
 
 [node name="MagicBrush" parent="." instance=ExtResource("7_e7oew")]
-position = Vector2(-0.9999999, -42)
+z_index = -1
+position = Vector2(652.00006, -589.25)
 rotation = 1.5107642
 
 [node name="ChargeParticles" parent="MagicBrush" index="3"]
-visible = false
 position = Vector2(-46.397102, 5.225772)
 
 [node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(653.00006, -547.25)
 collision_layer = 8
 collision_mask = 0
 monitoring = false
@@ -1312,7 +1314,7 @@ position = Vector2(-1, -47)
 shape = SubResource("RectangleShape2D_32hag")
 
 [node name="Hitbox" type="Area2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(653.00006, -548.25)
 collision_layer = 32
 collision_mask = 16
 monitorable = false
@@ -1358,11 +1360,7 @@ script = ExtResource("13_tqiix")
 script = ExtResource("16_65viv")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
-zoom = Vector2(0.7, 0.7)
-limit_left = -241
-limit_top = 3
-limit_right = 4685
-limit_bottom = 2388
+position = Vector2(653.00006, -547.25)
 script = ExtResource("5_tnfn2")
 trauma_decay = 1.8
 max_shake_offset = Vector2(50, 40)
@@ -1378,10 +1376,14 @@ volume_db = -14.195
 layer = 10
 
 [node name="NotebookUI" parent="MenuLayer" instance=ExtResource("22_bjvpn")]
+offset_left = 6.1035156e-05
+offset_top = 170.0
+offset_bottom = 170.0
+metadata/_edit_use_anchors_ = true
 
 [node name="ChargeParticles" type="GPUParticles2D" parent="."]
 z_index = 3
-position = Vector2(2.2737368e-13, -46.000004)
+position = Vector2(653.00006, -593.25)
 scale = Vector2(2.6272295, 2.6272297)
 emitting = false
 amount = 20
@@ -1395,6 +1397,6 @@ friction = 2500.0
 metadata/_custom_type_script = "uid://brpsxbevfcnop"
 
 [node name="BubbleMaker" type="Marker2D" parent="."]
-position = Vector2(13, -80)
+position = Vector2(666.00006, -627.25)
 
 [editable path="MagicBrush"]

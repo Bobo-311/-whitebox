@@ -32,7 +32,8 @@ func _ready() -> void:
 		rotation = direction.angle()
 		
 	if trail_line:
-		trail_line.top_level = true
+		# 🌟 就是這裡！把它刪掉或加上 # 註解
+		# trail_line.top_level = true 
 		trail_line.clear_points()
 
 	get_tree().create_timer(3.0).timeout.connect(func():
@@ -71,9 +72,13 @@ func _update_trail_logic() -> void:
 		trail_line.clear_points()
 		return
 		
+	# 🌟 關鍵修正 1：讓拖尾的「原點」隨時跟著子彈，這樣 Y-Sort 才會拿到最新高度！
+	trail_line.global_position = global_position
+		
 	var curve = Curve2D.new()
 	for pt in raw_points:
-		curve.add_point(pt)
+		# 🌟 關鍵修正 2：既然原點跟著子彈跑了，畫線座標就必須轉換為「相對於原點的本地座標」
+		curve.add_point(trail_line.to_local(pt))
 		
 	trail_line.points = curve.tessellate(4, 4)
 
@@ -98,8 +103,11 @@ func destroy_bullet() -> void:
 	if is_instance_valid(trail_line) and raw_points.size() > 0:
 		var world = get_parent()
 		if world and trail_line.get_parent() == self:
+			# 🌟 關鍵修正 3：交接給世界時，記住並恢復它最後的絕對位置
+			var prev_pos = trail_line.global_position
 			remove_child(trail_line)
 			world.add_child(trail_line)
+			trail_line.global_position = prev_pos
 			
 			var tween = trail_line.create_tween().set_parallel(true)
 			tween.tween_property(trail_line, "modulate:a", 0.0, trail_lifetime)

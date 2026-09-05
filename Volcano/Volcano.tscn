@@ -279,7 +279,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 5.080265)])
 agent_radius = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_scycs"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xrg6c"]
 texture = ExtResource("7_scycs")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
@@ -1161,7 +1161,7 @@ occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
 navigation_layer_0/layers = 1
-sources/4 = SubResource("TileSetAtlasSource_scycs")
+sources/4 = SubResource("TileSetAtlasSource_xrg6c")
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
@@ -1179,6 +1179,7 @@ offset_bottom = 17356.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.7660208, 0.7142027, 0.81310016, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doxgmg16hjeky"
-path="res://.godot/imported/出生點.png-7fd0062c0e75cbcee3bc98e110e5f54d.ctex"
+uid="uid://b8h3ek7l6687f"
+path="res://.godot/imported/04-2.png-165d39619bce00a07e09001092927189.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://最初之地地圖素材/出生點.png"
-dest_files=["res://.godot/imported/出生點.png-7fd0062c0e75cbcee3bc98e110e5f54d.ctex"]
+source_file="res://最初之地地圖素材/04-2.png"
+dest_files=["res://.godot/imported/04-2.png-165d39619bce00a07e09001092927189.ctex"]
 
 [params]
 

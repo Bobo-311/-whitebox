@@ -26,24 +26,32 @@ radius = 30.081747
 height = 60.163494
 
 [node name="Skill_01_bullet" type="Area2D"]
+y_sort_enabled = true
 collision_layer = 32
 collision_mask = 17
 script = ExtResource("1_ovq7q")
 
 [node name="TrailLine" type="Line2D" parent="."]
+y_sort_enabled = true
+position = Vector2(1, -2)
+points = PackedVector2Array(-1, 2)
 width = 13.0
 width_curve = SubResource("Curve_ovq7q")
 gradient = SubResource("Gradient_ahnrg")
 joint_mode = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-1.1920929e-07, -352)
 scale = Vector2(3.5, 3.5)
 sprite_frames = SubResource("SpriteFrames_t2bd8")
 autoplay = "default"
 frame_progress = 1.0
+offset = Vector2(0, 100)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.9999999, 2)
+y_sort_enabled = true
+position = Vector2(1.9999998, 0)
 rotation = -1.5700276
 scale = Vector2(-0.31150228, 1.263224)
 shape = SubResource("CapsuleShape2D_ahnrg")
