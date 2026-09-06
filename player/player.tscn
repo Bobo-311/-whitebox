@@ -1375,6 +1375,7 @@ volume_db = -14.195
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 layer = 10
+visible = false
 
 [node name="NotebookUI" parent="MenuLayer" instance=ExtResource("22_bjvpn")]
 
