@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://xcbipa1d2i6l"]
+
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_nq8k6"]
+
+[node name="fat_rock_a" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-9.536743e-07, -12)
+texture = ExtResource("1_nq8k6")
+region_enabled = true
+region_rect = Rect2(462.76825, 611.4596, 57.079346, 23.931702)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-1.000001, -10)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(-19.694593, 0, -18.287836, -4.4313917, -16.881079, -6.203948, -14.067566, -6.203948, -8.440539, -8.862783, 1.4067566, -8.862783, 3.5168922, -7.0902267, 5.6270275, -6.203948, 12.66081, -6.203948, 17.58446, -5.31767, 19.694593, -4.4313917, 21.10135, -1.7725563, 21.10135, 2.6588354, 18.991215, 5.317671, 9.847297, 7.9765053, -15.474323, 7.9765053, -18.287836, 5.317671)

@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://5c0rpiyj3mwn"]
+[gd_scene load_steps=3 format=3 uid="uid://5c0rpiyj3mwn"]
 
+[ext_resource type="Script" uid="uid://ci87kxog5tctm" path="res://單獨物件場景/tree_a.gd" id="1_3f57w"]
 [ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_lfc2t"]
 
 [node name="TreeB" type="StaticBody2D"]
 y_sort_enabled = true
+script = ExtResource("1_3f57w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, -32)
@@ -15,3 +17,9 @@ region_rect = Rect2(51.627007, 575.2026, 19.919807, 64.21869)
 position = Vector2(-1, -5)
 scale = Vector2(1.42171, -1.1283137)
 polygon = PackedVector2Array(-3.5168915, 4.4313917, -7.033783, 1.7725573, -7.033783, 0, -5.6270266, 0, -4.22027, -0.88627815, -3.5168915, -3.5451136, -1.4067566, -3.5451136, 0.7033783, -4.4313917, 3.5168915, -3.5451136, 4.22027, -3.5451136, 4.22027, -0.88627815, 5.6270266, -0.88627815, 7.033783, 0.8862791, 4.22027, 4.4313917, 4.22027, 13.294177, -3.5168915, 13.294177)
+
+[node name="FadeArea" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea"]
+polygon = PackedVector2Array(-2, -62, -1, -64, 1, -63, 6, -57, 8, -44, 9, -25, 5, -20, -6, -20, -10, -26, -10, -36, -7, -58)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8htdlv8db3x2"]
+
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_hrgrk"]
+
+[node name="mid rock b" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -13)
+texture = ExtResource("1_hrgrk")
+region_enabled = true
+region_rect = Rect2(465.59918, 467.43576, 24.73059, 25.719818)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-1, -13)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(-7.737162, 3.5451136, -8.440539, -2.6588354, -7.737162, -7.9765053, -6.3304048, -9.749062, 2.8135133, -11.521619, 6.3304048, -11.521619, 9.847297, -9.749062, 9.143919, -1.7725563, 7.033783, 4.4313917, -6.3304048, 4.4313917)

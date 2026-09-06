@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=4 uid="uid://dhlbnppdw5pyf"]
+[gd_scene load_steps=72 format=4 uid="uid://dhlbnppdw5pyf"]
 
 [ext_resource type="Texture2D" uid="uid://borp7738dv31h" path="res://最初之地地圖素材/01-1.png" id="1_axbdk"]
 [ext_resource type="Script" uid="uid://cmnokxwjrc7dd" path="res://Maps/am_001.gd" id="1_o8t7h"]
@@ -8,6 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="4_86od2"]
 [ext_resource type="PackedScene" uid="uid://5c0rpiyj3mwn" path="res://單獨物件場景/tree_b.tscn" id="8_18xj5"]
 [ext_resource type="PackedScene" uid="uid://c8d86o31hcim8" path="res://單獨物件場景/tree_a.tscn" id="8_o2ser"]
+[ext_resource type="PackedScene" uid="uid://bfppguw5v73ao" path="res://單獨物件場景/log.tscn" id="9_18xj5"]
+[ext_resource type="PackedScene" uid="uid://b7awiicllsshv" path="res://單獨物件場景/tree_stump_a.tscn" id="10_vgxt4"]
+[ext_resource type="PackedScene" uid="uid://8642ex8r85yf" path="res://單獨物件場景/tree_stump_b.tscn" id="11_t8ix0"]
+[ext_resource type="PackedScene" uid="uid://bu587snypl02c" path="res://單獨物件場景/big_rock_a.tscn" id="12_t8ix0"]
+[ext_resource type="PackedScene" uid="uid://c8htdlv8db3x2" path="res://單獨物件場景/mid_rock_b.tscn" id="13_1750i"]
+[ext_resource type="PackedScene" uid="uid://i64wuo4ydny8" path="res://單獨物件場景/mid_rock_a.tscn" id="14_p08bm"]
+[ext_resource type="PackedScene" uid="uid://cpdjkv05va5bm" path="res://單獨物件場景/mid_rock_a_02.tscn" id="15_ltiju"]
+[ext_resource type="PackedScene" uid="uid://2kkbkxsd37ye" path="res://單獨物件場景/thin_rock_a.tscn" id="16_kcuab"]
+[ext_resource type="PackedScene" uid="uid://cnhcgvp1ma0qp" path="res://單獨物件場景/thin_rock_b.tscn" id="17_g1h5u"]
+[ext_resource type="PackedScene" uid="uid://bg72a4kxdop2d" path="res://單獨物件場景/mid_rock_b_02.tscn" id="18_5favj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2ser"]
 texture = ExtResource("1_axbdk")
@@ -4149,16 +4159,56 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
-position = Vector2(1238, 2027)
+position = Vector2(1136, 2027)
 base_max_hp = 100
 max_hp = 100
 
 [node name="TreeB" parent="." instance=ExtResource("8_18xj5")]
-position = Vector2(1732.0001, 1526.0001)
+position = Vector2(1854, 1250)
 rotation = -3.1415925
 scale = Vector2(3.5000002, -3.3827739)
 
 [node name="TreeA" parent="." instance=ExtResource("8_o2ser")]
-position = Vector2(2184, 1544)
+position = Vector2(2198, 1741.0001)
 rotation = 3.1415927
 scale = Vector2(3.266874, -2.6716948)
+
+[node name="Log" parent="." instance=ExtResource("9_18xj5")]
+position = Vector2(2869, 1510)
+scale = Vector2(4.006019, 4.006019)
+
+[node name="Tree StumpA" parent="." instance=ExtResource("10_vgxt4")]
+position = Vector2(2588, 1671.0001)
+scale = Vector2(2.7852147, 2.7852147)
+
+[node name="Tree StumpB" parent="." instance=ExtResource("11_t8ix0")]
+position = Vector2(2615, 1511)
+scale = Vector2(3.8296802, 3.8296802)
+
+[node name="big rock A" parent="." instance=ExtResource("12_t8ix0")]
+position = Vector2(1571.0001, 1331.0001)
+scale = Vector2(2.8086, 2.8086)
+
+[node name="mid rock b" parent="." instance=ExtResource("13_1750i")]
+position = Vector2(2074, 1489)
+scale = Vector2(5.5743465, 5.5743465)
+
+[node name="mid_rock_a" parent="." instance=ExtResource("14_p08bm")]
+position = Vector2(2290, 1492.0001)
+scale = Vector2(4.8302517, 4.8302517)
+
+[node name="mid_rock_a_02" parent="." instance=ExtResource("15_ltiju")]
+position = Vector2(1964, 1660)
+scale = Vector2(4.800005, 4.800005)
+
+[node name="thin_rock_a" parent="." instance=ExtResource("16_kcuab")]
+position = Vector2(2064, 1237)
+scale = Vector2(6.062386, 6.062386)
+
+[node name="thin_rock_b" parent="." instance=ExtResource("17_g1h5u")]
+position = Vector2(2260, 1216)
+scale = Vector2(6.6, 6.6)
+
+[node name="mid_rock_b_02" parent="." instance=ExtResource("18_5favj")]
+position = Vector2(2464, 1549.0001)
+scale = Vector2(5.1700945, 5.1700945)

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7awiicllsshv"]
+
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="2_5llks"]
+
+[node name="Tree StumpA" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = ExtResource("2_5llks")
+region_enabled = true
+region_rect = Rect2(140.38905, 611.8272, 29.431442, 24.689697)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, -12)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(0, 3.5451136, -7.033783, 3.5451136, -8.44054, -1.7725573, -8.44054, -2.6588354, -9.847297, -2.6588354, -9.847297, -5.3176703, -8.44054, -6.203949, -5.6270266, -7.090227, -2.110135, -8.862783, -1.4067566, -9.749063, 2.8135133, -9.749063, 4.9236484, -7.9765053, 9.143918, -5.3176703, 9.143918, -2.6588354, 7.033783, 1.7725573, 6.3304048, 3.5451136)

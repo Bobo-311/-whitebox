@@ -23,7 +23,7 @@ func _ready() -> void:
 			DataManager.player_node.animated_sprite_2d.play("idle_down")
 			
 		# 🌟 啟動 A001 劇本 (請把 "A001_opening" 換成你真實的 Timeline 名稱)
-		var layout = Dialogic.start("A001")
+		var layout = Dialogic.start("opening")
 		
 		var ani_character = load("res://dialogic/character/？？？.dch")
 		if DataManager.player_node.has_node("BubbleMaker"):

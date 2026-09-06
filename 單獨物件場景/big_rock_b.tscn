@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnx47jnxqg8ys"]
+
+[ext_resource type="Script" uid="uid://ci87kxog5tctm" path="res://單獨物件場景/tree_a.gd" id="1_r1nf5"]
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="2_b0pqt"]
+
+[node name="big rock B" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_r1nf5")
+
+[node name="FadeArea" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea"]
+polygon = PackedVector2Array(-13, -51, -18, -45, -20, -31, -20, -28, -20, -27, 22, -29, 19, -41, 3, -50, -3, -52)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -27)
+texture = ExtResource("2_b0pqt")
+region_enabled = true
+region_rect = Rect2(499.49228, 439.1878, 54.121185, 50.690582)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-1, -13)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(-13.364187, 12.407897, -15.474323, 11.521619, -17.584457, 5.31767, -18.287836, -0.88627815, -17.584457, -7.090227, -12.6608095, -9.749062, -1.4067566, -9.749063, 2.8135133, -9.749063, 12.66081, -10.635341, 16.88108, -7.090227, 19.694593, -2.6588354, 18.991215, 8.862784, 16.177702, 14.180455)
