@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dm0afww1tvcft"]
+[gd_scene load_steps=8 format=3 uid="uid://bt0v07qi5o8tu"]
 
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_eew4c"]
 [ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="2_3qf5q"]
