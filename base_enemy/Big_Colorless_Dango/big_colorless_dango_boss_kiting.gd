@@ -19,13 +19,21 @@ extends State
 @export var poison_close_cd_time: float = 8.0 # 技能一 (近身反制V字)
 @export var minion_cd_time: float = 6.0       # 技能二 (團子主動牽制)
 
+# ==========================================
+# ⚙️ 特殊技能冷卻設定
+# ==========================================
+@export_group("王a燈 (牆角大跳) 設定")
+@export var jump_strike_cd_time: float = 12.0  # 技能冷卻時間 (不能讓牠一直跳)
+@export var jump_strike_trigger_dist: float = 60.0 # 🌟 新增：多近才算被「壁咚」？
+var jump_strike_cd: float = 0.0                # 當前冷卻倒數計時器
+
 @export_group("開發偵錯")
 @export var show_debug_print: bool = true 
 
 # ⏳ 內部 CD 計時器
 var poison_cd: float = 2.0       
 var poison_close_cd: float = 0.0
-var minion_cd: float = 0.0       # 🌟 新增吐團子 CD
+var minion_cd: float = 0.0       #  新增吐團子 CD
 
 func enter():
 	if show_debug_print:
@@ -36,6 +44,7 @@ func state_physics_update(delta: float):
 	if poison_cd > 0: poison_cd -= delta
 	if poison_close_cd > 0: poison_close_cd -= delta
 	if minion_cd > 0: minion_cd -= delta
+	if jump_strike_cd > 0: jump_strike_cd -= delta # 🌟 更新大跳 CD
 
 	# 2. 🛡️ 防呆：抓取玩家實體
 	if not character.player_node and DataManager and DataManager.player_node:
@@ -61,8 +70,15 @@ func state_physics_update(delta: float):
 	# ==========================================
 	# ⚡ 優先級決策樹 (依照距離精準分工)
 	# ==========================================
-	
+	# 🚨【優先級 0：無路可退的絕境 (牆角大跳突圍)】🚨
+	# 條件：Boss 身體撞到牆 (is_on_wall) + 玩家極度貼臉 (< 60) + 技能 CD 好了
+	# 注意：這裡把距離設為 60，比 V 字防守的 100 更短，代表這是「真．貼臉」的最終反制。
+	if character.is_on_wall() and dist < jump_strike_trigger_dist and jump_strike_cd <= 0:
+		jump_strike_cd = jump_strike_cd_time # 重置 CD
+		state_machine.change_state("JumpStrike") # 🌟 切換到大跳狀態！
+		return # 👈 關鍵！直接 return，中斷下面所有邏輯
 	# 【優先級 1：極度危機】玩家貼臉 (< 100) -> 腳下吐毒 V字牆！
+
 	if dist < close_counter_distance:
 		if poison_close_cd <= 0:
 			poison_close_cd = poison_close_cd_time        

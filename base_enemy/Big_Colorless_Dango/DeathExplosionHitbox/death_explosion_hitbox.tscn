@@ -1,0 +1,71 @@
+[gd_scene load_steps=14 format=3 uid="uid://bm1d2iv1gxnkh"]
+
+[ext_resource type="Script" uid="uid://bd7anlikgd4jw" path="res://base_enemy/Big_Colorless_Dango/DeathExplosionHitbox/death_explosion_hitbox.gd" id="1_1gywf"]
+[ext_resource type="Texture2D" uid="uid://bgcvwxkygn1b6" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_1.png" id="1_tkmj4"]
+[ext_resource type="Texture2D" uid="uid://j6aohb645lyx" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_2.png" id="2_1gywf"]
+[ext_resource type="Texture2D" uid="uid://ds5qtl1cxuis1" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_3.png" id="3_hrtqb"]
+[ext_resource type="Texture2D" uid="uid://c8n021co43yp5" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_4.png" id="4_vfq05"]
+[ext_resource type="Texture2D" uid="uid://upqjllqvh1x0" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_5.png" id="5_7ps1v"]
+[ext_resource type="Texture2D" uid="uid://cq5vgu8yacan1" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_6.png" id="6_bgdjl"]
+[ext_resource type="Texture2D" uid="uid://bcff2erc4u21h" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_7.png" id="7_jxgvj"]
+[ext_resource type="Texture2D" uid="uid://bgwnle14nd1fe" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_8.png" id="8_85byh"]
+[ext_resource type="Texture2D" uid="uid://1m4r3u38hpr3" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_9.png" id="9_17scg"]
+[ext_resource type="Texture2D" uid="uid://bvwgjo6tmxjcd" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_3/Explosion_10.png" id="10_16yj2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ll7e1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tkmj4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_1gywf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hrtqb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vfq05")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7ps1v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bgdjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jxgvj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_85byh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_17scg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_16yj2")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 18.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gn1o6"]
+radius = 1005.0179
+
+[node name="DeathExplosionHitbox" type="Area2D"]
+collision_layer = 64
+collision_mask = 10
+script = ExtResource("1_1gywf")
+damage = 80.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 1.7)
+sprite_frames = SubResource("SpriteFrames_ll7e1")
+animation = &"explode"
+frame = 4
+offset = Vector2(0, -179.85)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -34)
+shape = SubResource("CircleShape2D_gn1o6")

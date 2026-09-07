@@ -1185,7 +1185,6 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 [node name="player" parent="." instance=ExtResource("2_scycs")]
 position = Vector2(3130, 1637)
 base_max_hp = 100
-max_hp = 100
 
 [node name="Wall_Top" type="StaticBody2D" parent="."]
 position = Vector2(1305, 23)

@@ -86,6 +86,6 @@ func die() -> void:
 	
 	# 攔截老爸的普通死法，改為切換到 Boss 專屬的「自爆預警」狀態
 	if state_machine:
-		state_machine.change_state("BossDie") 
+		state_machine.change_state("Die")
 		
 	drop_coin() # 噴出金幣

@@ -1,4 +1,4 @@
-[gd_scene load_steps=169 format=3 uid="uid://dufj7xit8pgpx"]
+[gd_scene load_steps=174 format=3 uid="uid://dufj7xit8pgpx"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_l2fed"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_0nvv6"]
@@ -10,10 +10,15 @@
 [ext_resource type="Texture2D" uid="uid://cou8pb75jrurq" path="res://slime-pack/PNG/Slime2/Walk/Slime2_Walk_body.png" id="6_4duk6"]
 [ext_resource type="Texture2D" uid="uid://bd87hj5wqvt6q" path="res://slime-pack/PNG/Slime2/Run/Slime2_Run_body.png" id="7_dm3wv"]
 [ext_resource type="Script" uid="uid://cc75r834fqr4f" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_lock_hp_spawn.gd" id="10_8mbbp"]
+[ext_resource type="Script" uid="uid://h7pnytiroln1" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_die.gd" id="11_0j4gn"]
 [ext_resource type="Script" uid="uid://j7sme2r0uarp" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_kiting.gd" id="11_egvgl"]
+[ext_resource type="PackedScene" uid="uid://bm1d2iv1gxnkh" path="res://base_enemy/Big_Colorless_Dango/DeathExplosionHitbox/death_explosion_hitbox.tscn" id="12_2i4u6"]
 [ext_resource type="Script" uid="uid://d1a7ppiyjh3ak" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_spit_poison.gd" id="12_mee13"]
 [ext_resource type="PackedScene" uid="uid://cnlf8nvsdpw8t" path="res://base_enemy/Big_Colorless_Dango/PoisonBomb/poison_bomb.tscn" id="13_1jgug"]
+[ext_resource type="PackedScene" uid="uid://bdqjjfukcu0vp" path="res://base_enemy/Big_Colorless_Dango/PoisonPuddle/poison_puddle.tscn" id="13_unm6l"]
 [ext_resource type="Script" uid="uid://da55y55psomh5" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_spit_minion.gd" id="14_4uiaw"]
+[ext_resource type="Script" uid="uid://1ashhk0iywj4" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_jump_strike.gd" id="15_p4tta"]
+[ext_resource type="PackedScene" uid="uid://clisdccjnasgi" path="res://base_enemy/Big_Colorless_Dango/JumpStrikeExplosionHitbox/jump_strike_explosion_hitbox.tscn" id="16_jgy3n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ynskx"]
 resource_local_to_scene = true
@@ -1215,11 +1220,25 @@ close_counter_distance = 450.0
 poison_cd_time = 5.0
 poison_close_cd_time = 8.0
 minion_cd_time = 6.0
+jump_strike_cd_time = 12.0
+jump_strike_trigger_dist = 300.0
 show_debug_print = true
+
+[node name="Die" parent="StateMachine" index="3"]
+script = ExtResource("11_0j4gn")
+explosion_scene = ExtResource("12_2i4u6")
+poison_puddle_scene = ExtResource("13_unm6l")
+minion_scene = ExtResource("3_vsfu5")
+minion_count = 5
+swell_time = 1.2
+minion_scatter_radius = 250.0
+minion_arc_height = 200.0
+minion_flight_time = 0.8
 
 [node name="LockHpSpawn" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("10_8mbbp")
 invincible_duration = 5.0
+minion_scene = ExtResource("3_vsfu5")
 screen_shake_intensity = 50.0
 
 [node name="SpitPoison" type="Node" parent="StateMachine" index="5"]
@@ -1240,6 +1259,10 @@ melee_push_distance = 80.0
 [node name="SpitMinion" type="Node" parent="StateMachine" index="7"]
 script = ExtResource("14_4uiaw")
 minion_scene = ExtResource("3_vsfu5")
+
+[node name="JumpStrike" type="Node" parent="StateMachine" index="8"]
+script = ExtResource("15_p4tta")
+explosion_scene = ExtResource("16_jgy3n")
 
 [node name="DetectPlayer" parent="." index="5"]
 monitoring = false
