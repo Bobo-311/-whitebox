@@ -1231,8 +1231,8 @@ poison_puddle_scene = ExtResource("13_unm6l")
 minion_scene = ExtResource("3_vsfu5")
 minion_count = 5
 swell_time = 1.2
-minion_scatter_radius = 250.0
-minion_arc_height = 200.0
+minion_scatter_radius = 300.0
+minion_arc_height = 300.0
 minion_flight_time = 0.8
 
 [node name="LockHpSpawn" type="Node" parent="StateMachine" index="4"]
