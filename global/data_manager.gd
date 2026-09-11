@@ -222,15 +222,20 @@ func trigger_hitstop(duration: float = 0.08, freeze_scale: float = 0.05) -> void
 func hitstop(duration: float = 0.08, time_scale: float = 0.05) -> void:
 	trigger_hitstop(duration, time_scale)
 
-# 🌟 近戰處決專用：輕微慢動作 (Bullet Time) + 俐落短暫過渡
+# ==========================================
+# 💥 近戰處決專用 (Hitstop + 動態縮放)
+# ==========================================
 func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -> void:
 	Engine.time_scale = slow_scale
 	
 	var camera = get_viewport().get_camera_2d()
-	if camera:
-		var orig_zoom = camera.zoom
-		camera.zoom = orig_zoom * 1.06
+	
+	# 🌟 【正規作法】：呼叫 API，把放大的任務丟給相機自己去處理！
+	if camera and camera.has_method("apply_zoom_pulse"):
+		camera.apply_zoom_pulse(1.06) 
 		
-		await get_tree().create_timer(duration, true, false, true).timeout
+	# 接著繼續等你的頓幀時間，但完全不用擔心縮放的問題了
+	await get_tree().create_timer(duration, true, false, true).timeout
+	
+	Engine.time_scale = 1.0
 		
-		Engine.time_scale = 1.0
