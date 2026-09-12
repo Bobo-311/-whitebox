@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1bxqhijcvhry"
-path="res://.godot/imported/02_onlymap.png-cdd13a197dcddf778d4895b798f4250e.ctex"
+uid="uid://ccl3a1cl40jlh"
+path="res://.godot/imported/素材-new.png-1f6b15328ca64bc7cd816b1ce39c6332.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://最初之地地圖素材/only map/02_onlymap.png"
-dest_files=["res://.godot/imported/02_onlymap.png-cdd13a197dcddf778d4895b798f4250e.ctex"]
+source_file="res://最初之地地圖素材/only map/素材-new.png"
+dest_files=["res://.godot/imported/素材-new.png-1f6b15328ca64bc7cd816b1ce39c6332.ctex"]
 
 [params]
 

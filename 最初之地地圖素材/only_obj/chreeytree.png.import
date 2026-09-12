@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1bxqhijcvhry"
-path="res://.godot/imported/02_onlymap.png-cdd13a197dcddf778d4895b798f4250e.ctex"
+uid="uid://csary4abni1cq"
+path="res://.godot/imported/chreeytree.png-de86acecc6602095e1e9a4172de60e3e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://最初之地地圖素材/only map/02_onlymap.png"
-dest_files=["res://.godot/imported/02_onlymap.png-cdd13a197dcddf778d4895b798f4250e.ctex"]
+source_file="res://最初之地地圖素材/only_obj/chreeytree.png"
+dest_files=["res://.godot/imported/chreeytree.png-de86acecc6602095e1e9a4172de60e3e.ctex"]
 
 [params]
 

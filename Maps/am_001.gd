@@ -4,7 +4,7 @@ extends Node2D # AM001 (最初之地/森林)
 
 func _ready() -> void:
 	# 🌟 更新 UI 地圖名稱
-	DataManager.update_map_name("森林")
+	DataManager.update_map_name("AM001")
 	
 	if DataManager.is_teleporting:
 		if DataManager.player_node:

@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://ca07lmkk7kidw" path="res://光源/light_texture.tres" id="2_jdbxt"]
 [ext_resource type="Script" uid="uid://cims8ip5crfbe" path="res://whitecat/whitecat_hurtbox.gd" id="4_q2jyu"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_q2jyu"]
-radius = 35.20423
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q2jyu"]
+size = Vector2(91.95178, 67.871254)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t65i5"]
 radius = 1651.5377
@@ -27,9 +27,9 @@ scale = Vector2(0.2654891, 0.2654891)
 texture = ExtResource("1_8fm4j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 48.400005)
-scale = Vector2(0.89599985, 0.89599985)
-shape = SubResource("CircleShape2D_q2jyu")
+position = Vector2(10.999995, 54.999992)
+scale = Vector2(1.7139417, 0.37129134)
+shape = SubResource("RectangleShape2D_q2jyu")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
