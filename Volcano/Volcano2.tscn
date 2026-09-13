@@ -1,19 +1,20 @@
-[gd_scene load_steps=68 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=69 format=4 uid="uid://bmlfgt0m0wuem"]
 
-[ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
-[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
-[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="5_q0gaw"]
-[ext_resource type="Texture2D" uid="uid://cf5y54uekehn6" path="res://地圖/map2.png" id="7_scycs"]
-[ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="7_vetra"]
-[ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="9_167qa"]
-[ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="10_167qa"]
-[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/Boar/boar.tscn" id="10_877dg"]
-[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="10_q0gaw"]
-[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_Dango/colorless_dango.tscn" id="11_q0gaw"]
-[ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
-[ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
-[ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="14_4kxmv"]
-[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="15_741bu"]
+[ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_wwmgn"]
+[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_d7ch3"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="3_6nbgn"]
+[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="4_ckj87"]
+[ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="5_hxxc7"]
+[ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="6_723fl"]
+[ext_resource type="Texture2D" uid="uid://cf5y54uekehn6" path="res://地圖/map2.png" id="7_owcq4"]
+[ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="8_xrg0l"]
+[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/Boar/boar.tscn" id="9_jvr76"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_Dango/colorless_dango.tscn" id="10_gfsxo"]
+[ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="11_n3bbj"]
+[ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="12_u8hly"]
+[ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="13_ulndw"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="14_m3664"]
+[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="15_ugrs7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yegem"]
 size = Vector2(6539, 281)
@@ -277,7 +278,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -3
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_scycs"]
-texture = ExtResource("7_scycs")
+texture = ExtResource("7_owcq4")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
@@ -1162,7 +1163,7 @@ sources/4 = SubResource("TileSetAtlasSource_scycs")
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
-script = ExtResource("1_scycs")
+script = ExtResource("1_wwmgn")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -2
@@ -1181,7 +1182,7 @@ color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
-[node name="player" parent="." instance=ExtResource("2_scycs")]
+[node name="player" parent="." instance=ExtResource("2_d7ch3")]
 position = Vector2(3130, 1637)
 base_max_hp = 100
 
@@ -1256,41 +1257,41 @@ collision_mask = 0
 offset_left = -1094.3125
 offset_top = -46.851074
 offset_right = 2340.8916
-offset_bottom = 114.31494
+offset_bottom = 114.31494000000001
 color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Right"]
 position = Vector2(804.5, 33.5)
 shape = SubResource("RectangleShape2D_xrg6c")
 
-[node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
+[node name="SavePoint" parent="." instance=ExtResource("3_6nbgn")]
 position = Vector2(3316, 317)
 
-[node name="ShopNPC" parent="." instance=ExtResource("10_q0gaw")]
+[node name="ShopNPC" parent="." instance=ExtResource("4_ckj87")]
 position = Vector2(2860, 311)
 
-[node name="Coin" parent="." instance=ExtResource("7_vetra")]
+[node name="Coin" parent="." instance=ExtResource("5_hxxc7")]
 position = Vector2(2921, 2749)
 
-[node name="Coin6" parent="Coin" instance=ExtResource("7_vetra")]
+[node name="Coin6" parent="Coin" instance=ExtResource("5_hxxc7")]
 position = Vector2(-28, -36)
 
-[node name="Coin5" parent="Coin" instance=ExtResource("7_vetra")]
+[node name="Coin5" parent="Coin" instance=ExtResource("5_hxxc7")]
 position = Vector2(-62, -2)
 
-[node name="Coin2" parent="Coin" instance=ExtResource("7_vetra")]
+[node name="Coin2" parent="Coin" instance=ExtResource("5_hxxc7")]
 position = Vector2(-74, -60)
 
-[node name="Coin3" parent="Coin" instance=ExtResource("7_vetra")]
+[node name="Coin3" parent="Coin" instance=ExtResource("5_hxxc7")]
 position = Vector2(-101, -21)
 
-[node name="Coin4" parent="Coin" instance=ExtResource("7_vetra")]
+[node name="Coin4" parent="Coin" instance=ExtResource("5_hxxc7")]
 position = Vector2(-32, -75)
 
-[node name="Coin7" parent="Coin" instance=ExtResource("7_vetra")]
+[node name="Coin7" parent="Coin" instance=ExtResource("5_hxxc7")]
 position = Vector2(5, -62)
 
-[node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
+[node name="WhiteCat" parent="." instance=ExtResource("6_723fl")]
 position = Vector2(2397, 564)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
@@ -1306,23 +1307,26 @@ tile_set = SubResource("TileSet_167qa")
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(2495, 1658)
 energy = 1.5
-texture = ExtResource("10_167qa")
+texture = ExtResource("8_xrg0l")
 texture_scale = 10.0
 
-[node name="Boar" parent="." instance=ExtResource("10_877dg")]
+[node name="Boar" parent="." instance=ExtResource("9_jvr76")]
 position = Vector2(339, 1570)
 
-[node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
+[node name="colorless_dango" parent="." instance=ExtResource("10_gfsxo")]
 position = Vector2(493, 1361)
 
-[node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
+[node name="Chipmunk" parent="." instance=ExtResource("11_n3bbj")]
 position = Vector2(632, 2075)
 
-[node name="barbarian" parent="." instance=ExtResource("13_vetra")]
+[node name="barbarian" parent="." instance=ExtResource("12_u8hly")]
 position = Vector2(186, 1804)
 
-[node name="BigShieldBrother" parent="." instance=ExtResource("14_4kxmv")]
+[node name="BigShieldBrother" parent="." instance=ExtResource("13_ulndw")]
 position = Vector2(547, 1752)
 
-[node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(2787, 1676)
+[node name="ColorlessZombie" parent="." instance=ExtResource("14_m3664")]
+position = Vector2(133, 1358)
+
+[node name="Big_Colorless_Dango" parent="." instance=ExtResource("15_ugrs7")]
+position = Vector2(3842, 1520)
