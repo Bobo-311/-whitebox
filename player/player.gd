@@ -140,6 +140,19 @@ func _ready():
 		DataManager.equipment_changed.connect(recalculate_stats)
 	
 # ==========================================
+# 🌟 相機邊界控制系統
+# ==========================================
+func update_camera_limits(left: int, top: int, right: int, bottom: int) -> void:
+	# 抓取阿尼身上的 Camera2D 節點
+	var camera = $Camera2D 
+	if camera:
+		camera.limit_left = left
+		camera.limit_top = top
+		camera.limit_right = right
+		camera.limit_bottom = bottom
+		print("【系統】相機邊界已更新：", left, ", ", top, ", ", right, ", ", bottom)
+		
+# ==========================================
 # 開發者外掛與輸入偵測
 # ==========================================
 func _input(event):

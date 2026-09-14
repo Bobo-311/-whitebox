@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://eox5yomlyn0l"]
+[gd_scene load_steps=2 format=3 uid="uid://eox5yomlyn0l"]
 
-[ext_resource type="Script" uid="uid://ci87kxog5tctm" path="res://單獨物件場景/tree_a.gd" id="1_e0145"]
 [ext_resource type="Texture2D" uid="uid://dilg8gmnsx2y4" path="res://最初之地地圖素材/only map/素材-new1.png" id="2_66qxh"]
 
 [node name="doorA" type="StaticBody2D"]
 y_sort_enabled = true
-script = ExtResource("1_e0145")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -97)

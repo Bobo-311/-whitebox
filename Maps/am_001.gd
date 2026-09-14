@@ -1,39 +1,30 @@
-extends Node2D # AM001 (最初之地/森林)
-
-@onready var spawn_point = $PortalSpawnPoint 
+# 🌟 重點：繼承你剛剛寫好的 BaseMap
+extends BaseMap 
 
 func _ready() -> void:
-	# 🌟 更新 UI 地圖名稱
-	DataManager.update_map_name("AM001")
+	# 這行很重要！先執行 BaseMap 公版裡的 _ready (更新名稱、處理傳送)
+	super._ready() 
 	
-	if DataManager.is_teleporting:
-		if DataManager.player_node:
-			DataManager.player_node.global_position = spawn_point.global_position
-			DataManager.is_teleporting = false
-	else:
-		# ==========================================
-		# 🎬 A001 森林開場劇情
-		# ==========================================
-		Dialogic.timeline_ended.connect(_on_dialogic_ended)	
-		
-		if DataManager.player_node:
-			DataManager.player_node.is_in_dialogue = true 
-			if DataManager.player_node.state_machine:
-				DataManager.player_node.state_machine.process_mode = Node.PROCESS_MODE_DISABLED
-			DataManager.player_node.animated_sprite_2d.play("idle_down")
-			
-		# 🌟 啟動 A001 劇本 (請把 "A001_opening" 換成你真實的 Timeline 名稱)
-		var layout = Dialogic.start("opening")
-		
-		var ani_character = load("res://dialogic/character/？？？.dch")
-		if DataManager.player_node.has_node("BubbleMaker"):
-			layout.register_character(ani_character, DataManager.player_node.get_node("BubbleMaker"))
+	# (可選) 呼叫你上一題寫的相機邊界設定！
+	if DataManager.player_node:
+		DataManager.player_node.update_camera_limits(-500, -500, 2500, 1500)
 
-# ==========================================
-# 🔓 劇本結束：恢復自由與解除信號
-# ==========================================
+# 🌟 覆寫公版的函數：這裡專心寫 AM001 的專屬劇情就好！
+func _play_map_opening() -> void:
+	Dialogic.timeline_ended.connect(_on_dialogic_ended)	
+	
+	if DataManager.player_node:
+		DataManager.player_node.is_in_dialogue = true 
+		if DataManager.player_node.state_machine:
+			DataManager.player_node.state_machine.process_mode = Node.PROCESS_MODE_DISABLED
+		DataManager.player_node.animated_sprite_2d.play("idle_down")
+		
+	var layout = Dialogic.start("opening")
+	var ani_character = load("res://dialogic/character/？？？.dch")
+	if DataManager.player_node.has_node("BubbleMaker"):
+		layout.register_character(ani_character, DataManager.player_node.get_node("BubbleMaker"))
+
 func _on_dialogic_ended():
-	# 🛡️ 關鍵修復：解除信號綁定，避免這張地圖去干擾後續其他的對話！
 	if Dialogic.timeline_ended.is_connected(_on_dialogic_ended):
 		Dialogic.timeline_ended.disconnect(_on_dialogic_ended)
 		
@@ -42,4 +33,4 @@ func _on_dialogic_ended():
 		player.is_in_dialogue = false
 		player.state_machine.process_mode = Node.PROCESS_MODE_INHERIT
 		player.animated_sprite_2d.play("idle_down") 
-		print("【系統】AM001 開場結束，恢復控制！")
+		print("【系統】AM001 開場結束，恢復控制！")	
