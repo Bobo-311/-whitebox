@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=4 uid="uid://n5el11gnhx3y"]
+[gd_scene load_steps=108 format=4 uid="uid://n5el11gnhx3y"]
 
 [ext_resource type="Texture2D" uid="uid://chxeqh77hs4fe" path="res://最初之地地圖素材/only map/02_onlymap2.png" id="1_lu4wg"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_qgvtp"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bfppguw5v73ao" path="res://單獨物件場景/log.tscn" id="13_qgvtp"]
 [ext_resource type="PackedScene" uid="uid://byni4dbp6gfig" path="res://單獨物件場景/cheery_tree.tscn" id="14_428lw"]
 [ext_resource type="PackedScene" uid="uid://eox5yomlyn0l" path="res://單獨物件場景/door_a.tscn" id="15_qgvtp"]
+[ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="16_aoh7f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_56r8a"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -18941,7 +18942,7 @@ script = ExtResource("1_qgvtp")
 map_name = "AM002"
 limit_left = 2250
 limit_top = -2048
-limit_right = 8320
+limit_right = 8220
 limit_bottom = 4355
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -18979,7 +18980,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(3729, -598)
+position = Vector2(5753, 1425)
 base_max_hp = 100
 max_hp = 100
 
@@ -20441,3 +20442,15 @@ scale = Vector2(5, 5)
 
 [node name="doorA" parent="." instance=ExtResource("15_qgvtp")]
 position = Vector2(3967, 3056)
+
+[node name="CameraLockArea" parent="." instance=ExtResource("16_aoh7f")]
+position = Vector2(1160, 1452.9999)
+scale = Vector2(53.14191, 41.59665)
+
+[node name="CameraLockArea2" parent="." instance=ExtResource("16_aoh7f")]
+position = Vector2(6800.0005, 1433)
+scale = Vector2(53.14191, 282.68866)
+
+[node name="CameraLockArea3" parent="." instance=ExtResource("16_aoh7f")]
+position = Vector2(3988.0005, -1653)
+scale = Vector2(43.90935, 62.156647)

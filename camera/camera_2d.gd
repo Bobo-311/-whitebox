@@ -19,6 +19,8 @@ var current_look_offset: Vector2 = Vector2.ZERO # 記憶目前平滑後的探頭
 @export var trauma_power: float = 2.0           # 🌟 二次方指數衰減 (讓尾震更順滑)
 
 var trauma: float = 0.0                         # 當前衝擊值 (0.0 ~ 1.0)
+# 🌟 相機探頭煞車開關 (給外部 Area2D 控制用的)
+var is_look_ahead_disabled: bool = false
 
 func _ready() -> void:
 	add_to_group("main_camera") # 🌟 加入群組，讓子彈與敵人能隨時全域呼叫震动
@@ -37,7 +39,7 @@ func _process(delta: float) -> void:
 	var target_look = Vector2.ZERO
 	
 	# 🌟 新增防護網：只有在「沒有播放劇情」的時候，才允許滑鼠探頭
-	if DataManager.player_node and not DataManager.player_node.is_in_dialogue:
+	if DataManager.player_node and not DataManager.player_node.is_in_dialogue and not is_look_ahead_disabled:
 		var mouse_pos = get_local_mouse_position()
 		var mouse_dist = mouse_pos.length()
 		
