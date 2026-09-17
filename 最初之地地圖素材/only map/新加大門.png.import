@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwv7i6e3avrqm"
-path="res://.godot/imported/06_onlymap.png-b634f1d440ae85538aff89ddbe59180c.ctex"
+uid="uid://dtlv62ubnno0b"
+path="res://.godot/imported/新加大門.png-b21335a85a5042704e951f84c14e7af6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://最初之地地圖素材/only map/06_onlymap.png"
-dest_files=["res://.godot/imported/06_onlymap.png-b634f1d440ae85538aff89ddbe59180c.ctex"]
+source_file="res://最初之地地圖素材/only map/新加大門.png"
+dest_files=["res://.godot/imported/新加大門.png-b21335a85a5042704e951f84c14e7af6.ctex"]
 
 [params]
 

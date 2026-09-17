@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cm807gmit4s5x"]
+
+[ext_resource type="Texture2D" uid="uid://dtlv62ubnno0b" path="res://最初之地地圖素材/only map/新加大門.png" id="1_c0omb"]
+
+[node name="column" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, -110)
+texture = ExtResource("1_c0omb")
+region_enabled = true
+region_rect = Rect2(1146.2708, 1652.1382, 386.5227, 281.83936)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-141, -29)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(-9.143913, -26.588352, 209.60675, -26.588352, 209.60675, 10.63534, -10.550674, 10.63534)
