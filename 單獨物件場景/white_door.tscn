@@ -1,13 +1,27 @@
-[gd_scene load_steps=2 format=3 uid="uid://cm807gmit4s5x"]
+[gd_scene load_steps=7 format=3 uid="uid://cm807gmit4s5x"]
 
 [ext_resource type="Texture2D" uid="uid://dtlv62ubnno0b" path="res://最初之地地圖素材/only map/新加大門.png" id="1_c0omb"]
+[ext_resource type="Script" uid="uid://c7x33qid1ydbj" path="res://單獨物件場景/one_way_door.gd" id="1_mfjvo"]
+[ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://快捷欄素材/tilemap.png" id="3_cxdqu"]
+[ext_resource type="FontFile" uid="uid://cp6wjmqh755mf" path="res://字體/Cubic-11/fonts/web/Cubic_11.woff" id="4_n3nf4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0b5f1"]
+size = Vector2(304, 71)
+
+[sub_resource type="LabelSettings" id="LabelSettings_4fmd7"]
+font = ExtResource("4_n3nf4")
+font_size = 20
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
 
 [node name="column" type="StaticBody2D"]
 y_sort_enabled = true
+script = ExtResource("1_mfjvo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(8, -110)
+position = Vector2(8, -62)
 texture = ExtResource("1_c0omb")
+offset = Vector2(0, -50)
 region_enabled = true
 region_rect = Rect2(1146.2708, 1652.1382, 386.5227, 281.83936)
 
@@ -15,3 +29,40 @@ region_rect = Rect2(1146.2708, 1652.1382, 386.5227, 281.83936)
 position = Vector2(-141, -29)
 scale = Vector2(1.42171, -1.1283137)
 polygon = PackedVector2Array(-9.143913, -26.588352, 209.60675, -26.588352, 209.60675, 10.63534, -10.550674, 10.63534)
+
+[node name="UnlockZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UnlockZone"]
+position = Vector2(1, -75.5)
+shape = SubResource("RectangleShape2D_0b5f1")
+
+[node name="BlockZone" type="Area2D" parent="."]
+position = Vector2(2, 71.00001)
+scale = Vector2(1, 0.6391801)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlockZone"]
+position = Vector2(1, -75.5)
+shape = SubResource("RectangleShape2D_0b5f1")
+
+[node name="PromptIcon" type="Sprite2D" parent="."]
+visible = false
+z_index = 20
+position = Vector2(5.04871e-29, -159)
+scale = Vector2(3.2860572, 2.1820045)
+texture = ExtResource("3_cxdqu")
+region_enabled = true
+region_rect = Rect2(324, 35, 13, 14)
+
+[node name="BlockLabel" type="Label" parent="."]
+visible = false
+z_index = 20
+offset_left = -95.0
+offset_top = -60.0
+offset_right = 100.0
+offset_bottom = -36.0
+text = "門無法從這一側打開"
+label_settings = SubResource("LabelSettings_4fmd7")
