@@ -1304,7 +1304,7 @@ max_hp = 100
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ahywi")
 sprite_frames = SubResource("SpriteFrames_ni38p")
-animation = &"attack_down"
+animation = &"hurt_left"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

@@ -1,1179 +1,45 @@
-[gd_scene load_steps=69 format=4 uid="uid://bmlfgt0m0wuem"]
+[gd_scene load_steps=13 format=3 uid="uid://bmlfgt0m0wuem"]
 
-[ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_wwmgn"]
+[ext_resource type="Script" uid="uid://ddcj3uh5jsxfh" path="res://Volcano/volcano_2.gd" id="1_sjlws"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_d7ch3"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="3_6nbgn"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="4_ckj87"]
-[ext_resource type="PackedScene" uid="uid://byo1jvo3imiyg" path="res://coin/coin.tscn" id="5_hxxc7"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="6_723fl"]
-[ext_resource type="Texture2D" uid="uid://cf5y54uekehn6" path="res://地圖/map2.png" id="7_owcq4"]
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="8_xrg0l"]
-[ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/Boar/boar.tscn" id="9_jvr76"]
-[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_Dango/colorless_dango.tscn" id="10_gfsxo"]
-[ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="11_n3bbj"]
-[ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="12_u8hly"]
-[ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="13_ulndw"]
-[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="14_m3664"]
-[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="15_ugrs7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yegem"]
-size = Vector2(6539, 281)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jou6o"]
+size = Vector2(916, 118)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrg6c"]
-size = Vector2(7306, 160)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjlws"]
+size = Vector2(356.99994, 105.50049)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_0p35i"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 32, -32, 32, 32)])
-agent_radius = 0.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q1m2"]
+size = Vector2(120.000046, 122)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_167qa"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 32, -32, 32, 32)])
-agent_radius = 0.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_go6hg"]
+size = Vector2(120.000046, 121)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_q0gaw"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
-agent_radius = 0.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aspr5"]
+size = Vector2(120.000046, 250)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_877dg"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_vetra"]
-vertices = PackedVector2Array(32, -13.546875, 32, 32, -32, 32, -32, -32, 14.109375, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, -32, 32, 32, 32, 32, -13.547375, 14.111843, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_4kxmv"]
-vertices = PackedVector2Array(12.984375, 3.390625, 14.109375, 32, -32, 32, -32, -32, 32, -32, 32, 2.8203125)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(0, 3, 4, 5)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 32, -32, 32, 2.8223686, 12.982895, 3.3868408, 14.111847, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_741bu"]
-vertices = PackedVector2Array(23.140625, 1.1328125, 21.453125, 3.953125, -32, 3.390625, -32, -32, 22.015625, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 22.01448, -32, 23.143425, 1.1289482, 21.450005, 3.9513168)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_0p35i"]
-polygon = PackedVector2Array(-32, 20.32106, 27.094746, 19.756584, 27.094746, -32, 32, -32, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_yegem"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -11.8515625, -14.109375, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -11.8539505, -32, 32, 32, 32, 32, -32, -14.111847, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_xrg6c"]
-vertices = PackedVector2Array(32, 2.8203125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 2.8223686)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_167qa"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_qq5g5"]
-vertices = PackedVector2Array(32, -13.546875, 32, 32, -32, 32, -32, -32, 14.109375, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, -32, 32, 32, 32, 32, -13.547375, 14.111843, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_oa6jy"]
-vertices = PackedVector2Array(32, 32, -18.0625, 32, -32, 12.421875, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, -32, 12.4184265, -18.063164, 32, 32, 32, 32, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_y07b3"]
-vertices = PackedVector2Array(32, -32, 32, 32, -19.757813, 32, -19.757813, 3.390625, -32, -32, -32, -15.2421875)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, 32, -19.756588, 32, -19.756588, 3.3868408, -32, -15.240795, -32, -32, 32, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_eenrl"]
-vertices = PackedVector2Array(32, 32, -20.320313, 32, -20.882813, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, 32, -20.32106, 32, -20.885536, -32, 32, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_jrwmu"]
-vertices = PackedVector2Array(32, 32, -20.320313, 32, -20.882813, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, 32, -20.32106, 32, -20.885536, -32, 32, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_wf3fu"]
-vertices = PackedVector2Array(32, 32, -20.320313, 32, -20.882813, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, 32, -20.32106, 32, -20.885536, -32, 32, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_e2yn2"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -19.757813, -19.195313, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, -32, 32, 32, -32, 32, -32, -19.756588, -19.192112, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_32er6"]
-vertices = PackedVector2Array(16.367188, 32, -32, 32, -32, -32, 18.0625, -1.1328125, 32, -32, 32, -12.421875)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(16.369743, 32, -32, 32, -32, -32, 32, -32, 32, -12.4184265, 18.063164, -1.1289482)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_i3cc7"]
-vertices = PackedVector2Array(19.195313, 32, -32, 32, -32, -32, 19.195313, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(19.192108, 32, -32, 32, -32, -32, 19.192108, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_td6v3"]
-vertices = PackedVector2Array(19.195313, 32, -32, 32, -32, -32, 19.195313, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(19.192108, 32, -32, 32, -32, -32, 19.192108, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_qr16r"]
-vertices = PackedVector2Array(19.195313, 32, -32, 32, -32, -32, 19.195313, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(19.192108, 32, -32, 32, -32, -32, 19.192108, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_grtuy"]
-vertices = PackedVector2Array(32, -13.546875, 32, 32, -32, 32, -32, -32, 14.109375, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, -32, 32, 32, 32, 32, -13.547375, 14.111843, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_4u5xm"]
-vertices = PackedVector2Array(32, 2.8203125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 2.8223686)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_q0gaw"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_eu87g"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -19.195313, -19.195313, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, -32, 32, 32, -32, 32, -32, -19.192112, -19.192112, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_6pdth"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(32, -32, 32, 32, -32, 32, -32, -32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_bhv5w"]
-vertices = PackedVector2Array(32, 2.8203125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 2.8223686)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_gam27"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_nu4ro"]
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_877dg"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_nvg4q"]
-vertices = PackedVector2Array(32, 32, -22.015625, 32, -21.453125, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-22.014484, 32, -21.450008, -32, 32, -32, 32, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_qtadr"]
-vertices = PackedVector2Array(32, 32, -22.015625, 32, -21.453125, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-22.014484, 32, -21.450008, -32, 32, -32, 32, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_8c1cp"]
-vertices = PackedVector2Array(32, 7.90625, -22.015625, 7.90625, -21.453125, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-22.014484, 7.9026337, -21.450008, -32, 32, -32, 32, 7.9026337)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_vetra"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_1lf7k"]
-vertices = PackedVector2Array(32, 2.8203125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 2.8223686)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4kxmv"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_dsctw"]
-vertices = PackedVector2Array(21.453125, 32, -32, 32, -32, -32, 22.015625, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 22.01448, -32, 21.450005, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_pcde6"]
-vertices = PackedVector2Array(21.453125, 32, -32, 32, -32, -32, 22.015625, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 22.01448, -32, 21.450005, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_hr1bf"]
-vertices = PackedVector2Array(21.453125, 32, -32, 32, -32, -32, 22.015625, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 22.01448, -32, 21.450005, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_54ihu"]
-vertices = PackedVector2Array(21.453125, 32, -32, 32, -32, -32, 22.015625, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 32, -32, -32, 22.01448, -32, 21.450005, 32)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_0la8q"]
-vertices = PackedVector2Array(20.882813, 3.390625, -32, 3.390625, -32, -32, 19.757813, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 19.756584, -32, 20.885529, 3.3868408)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_741bu"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_fd3eq"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_e8rik"]
-vertices = PackedVector2Array(32, 5.078125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 5.080265)])
-agent_radius = 0.0
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_yegem"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xrg6c"]
-polygon = PackedVector2Array(-32, 20.32106, 32, 19.756584, 32, 32, -32, 32)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_eicvl"]
-vertices = PackedVector2Array(32, 5.078125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 5.080265)])
-agent_radius = 0.0
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_8dwdv"]
-vertices = PackedVector2Array(32, 5.078125, -32, 3.390625, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 3.3868408, -32, -32, 32, -32, 32, 5.080265)])
-agent_radius = 0.0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_scycs"]
-texture = ExtResource("7_owcq4")
-texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
-0:1/0 = 0
-0:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
-0:2/0 = 0
-0:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
-0:3/0 = 0
-0:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
-0:4/0 = 0
-0:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
-0:5/0 = 0
-0:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0p35i")
-0:6/0 = 0
-0:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_167qa")
-0:7/0 = 0
-0:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_167qa")
-0:8/0 = 0
-0:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_167qa")
-0:9/0 = 0
-0:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_167qa")
-0:10/0 = 0
-0:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_167qa")
-0:11/0 = 0
-0:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-0:12/0 = 0
-0:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-0:13/0 = 0
-0:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-0:14/0 = 0
-0:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-1:0/0 = 0
-1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -27.094748, -25.401325, -26.530273, 32, -32, 32, -32, 32, -32, -25.401325)
-1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nvg4q")
-1:1/0 = 0
-1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -32, -32, -32, -32)
-1:1/0/physics_layer_0/polygon_1/points = PackedVector2Array(-26.530273, -32, -32, -32, -32, 32, -32, 32, -27.659222, 32)
-1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nvg4q")
-1:2/0 = 0
-1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -32, -32, -32, -32)
-1:2/0/physics_layer_0/polygon_1/points = PackedVector2Array(-26.530273, -32, -32, -32, -32, 32, -32, 32, -27.659222, 32)
-1:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nvg4q")
-1:3/0 = 0
-1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -32, -32, -32, -32)
-1:3/0/physics_layer_0/polygon_1/points = PackedVector2Array(-26.530273, -32, -32, -32, -32, 32, -32, 32, -27.659222, 32)
-1:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nvg4q")
-1:4/0 = 0
-1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -32, -32, -32, -32)
-1:4/0/physics_layer_0/polygon_1/points = PackedVector2Array(-26.530273, -32, -32, -32, -32, 32, -32, 32, -27.659222, 32)
-1:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_qtadr")
-1:5/0 = 0
-1:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_vetra")
-1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, -32, -32, -27.094748, -32, -26.530273, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-1:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_8c1cp")
-1:6/0 = 0
-1:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-1:7/0 = 0
-1:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-1:8/0 = 0
-1:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-1:9/0 = 0
-1:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-1:10/0 = 0
-1:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-1:11/0 = 0
-1:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-1:12/0 = 0
-1:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-1:13/0 = 0
-1:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-1:14/0 = 0
-1:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-2:0/0 = 0
-2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-2:1/0 = 0
-2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-2:2/0 = 0
-2:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-2:3/0 = 0
-2:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-2:4/0 = 0
-2:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-2:5/0 = 0
-2:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_yegem")
-2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-2:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_e8rik")
-2:6/0 = 0
-2:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-2:7/0 = 0
-2:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-2:8/0 = 0
-2:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-2:9/0 = 0
-2:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-2:10/0 = 0
-2:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-2:11/0 = 0
-2:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-2:12/0 = 0
-2:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-2:13/0 = 0
-2:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-2:14/0 = 0
-2:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-3:0/0 = 0
-3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-3:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-3:1/0 = 0
-3:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-3:2/0 = 0
-3:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-3:3/0 = 0
-3:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-3:4/0 = 0
-3:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-3:5/0 = 0
-3:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-3:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_e8rik")
-3:6/0 = 0
-3:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-3:7/0 = 0
-3:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-3:8/0 = 0
-3:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-3:9/0 = 0
-3:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-3:10/0 = 0
-3:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-3:11/0 = 0
-3:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-3:12/0 = 0
-3:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-3:13/0 = 0
-3:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-3:14/0 = 0
-3:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-4:0/0 = 0
-4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-4:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-4:1/0 = 0
-4:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-4:2/0 = 0
-4:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-4:3/0 = 0
-4:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-4:4/0 = 0
-4:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-4:5/0 = 0
-4:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-4:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-4:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_e8rik")
-4:6/0 = 0
-4:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-4:7/0 = 0
-4:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-4:8/0 = 0
-4:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-4:9/0 = 0
-4:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-4:10/0 = 0
-4:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-4:11/0 = 0
-4:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-4:12/0 = 0
-4:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-4:13/0 = 0
-4:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-4:14/0 = 0
-4:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-5:0/0 = 0
-5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-5:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-5:1/0 = 0
-5:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-5:2/0 = 0
-5:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-5:3/0 = 0
-5:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-5:4/0 = 0
-5:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-5:5/0 = 0
-5:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-5:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-5:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_e8rik")
-5:6/0 = 0
-5:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-5:7/0 = 0
-5:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-5:8/0 = 0
-5:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-5:9/0 = 0
-5:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-5:10/0 = 0
-5:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-5:11/0 = 0
-5:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-5:12/0 = 0
-5:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-5:13/0 = 0
-5:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-5:14/0 = 0
-5:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-6:0/0 = 0
-6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-6:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-6:1/0 = 0
-6:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-6:2/0 = 0
-6:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-6:3/0 = 0
-6:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-6:4/0 = 0
-6:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-6:5/0 = 0
-6:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-6:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-6:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_eicvl")
-6:6/0 = 0
-6:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-6:7/0 = 0
-6:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-6:8/0 = 0
-6:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-6:9/0 = 0
-6:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-6:10/0 = 0
-6:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-6:11/0 = 0
-6:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-6:12/0 = 0
-6:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-6:13/0 = 0
-6:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-6:14/0 = 0
-6:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-7:0/0 = 0
-7:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-7:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-7:1/0 = 0
-7:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-7:2/0 = 0
-7:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-7:3/0 = 0
-7:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-7:4/0 = 0
-7:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-7:5/0 = 0
-7:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-7:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-7:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_eicvl")
-7:6/0 = 0
-7:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-7:7/0 = 0
-7:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-7:8/0 = 0
-7:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-7:9/0 = 0
-7:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-7:10/0 = 0
-7:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-7:11/0 = 0
-7:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-7:12/0 = 0
-7:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-7:13/0 = 0
-7:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-7:14/0 = 0
-7:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-8:0/0 = 0
-8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-8:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-8:1/0 = 0
-8:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-8:2/0 = 0
-8:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-8:3/0 = 0
-8:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-8:4/0 = 0
-8:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-8:5/0 = 0
-8:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-8:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-8:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_eicvl")
-8:6/0 = 0
-8:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-8:7/0 = 0
-8:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-8:8/0 = 0
-8:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-8:9/0 = 0
-8:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-8:10/0 = 0
-8:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-8:11/0 = 0
-8:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-8:12/0 = 0
-8:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-8:13/0 = 0
-8:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-8:14/0 = 0
-8:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-9:0/0 = 0
-9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-9:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-9:1/0 = 0
-9:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-9:2/0 = 0
-9:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-9:3/0 = 0
-9:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-9:4/0 = 0
-9:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-9:5/0 = 0
-9:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_xrg6c")
-9:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-9:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_8dwdv")
-9:6/0 = 0
-9:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-9:7/0 = 0
-9:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-9:8/0 = 0
-9:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-9:9/0 = 0
-9:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-9:10/0 = 0
-9:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-9:11/0 = 0
-9:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-9:12/0 = 0
-9:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-9:13/0 = 0
-9:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-9:14/0 = 0
-9:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-10:0/0 = 0
-10:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-10:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-10:1/0 = 0
-10:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-10:2/0 = 0
-10:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-10:3/0 = 0
-10:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-10:4/0 = 0
-10:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4kxmv")
-10:5/0 = 0
-10:5/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_0p35i")
-10:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 27.094746, 18.063164, 26.53027, -32, 32, -32, 32, 20.32106, 32, 32, -32, 32)
-10:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_741bu")
-10:6/0 = 0
-10:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-10:7/0 = 0
-10:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-10:8/0 = 0
-10:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-10:9/0 = 0
-10:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-10:10/0 = 0
-10:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_vetra")
-10:11/0 = 0
-10:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-10:12/0 = 0
-10:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-10:13/0 = 0
-10:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-10:14/0 = 0
-10:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-11:0/0 = 0
-11:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-11:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-11:1/0 = 0
-11:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-11:2/0 = 0
-11:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-11:3/0 = 0
-11:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-11:4/0 = 0
-11:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_167qa")
-11:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-11:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_xrg6c")
-11:5/0 = 0
-11:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-11:6/0 = 0
-11:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-11:7/0 = 0
-11:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-11:8/0 = 0
-11:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_qq5g5")
-11:9/0 = 0
-11:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_oa6jy")
-11:10/0 = 0
-11:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yegem")
-11:11/0 = 0
-11:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-11:12/0 = 0
-11:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-11:13/0 = 0
-11:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-11:14/0 = 0
-11:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-12:0/0 = 0
-12:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-12:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-12:1/0 = 0
-12:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-12:2/0 = 0
-12:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-12:3/0 = 0
-12:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-12:4/0 = 0
-12:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_y07b3")
-12:5/0 = 0
-12:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_eenrl")
-12:6/0 = 0
-12:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jrwmu")
-12:7/0 = 0
-12:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_wf3fu")
-12:8/0 = 0
-12:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_e2yn2")
-12:9/0 = 0
-12:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-12:10/0 = 0
-12:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-12:11/0 = 0
-12:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-12:12/0 = 0
-12:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-12:13/0 = 0
-12:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-12:14/0 = 0
-12:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-13:0/0 = 0
-13:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-13:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-13:1/0 = 0
-13:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-13:2/0 = 0
-13:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-13:3/0 = 0
-13:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-13:4/0 = 0
-13:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_32er6")
-13:5/0 = 0
-13:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_i3cc7")
-13:6/0 = 0
-13:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_td6v3")
-13:7/0 = 0
-13:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_qr16r")
-13:8/0 = 0
-13:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_grtuy")
-13:9/0 = 0
-13:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-13:10/0 = 0
-13:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-13:11/0 = 0
-13:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-13:12/0 = 0
-13:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-13:13/0 = 0
-13:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-13:14/0 = 0
-13:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-14:0/0 = 0
-14:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-14:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-14:1/0 = 0
-14:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-14:2/0 = 0
-14:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-14:3/0 = 0
-14:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-14:4/0 = 0
-14:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_q0gaw")
-14:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-14:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_4u5xm")
-14:5/0 = 0
-14:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-14:6/0 = 0
-14:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-14:7/0 = 0
-14:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-14:8/0 = 0
-14:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_eu87g")
-14:9/0 = 0
-14:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_6pdth")
-14:10/0 = 0
-14:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-14:11/0 = 0
-14:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-14:12/0 = 0
-14:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-14:13/0 = 0
-14:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-14:14/0 = 0
-14:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:0/0 = 0
-15:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-15:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-15:1/0 = 0
-15:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-15:2/0 = 0
-15:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-15:3/0 = 0
-15:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-15:4/0 = 0
-15:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_q0gaw")
-15:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-15:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bhv5w")
-15:5/0 = 0
-15:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-15:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_gam27")
-15:6/0 = 0
-15:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-15:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_nu4ro")
-15:7/0 = 0
-15:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-15:8/0 = 0
-15:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:9/0 = 0
-15:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:10/0 = 0
-15:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:11/0 = 0
-15:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:12/0 = 0
-15:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:13/0 = 0
-15:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-15:14/0 = 0
-15:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:0/0 = 0
-16:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-16:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-16:1/0 = 0
-16:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-16:2/0 = 0
-16:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-16:3/0 = 0
-16:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-16:4/0 = 0
-16:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_q0gaw")
-16:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-16:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bhv5w")
-16:5/0 = 0
-16:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-16:6/0 = 0
-16:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-16:7/0 = 0
-16:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-16:8/0 = 0
-16:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:9/0 = 0
-16:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:10/0 = 0
-16:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:11/0 = 0
-16:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:12/0 = 0
-16:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:13/0 = 0
-16:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-16:14/0 = 0
-16:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:0/0 = 0
-17:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-17:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-17:1/0 = 0
-17:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-17:2/0 = 0
-17:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-17:3/0 = 0
-17:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-17:4/0 = 0
-17:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_877dg")
-17:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-17:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bhv5w")
-17:5/0 = 0
-17:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-17:6/0 = 0
-17:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-17:7/0 = 0
-17:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-17:8/0 = 0
-17:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:9/0 = 0
-17:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:10/0 = 0
-17:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:11/0 = 0
-17:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:12/0 = 0
-17:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:13/0 = 0
-17:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-17:14/0 = 0
-17:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:0/0 = 0
-18:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-18:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-18:1/0 = 0
-18:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-18:2/0 = 0
-18:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-18:3/0 = 0
-18:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-18:4/0 = 0
-18:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_877dg")
-18:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-18:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bhv5w")
-18:5/0 = 0
-18:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-18:6/0 = 0
-18:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-18:7/0 = 0
-18:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-18:8/0 = 0
-18:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:9/0 = 0
-18:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:10/0 = 0
-18:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:11/0 = 0
-18:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:12/0 = 0
-18:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:13/0 = 0
-18:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-18:14/0 = 0
-18:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:0/0 = 0
-19:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-19:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-19:1/0 = 0
-19:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-19:2/0 = 0
-19:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-19:3/0 = 0
-19:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-19:4/0 = 0
-19:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_877dg")
-19:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-19:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bhv5w")
-19:5/0 = 0
-19:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-19:6/0 = 0
-19:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-19:7/0 = 0
-19:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-19:8/0 = 0
-19:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:9/0 = 0
-19:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:10/0 = 0
-19:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:11/0 = 0
-19:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:12/0 = 0
-19:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:13/0 = 0
-19:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-19:14/0 = 0
-19:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:0/0 = 0
-20:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-20:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-20:1/0 = 0
-20:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-20:2/0 = 0
-20:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-20:3/0 = 0
-20:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-20:4/0 = 0
-20:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_877dg")
-20:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-20:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:5/0 = 0
-20:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-20:6/0 = 0
-20:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-20:7/0 = 0
-20:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-20:8/0 = 0
-20:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:9/0 = 0
-20:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:10/0 = 0
-20:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:11/0 = 0
-20:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:12/0 = 0
-20:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:13/0 = 0
-20:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-20:14/0 = 0
-20:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:0/0 = 0
-21:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, -25.401325, -32, -25.401325)
-21:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-21:1/0 = 0
-21:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-21:2/0 = 0
-21:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-21:3/0 = 0
-21:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_877dg")
-21:4/0 = 0
-21:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_4kxmv")
-21:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 19.756584, 32, 20.32106, 32, 32, -32, 32)
-21:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1lf7k")
-21:5/0 = 0
-21:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-21:6/0 = 0
-21:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-21:7/0 = 0
-21:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-21:8/0 = 0
-21:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:9/0 = 0
-21:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:10/0 = 0
-21:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:11/0 = 0
-21:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:12/0 = 0
-21:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:13/0 = 0
-21:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-21:14/0 = 0
-21:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:0/0 = 0
-22:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, 25.965794, 32, 25.965794, -25.9658, -32, -25.401325)
-22:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dsctw")
-22:1/0 = 0
-22:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(25.965794, -32, 32, -32, 32, 32, 25.965794, 32)
-22:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_pcde6")
-22:2/0 = 0
-22:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(25.965794, -32, 32, -32, 32, 32, 25.965794, 32)
-22:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hr1bf")
-22:3/0 = 0
-22:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(25.965794, -32, 32, -32, 32, 32, 25.965794, 32)
-22:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_54ihu")
-22:4/0 = 0
-22:4/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_741bu")
-22:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(25.965794, -32, 32, -32, 32, 32, -32, 32, -32, 20.885529, 25.965794, 21.450005)
-22:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0la8q")
-22:5/0 = 0
-22:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-22:6/0 = 0
-22:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-22:7/0 = 0
-22:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
-22:8/0 = 0
-22:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:9/0 = 0
-22:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:10/0 = 0
-22:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:11/0 = 0
-22:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:12/0 = 0
-22:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:13/0 = 0
-22:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-22:14/0 = 0
-22:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_q0gaw")
-23:0/0 = 0
-23:1/0 = 0
-23:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_fd3eq")
-23:2/0 = 0
-23:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(25.965794, -32, 32, -32, 32, 32, 25.965794, 32)
-23:3/0 = 0
-23:4/0 = 0
-23:5/0 = 0
-23:6/0 = 0
-23:7/0 = 0
-23:8/0 = 0
-23:9/0 = 0
-23:10/0 = 0
-23:11/0 = 0
-23:12/0 = 0
-23:13/0 = 0
-23:14/0 = 0
-24:0/0 = 0
-24:1/0 = 0
-24:2/0 = 0
-24:3/0 = 0
-24:4/0 = 0
-24:5/0 = 0
-24:6/0 = 0
-24:7/0 = 0
-24:8/0 = 0
-24:9/0 = 0
-24:10/0 = 0
-24:11/0 = 0
-24:12/0 = 0
-24:13/0 = 0
-24:14/0 = 0
-25:0/0 = 0
-25:1/0 = 0
-25:2/0 = 0
-25:3/0 = 0
-25:4/0 = 0
-25:5/0 = 0
-25:6/0 = 0
-25:7/0 = 0
-25:8/0 = 0
-25:9/0 = 0
-25:10/0 = 0
-25:11/0 = 0
-25:12/0 = 0
-25:13/0 = 0
-25:14/0 = 0
-26:0/0 = 0
-26:1/0 = 0
-26:2/0 = 0
-26:3/0 = 0
-26:4/0 = 0
-26:5/0 = 0
-26:6/0 = 0
-26:7/0 = 0
-26:8/0 = 0
-26:9/0 = 0
-26:10/0 = 0
-26:11/0 = 0
-26:12/0 = 0
-26:13/0 = 0
-26:14/0 = 0
-27:0/0 = 0
-27:1/0 = 0
-27:2/0 = 0
-27:3/0 = 0
-27:4/0 = 0
-27:5/0 = 0
-27:6/0 = 0
-27:7/0 = 0
-27:8/0 = 0
-27:9/0 = 0
-27:10/0 = 0
-27:11/0 = 0
-27:12/0 = 0
-27:13/0 = 0
-27:14/0 = 0
-28:0/0 = 0
-28:1/0 = 0
-28:2/0 = 0
-28:3/0 = 0
-28:4/0 = 0
-28:5/0 = 0
-28:6/0 = 0
-28:7/0 = 0
-28:8/0 = 0
-28:9/0 = 0
-28:10/0 = 0
-28:11/0 = 0
-28:12/0 = 0
-28:13/0 = 0
-28:14/0 = 0
-29:0/0 = 0
-29:1/0 = 0
-29:2/0 = 0
-29:3/0 = 0
-29:4/0 = 0
-29:5/0 = 0
-29:6/0 = 0
-29:7/0 = 0
-29:8/0 = 0
-29:9/0 = 0
-29:10/0 = 0
-29:11/0 = 0
-29:12/0 = 0
-29:13/0 = 0
-29:14/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_167qa"]
-tile_size = Vector2i(64, 64)
-occlusion_layer_0/light_mask = 1
-physics_layer_0/collision_layer = 1
-terrain_set_0/mode = 0
-navigation_layer_0/layers = 1
-sources/4 = SubResource("TileSetAtlasSource_scycs")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8l1gf"]
+size = Vector2(120.000046, 250.5)
 
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
-script = ExtResource("1_wwmgn")
+script = ExtResource("1_sjlws")
+metadata/_edit_horizontal_guides_ = [4.0]
+metadata/_edit_vertical_guides_ = [-3557.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -2
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -13909.0
-offset_top = -5974.0
-offset_right = 19683.832
-offset_bottom = 17356.0
+offset_left = -11016.0
+offset_top = -4747.0
+offset_right = 22576.832
+offset_bottom = 18583.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.7660208, 0.7142027, 0.81310016, 1)
@@ -1182,151 +48,1739 @@ color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
-[node name="player" parent="." instance=ExtResource("2_d7ch3")]
-position = Vector2(3130, 1637)
-base_max_hp = 100
-
 [node name="Wall_Top" type="StaticBody2D" parent="."]
 position = Vector2(1305, 23)
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Top"]
-offset_left = -2323.0
-offset_top = -182.0
-offset_right = 4209.0
+offset_left = 196.0
+offset_top = -23.0
+offset_right = 1114.0
 offset_bottom = 91.0
 color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Top"]
-position = Vector2(940.5, -47.5)
-shape = SubResource("RectangleShape2D_yegem")
+position = Vector2(654, 34)
+shape = SubResource("RectangleShape2D_jou6o")
 
-[node name="Wall_Bottom" type="StaticBody2D" parent="."]
-position = Vector2(1542, 2327)
+[node name="Wall_Top2" type="StaticBody2D" parent="."]
+position = Vector2(1310, 4832)
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Wall_Bottom"]
-offset_left = -3135.0
-offset_top = -17.0
-offset_right = 4135.0
-offset_bottom = 139.0
+[node name="ColorRect" type="ColorRect" parent="Wall_Top2"]
+offset_left = 196.0
+offset_top = -23.0
+offset_right = 1114.0
+offset_bottom = 91.0
 color = Color(0, 0, 0, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Bottom"]
-position = Vector2(483, 60)
-shape = SubResource("RectangleShape2D_xrg6c")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Top2"]
+position = Vector2(654, 34)
+shape = SubResource("RectangleShape2D_jou6o")
 
-[node name="Wall_Left" type="StaticBody2D" parent="."]
-position = Vector2(-174, 521)
+[node name="Wall_Left37" type="StaticBody2D" parent="."]
+position = Vector2(2377, 4854)
 rotation = 1.5707964
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Wall_Left"]
-offset_left = -1515.2502
+[node name="ColorRect" type="ColorRect" parent="Wall_Left37"]
+offset_left = -403.26636
 offset_top = -45.949707
-offset_right = 2482.7515
-offset_bottom = 116.12718
+offset_right = -48.87549
+offset_bottom = 59.397583
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left"]
-position = Vector2(804.5, 33.5)
-shape = SubResource("RectangleShape2D_xrg6c")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left37"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
 
-[node name="Wall_Left2" type="StaticBody2D" parent="."]
-position = Vector2(1084, 521)
+[node name="Wall_Left38" type="StaticBody2D" parent="."]
+position = Vector2(2377, 4509)
 rotation = 1.5707964
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Wall_Left2"]
-offset_left = -1515.2502
+[node name="ColorRect" type="ColorRect" parent="Wall_Left38"]
+offset_left = -403.26636
 offset_top = -45.949707
-offset_right = 2482.7515
-offset_bottom = 116.12718
+offset_right = -48.87549
+offset_bottom = 59.397583
 color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left2"]
-position = Vector2(804.5, 33.5)
-shape = SubResource("RectangleShape2D_xrg6c")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left38"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
 
-[node name="Wall_Right" type="StaticBody2D" parent="."]
-position = Vector2(4690, 515)
+[node name="Wall_Left39" type="StaticBody2D" parent="."]
+position = Vector2(2377, 4173)
 rotation = 1.5707964
 collision_mask = 0
 
-[node name="ColorRect" type="ColorRect" parent="Wall_Right"]
-offset_left = -1094.3125
-offset_top = -46.851074
-offset_right = 2340.8916
-offset_bottom = 114.31494000000001
+[node name="ColorRect" type="ColorRect" parent="Wall_Left39"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left39"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left40" type="StaticBody2D" parent="."]
+position = Vector2(1565, 4842)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left40"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left40"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left109" type="StaticBody2D" parent="."]
+position = Vector2(1565, 4854)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left109"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left109"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left41" type="StaticBody2D" parent="."]
+position = Vector2(1565, 4497)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left41"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left41"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left42" type="StaticBody2D" parent="."]
+position = Vector2(1565, 4161)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left42"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left42"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left90" type="StaticBody2D" parent="."]
+position = Vector2(1565, 655)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left90"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left90"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left91" type="StaticBody2D" parent="."]
+position = Vector2(1565, 516)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left91"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left91"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left92" type="StaticBody2D" parent="."]
+position = Vector2(2377, 655)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left92"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left92"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left93" type="StaticBody2D" parent="."]
+position = Vector2(2377, 516)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left93"]
+offset_left = -403.26636
+offset_top = -45.949707
+offset_right = -48.87549
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left93"]
+position = Vector2(-226.50015, 6.249756)
+shape = SubResource("RectangleShape2D_sjlws")
+
+[node name="Wall_Left4" type="StaticBody2D" parent="."]
+position = Vector2(2762, 1160)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left4"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left4"]
+position = Vector2(-287, -2)
+shape = SubResource("RectangleShape2D_4q1m2")
+
+[node name="Wall_Left13" type="StaticBody2D" parent="."]
+position = Vector2(2641, 1043)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left13"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left13"]
+position = Vector2(-287, -2)
+shape = SubResource("RectangleShape2D_4q1m2")
+
+[node name="Wall_Left14" type="StaticBody2D" parent="."]
+position = Vector2(1254, 1043)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left14"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left14"]
+position = Vector2(-287, -2)
+shape = SubResource("RectangleShape2D_4q1m2")
+
+[node name="Wall_Left5" type="StaticBody2D" parent="."]
+position = Vector2(1134, 1159)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left5"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left5"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left28" type="StaticBody2D" parent="."]
+position = Vector2(997, 3736)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left28"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left28"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left30" type="StaticBody2D" parent="."]
+position = Vector2(1118, 3783)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left30"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left30"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left31" type="StaticBody2D" parent="."]
+position = Vector2(2801, 3783)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left31"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left31"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left32" type="StaticBody2D" parent="."]
+position = Vector2(2680, 3898)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left32"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left32"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left33" type="StaticBody2D" parent="."]
+position = Vector2(1238, 3898)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left33"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left33"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left29" type="StaticBody2D" parent="."]
+position = Vector2(2921, 3731)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left29"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left29"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left10" type="StaticBody2D" parent="."]
+position = Vector2(1013, 1211)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left10"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left10"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left11" type="StaticBody2D" parent="."]
+position = Vector2(2884, 1211)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left11"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left11"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left6" type="StaticBody2D" parent="."]
+position = Vector2(1435, 921)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left6"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left6"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left34" type="StaticBody2D" parent="."]
+position = Vector2(1424, 4011)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left34"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left34"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left53" type="StaticBody2D" parent="."]
+position = Vector2(469, 3343)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left53"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left53"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left54" type="StaticBody2D" parent="."]
+position = Vector2(590, 3388)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left54"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left54"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left55" type="StaticBody2D" parent="."]
+position = Vector2(710, 3503)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left55"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left55"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left56" type="StaticBody2D" parent="."]
+position = Vector2(888, 3616)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left56"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left56"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left36" type="StaticBody2D" parent="."]
+position = Vector2(1728, 1727)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left36"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left36"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left43" type="StaticBody2D" parent="."]
+position = Vector2(1911, 1608)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left43"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left43"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left44" type="StaticBody2D" parent="."]
+position = Vector2(2122, 1608)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left44"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left44"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left45" type="StaticBody2D" parent="."]
+position = Vector2(2312, 1727)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left45"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left45"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left46" type="StaticBody2D" parent="."]
+position = Vector2(1732, 3225)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left46"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left46"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left47" type="StaticBody2D" parent="."]
+position = Vector2(1920, 3340)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left47"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left47"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left48" type="StaticBody2D" parent="."]
+position = Vector2(2131, 3340)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left48"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left48"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left49" type="StaticBody2D" parent="."]
+position = Vector2(2316, 3225)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left49"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left49"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left35" type="StaticBody2D" parent="."]
+position = Vector2(2589, 4017)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left35"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left35"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left57" type="StaticBody2D" parent="."]
+position = Vector2(3328, 3375)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left57"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left57"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left58" type="StaticBody2D" parent="."]
+position = Vector2(3207, 3492)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left58"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left58"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left59" type="StaticBody2D" parent="."]
+position = Vector2(3450, 3320)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left59"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left59"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left84" type="StaticBody2D" parent="."]
+position = Vector2(3392, 1606)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left84"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left84"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left85" type="StaticBody2D" parent="."]
+position = Vector2(493, 1605)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left85"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left85"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left86" type="StaticBody2D" parent="."]
+position = Vector2(613, 1554)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left86"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left86"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left97" type="StaticBody2D" parent="."]
+position = Vector2(1382, 2944)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left97"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left97"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left98" type="StaticBody2D" parent="."]
+position = Vector2(2570, 2944)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left98"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left98"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left99" type="StaticBody2D" parent="."]
+position = Vector2(2570, 2005)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left99"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left99"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left100" type="StaticBody2D" parent="."]
+position = Vector2(1382, 2005)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left100"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left100"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left105" type="StaticBody2D" parent="."]
+position = Vector2(1141, 2295)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left105"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left105"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left106" type="StaticBody2D" parent="."]
+position = Vector2(1143, 2629)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left106"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left106"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left107" type="StaticBody2D" parent="."]
+position = Vector2(2809, 2321)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left107"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left107"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left108" type="StaticBody2D" parent="."]
+position = Vector2(2811, 2642)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left108"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left108"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left88" type="StaticBody2D" parent="."]
+position = Vector2(735, 1447)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left88"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left88"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left89" type="StaticBody2D" parent="."]
+position = Vector2(3152, 1447)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left89"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left89"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left87" type="StaticBody2D" parent="."]
+position = Vector2(3271, 1554)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left87"]
+offset_left = -346.6756
+offset_top = -62.455322
+offset_right = -228.07947
+offset_bottom = 59.397583
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left87"]
+position = Vector2(-287, -1.5)
+shape = SubResource("RectangleShape2D_go6hg")
+
+[node name="Wall_Left60" type="StaticBody2D" parent="."]
+position = Vector2(3116, 3612)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left60"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left60"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_aspr5")
+
+[node name="Wall_Left7" type="StaticBody2D" parent="."]
+position = Vector2(2578, 924)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left7"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
 color = Color(0, 0, 0, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Right"]
-position = Vector2(804.5, 33.5)
-shape = SubResource("RectangleShape2D_xrg6c")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left7"]
+position = Vector2(-287, 42)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left50" type="StaticBody2D" parent="."]
+position = Vector2(2167, 1633)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left50"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left50"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left95" type="StaticBody2D" parent="."]
+position = Vector2(2167, 2827)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left95"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left95"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left51" type="StaticBody2D" parent="."]
+position = Vector2(1212, 1642)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left51"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left51"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left101" type="StaticBody2D" parent="."]
+position = Vector2(977, 1911)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left101"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left101"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left102" type="StaticBody2D" parent="."]
+position = Vector2(2404, 1911)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left102"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left102"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left103" type="StaticBody2D" parent="."]
+position = Vector2(2404, 2552)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left103"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left103"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left104" type="StaticBody2D" parent="."]
+position = Vector2(976, 2552)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left104"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left104"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left96" type="StaticBody2D" parent="."]
+position = Vector2(1218, 2833)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left96"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left96"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left52" type="StaticBody2D" parent="."]
+position = Vector2(737, 2213)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left52"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left52"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left94" type="StaticBody2D" parent="."]
+position = Vector2(2644, 2236)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left94"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left94"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left73" type="StaticBody2D" parent="."]
+position = Vector2(89, 2913)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left73"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left73"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left81" type="StaticBody2D" parent="."]
+position = Vector2(89, 1493)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left81"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left81"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left82" type="StaticBody2D" parent="."]
+position = Vector2(89, 1493)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left82"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left82"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left83" type="StaticBody2D" parent="."]
+position = Vector2(3227, 1493)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left83"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left83"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left74" type="StaticBody2D" parent="."]
+position = Vector2(3252, 2893)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left74"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left74"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left16" type="StaticBody2D" parent="."]
+position = Vector2(-100, 1933)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left16"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left16"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left17" type="StaticBody2D" parent="."]
+position = Vector2(-100, 2007)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left17"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left17"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left18" type="StaticBody2D" parent="."]
+position = Vector2(-100, 2104)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left18"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left18"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left61" type="StaticBody2D" parent="."]
+position = Vector2(-100, 2263)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left61"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left61"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left62" type="StaticBody2D" parent="."]
+position = Vector2(-100, 2337)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left62"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left62"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left63" type="StaticBody2D" parent="."]
+position = Vector2(-100, 2434)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left63"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left63"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left64" type="StaticBody2D" parent="."]
+position = Vector2(3412, 1933)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left64"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left64"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left65" type="StaticBody2D" parent="."]
+position = Vector2(3412, 2007)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left65"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left65"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left66" type="StaticBody2D" parent="."]
+position = Vector2(3412, 2104)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left66"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left66"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left67" type="StaticBody2D" parent="."]
+position = Vector2(3412, 2263)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left67"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left67"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left68" type="StaticBody2D" parent="."]
+position = Vector2(3412, 2337)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left68"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left68"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left69" type="StaticBody2D" parent="."]
+position = Vector2(3412, 2434)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left69"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left69"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left22" type="StaticBody2D" parent="."]
+position = Vector2(17, 2566)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left22"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left22"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left23" type="StaticBody2D" parent="."]
+position = Vector2(17, 2640)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left23"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left23"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left24" type="StaticBody2D" parent="."]
+position = Vector2(17, 2737)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left24"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left24"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left75" type="StaticBody2D" parent="."]
+position = Vector2(17, 1662)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left75"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left75"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left76" type="StaticBody2D" parent="."]
+position = Vector2(17, 1736)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left76"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left76"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left77" type="StaticBody2D" parent="."]
+position = Vector2(17, 1833)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left77"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left77"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left70" type="StaticBody2D" parent="."]
+position = Vector2(3292, 2566)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left70"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left70"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left78" type="StaticBody2D" parent="."]
+position = Vector2(3293, 1662)
+rotation = -3.1415925
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left78"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left78"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left79" type="StaticBody2D" parent="."]
+position = Vector2(3293, 1736)
+rotation = -3.1415925
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left79"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left79"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left80" type="StaticBody2D" parent="."]
+position = Vector2(3293, 1833)
+rotation = -3.1415925
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left80"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left80"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left71" type="StaticBody2D" parent="."]
+position = Vector2(3292, 2640)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left71"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left71"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left72" type="StaticBody2D" parent="."]
+position = Vector2(3292, 2737)
+rotation = 3.1415927
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left72"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left72"]
+position = Vector2(-287, 42.5)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left9" type="StaticBody2D" parent="."]
+position = Vector2(906, 1331)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left9"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left9"]
+position = Vector2(-287.00012, 42.25)
+shape = SubResource("RectangleShape2D_8l1gf")
+
+[node name="Wall_Left12" type="StaticBody2D" parent="."]
+position = Vector2(3066, 1331)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left12"]
+offset_left = -346.6756
+offset_top = -83.168945
+offset_right = -228.07947
+offset_bottom = 166.41821
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left12"]
+position = Vector2(-287.00012, 42.25)
+shape = SubResource("RectangleShape2D_8l1gf")
 
 [node name="SavePoint" parent="." instance=ExtResource("3_6nbgn")]
-position = Vector2(3316, 317)
+position = Vector2(2123, 4093)
 
 [node name="ShopNPC" parent="." instance=ExtResource("4_ckj87")]
-position = Vector2(2860, 311)
-
-[node name="Coin" parent="." instance=ExtResource("5_hxxc7")]
-position = Vector2(2921, 2749)
-
-[node name="Coin6" parent="Coin" instance=ExtResource("5_hxxc7")]
-position = Vector2(-28, -36)
-
-[node name="Coin5" parent="Coin" instance=ExtResource("5_hxxc7")]
-position = Vector2(-62, -2)
-
-[node name="Coin2" parent="Coin" instance=ExtResource("5_hxxc7")]
-position = Vector2(-74, -60)
-
-[node name="Coin3" parent="Coin" instance=ExtResource("5_hxxc7")]
-position = Vector2(-101, -21)
-
-[node name="Coin4" parent="Coin" instance=ExtResource("5_hxxc7")]
-position = Vector2(-32, -75)
-
-[node name="Coin7" parent="Coin" instance=ExtResource("5_hxxc7")]
-position = Vector2(5, -62)
+position = Vector2(1930, 4631)
 
 [node name="WhiteCat" parent="." instance=ExtResource("6_723fl")]
-position = Vector2(2397, 564)
+visible = false
+position = Vector2(1501, 2257)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1370, 1857)
-
-[node name="Ground" type="TileMapLayer" parent="."]
-position = Vector2(395, 1585)
-tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAIAAAATABIABAAAAAMAAAATABMABAAAAAQAAAATABQABAAAAAUAAAATABUABAAAAAYAAAATABYABAAAAAcAAAATABcABAAAAAgAAAATABgABAAAAAkAAAATABkABAAAAAoAAAATABoABAAAAAsAAAATABsABAAAAAwAAAATABwABAAAAA0AAAATAB0ABAAAAA4AAAAUAA8ABAABAAAAAAAUABAABAABAAEAAAAUABEABAABAAIAAAAUABIABAABAAMAAAAUABMABAABAAQAAAAUABQABAABAAUAAAAUABUABAABAAYAAAAUABYABAABAAcAAAAUABcABAABAAgAAAAUABgABAABAAkAAAAUABkABAABAAoAAAAUABoABAABAAsAAAAUABsABAABAAwAAAAUABwABAABAA0AAAAUAB0ABAABAA4AAAAVAA8ABAACAAAAAAAVABAABAACAAEAAAAVABEABAACAAIAAAAVABIABAACAAMAAAAVABMABAACAAQAAAAVABQABAACAAUAAAAVABUABAACAAYAAAAVABYABAACAAcAAAAVABcABAACAAgAAAAVABgABAACAAkAAAAVABkABAACAAoAAAAVABoABAACAAsAAAAVABsABAACAAwAAAAVABwABAACAA0AAAAVAB0ABAACAA4AAAAWAA8ABAADAAAAAAAWABAABAADAAEAAAAWABEABAADAAIAAAAWABIABAADAAMAAAAWABMABAADAAQAAAAWABQABAADAAUAAAAWABUABAADAAYAAAAWABYABAADAAcAAAAWABcABAADAAgAAAAWABgABAADAAkAAAAWABkABAADAAoAAAAWABoABAADAAsAAAAWABsABAADAAwAAAAWABwABAADAA0AAAAWAB0ABAADAA4AAAAXAA8ABAAEAAAAAAAXABAABAAEAAEAAAAXABEABAAEAAIAAAAXABIABAAEAAMAAAAXABMABAAEAAQAAAAXABQABAAEAAUAAAAXABUABAAEAAYAAAAXABYABAAEAAcAAAAXABcABAAEAAgAAAAXABgABAAEAAkAAAAXABkABAAEAAoAAAAXABoABAAEAAsAAAAXABsABAAEAAwAAAAXABwABAAEAA0AAAAXAB0ABAAEAA4AAAAYAA8ABAAFAAAAAAAYABAABAAFAAEAAAAYABEABAAFAAIAAAAYABIABAAFAAMAAAAYABMABAAFAAQAAAAYABQABAAFAAUAAAAYABUABAAFAAYAAAAYABYABAAFAAcAAAAYABcABAAFAAgAAAAYABgABAAFAAkAAAAYABkABAAFAAoAAAAYABoABAAFAAsAAAAYABsABAAFAAwAAAAYABwABAAFAA0AAAAYAB0ABAAFAA4AAAAZAA8ABAAGAAAAAAAZABAABAAGAAEAAAAZABEABAAGAAIAAAAZABIABAAGAAMAAAAZABMABAAGAAQAAAAZABQABAAGAAUAAAAZABUABAAGAAYAAAAZABYABAAGAAcAAAAZABcABAAGAAgAAAAZABgABAAGAAkAAAAZABkABAAGAAoAAAAZABoABAAGAAsAAAAZABsABAAGAAwAAAAZABwABAAGAA0AAAAZAB0ABAAGAA4AAAAaAA8ABAAHAAAAAAAaABAABAAHAAEAAAAaABEABAAHAAIAAAAaABIABAAHAAMAAAAaABMABAAHAAQAAAAaABQABAAHAAUAAAAaABUABAAHAAYAAAAaABYABAAHAAcAAAAaABcABAAHAAgAAAAaABgABAAHAAkAAAAaABkABAAHAAoAAAAaABoABAAHAAsAAAAaABsABAAHAAwAAAAaABwABAAHAA0AAAAaAB0ABAAHAA4AAAAbAA8ABAAIAAAAAAAbABAABAAIAAEAAAAbABEABAAIAAIAAAAbABIABAAIAAMAAAAbABMABAAIAAQAAAAbABQABAAIAAUAAAAbABUABAAIAAYAAAAbABYABAAIAAcAAAAbABcABAAIAAgAAAAbABgABAAIAAkAAAAbABkABAAIAAoAAAAbABoABAAIAAsAAAAbABsABAAIAAwAAAAbABwABAAIAA0AAAAbAB0ABAAIAA4AAAAcAA8ABAAJAAAAAAAcABAABAAJAAEAAAAcABEABAAJAAIAAAAcABIABAAJAAMAAAAcABMABAAJAAQAAAAcABQABAAJAAUAAAAcABUABAAJAAYAAAAcABYABAAJAAcAAAAcABcABAAJAAgAAAAcABgABAAJAAkAAAAcABkABAAJAAoAAAAcABoABAAJAAsAAAAcABsABAAJAAwAAAAcABwABAAJAA0AAAAcAB0ABAAJAA4AAAAdAA8ABAAKAAAAAAAdABAABAAKAAEAAAAdABEABAAKAAIAAAAdABIABAAKAAMAAAAdABMABAAKAAQAAAAdABQABAAKAAUAAAAdABUABAAKAAYAAAAdABYABAAKAAcAAAAdABcABAAKAAgAAAAdABgABAAKAAkAAAAdABkABAAKAAoAAAAdABoABAAKAAsAAAAdABsABAAKAAwAAAAdABwABAAKAA0AAAAdAB0ABAAKAA4AAAAeAA8ABAALAAAAAAAeABAABAALAAEAAAAeABEABAALAAIAAAAeABIABAALAAMAAAAeABMABAALAAQAAAAeABQABAALAAUAAAAeABUABAALAAYAAAAeABYABAALAAcAAAAeABcABAALAAgAAAAeABgABAALAAkAAAAeABkABAALAAoAAAAeABoABAALAAsAAAAeABsABAALAAwAAAAeABwABAALAA0AAAAeAB0ABAALAA4AAAAfAA8ABAAMAAAAAAAfABAABAAMAAEAAAAfABEABAAMAAIAAAAfABIABAAMAAMAAAAfABMABAAMAAQAAAAfABQABAAMAAUAAAAfABUABAAMAAYAAAAfABYABAAMAAcAAAAfABcABAAMAAgAAAAfABgABAAMAAkAAAAfABkABAAMAAoAAAAfABoABAAMAAsAAAAfABsABAAMAAwAAAAfABwABAAMAA0AAAAfAB0ABAAMAA4AAAAgAA8ABAANAAAAAAAgABAABAANAAEAAAAgABEABAANAAIAAAAgABIABAANAAMAAAAgABMABAANAAQAAAAgABQABAANAAUAAAAgABUABAANAAYAAAAgABYABAANAAcAAAAgABcABAANAAgAAAAgABgABAANAAkAAAAgABkABAANAAoAAAAgABoABAANAAsAAAAgABsABAANAAwAAAAgABwABAANAA0AAAAgAB0ABAANAA4AAAAhAA8ABAAOAAAAAAAhABAABAAOAAEAAAAhABEABAAOAAIAAAAhABIABAAOAAMAAAAhABMABAAOAAQAAAAhABQABAAOAAUAAAAhABUABAAOAAYAAAAhABYABAAOAAcAAAAhABcABAAOAAgAAAAhABgABAAOAAkAAAAhABkABAAOAAoAAAAhABoABAAOAAsAAAAhABsABAAOAAwAAAAhABwABAAOAA0AAAAhAB0ABAAOAA4AAAAiAA8ABAAPAAAAAAAiABAABAAPAAEAAAAiABEABAAPAAIAAAAiABIABAAPAAMAAAAiABMABAAPAAQAAAAiABQABAAPAAUAAAAiABUABAAPAAYAAAAiABYABAAPAAcAAAAiABcABAAPAAgAAAAiABgABAAPAAkAAAAiABkABAAPAAoAAAAiABoABAAPAAsAAAAiABsABAAPAAwAAAAiABwABAAPAA0AAAAiAB0ABAAPAA4AAAAjAA8ABAAQAAAAAAAjABAABAAQAAEAAAAjABEABAAQAAIAAAAjABIABAAQAAMAAAAjABMABAAQAAQAAAAjABQABAAQAAUAAAAjABUABAAQAAYAAAAjABYABAAQAAcAAAAjABcABAAQAAgAAAAjABgABAAQAAkAAAAjABkABAAQAAoAAAAjABoABAAQAAsAAAAjABsABAAQAAwAAAAjABwABAAQAA0AAAAjAB0ABAAQAA4AAAAkAA8ABAARAAAAAAAkABAABAARAAEAAAAkABEABAARAAIAAAAkABIABAARAAMAAAAkABMABAARAAQAAAAkABQABAARAAUAAAAkABUABAARAAYAAAAkABYABAARAAcAAAAkABcABAARAAgAAAAkABgABAARAAkAAAAkABkABAARAAoAAAAkABoABAARAAsAAAAkABsABAARAAwAAAAkABwABAARAA0AAAAkAB0ABAARAA4AAAAlAA8ABAASAAAAAAAlABAABAASAAEAAAAlABEABAASAAIAAAAlABIABAASAAMAAAAlABMABAASAAQAAAAlABQABAASAAUAAAAlABUABAASAAYAAAAlABYABAASAAcAAAAlABcABAASAAgAAAAlABgABAASAAkAAAAlABkABAASAAoAAAAlABoABAASAAsAAAAlABsABAASAAwAAAAlABwABAASAA0AAAAlAB0ABAASAA4AAAAmAA8ABAATAAAAAAAmABAABAATAAEAAAAmABEABAATAAIAAAAmABIABAATAAMAAAAmABMABAATAAQAAAAmABQABAATAAUAAAAmABUABAATAAYAAAAmABYABAATAAcAAAAmABcABAATAAgAAAAmABgABAATAAkAAAAmABkABAATAAoAAAAmABoABAATAAsAAAAmABsABAATAAwAAAAmABwABAATAA0AAAAmAB0ABAATAA4AAAAnAA8ABAAUAAAAAAAnABAABAAUAAEAAAAnABEABAAUAAIAAAAnABIABAAUAAMAAAAnABMABAAUAAQAAAAnABQABAAUAAUAAAAnABUABAAUAAYAAAAnABYABAAUAAcAAAAnABcABAAUAAgAAAAnABgABAAUAAkAAAAnABkABAAUAAoAAAAnABoABAAUAAsAAAAnABsABAAUAAMAAAAnABwABAAUAA0AAAAnAB0ABAAUAA4AAAAoAA8ABAAVAAAAAAAoABAABAAVAAEAAAAoABEABAAVAAIAAAAoABIABAAVAAMAAAAoABMABAAVAAQAAAAoABQABAAVAAUAAAAoABUABAAVAAYAAAAoABYABAAVAAcAAAAoABcABAAVAAgAAAAoABgABAAVAAkAAAAoABkABAAVAAoAAAAoABoABAAVAAsAAAAoABsABAAVAAwAAAAoABwABAAVAA0AAAAoAB0ABAAVAA4AAAApAA8ABAAWAAAAAAApABAABAAWAAEAAAApABEABAAWAAIAAAApABIABAAWAAMAAAApABMABAAWAAQAAAApABQABAAWAAUAAAApABUABAAWAAYAAAApABYABAAWAAcAAAApABcABAAWAAgAAAApABgABAAWAAkAAAApABkABAAWAAoAAAApABoABAAWAAsAAAApABsABAAWAAwAAAApABwABAAWAA0AAAApAB0ABAAWAA4AAAATAB4ABAAAAAAAAAAUAB4ABAABAAAAAAAVAB4ABAACAAAAAAAWAB4ABAADAAAAAAAXAB4ABAAEAAAAAAAYAB4ABAAFAAAAAAAZAB4ABAAGAAAAAAAaAB4ABAAHAAAAAAAbAB4ABAAIAAAAAAAcAB4ABAAJAAAAAAAdAB4ABAAKAAAAAAAeAB4ABAALAAAAAAAfAB4ABAAMAAAAAAAgAB4ABAANAAAAAAAhAB4ABAAOAAAAAAAiAB4ABAAPAAAAAAAjAB4ABAAQAAAAAAAkAB4ABAARAAAAAAAlAB4ABAASAAAAAAAmAB4ABAATAAAAAAAnAB4ABAAUAAAAAAAoAB4ABAAVAAAAAAApAB4ABAAWAAAAAAA=")
-tile_set = SubResource("TileSet_167qa")
+position = Vector2(1911, 4342)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(2495, 1658)
+position = Vector2(2443, 2244)
 energy = 1.5
 texture = ExtResource("8_xrg0l")
 texture_scale = 10.0
 
-[node name="Boar" parent="." instance=ExtResource("9_jvr76")]
-position = Vector2(339, 1570)
+[node name="player" parent="." instance=ExtResource("2_d7ch3")]
+position = Vector2(1930, 4342)
+scale = Vector2(2, 2)
+base_max_hp = 100
 
-[node name="colorless_dango" parent="." instance=ExtResource("10_gfsxo")]
-position = Vector2(493, 1361)
+[node name="GhostCamera" type="Camera2D" parent="."]
+zoom = Vector2(0.215, 0.215)
+limit_left = 140
+limit_top = 4
+limit_right = 3751
+limit_bottom = 4923
+position_smoothing_enabled = true
 
-[node name="Chipmunk" parent="." instance=ExtResource("11_n3bbj")]
-position = Vector2(632, 2075)
-
-[node name="barbarian" parent="." instance=ExtResource("12_u8hly")]
-position = Vector2(186, 1804)
-
-[node name="BigShieldBrother" parent="." instance=ExtResource("13_ulndw")]
-position = Vector2(547, 1752)
-
-[node name="ColorlessZombie" parent="." instance=ExtResource("14_m3664")]
-position = Vector2(133, 1358)
-
-[node name="Big_Colorless_Dango" parent="." instance=ExtResource("15_ugrs7")]
-position = Vector2(3842, 1520)
+[node name="GhostCamera2" type="Camera2D" parent="."]
+zoom = Vector2(0.215, 0.215)
+limit_left = 140
+limit_top = 4
+limit_right = 3751
+limit_bottom = 4923
+position_smoothing_enabled = true
