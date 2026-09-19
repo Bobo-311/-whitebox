@@ -16792,7 +16792,8 @@ texture = ExtResource("3_bgl0c")
 110:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_p78gd"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 1024
+physics_layer_0/collision_mask = 0
 navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_3kg34")
 sources/0 = SubResource("TileSetAtlasSource_8b3u3")
@@ -16835,7 +16836,7 @@ tile_set = SubResource("TileSet_p78gd")
 
 [node name="WhiteCat" parent="." instance=ExtResource("4_032fq")]
 visible = false
-position = Vector2(3261, 1414)
+position = Vector2(6607, 3577.0002)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -18197,3 +18198,7 @@ scale = Vector2(126.677574, 31.441887)
 [node name="lightFlower" parent="." instance=ExtResource("19_nao00")]
 position = Vector2(2528, 1173)
 scale = Vector2(3, 3)
+
+[node name="HighGroundZone" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HighGroundZone"]

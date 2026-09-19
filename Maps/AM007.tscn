@@ -1,4 +1,4 @@
-[gd_scene load_steps=167 format=4 uid="uid://2pps4a1niskn"]
+[gd_scene load_steps=172 format=4 uid="uid://2pps4a1niskn"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_boiqs"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_dp6uo"]
@@ -10,6 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://r3ncvksg1lhu" path="res://單獨物件場景/white_fence.tscn" id="8_5m0nk"]
 [ext_resource type="PackedScene" uid="uid://cm807gmit4s5x" path="res://單獨物件場景/white_door.tscn" id="9_5m0nk"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="10_ck2xs"]
+[ext_resource type="PackedScene" uid="uid://c8d86o31hcim8" path="res://單獨物件場景/tree_a.tscn" id="11_bn8ol"]
+[ext_resource type="PackedScene" uid="uid://5c0rpiyj3mwn" path="res://單獨物件場景/tree_b.tscn" id="12_26185"]
+[ext_resource type="PackedScene" uid="uid://bed1w2j41swih" path="res://單獨物件場景/blue_flower_1.tscn" id="13_afcqe"]
+[ext_resource type="PackedScene" uid="uid://24vi44auck7k" path="res://單獨物件場景/blue_flower_2.tscn" id="14_dob8q"]
+[ext_resource type="PackedScene" uid="uid://dv2e5dncjva81" path="res://單獨物件場景/blue_flower_3.tscn" id="15_5fa3c"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -23065,7 +23070,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("5_5m0nk")]
-position = Vector2(4293, 1693)
+position = Vector2(4015, 1700)
 base_max_hp = 100
 max_hp = 100
 
@@ -23077,14 +23082,14 @@ collision_mask = 0
 polygon = PackedVector2Array(2256, 2708, 2576, 2707, 2590, 2682, 2593, 1427, 4030, 1424, 4069, 1310, 3989, 1266, 2241, 1256, 2240, 270, 2689, 273, 2706, 140, 2642, 111, 2181, 109, 2174, 2531, 2219, 2543, 2226, 2694)
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="FlowerFall"]
-polygon = PackedVector2Array(2232, 3031, 2252, 2988, 2971, 2989, 2988, 2956, 2977, 1900, 4505, 1901, 4504, 2983, 4524, 2989, 6104, 2987, 6109, 2189, 5286, 2196, 5284, 2649, 4900, 2645, 4902, 1896, 5043, 1889, 6436, 1885, 6498, 1924, 6486, 2983, 6764, 2990, 6796, 3001, 6789, 251, 6761, 276, 4142, 276, 2939, 273, 2945, 95, 3078, 78, 6976, 116, 6988, 3211, 2184, 3201)
+polygon = PackedVector2Array(2232, 3031, 2252, 2988, 2971, 2989, 2988, 2956, 2977, 1900, 4505, 1901, 4504, 2983, 4524, 2989, 6101, 2981, 6109, 2189, 5286, 2196, 5284, 2649, 4900, 2645, 4902, 1896, 5043, 1889, 6436, 1885, 6498, 1924, 6486, 2983, 6764, 2990, 6796, 3001, 6789, 251, 6761, 276, 4142, 276, 2939, 273, 2945, 95, 3078, 78, 6976, 116, 6988, 3211, 2184, 3201)
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="FlowerFall"]
 polygon = PackedVector2Array(4393, 1352, 4381, 639, 4472, 619, 5137, 622, 5151, 922, 5154, 1423, 4478, 1421)
 
 [node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="FlowerFall"]
 position = Vector2(1198, 0)
-polygon = PackedVector2Array(4468, 1266, 4466, 622, 5110, 621, 5162, 653, 5164, 928, 5172, 1181, 5172, 1217, 5164, 1368, 5154, 1423, 4482, 1424)
+polygon = PackedVector2Array(4468, 1266, 4466, 622, 5110, 621, 5160, 621, 5165, 657, 5164, 928, 5172, 1181, 5172, 1217, 5164, 1368, 5154, 1423, 4482, 1424)
 
 [node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="FlowerFall"]
 position = Vector2(596, 0)
@@ -23181,3 +23186,66 @@ scale = Vector2(31.080347, 31.080347)
 [node name="CameraLockArea2" parent="." instance=ExtResource("10_ck2xs")]
 position = Vector2(2835, -27)
 scale = Vector2(31.080347, 31.080347)
+
+[node name="TreeA" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(2027.0001, 1934)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeA2" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(1890.0001, 1529.0001)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeA3" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(2048, 1052)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeA4" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(2043, 404.00018)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeA5" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(1910.9999, 643)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeA6" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(1876.9999, 2332)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeA7" parent="." instance=ExtResource("11_bn8ol")]
+position = Vector2(2054, 3205)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeB" parent="." instance=ExtResource("12_26185")]
+position = Vector2(2101, 2429.0002)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeB5" parent="." instance=ExtResource("12_26185")]
+position = Vector2(1880.0002, 2902)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeB2" parent="." instance=ExtResource("12_26185")]
+position = Vector2(2104.0002, 1451)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeB3" parent="." instance=ExtResource("12_26185")]
+position = Vector2(1855, 979.0001)
+scale = Vector2(3.5, 3.5)
+
+[node name="TreeB4" parent="." instance=ExtResource("12_26185")]
+position = Vector2(1859.9999, 274)
+scale = Vector2(3.5, 3.5)
+
+[node name="Sprite2D" parent="." instance=ExtResource("13_afcqe")]
+position = Vector2(1898, 1835)
+
+[node name="Sprite2D2" parent="." instance=ExtResource("13_afcqe")]
+position = Vector2(1946, 741)
+
+[node name="Sprite2D3" parent="." instance=ExtResource("13_afcqe")]
+position = Vector2(2112, 175)
+
+[node name="Sprite2D4" parent="." instance=ExtResource("14_dob8q")]
+position = Vector2(1939, 1159)
+
+[node name="Sprite2D5" parent="." instance=ExtResource("15_5fa3c")]
+position = Vector2(2122, 2177)
