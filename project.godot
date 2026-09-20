@@ -142,6 +142,7 @@ switch_weapon={
 2d_physics/layer_7="Enemy_Hitbox (野豬嘴巴、子彈)"
 2d_physics/layer_8="物品"
 2d_physics/layer_9="white_cat"
+2d_physics/layer_10="Abyss_Wall (深淵坑洞)"
 
 [rendering]
 

@@ -1,11 +1,17 @@
-[gd_scene load_steps=31 format=3 uid="uid://cs8dl4ig6u0ej"]
+[gd_scene load_steps=37 format=3 uid="uid://cs8dl4ig6u0ej"]
 
 [ext_resource type="Script" uid="uid://cmtbo80v7j7gi" path="res://base_enemy/BossLotus/boss_lotus.gd" id="1_6oy8r"]
 [ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="1_iun5m"]
 [ext_resource type="Texture2D" uid="uid://b8gavlyjpkcbd" path="res://eat-human-flower-sprite-pack/PNG/Plant3/With_shadow/Plant3_Death_with_shadow.png" id="1_ugsmv"]
 [ext_resource type="Texture2D" uid="uid://bdcl2dfmtlhbk" path="res://eat-human-flower-sprite-pack/PNG/Plant3/With_shadow/Plant3_Hurt_with_shadow.png" id="2_6oy8r"]
+[ext_resource type="PackedScene" uid="uid://bvqkxs1ie7exr" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_left_top.tscn" id="2_h6d0j"]
 [ext_resource type="Texture2D" uid="uid://bqn3gwucwmsii" path="res://eat-human-flower-sprite-pack/PNG/Plant3/With_shadow/Plant3_Idle_with_shadow.png" id="3_g2ojk"]
+[ext_resource type="PackedScene" uid="uid://86rr4pin8o1o" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_left_down.tscn" id="3_ot11u"]
+[ext_resource type="PackedScene" uid="uid://bqpnj3read7vk" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_right_top.tscn" id="4_35oyh"]
+[ext_resource type="PackedScene" uid="uid://cwoug71y23lun" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_right_down.tscn" id="5_b8ol4"]
 [ext_resource type="PackedScene" uid="uid://c1hqskpe2ls3g" path="res://HealthUI/HealthBar.tscn" id="6_40m5t"]
+[ext_resource type="Script" uid="uid://dyor1cp12ddso" path="res://base_enemy/BossLotus/BossBullet/bullet_spawner.gd" id="11_ot11u"]
+[ext_resource type="PackedScene" uid="uid://diu5iou3xd7fd" path="res://base_enemy/BossLotus/BossBullet/boss_bullet.tscn" id="12_35oyh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6d0j"]
 atlas = ExtResource("1_ugsmv")
@@ -159,7 +165,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ugsmv"]
-radius = 228.42941
+radius = 543.0921
 
 [sub_resource type="Animation" id="Animation_ugsmv"]
 resource_name = "Phase1_Loop"
@@ -172,13 +178,30 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 5, 7, 11),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1, 1.0001),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
 "method": &"trigger_vine_obstacles"
 }, {
 "args": [true],
+"method": &"start_spiral_bullets"
+}, {
+"args": [],
+"method": &"smash_vine_obstacles"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 5, 7, 11),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [false],
 "method": &"start_spiral_bullets"
 }, {
 "args": [],
@@ -231,9 +254,13 @@ _data = {
 
 [node name="BossLotus" type="Node2D"]
 script = ExtResource("1_6oy8r")
+tentacle_left_top = ExtResource("2_h6d0j")
+tentacle_left_down = ExtResource("3_ot11u")
+tentacle_right_top = ExtResource("4_35oyh")
+tentacle_right_down = ExtResource("5_b8ol4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(12.203126, 12.203126)
+scale = Vector2(29.585938, 29.585938)
 sprite_frames = SubResource("SpriteFrames_ysnm2")
 animation = &"idle_down"
 autoplay = "idle_down"
@@ -253,19 +280,38 @@ libraries = {
 }
 
 [node name="HealthBar" parent="." instance=ExtResource("6_40m5t")]
-offset_left = -79.0
-offset_top = -290.0
-offset_right = 67.0
-offset_bottom = -263.0
+offset_left = -458.0
+offset_top = -775.0
+offset_right = 461.25928
+offset_bottom = -605.0
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Spawners" type="Node2D" parent="."]
+script = ExtResource("11_ot11u")
+bullet_scene = ExtResource("12_35oyh")
+fire_rate = 0.08
 
-[node name="Pivot_Clockwise" type="Marker2D" parent="Node2D"]
+[node name="Pivot_Clockwise" type="Marker2D" parent="Spawners"]
+position = Vector2(100, 0)
 
-[node name="Muzzle" type="Marker2D" parent="Node2D/Pivot_Clockwise"]
-position = Vector2(171.5, 0)
+[node name="Muzzle" type="Marker2D" parent="Spawners/Pivot_Clockwise"]
+position = Vector2(100, 0)
 
-[node name="Pivot_Counter" type="Marker2D" parent="Node2D"]
+[node name="Pivot_Counter" type="Marker2D" parent="Spawners"]
+position = Vector2(100, 0)
 
-[node name="Muzzle" type="Marker2D" parent="Node2D/Pivot_Counter"]
-position = Vector2(-171.5, 0)
+[node name="Muzzle" type="Marker2D" parent="Spawners/Pivot_Counter"]
+position = Vector2(100, 0)
+
+[node name="TentacleAnchors" type="Node2D" parent="."]
+
+[node name="SpawnPoint_LeftTop" type="Marker2D" parent="TentacleAnchors"]
+position = Vector2(-930, -930)
+
+[node name="SpawnPoint_LeftDown" type="Marker2D" parent="TentacleAnchors"]
+position = Vector2(-930, 930)
+
+[node name="SpawnPoint_RightTop" type="Marker2D" parent="TentacleAnchors"]
+position = Vector2(930, -930)
+
+[node name="SpawnPoint_RightDown" type="Marker2D" parent="TentacleAnchors"]
+position = Vector2(930, 930)

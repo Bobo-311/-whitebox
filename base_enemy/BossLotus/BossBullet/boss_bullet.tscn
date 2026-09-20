@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://diu5iou3xd7fd"]
+
+[ext_resource type="Script" uid="uid://b0dibnmui5jrr" path="res://base_enemy/BossLotus/BossBullet/boss_bullet.gd" id="1_7ylyc"]
+[ext_resource type="Texture2D" uid="uid://clgmd00rq7vpr" path="res://Asset/VFX/All_Fire_Bullet_Pixel_16x16_00.png" id="1_10jmx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ylyc"]
+atlas = ExtResource("1_10jmx")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcbj7"]
+atlas = ExtResource("1_10jmx")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddrlk"]
+atlas = ExtResource("1_10jmx")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wm6t"]
+atlas = ExtResource("1_10jmx")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxqiy"]
+atlas = ExtResource("1_10jmx")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hq4wy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ylyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcbj7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddrlk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wm6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxqiy")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6nc5o"]
+radius = 64.12488
+
+[node name="BossBullet" type="Area2D"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_7ylyc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(9.25, 9.25)
+sprite_frames = SubResource("SpriteFrames_hq4wy")
+animation = &"fly"
+frame_progress = 0.35211572
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, 14)
+shape = SubResource("CircleShape2D_6nc5o")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmlfgt0m0wuem"]
+[gd_scene load_steps=22 format=3 uid="uid://bmlfgt0m0wuem"]
 
 [ext_resource type="Script" uid="uid://ddcj3uh5jsxfh" path="res://Volcano/volcano_2.gd" id="1_sjlws"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_d7ch3"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="3_6nbgn"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="4_ckj87"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="6_723fl"]
+[ext_resource type="PackedScene" uid="uid://cs8dl4ig6u0ej" path="res://base_enemy/BossLotus/boss_lotus.tscn" id="7_4q1m2"]
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="8_xrg0l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jou6o"]
@@ -17,10 +18,34 @@ size = Vector2(356.99994, 105.50049)
 size = Vector2(120.000046, 122)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_go6hg"]
-size = Vector2(120.000046, 121)
+size = Vector2(119.00001, 123)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aspr5"]
 size = Vector2(120.000046, 250)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bpqjx"]
+size = Vector2(121.00001, 123)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7l65"]
+size = Vector2(119.000015, 122.99951)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_smt8i"]
+size = Vector2(119.00001, 122)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ckj87"]
+size = Vector2(120.00001, 124)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hxxc7"]
+size = Vector2(120.00001, 123)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6nbgn"]
+size = Vector2(118.00001, 124)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wwmgn"]
+size = Vector2(121.00007, 124)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7ch3"]
+size = Vector2(121.00001, 124)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8l1gf"]
 size = Vector2(120.000046, 250.5)
@@ -28,7 +53,6 @@ size = Vector2(120.000046, 250.5)
 [node name="Volcano" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_sjlws")
-metadata/_edit_horizontal_guides_ = [4.0]
 metadata/_edit_vertical_guides_ = [-3557.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -574,6 +598,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left36" type="StaticBody2D" parent="."]
 position = Vector2(1728, 1727)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left36"]
@@ -591,6 +616,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left43" type="StaticBody2D" parent="."]
 position = Vector2(1911, 1608)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left43"]
@@ -608,6 +634,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left44" type="StaticBody2D" parent="."]
 position = Vector2(2122, 1608)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left44"]
@@ -625,6 +652,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left45" type="StaticBody2D" parent="."]
 position = Vector2(2312, 1727)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left45"]
@@ -642,6 +670,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left46" type="StaticBody2D" parent="."]
 position = Vector2(1732, 3225)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left46"]
@@ -659,6 +688,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left47" type="StaticBody2D" parent="."]
 position = Vector2(1920, 3340)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left47"]
@@ -676,6 +706,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left48" type="StaticBody2D" parent="."]
 position = Vector2(2131, 3340)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left48"]
@@ -693,6 +724,7 @@ shape = SubResource("RectangleShape2D_aspr5")
 [node name="Wall_Left49" type="StaticBody2D" parent="."]
 position = Vector2(2316, 3225)
 rotation = 1.5707964
+collision_layer = 513
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left49"]
@@ -789,7 +821,7 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left84"]
-position = Vector2(-287, -1.5)
+position = Vector2(-287.5, -1.5)
 shape = SubResource("RectangleShape2D_go6hg")
 
 [node name="Wall_Left85" type="StaticBody2D" parent="."]
@@ -827,8 +859,9 @@ position = Vector2(-287, -1.5)
 shape = SubResource("RectangleShape2D_go6hg")
 
 [node name="Wall_Left97" type="StaticBody2D" parent="."]
-position = Vector2(1382, 2944)
+position = Vector2(1383, 2944)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left97"]
@@ -840,12 +873,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left97"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-287.5, -0.5)
+shape = SubResource("RectangleShape2D_bpqjx")
 
 [node name="Wall_Left98" type="StaticBody2D" parent="."]
 position = Vector2(2570, 2944)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left98"]
@@ -857,12 +891,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left98"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-287.5, -0.4987793)
+shape = SubResource("RectangleShape2D_w7l65")
 
 [node name="Wall_Left99" type="StaticBody2D" parent="."]
 position = Vector2(2570, 2005)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left99"]
@@ -874,12 +909,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left99"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-287.5, -1)
+shape = SubResource("RectangleShape2D_smt8i")
 
 [node name="Wall_Left100" type="StaticBody2D" parent="."]
 position = Vector2(1382, 2005)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left100"]
@@ -891,12 +927,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left100"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-287, -1)
+shape = SubResource("RectangleShape2D_ckj87")
 
 [node name="Wall_Left105" type="StaticBody2D" parent="."]
 position = Vector2(1141, 2295)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left105"]
@@ -908,12 +945,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left105"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-288, -1.5)
+shape = SubResource("RectangleShape2D_hxxc7")
 
 [node name="Wall_Left106" type="StaticBody2D" parent="."]
 position = Vector2(1143, 2629)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left106"]
@@ -925,12 +963,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left106"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-288, -1)
+shape = SubResource("RectangleShape2D_6nbgn")
 
 [node name="Wall_Left107" type="StaticBody2D" parent="."]
 position = Vector2(2809, 2321)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left107"]
@@ -942,12 +981,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left107"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-287.49976, -1)
+shape = SubResource("RectangleShape2D_wwmgn")
 
 [node name="Wall_Left108" type="StaticBody2D" parent="."]
 position = Vector2(2811, 2642)
 rotation = 1.5707964
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left108"]
@@ -959,8 +999,8 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left108"]
-position = Vector2(-287, -1.5)
-shape = SubResource("RectangleShape2D_go6hg")
+position = Vector2(-287.5, -1)
+shape = SubResource("RectangleShape2D_d7ch3")
 
 [node name="Wall_Left88" type="StaticBody2D" parent="."]
 position = Vector2(735, 1447)
@@ -1049,6 +1089,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left50" type="StaticBody2D" parent="."]
 position = Vector2(2167, 1633)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left50"]
@@ -1066,6 +1107,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left95" type="StaticBody2D" parent="."]
 position = Vector2(2167, 2827)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left95"]
@@ -1083,6 +1125,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left51" type="StaticBody2D" parent="."]
 position = Vector2(1212, 1642)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left51"]
@@ -1100,6 +1143,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left101" type="StaticBody2D" parent="."]
 position = Vector2(977, 1911)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left101"]
@@ -1117,6 +1161,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left102" type="StaticBody2D" parent="."]
 position = Vector2(2404, 1911)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left102"]
@@ -1134,6 +1179,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left103" type="StaticBody2D" parent="."]
 position = Vector2(2404, 2552)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left103"]
@@ -1151,6 +1197,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left104" type="StaticBody2D" parent="."]
 position = Vector2(976, 2552)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left104"]
@@ -1168,6 +1215,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left96" type="StaticBody2D" parent="."]
 position = Vector2(1218, 2833)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left96"]
@@ -1185,6 +1233,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left52" type="StaticBody2D" parent="."]
 position = Vector2(737, 2213)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left52"]
@@ -1202,6 +1251,7 @@ shape = SubResource("RectangleShape2D_8l1gf")
 [node name="Wall_Left94" type="StaticBody2D" parent="."]
 position = Vector2(2644, 2236)
 rotation = 3.1415927
+collision_layer = 512
 collision_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="Wall_Left94"]
@@ -1759,7 +1809,7 @@ max_follow_distance = 700.0
 position = Vector2(1911, 4342)
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(2443, 2244)
+position = Vector2(20, 3380)
 energy = 1.5
 texture = ExtResource("8_xrg0l")
 texture_scale = 10.0
@@ -1784,3 +1834,6 @@ limit_top = 4
 limit_right = 3751
 limit_bottom = 4923
 position_smoothing_enabled = true
+
+[node name="BossLotus" parent="." instance=ExtResource("7_4q1m2")]
+position = Vector2(1964, 2228)

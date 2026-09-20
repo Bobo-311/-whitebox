@@ -301,6 +301,10 @@ func add_ink(amount: float = 10.0) -> void:
 		current_ink = min(current_ink + amount, max_ink)
 		if player_hud and player_hud.has_method("update_ink"): player_hud.update_ink(current_ink, max_ink)
 
+# 🌟【加入這行】：讓外部系統 (如觸手) 可以用 restore_ink 這個名字來呼叫
+func restore_ink(amount: float = 10.0) -> void:
+	add_ink(amount)
+
 func refill_full_ink() -> void:
 	current_ink = max_ink
 	if player_hud and player_hud.has_method("update_ink"): player_hud.update_ink(current_ink, max_ink)

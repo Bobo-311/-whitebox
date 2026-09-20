@@ -13,16 +13,29 @@ extends Node2D
 # 目前的階段狀態
 var current_phase: int = 1
 
+# 用來暫存當下「正在預警中」的觸手實體
+var current_active_tentacles: Array = []
+
 # ==========================================
 # 節點抓取區
 # ==========================================
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health_bar = $HealthBar 
+@onready var spawners = $Spawners # 綁定發射器模組
 
 # (之後實作發射器時會用到，先寫好放著)
 @onready var pivot_clockwise = $Spawners/Pivot_Clockwise
 @onready var pivot_counter = $Spawners/Pivot_Counter
+
+# ==========================================
+# 📦 [備註] 觸手彈藥庫 (在 Inspector 中填入對應的場景)
+# ==========================================
+@export var tentacle_left_top: PackedScene    # 放入 觸手_左上.tscn
+@export var tentacle_left_down: PackedScene   # 放入 觸手_左下.tscn
+@export var tentacle_right_top: PackedScene   # 放入 觸手_右上.tscn
+@export var tentacle_right_down: PackedScene  # 放入 觸手_右下.tscn
+
 
 
 # ==========================================
@@ -31,7 +44,11 @@ var current_phase: int = 1
 func _ready() -> void:
 	current_hp = max_hp
 	
-	# 初始化血條 (假設你的 HealthBar 組件有這個方法)
+	# 確保開局播放正確的待機圖片
+	if sprite:
+		sprite.play("idle_down")
+	
+	# 初始化血條
 	if health_bar and health_bar.has_method("init_health"):
 		health_bar.init_health(max_hp)
 		
@@ -65,8 +82,13 @@ func _play_phase_2_timeline() -> void:
 # ==========================================
 # 🩸 受擊與階段切換 (由 Hurtbox 觸發)
 # ==========================================
-func take_damage(amount: int) -> void:
-	current_hp -= amount
+# 🌟【關鍵】參數必須跟 Hurtbox 郵差送來的一模一樣！
+func take_damage(amount: float, hit_position: Vector2 = Vector2.ZERO, hit_direction: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
+	# 防呆：如果已經死了，就不再接受傷害
+	if current_hp <= 0: return 
+
+	# 我們一樣忽略擊退效果，只取傷害值 (amount)
+	current_hp -= int(amount)
 	current_hp = clampi(current_hp, 0, max_hp)
 	print("💥 淵獄蓮華受傷！剩餘血量：", current_hp)
 	
@@ -74,35 +96,166 @@ func take_damage(amount: int) -> void:
 	if health_bar and health_bar.has_method("update_health"):
 		health_bar.update_health(current_hp)
 	
+	# 🌟【視覺反饋】：播放真實的受傷圖片 + 閃紅光
+	if current_hp > 0:
+		_play_hit_flash_tween()
+	
 	# 觸發二階段判定 (當血量低於或等於設定的門檻時)
 	if current_hp <= phase_2_threshold and current_phase == 1:
 		_play_phase_2_timeline()
 		
 	# 死亡判定
 	if current_hp <= 0:
-		print("💀 淵獄蓮華 死亡！")
-		anim_player.stop()
-		# queue_free() # 測試階段先不要刪除王，方便觀察
+		_die()
+
+# ==========================================
+# ✨ 受傷視覺反饋 (切換圖片 + 閃光，不干擾主時間軸)
+# ==========================================
+func _play_hit_flash_tween() -> void:
+	if sprite:
+		# 1. 播放真實的受傷圖片
+		sprite.play("hurt_down")
+		
+		# 2. 依然保留紅光 Tween 增加打擊感 (兩者疊加效果最好！)
+		var tween = create_tween()
+		sprite.modulate = Color(3.0, 0.2, 0.2)
+		tween.tween_property(sprite, "modulate", Color.WHITE, 0.15)
+		
+		# 3. 啟動一個超短計時器，受傷圖播完後，切回原本的待機圖 (約 0.3 秒)
+		get_tree().create_timer(0.3).timeout.connect(func():
+			# 安全檢查：確保 Boss 還活著才切回 idle
+			if current_hp > 0 and is_instance_valid(sprite):
+				sprite.play("idle_down")
+		)
+
+# ==========================================
+# 💀 正式死亡流程 (播放專屬圖片與消散)
+# ==========================================
+func _die() -> void:
+	print("💀 淵獄蓮華 死亡崩潰中...")
+	
+	# 1. 停止所有攻擊時間軸 (這非常重要，阻止它繼續放招)
+	anim_player.stop()
+	
+	# 2. 關閉碰撞
+	if has_node("CollisionShape2D"):
+		$CollisionShape2D.set_deferred("disabled", true)
+	if has_node("Hurtbox/CollisionShape2D"):
+		$Hurtbox/CollisionShape2D.set_deferred("disabled", true)
+		
+	# 3. 播放真實的死亡圖片
+	if sprite:
+		sprite.play("die_down")
+	
+	# 4. 製造死亡崩壞特效 (利用 Tween 漸黑與淡出)
+	var tween = create_tween().set_parallel(false) # 序列執行
+	tween.tween_property(sprite, "modulate", Color(0.2, 0.2, 0.2, 1.0), 1.0) # 1秒內變黑炭
+	tween.tween_property(sprite, "modulate:a", 0.0, 1.5) # 再花 1.5 秒慢慢化成灰燼
+	
+	# 5. 特效播完後，呼叫結算函數
+	tween.finished.connect(_on_death_animation_finished)
+
+# ==========================================
+# 🎉 死亡動畫播完後的處理 (通關結算)
+# ==========================================
+func _on_death_animation_finished() -> void:
+	print("🎉 淵獄蓮華 已徹底消滅！")
+	# TODO: 發送勝利信號、掉落物品等
+	queue_free()
 
 # ==========================================
 # 🎯 招式 API 接口 (供 AnimationPlayer 呼叫)
 # ==========================================
 
-# [機制1] 生成藤蔓路障 (預警 -> 砸下)
+# ==========================================
+# 🎯 [機制1] 生成藤蔓路障 (十字象限完美包圍版)
+# ==========================================
 func trigger_vine_obstacles() -> void:
-	print("🌿 [導演指令] 生成藤蔓路障！開始預警...")
-	# TODO: 寫生成觸手的程式碼
+	# [防呆檢查] 確保 4 個觸手的場景檔案 (PackedScene) 都有在右側 Inspector 填好
+	if not (tentacle_left_top and tentacle_left_down and tentacle_right_top and tentacle_right_down):
+		print("❌ 錯誤：四個角落的觸手場景未填滿！")
+		return
 
-# [機制2] 開始發射螺旋彈幕
+	# [索敵] 利用 Group (群組) 在整個遊戲場景中尋找名為 "Player" 的節點
+	var player = get_tree().get_first_node_in_group("Player")
+	
+	# [裝備籃] 用來暫存「這次判定後，到底要生成哪幾根觸手」的清單
+	var spawn_data = [] 
+	
+	if player:
+		# [計算距離] 算出玩家與 Boss 之間 X 軸與 Y 軸的距離差
+		# 舉例：dx 為負代表玩家在 Boss 左邊，dy 為正代表玩家在 Boss 下方
+		var dx = player.global_position.x - self.global_position.x
+		var dy = player.global_position.y - self.global_position.y
+		
+		# [象限判定核心] 比較 X 距離與 Y 距離的「絕對值 (abs)」
+		# 如果 X 的差距 > Y 的差距，代表玩家明顯偏向「左」或「右」
+		if abs(dx) > abs(dy):
+			if dx < 0: # 玩家在【左】-> 砸下左上、左下，包夾左側
+				print("🎯 玩家在【左】，砸下左上、左下！")
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_LeftTop.global_position, "scene": tentacle_left_top})
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_LeftDown.global_position, "scene": tentacle_left_down})
+			else:      # 玩家在【右】-> 砸下右上、右下，包夾右側
+				print("🎯 玩家在【右】，砸下右上、右下！")
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_RightTop.global_position, "scene": tentacle_right_top})
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_RightDown.global_position, "scene": tentacle_right_down})
+		# 如果 Y 的差距 > X 的差距，代表玩家明顯偏向「上」或「下」
+		else:
+			if dy < 0: # 玩家在【上】-> 砸下左上、右上，包夾上方
+				print("🎯 玩家在【上】，砸下左上、右上！")
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_LeftTop.global_position, "scene": tentacle_left_top})
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_RightTop.global_position, "scene": tentacle_right_top})
+			else:      # 玩家在【下】-> 砸下左下、右下，包夾下方
+				print("🎯 玩家在【下】，砸下左下、右下！")
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_LeftDown.global_position, "scene": tentacle_left_down})
+				spawn_data.append({"pos": $TentacleAnchors/SpawnPoint_RightDown.global_position, "scene": tentacle_right_down})
+	else:
+		# [備案] 如果玩家死掉或沒掛 Player 群組，就 4 根全砸
+		print("⚠️ 找不到玩家，執行四方全域封鎖！")
+		spawn_data = [
+			{"pos": $TentacleAnchors/SpawnPoint_LeftTop.global_position, "scene": tentacle_left_top},
+			{"pos": $TentacleAnchors/SpawnPoint_LeftDown.global_position, "scene": tentacle_left_down},
+			{"pos": $TentacleAnchors/SpawnPoint_RightTop.global_position, "scene": tentacle_right_top},
+			{"pos": $TentacleAnchors/SpawnPoint_RightDown.global_position, "scene": tentacle_right_down}
+		]
+
+	# [執行生成] 迴圈讀取 spawn_data，把指定的觸手生成在指定的座標上
+	for data in spawn_data:
+		var new_tentacle = data["scene"].instantiate()
+		new_tentacle.global_position = data["pos"]
+		# 加到與 Boss 相同的環境層級中 (避免 Boss 死掉觸手跟著不見)
+		get_parent().add_child(new_tentacle)
+		# 🌟【將觸手登記造冊】：存入名單，等待導演下令砸下
+		current_active_tentacles.append(new_tentacle)
+
+# ==========================================
+# 🎯 [機制1-補充] 命令預警觸手正式砸下
+# ==========================================
+func smash_vine_obstacles() -> void:
+	print("💥 導演指令：全體觸手立刻砸擊！")
+	
+	# 點名所有在名單上的觸手
+	for tentacle in current_active_tentacles:
+		# 確保觸手還存在 (沒被提早刪除) 且有砸下功能
+		if is_instance_valid(tentacle) and tentacle.has_method("execute_smash"):
+			tentacle.execute_smash()
+	
+	# 砸完後清空名單，準備下一輪
+	current_active_tentacles.clear()
+
+# ==========================================
+# 🎯 [戰鬥機制 2] 螺旋彈幕控制 API
+# ==========================================
 func start_spiral_bullets(is_clockwise: bool) -> void:
-	var dir = "順時針" if is_clockwise else "逆時針"
-	print("🌀 [導演指令] 開始發射【", dir, "】螺旋彈幕！")
-	# TODO: 讓對應的 Pivot 開始旋轉並噴射子彈
+	if is_clockwise:
+		spawners.start_clockwise()
+	else:
+		spawners.start_counter_clockwise()
 
 # [共用] 停止彈幕/進入休息
 func stop_bullets() -> void:
 	print("🛑 [導演指令] 彈幕停止，進入喘息/休息期。")
-	# TODO: 讓 Pivot 停止噴射子彈
+	spawners.stop_all()
 
 # [機制3] 高壓雷射死光 (二階專屬)
 func start_laser_sweep(is_clockwise: bool) -> void:
