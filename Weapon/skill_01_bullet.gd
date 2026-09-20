@@ -22,6 +22,21 @@ var raw_times: Array[float] = []
 var is_destroying: bool = false               # 🌟 防呆：避免同一幀重複執行銷毀
 
 func _ready() -> void:
+	# ==========================================
+	# 🌟 高低差特權判定 (依據 image_9bc19d.png 的圖層設定)
+	# ==========================================
+	set_collision_mask_value(11, true)
+	set_collision_mask_value(12, true)
+	set_collision_mask_value(13, true)
+	
+	if DataManager.player_node:
+		var elev = DataManager.player_node.current_elevation
+		# 👇 加入這行，看看子彈出生的時候，以為阿尼在幾樓？
+		print("【系統】發射子彈！阿尼現在的高度是：", elev)
+		if elev >= 1: set_collision_mask_value(11, false) # 無視 1 樓懸崖
+		if elev >= 2: set_collision_mask_value(12, false) # 無視 2 樓懸崖
+		if elev >= 3: set_collision_mask_value(13, false) # 無視 3 樓懸崖
+	# ==========================================
 	if animated_sprite_2d:
 		animated_sprite_2d.play("default")
 		
@@ -60,8 +75,16 @@ func _update_trail_logic() -> void:
 		
 	var current_time = Time.get_ticks_msec() / 1000.0
 	
-	if raw_points.is_empty() or global_position.distance_to(raw_points.back()) >= min_distance:
-		raw_points.append(global_position)
+	# ==========================================
+	# 🌟 關鍵修改 1：算出子彈「頭部」的絕對座標
+	# direction * 35.0 代表往子彈飛行的方向往前推 35 像素。
+	# 你可以微調 35.0 這個數字，直到拖尾剛好貼齊子彈的最前端！
+	# ==========================================
+	var tip_pos = global_position + (direction * 35.0)
+	
+	# 這裡原本的 global_position 全部換成 tip_pos
+	if raw_points.is_empty() or tip_pos.distance_to(raw_points.back()) >= min_distance:
+		raw_points.append(tip_pos)
 		raw_times.append(current_time)
 		
 	while not raw_times.is_empty() and (current_time - raw_times.front()) > trail_lifetime:
@@ -72,42 +95,61 @@ func _update_trail_logic() -> void:
 		trail_line.clear_points()
 		return
 		
-	# 🌟 關鍵修正 1：讓拖尾的「原點」隨時跟著子彈，這樣 Y-Sort 才會拿到最新高度！
+	# ==========================================
+	# 🌟 關鍵修改 2：讓拖尾的「原點」也跟隨子彈頭部
+	# ==========================================
 	trail_line.global_position = global_position
 		
 	var curve = Curve2D.new()
 	for pt in raw_points:
-		# 🌟 關鍵修正 2：既然原點跟著子彈跑了，畫線座標就必須轉換為「相對於原點的本地座標」
+		# 這裡就會以子彈頭部為中心去畫線了
 		curve.add_point(trail_line.to_local(pt))
 		
 	trail_line.points = curve.tessellate(4, 4)
-
+	
 # 🌟 生成命中潑墨粒子
 func spawn_impact_effect() -> void:
 	if IMPACT_EFFECT:
 		var effect = IMPACT_EFFECT.instantiate()
-		effect.global_position = global_position
-		effect.rotation = rotation # 讓墨汁順著子彈飛來的反方向噴濺
-		get_parent().add_child(effect)
-
+		
+		# 讓特效旋轉 (包裝盒大法)
+		effect.rotation = direction.angle() + PI 
+		
+		# ==========================================
+		# 🌟 關鍵修改：讓爆炸位置往前方推！
+		# direction 是一個長度為 1 的方向向量。
+		# 乘上一個數字 (例如 25.0)，就可以把特效生成點往前推 25 像素。
+		# 如果還是太遠，就把 25 繼續調大 (例如 30, 40)；如果推過頭卡進牆壁裡了，就調小。
+		# ==========================================
+		effect.global_position = global_position + (direction * 25.0)
+		
+		get_tree().current_scene.add_child(effect)
+		
 func destroy_bullet() -> void:
 	if is_destroying: return
 	is_destroying = true
 
 	spawn_impact_effect()
 	
-	# 🌟 觸發相機震動 (已適當下調至 6.0，避免過度搖晃)
+	# 🌟 觸發相機震動
 	get_tree().call_group("main_camera", "apply_shake", 8.0)
 	
 	# 🌟 將拖尾交給場景，使其平滑淡出後銷毀
 	if is_instance_valid(trail_line) and raw_points.size() > 0:
 		var world = get_parent()
 		if world and trail_line.get_parent() == self:
-			# 🌟 關鍵修正 3：交接給世界時，記住並恢復它最後的絕對位置
+			# ==========================================
+			# 🌟 關鍵修正：同時記住位置與角度！
+			# ==========================================
 			var prev_pos = trail_line.global_position
+			var prev_rot = trail_line.global_rotation # 👈 關鍵新增 1：記住子彈摧毀前的絕對角度
+			
 			remove_child(trail_line)
 			world.add_child(trail_line)
+			
 			trail_line.global_position = prev_pos
+			trail_line.global_rotation = prev_rot     # 👈 關鍵新增 2：還原角度，不讓它彈回 0 度(朝右)
+			# ==========================================
 			
 			var tween = trail_line.create_tween().set_parallel(true)
 			tween.tween_property(trail_line, "modulate:a", 0.0, trail_lifetime)

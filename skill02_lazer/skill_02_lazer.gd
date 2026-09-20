@@ -34,6 +34,20 @@ func fire_laser() -> void:
 	raycast.target_position = Vector2(max_range, 0)
 	if shooter: raycast.add_exception(shooter)
 
+	# ==========================================
+	# 🌟 高低差特權判定 (修改 RayCast2D 的遮罩)
+	# ==========================================
+	raycast.set_collision_mask_value(11, true)
+	raycast.set_collision_mask_value(12, true)
+	raycast.set_collision_mask_value(13, true)
+	
+	if shooter and "current_elevation" in shooter:
+		var elev = shooter.current_elevation
+		if elev >= 1: raycast.set_collision_mask_value(11, false)
+		if elev >= 2: raycast.set_collision_mask_value(12, false)
+		if elev >= 3: raycast.set_collision_mask_value(13, false)
+	# ==========================================
+	
 	# 🌟 動態雷射粗細 (1段:8px, 2段:17px, 3段:26px)
 	line_2d.width = 8.0 + ((charge_stage - 1) * 9.0)
 

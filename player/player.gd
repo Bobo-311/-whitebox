@@ -80,6 +80,8 @@ func get_weapon_cost() -> float:
 		WeaponMode.YELLOW: return 20.0
 	return 10.0
 
+var current_elevation: int = 0 # 0=平地, 1=二樓, 2=三樓
+
 # ==========================================
 # 遊戲初始化 (_ready)
 # ==========================================

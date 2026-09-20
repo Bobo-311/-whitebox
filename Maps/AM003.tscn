@@ -19874,6 +19874,6 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_dyx30")]
-position = Vector2(1289, 1608)
+position = Vector2(1923, 1599)
 base_max_hp = 100
 max_hp = 100

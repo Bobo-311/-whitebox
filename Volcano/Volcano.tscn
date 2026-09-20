@@ -1182,6 +1182,7 @@ color = Color(0.7660208, 0.7142027, 0.81310016, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
@@ -1228,7 +1229,7 @@ position = Vector2(-241, 1000)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="SavePoint" parent="." instance=ExtResource("5_q0gaw")]
-position = Vector2(1714, 397)
+position = Vector2(1728, 1687)
 
 [node name="Coin" parent="." instance=ExtResource("7_vetra")]
 position = Vector2(2593, 1228)
@@ -1260,7 +1261,7 @@ tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAI
 tile_set = SubResource("TileSet_167qa")
 
 [node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
-position = Vector2(1697, 1763)
+position = Vector2(1706, 1854)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 

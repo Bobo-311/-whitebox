@@ -240,7 +240,9 @@ dialogic_default_action={
 2d_physics/layer_8="物品"
 2d_physics/layer_9="white_cat"
 2d_physics/layer_10="Low_Obstacle(花圃/低牆)"
-2d_physics/layer_11="Cliff (懸崖/高低差)"
+2d_physics/layer_11="Cliff_L1 (懸崖/高低差)"
+2d_physics/layer_12="Cliff_L2 (懸崖/高低差)"
+2d_physics/layer_13="Cliff_L3 (懸崖/高低差)"
 
 [rendering]
 

@@ -18938,15 +18938,15 @@ sources/0 = SubResource("TileSetAtlasSource_qgvtp")
 
 [node name="AM002" type="Node2D"]
 y_sort_enabled = true
-position = Vector2(1403, -259)
 script = ExtResource("1_qgvtp")
 map_name = "AM002"
-limit_left = 2250
-limit_top = -2048
-limit_right = 8220
+limit_left = 960
+limit_top = -1500
+limit_right = 6780
 limit_bottom = 4355
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -18960,6 +18960,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -18979,7 +18980,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(2752, 1814)
+position = Vector2(5830, 165)
 base_max_hp = 100
 max_hp = 100
 
