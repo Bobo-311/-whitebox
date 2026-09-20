@@ -64,10 +64,12 @@ func _spawn_bullet_at(muzzle: Node2D) -> void:
 # 📡 [公共 API (Public Methods)] 供外部大腦呼叫
 # ==========================================
 func start_clockwise() -> void:
+	is_firing_counter = false # 先強制關閉逆時針
 	is_firing_clockwise = true
 	fire_timer = 0.0 
 
 func start_counter_clockwise() -> void:
+	is_firing_clockwise = false # 先強制關閉順時針
 	is_firing_counter = true
 	fire_timer = 0.0
 

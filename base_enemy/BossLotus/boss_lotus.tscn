@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cs8dl4ig6u0ej"]
+[gd_scene load_steps=41 format=3 uid="uid://cs8dl4ig6u0ej"]
 
 [ext_resource type="Script" uid="uid://cmtbo80v7j7gi" path="res://base_enemy/BossLotus/boss_lotus.gd" id="1_6oy8r"]
 [ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="1_iun5m"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c1hqskpe2ls3g" path="res://HealthUI/HealthBar.tscn" id="6_40m5t"]
 [ext_resource type="Script" uid="uid://dyor1cp12ddso" path="res://base_enemy/BossLotus/BossBullet/bullet_spawner.gd" id="11_ot11u"]
 [ext_resource type="PackedScene" uid="uid://diu5iou3xd7fd" path="res://base_enemy/BossLotus/BossBullet/boss_bullet.tscn" id="12_35oyh"]
+[ext_resource type="Script" uid="uid://co7v5oj8vhoj0" path="res://base_enemy/BossLotus/BossBullet/laser_weapon.gd" id="13_b8ol4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6d0j"]
 atlas = ExtResource("1_ugsmv")
@@ -201,7 +202,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(1, 5, 7, 11),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
-"args": [false],
+"args": [true],
 "method": &"start_spiral_bullets"
 }, {
 "args": [],
@@ -226,31 +227,95 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 3.5, 5, 8),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
 "method": &"trigger_vine_obstacles"
 }, {
+"args": [],
+"method": &"smash_vine_obstacles"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 3.5, 5, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
 "args": [false],
 "method": &"start_laser_sweep"
 }, {
 "args": [],
-"method": &"stop_bullets"
+"method": &"stop_laser_sweep"
 }, {
 "args": [true],
 "method": &"start_laser_sweep"
 }, {
 "args": [],
-"method": &"stop_bullets"
+"method": &"stop_laser_sweep"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_35oyh"]
+resource_name = "Phase_Transition"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.19607843, 0.19607843, 1), Color(1, 0.19607842, 0.19607842, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"finish_transition"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_b8ol4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g2ojk"]
 _data = {
 &"Phase1_Loop": SubResource("Animation_ugsmv"),
-&"Phase2_Loop": SubResource("Animation_6oy8r")
+&"Phase2_Loop": SubResource("Animation_6oy8r"),
+&"Phase_Transition": SubResource("Animation_35oyh"),
+&"RESET": SubResource("Animation_b8ol4")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_35oyh"]
+size = Vector2(1500, 40)
 
 [node name="BossLotus" type="Node2D"]
 script = ExtResource("1_6oy8r")
@@ -301,6 +366,24 @@ position = Vector2(100, 0)
 
 [node name="Muzzle" type="Marker2D" parent="Spawners/Pivot_Counter"]
 position = Vector2(100, 0)
+
+[node name="LaserWeapon" type="Node2D" parent="."]
+script = ExtResource("13_b8ol4")
+
+[node name="LaserHitbox" type="Area2D" parent="LaserWeapon"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LaserWeapon/LaserHitbox"]
+position = Vector2(750, 0)
+shape = SubResource("RectangleShape2D_35oyh")
+disabled = true
+
+[node name="Line2D" type="Line2D" parent="LaserWeapon/LaserHitbox"]
+visible = false
+points = PackedVector2Array(0, 0, 1500, 0)
+width = 40.0
+default_color = Color(1, 0, 0, 1)
 
 [node name="TentacleAnchors" type="Node2D" parent="."]
 
