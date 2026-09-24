@@ -25,7 +25,7 @@ func enter(): # 進入死亡狀態時執行
 	if push_dir != Vector2.ZERO: 
 		character.move_and_collide(push_dir * 60.0) 
 	
-	character.play_animation("dead", anim_dir) # 播放倒地死亡動畫
+	character.play_animation("die", anim_dir) # 播放倒地死亡動畫
 	
 	var collision = character.get_node_or_null("CollisionShape2D") 
 	if collision: collision.set_deferred("disabled", true) # 安全關閉物理碰撞

@@ -41,7 +41,7 @@ func _on_btn_studio_pressed():
 		_close_menu()
 		
 		# 呼叫黑洞轉場，並把目標路徑交給它
-		TransitionManager.transition_to("res://main/main.tscn")
+		TransitionManager.transition_to("res://Volcano/Volcano2.tscn")
 
 
 # ==========================================

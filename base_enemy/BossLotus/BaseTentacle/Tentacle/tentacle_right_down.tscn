@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwoug71y23lun"]
+
+[ext_resource type="PackedScene" uid="uid://bmtfpv7po4p30" path="res://base_enemy/BossLotus/BaseTentacle/base_tentacle.tscn" id="1_il5or"]
+
+[node name="TentacleRightDown" instance=ExtResource("1_il5or")]
+rotation = -0.7853982

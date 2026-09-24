@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://c7pgy55dhd1e5" path="res://slime-pack/PNG/Slime2/Idle/Slime2_Idle_body.png" id="4_qbl1b"]
 [ext_resource type="Texture2D" uid="uid://cou8pb75jrurq" path="res://slime-pack/PNG/Slime2/Walk/Slime2_Walk_body.png" id="5_s2o76"]
 [ext_resource type="Texture2D" uid="uid://bd87hj5wqvt6q" path="res://slime-pack/PNG/Slime2/Run/Slime2_Run_body.png" id="6_ynskx"]
-[ext_resource type="Script" uid="uid://e4p5ihxvsf1s" path="res://base_enemy/Colorless_dango/colorless_dango_chase.gd" id="7_4hn16"]
-[ext_resource type="Script" uid="uid://d4mhjddn7vcon" path="res://base_enemy/Colorless_dango/colorless_dango_pant.gd" id="8_qbl1b"]
+[ext_resource type="Script" uid="uid://e4p5ihxvsf1s" path="res://base_enemy/Colorless_Dango/colorless_dango_chase.gd" id="7_4hn16"]
+[ext_resource type="Script" uid="uid://d4mhjddn7vcon" path="res://base_enemy/Colorless_Dango/colorless_dango_pant.gd" id="8_qbl1b"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ynskx"]
 resource_local_to_scene = true
@@ -643,7 +643,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_g15x4")
 }],
 "loop": false,
-"name": &"dead_down",
+"name": &"die_down",
 "speed": 12.0
 }, {
 "frames": [{
@@ -678,7 +678,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_me8xq")
 }],
 "loop": false,
-"name": &"dead_left",
+"name": &"die_left",
 "speed": 12.0
 }, {
 "frames": [{
@@ -713,7 +713,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_3ijfa")
 }],
 "loop": false,
-"name": &"dead_right",
+"name": &"die_right",
 "speed": 12.0
 }, {
 "frames": [{
@@ -748,7 +748,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_lvpgt")
 }],
 "loop": false,
-"name": &"dead_up",
+"name": &"die_up",
 "speed": 12.0
 }, {
 "frames": [{
@@ -1157,44 +1157,48 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i505y"]
-radius = 40.0
-height = 116.0
+radius = 28.0
+height = 94.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn8bs"]
-radius = 30.0
-height = 90.0
+radius = 29.0
+height = 92.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hjsdk"]
-radius = 46.921837
-height = 170.0192
+radius = 35.201115
+height = 118.31129
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8a4f"]
-radius = 769.6246
+radius = 1489.1212
 
-[node name="colorless_dango" instance=ExtResource("1_xmo1u")]
+[node name="Colorless_Dango" instance=ExtResource("1_xmo1u")]
+coin_drop_count = 0
+max_hp = 100
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ynskx")
 sprite_frames = SubResource("SpriteFrames_xmo1u")
 animation = &"idle_down"
 autoplay = "idle_down"
+frame = 1
+frame_progress = 0.7231318
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(3, -30)
+position = Vector2(-1, -19)
 shape = SubResource("CapsuleShape2D_i505y")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-1, -20)
+position = Vector2(-1, -19)
 shape = SubResource("CapsuleShape2D_tn8bs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2(-2.4643545, -35.16655)
+position = Vector2(-2.4643543, -22.272146)
 rotation = -1.5549856
 shape = SubResource("CapsuleShape2D_hjsdk")
 
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("7_4hn16")
-chase_speed = 550.0
+chase_speed = 300.0
 
 [node name="Pant" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("8_qbl1b")

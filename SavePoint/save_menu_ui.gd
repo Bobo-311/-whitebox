@@ -66,7 +66,6 @@ func _on_save_pressed() -> void:
 		
 		# 1. 記錄最大血量與體力 (存檔點全滿)
 		DataManager.saved_hp = player.max_hp
-		DataManager.saved_sp = player.max_sp
 		
 		# 2. 能量(EP)保底機制 (防呆安全檢查)
 		if "max_energy" in player and "current_energy" in player:

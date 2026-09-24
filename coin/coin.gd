@@ -1,18 +1,19 @@
 extends Area2D # 繼承 Area2D，用於偵測玩家碰撞 coin
 
 @export var coin_value: int = 1 # 金幣面額
-
 @export var magnetic_speed_max: float = 800.0 # 磁吸的最大極速
 @export var magnetic_acceleration: float = 1500.0 # 磁吸的加速度 (每秒變快多少)
+# 🌟 新增：金幣在地上存活的時間 (預設為 10 秒)
+@export var lifespan: float = 10.0
 
 var target_player: Node2D = null # 記錄要追蹤的玩家節點
 var is_magnetic: bool = false # 開關：金幣落地後是否允許被磁吸
 var current_speed: float = 0.0 # 記錄當下的飛行速度
 
 
-func _ready(): 
-	# 建立 3 秒自動銷毀計時器
-	get_tree().create_timer(3.0).connect("timeout", queue_free)
+func _ready():
+	#銷毀計時器
+	_start_despawn_timer()
 	
 	# --- 拋物線安全判定 ---
 	var random_x: float = randf_range(-40.0, 40.0) # 縮小隨機 X 範圍減少衝擊力
@@ -58,6 +59,27 @@ func _physics_process(delta: float): # 每一幀的物理更新
 			# 算出飛向玩家的「方向向量」，並執行移動
 			var direction: Vector2 = (target_player.global_position - global_position).normalized()
 			global_position += direction * current_speed * delta
+
+# 🌟 新增的智慧型銷毀函數 (消失前會閃爍提醒)
+func _start_despawn_timer() -> void:
+	# 1. 讓金幣先安靜地躺著，等待時間是總壽命減去最後 3 秒
+	await get_tree().create_timer(lifespan - 3.0).timeout
+	
+	# 2. 剩下最後 3 秒時，如果金幣還沒被吃掉，開始閃爍警告
+	if is_instance_valid(self): # 防呆：確保金幣沒被吃掉
+		var tween = create_tween().set_loops() # 設定動畫無限循環
+		tween.tween_property(self, "modulate:a", 0.3, 0.2) # 變半透明
+		tween.tween_property(self, "modulate:a", 1.0, 0.2) # 恢復實體
+		
+	# 3. 等待最後這 3 秒閃爍完畢
+	await get_tree().create_timer(3.0).timeout
+	
+	# 4. 時間到！如果金幣還活著，就徹底銷毀
+	if is_instance_valid(self):
+		queue_free()
+
+
+
 
 func _on_body_entered(body: Node2D): # 當有實體撞到金幣時執行
 	# 🌟 完美防呆：確認撞到的是不是掛著 Player 類別的玩家實體
