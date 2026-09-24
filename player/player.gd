@@ -448,7 +448,15 @@ func heal(amount: int) -> void:
 func die(): 
 	if is_dead: return 
 	is_dead = true 
-	if state_machine: state_machine.change_state("PlayerDie") 
+	
+	# 🌟【修改】死亡瞬間，強制清除所有殘留的速度與擊退力道，讓屍體不會亂滑
+	velocity = Vector2.ZERO
+	if knockback_component:
+		knockback_component.knockback_force = Vector2.ZERO
+		
+	# 🌟【修改】進入死亡狀態
+	if state_machine: 
+		state_machine.change_state("PlayerDie")
 
 func update_hp_bar(): 
 	if player_hud: player_hud.update_hp(current_hp, max_hp) 

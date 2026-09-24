@@ -1827,13 +1827,5 @@ limit_right = 3751
 limit_bottom = 4923
 position_smoothing_enabled = true
 
-[node name="GhostCamera2" type="Camera2D" parent="."]
-zoom = Vector2(0.215, 0.215)
-limit_left = 140
-limit_top = 4
-limit_right = 3751
-limit_bottom = 4923
-position_smoothing_enabled = true
-
 [node name="BossLotus" parent="." instance=ExtResource("7_4q1m2")]
 position = Vector2(1964, 2228)

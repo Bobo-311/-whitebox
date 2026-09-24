@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://dtr8vcr5h66i"]
+
+[ext_resource type="Script" uid="uid://d28cu0rh53ml2" path="res://Boss_hud/boss_ui.gd" id="1_8i5yt"]
+[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="2_c8y3q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ctl2w"]
+paragraph_spacing = 3.0
+font = ExtResource("2_c8y3q")
+font_size = 25
+shadow_size = 15
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mf23p"]
+bg_color = Color(0.101960786, 0.10980392, 0.13725491, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2901961, 0.24313726, 0.16470589, 1)
+shadow_color = Color(0.6, 0, 0, 0)
+shadow_size = 4
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxbf7"]
+bg_color = Color(1, 0.6666667, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c37b6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gqkie"]
+bg_color = Color(0.8, 0.06666667, 0.13333334, 1)
+
+[node name="BossUI" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_8i5yt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -483.5
+offset_top = 30.0
+offset_right = 483.5
+offset_bottom = 115.0
+grow_horizontal = 2
+theme_override_constants/separation = 12
+
+[node name="BossName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 19
+text = "渊狱莲华"
+label_settings = SubResource("LabelSettings_ctl2w")
+horizontal_alignment = 1
+
+[node name="HealthBars" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(967.915, 14.76)
+layout_mode = 2
+
+[node name="DelayBar_Yellow" type="ProgressBar" parent="VBoxContainer/HealthBars"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_mf23p")
+theme_override_styles/fill = SubResource("StyleBoxFlat_cxbf7")
+show_percentage = false
+
+[node name="MainBar_Red" type="ProgressBar" parent="VBoxContainer/HealthBars"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_c37b6")
+theme_override_styles/fill = SubResource("StyleBoxFlat_gqkie")
+value = 100.0
+show_percentage = false
