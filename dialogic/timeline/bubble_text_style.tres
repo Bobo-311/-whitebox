@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="DialogicStyle" load_steps=9 format=3 uid="uid://bas0277mr7eu5"]
+
+[ext_resource type="PackedScene" uid="uid://syki6k0e6aac" path="res://addons/dialogic/Modules/DefaultLayoutParts/Base_TextBubble/text_bubble_base.tscn" id="1_hcgy8"]
+[ext_resource type="Script" uid="uid://bwg6yncmh2cml" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="2_pf5qu"]
+[ext_resource type="PackedScene" uid="uid://cn674foxwedqu" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Input/full_advance_input_layer.tscn" id="3_ljbs7"]
+[ext_resource type="PackedScene" uid="uid://d2it0xiap3gnt" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble_layer.tscn" id="4_08rvu"]
+[ext_resource type="Script" uid="uid://dv08k6ljua6fm" path="res://addons/dialogic/Resources/dialogic_style.gd" id="5_4mfmo"]
+
+[sub_resource type="Resource" id="Resource_u4mdf"]
+script = ExtResource("2_pf5qu")
+scene = ExtResource("1_hcgy8")
+
+[sub_resource type="Resource" id="Resource_d0r3m"]
+script = ExtResource("2_pf5qu")
+scene = ExtResource("3_ljbs7")
+
+[sub_resource type="Resource" id="Resource_uhed1"]
+script = ExtResource("2_pf5qu")
+scene = ExtResource("4_08rvu")
+overrides = {
+"behaviour_distance": "35.0",
+"box_modulate": "Color(0.08984375, 0.08633423, 0.08633423, 1)",
+"choices_text_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"name_label_box_modulate": "Color(0.09019608, 0.08627451, 0.08627451, 1)",
+"name_label_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"normal_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
+"text_color": "Color(0.99609375, 0.98831177, 0.98831177, 1)"
+}
+
+[resource]
+script = ExtResource("5_4mfmo")
+name = "bubble_text_style"
+layer_list = Array[String](["10", "11"])
+layer_info = {
+"": SubResource("Resource_u4mdf"),
+"10": SubResource("Resource_d0r3m"),
+"11": SubResource("Resource_uhed1")
+}
+metadata/_latest_layer = "11"

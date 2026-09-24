@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://cv2ii7tdg30o1"]
+
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_p2dhd"]
+[ext_resource type="Script" uid="uid://bmuny5bqsuget" path="res://單獨物件場景/light_flower.gd" id="1_ytq38"]
+[ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="3_qjmtx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r7r6w"]
+radius = 71.25307
+
+[node name="lightFlower" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_ytq38")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1_p2dhd")
+region_enabled = true
+region_rect = Rect2(239.7408, 559.18744, 16.816818, 19.190918)
+
+[node name="LightArea" type="Area2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(0.4960723, 0.4960723)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightArea"]
+scale = Vector2(3.9402747, 3.9402747)
+shape = SubResource("CircleShape2D_r7r6w")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(4.3651514, 4.3651514)
+texture = ExtResource("3_qjmtx")

@@ -3,7 +3,12 @@ extends State # 繼承自狀態模板
 # 預載粒子特效 (避免揮刀時卡頓)
 const INK_SLASH_PARTICLES = preload("res://近戰/ink_slash_particles.tscn")
 
-func enter(): # 大腦切換到攻擊狀態時執行
+func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
+	# 🌟 終極防線：如果正在跑劇情，這份腳本底下所有關於攻擊跟移動的程式直接跳過！
+	if Dialogic.current_timeline != null or character.is_in_dialogue:
+		state_machine.change_state("PlayerIdle") # 確保狀態退回待機
+		return
+	
 	# 🌟【改動】：徹底拔除 use_sp 審查，玩家可無限制普攻輸出
 	
 	character.velocity = Vector2.ZERO # 強制煞車，避免揮刀滑步

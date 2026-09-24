@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpain45kxo8at"]
+
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_6glso"]
+
+[node name="wood fence" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("1_6glso")
+region_enabled = true
+region_rect = Rect2(65.45335, 495.75995, 12.931992, 32.85022)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-1.000001, -10)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(-3.5168912, -5.31767, -2.1101344, -7.9765053, -1.4067562, -8.862783, 2.813514, -8.862783, 3.5168922, -7.9765053, 4.9236493, -5.31767, 4.9236493, 5.317671, -3.5168912, 5.317671)

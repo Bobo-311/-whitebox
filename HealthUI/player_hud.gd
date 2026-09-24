@@ -12,10 +12,14 @@ extends CanvasLayer # 確保 UI 永遠顯示在遊戲畫面最前面
 # 墨水條 (能量/彈藥庫)
 @onready var ink_bar = get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/InkBar")
 
-# 🌟【改動】：已完全刪除 sp_bar 與 overheat_overlay 的抓取宣告。
+# 電影模式黑邊與額外 UI
+@onready var top_bar: ColorRect = get_node_or_null("CinematicBars/TopBar")
+@onready var bottom_bar: ColorRect = get_node_or_null("CinematicBars/BottomBar")
+@onready var quick_slot_ui: Control = $QuickSlotUI
+@onready var gold_canvas_layer: CanvasLayer = $GoldCanvasLayer
 
 # ==========================================
-# 比例尺與變數
+# 比例尺與全域變數
 # ==========================================
 var hp_pixel_ratio: float = 3.0 # 血量轉換為畫面像素寬度的倍率
 var original_hud_pos: Vector2   # 記憶初始位置 (震動歸位用)
@@ -25,6 +29,12 @@ var hp_heal_tween: Tween        # 控制回血閃爍
 func _ready():
 	if margin_container:
 		original_hud_pos = margin_container.position
+	
+	# 🌟 新增：讓 UI 監聽 Dialogic 的全域廣播
+	if not Dialogic.timeline_started.is_connected(_on_dialogic_started):
+		Dialogic.timeline_started.connect(_on_dialogic_started)
+	if not Dialogic.timeline_ended.is_connected(_on_dialogic_ended):
+		Dialogic.timeline_ended.connect(_on_dialogic_ended)
 
 # ==========================================
 # 狀態更新函數 (果汁感血條升級版)
@@ -102,4 +112,36 @@ func confirm_ink_drop(final_val: float) -> void:
 	if ink_bar and ink_bar.has_method("confirm_ink_drop"):
 		ink_bar.confirm_ink_drop(final_val)
 
-# 🌟【改動】：已完全刪除 update_sp 與 set_overheat_visual 函數。
+# ==========================================
+# 🎬 🌟 新增：電影模式 (對話黑邊與 UI 淡出)
+# ==========================================
+func _on_dialogic_started():
+	var tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	
+	if margin_container: tween.tween_property(margin_container, "modulate:a", 0.0, 0.5)
+	
+	# 🌟 把原本的 skill_icon 換成 quick_slot_ui (它可以完美淡出)
+	if quick_slot_ui: tween.tween_property(quick_slot_ui, "modulate:a", 0.0, 0.5)
+	
+	# ⚠️ 注意：CanvasLayer 本身沒有透明度可以調，所以我們直接把它隱藏
+	if gold_canvas_layer: gold_canvas_layer.visible = false
+	
+	if top_bar and bottom_bar:
+		tween.tween_property(top_bar, "size:y", 120.0, 0.5)
+		tween.tween_property(bottom_bar, "size:y", 120.0, 0.5)
+
+func _on_dialogic_ended():
+	print("【系統】對話結束，關閉電影黑邊") 
+	var tween = create_tween().set_parallel(true).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	
+	if margin_container: tween.tween_property(margin_container, "modulate:a", 1.0, 0.5)
+	
+	# 🌟 恢復左下角 UI
+	if quick_slot_ui: tween.tween_property(quick_slot_ui, "modulate:a", 1.0, 0.5)
+	
+	# 🌟 恢復右上角金幣顯示
+	if gold_canvas_layer: gold_canvas_layer.visible = true
+	
+	if top_bar and bottom_bar:
+		tween.tween_property(top_bar, "size:y", 0.0, 0.5)
+		tween.tween_property(bottom_bar, "size:y", 0.0, 0.5)

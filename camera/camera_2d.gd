@@ -8,18 +8,21 @@ extends Camera2D                 # 繼承鏡頭節點
 var current_look_offset: Vector2 = Vector2.ZERO 
 
 # (保留你原本的 Trauma 參數...)
-@export var trauma_decay: float = 2.5           
-@export var max_shake_offset: Vector2 = Vector2(22.0, 16.0) 
-@export var max_roll: float = 0.045             
-@export var trauma_power: float = 2.0           
-var trauma: float = 0.0                         
+@export var trauma_decay: float = 2.5           # 🌟 震動衰減速度 (2.0~3.0 最佳)
+@export var max_shake_offset: Vector2 = Vector2(22.0, 16.0) # 🌟 位移最大像素
+@export var max_roll: float = 0.045             # 🌟 畫面最大旋轉角度 (打擊感的靈魂)
+@export var trauma_power: float = 2.0           # 🌟 二次方指數衰減 (讓尾震更順滑)
+var trauma: float = 0.0                         # 當前衝擊值 (0.0 ~ 1.0)
+
+# 🌟 相機探頭煞車開關 (給外部 Area2D 控制用的)
+var is_look_ahead_disabled: bool = false
 
 # ==========================================
 # 🌟【全新】動態縮放 (Pulse Zoom) 參數
 # ==========================================
 @export var zoom_recover_speed: float = 6.0     # 🌟 縮放回彈的速度 (彈簧有多緊)
-var base_zoom: Vector2 = Vector2.ONE            # 記憶關卡原本設定好的縮放值
-var zoom_multiplier: float = 1.0                # 當前的縮放乘數 (大於 1 代表放大)
+var base_zoom: Vector2 = Vector2.ONE             # 記憶關卡原本設定好的縮放值
+var zoom_multiplier: float = 1.0                 # 當前的縮放乘數 (大於 1 代表放大)
 
 func _ready() -> void:
 	add_to_group("main_camera") 
@@ -33,18 +36,23 @@ func _process(delta: float) -> void:
 	var real_delta: float = delta / max(Engine.time_scale, 0.001)
 
 	# --------------------------------------
-	# 1. 計算 Ease-In 漸進式的滑鼠探頭向量 (你原本的邏輯)
+	# 1. 計算 Ease-In 漸進式的滑鼠探頭向量
 	# --------------------------------------
-	var mouse_pos = get_local_mouse_position()
-	var mouse_dist = mouse_pos.length()
 	var target_look = Vector2.ZERO
 	
-	if mouse_dist > deadzone_radius:
-		var raw_t = (mouse_dist - deadzone_radius) / (max_mouse_dist - deadzone_radius)
-		raw_t = clamp(raw_t, 0.0, 1.0)
-		var ease_t = raw_t * raw_t
-		target_look = mouse_pos.normalized() * (ease_t * max_look_distance)
+	# 🌟 新增防護網：只有在「沒有播放劇情」的時候，才允許滑鼠探頭
+	if DataManager.player_node and not DataManager.player_node.is_in_dialogue and not is_look_ahead_disabled:
+		var mouse_pos = get_local_mouse_position()
+		var mouse_dist = mouse_pos.length()
+		
+		if mouse_dist > deadzone_radius:
+			var raw_t = (mouse_dist - deadzone_radius) / (max_mouse_dist - deadzone_radius)
+			raw_t = clamp(raw_t, 0.0, 1.0)
+			
+			var ease_t = raw_t * raw_t
+			target_look = mouse_pos.normalized() * (ease_t * max_look_distance)
 	
+	# 💡 這個 lerp 留著！這樣劇情一開始，鏡頭就會「平滑地」回到主角正中央
 	current_look_offset = current_look_offset.lerp(target_look, look_smooth_speed * real_delta)
 	
 	# --------------------------------------

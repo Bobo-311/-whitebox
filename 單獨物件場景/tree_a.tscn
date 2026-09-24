@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8d86o31hcim8"]
+
+[ext_resource type="Script" uid="uid://ci87kxog5tctm" path="res://單獨物件場景/tree_a.gd" id="1_7577u"]
+[ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_lhfj6"]
+
+[node name="TreeA" type="StaticBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_7577u")
+
+[node name="FadeArea" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea"]
+polygon = PackedVector2Array(-1, -74, -2, -74, -4, -73, -5, -71, -7, -70, -8, -68, -9, -60, -9, -54, -10, -54, -11, -53, -11, -43, -12, -43, -13, -42, -13, -31, -12, -29, -9, -28, -8, -26, 7, -26, 7, -27, 11, -28, 11, -30, 12, -30, 12, -41, 11, -42, 11, -53, 10, -53, 10, -61, 7, -62, 7, -68, 7, -69, 3, -74)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.5, -39)
+texture = ExtResource("1_lhfj6")
+region_enabled = true
+region_rect = Rect2(0, 563.1615, 37.1644, 76.8385)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, -12)
+scale = Vector2(1.42171, -1.1283137)
+polygon = PackedVector2Array(-5.6270266, 12.407897, -5.6270266, 0.88627815, -6.3304048, 0.88627815, -6.3304048, -1.7725573, -8.44054, -1.7725573, -8.44054, -2.6588354, -9.847297, -2.6588354, -9.847297, -5.3176703, -8.44054, -6.203949, -5.6270266, -7.090227, -5.6270266, -7.9765053, -2.110135, -8.862783, -1.4067566, -9.749063, 2.8135133, -9.749063, 4.9236484, -7.9765053, 8.44054, -6.203949, 9.143918, -6.203949, 9.143918, -3.5451136, 7.7371616, -2.6588354, 6.3304048, 0, 4.9236484, 0.88627815, 4.9236484, 12.407897)

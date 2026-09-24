@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://24vi44auck7k"]
+
+[ext_resource type="Texture2D" uid="uid://7d3fn0miyrwm" path="res://最初之地地圖素材/素材-new.png" id="1_goutg"]
+
+[node name="Sprite2D" type="Sprite2D"]
+z_index = -5
+texture = ExtResource("1_goutg")
+region_enabled = true
+region_rect = Rect2(897.22394, 2479.266, 66.159424, 77.60986)

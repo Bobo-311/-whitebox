@@ -770,7 +770,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_x7c3f")
 }],
 "loop": false,
-"name": &"die_down",
+"name": &"dead_down",
 "speed": 12.0
 }, {
 "frames": [{
@@ -799,7 +799,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_r7pn3")
 }],
 "loop": false,
-"name": &"die_left",
+"name": &"dead_left",
 "speed": 12.0
 }, {
 "frames": [{
@@ -828,7 +828,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_pnw6m")
 }],
 "loop": false,
-"name": &"die_right",
+"name": &"dead_right",
 "speed": 12.0
 }, {
 "frames": [{
@@ -857,7 +857,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_xcnuv")
 }],
 "loop": false,
-"name": &"die_up",
+"name": &"dead_up",
 "speed": 12.0
 }, {
 "frames": [{
@@ -1198,7 +1198,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ofo2"]
-size = Vector2(66, 91.5)
+size = Vector2(45, 18)
 
 [sub_resource type="Animation" id="Animation_x7c3f"]
 length = 0.001
@@ -1242,16 +1242,16 @@ _data = {
 size = Vector2(66, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_83lag"]
-size = Vector2(192, 68.5)
+size = Vector2(192, 127.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tnfn2"]
-size = Vector2(189, 69)
+size = Vector2(189, 124)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uebeq"]
-size = Vector2(67.015625, 165)
+size = Vector2(120.015625, 165)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p7xcs"]
-size = Vector2(65.5625, 164)
+size = Vector2(121.5625, 164)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2y0mv"]
 particle_flag_disable_z = true
@@ -1263,29 +1263,28 @@ radial_accel_max = -50.0
 scale_min = 2.0
 scale_max = 3.0
 
-[node name="player" type="CharacterBody2D" groups=["Player"]]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 y_sort_enabled = true
 collision_layer = 2
-collision_mask = 517
+collision_mask = 7685
 motion_mode = 1
 script = ExtResource("1_boqn2")
-walk_speed = 1600
-basic_attack_damage = 10.0
+walk_speed = 1200
 base_max_hp = 10000
+max_hp = 10000
 metadata/_edit_horizontal_guides_ = [-170.0, 85.0]
 metadata/_edit_vertical_guides_ = [-129.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_65viv")
-position = Vector2(3.8146973e-06, 1)
-scale = Vector2(2.3125, 2.1875)
+position = Vector2(-1, -46)
+scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
-animation = &"idle_down"
+animation = &"attack_left"
 autoplay = "idle_down"
-offset = Vector2(0, -20)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, -47.25)
+position = Vector2(-1, -13)
 shape = SubResource("RectangleShape2D_1ofo2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -1294,7 +1293,8 @@ libraries = {
 }
 
 [node name="MagicBrush" parent="." instance=ExtResource("7_e7oew")]
-position = Vector2(-0.9999999, -42)
+z_index = -1
+position = Vector2(-1, -56)
 rotation = 1.5107642
 
 [node name="ChargeParticles" parent="MagicBrush" index="3"]
@@ -1311,25 +1311,24 @@ position = Vector2(-1, -47)
 shape = SubResource("RectangleShape2D_32hag")
 
 [node name="Hitbox" type="Area2D" parent="."]
-position = Vector2(0, -1)
 collision_layer = 32
 collision_mask = 16
 monitorable = false
 
 [node name="CollisionShape_up" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-1, -99.75)
+position = Vector2(-1, -129.25)
 shape = SubResource("RectangleShape2D_83lag")
 
 [node name="CollisionShape_down" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-0.5, -3.5)
+position = Vector2(-0.5, 24)
 shape = SubResource("RectangleShape2D_tnfn2")
 
 [node name="CollisionShape_left" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(-62.492188, -52.5)
+position = Vector2(-88.99219, -52.5)
 shape = SubResource("RectangleShape2D_uebeq")
 
 [node name="CollisionShape_right" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(60.21875, -51)
+position = Vector2(88.21875, -51)
 shape = SubResource("RectangleShape2D_p7xcs")
 
 [node name="StateMachine" type="Node" parent="."]
@@ -1357,11 +1356,6 @@ script = ExtResource("13_tqiix")
 script = ExtResource("16_65viv")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
-zoom = Vector2(0.7, 0.7)
-limit_left = -241
-limit_top = 3
-limit_right = 4685
-limit_bottom = 2388
 script = ExtResource("5_tnfn2")
 trauma_decay = 1.8
 max_shake_offset = Vector2(50, 40)
@@ -1377,10 +1371,14 @@ volume_db = -14.195
 layer = 10
 
 [node name="NotebookUI" parent="MenuLayer" instance=ExtResource("22_bjvpn")]
+offset_left = 6.1035156e-05
+offset_top = 170.0
+offset_bottom = 170.0
+metadata/_edit_use_anchors_ = true
 
 [node name="ChargeParticles" type="GPUParticles2D" parent="."]
 z_index = 3
-position = Vector2(2.2737368e-13, -46.000004)
+position = Vector2(-3, -49)
 scale = Vector2(2.6272295, 2.6272297)
 emitting = false
 amount = 20
@@ -1392,5 +1390,8 @@ script = ExtResource("22_s7qer")
 default_strength = 300.0
 friction = 2500.0
 metadata/_custom_type_script = "uid://brpsxbevfcnop"
+
+[node name="BubbleMaker" type="Marker2D" parent="."]
+position = Vector2(-1, -79)
 
 [editable path="MagicBrush"]

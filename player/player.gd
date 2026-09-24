@@ -56,6 +56,11 @@ var current_ink: float = 60.0               # 當前剩餘墨水
 @onready var knockback_component: KnockbackComponent = get_node_or_null("KnockbackComponent") # 獨立擊退組件
 @onready var notebook_ui = $MenuLayer/NotebookUI                       # 素描本 UI
 
+var is_in_dialogue: bool = false            # 🌟 新增這行：記錄阿尼是不是正在看劇情
+
+# ==========================================
+# 武器墨水消耗表
+# ==========================================
 # 取得當下武器每次發射需消耗的墨水量
 func get_weapon_cost() -> float:
 	match current_weapon:
@@ -64,22 +69,28 @@ func get_weapon_cost() -> float:
 		WeaponMode.YELLOW: return 20.0
 	return 10.0
 
+var current_elevation: int = 0 # 0=平地, 1=二樓, 2=三樓
+
 # ==========================================
 # 生命週期：初始化
 # ==========================================
 func _ready(): 
 	super._ready() # 執行父類別 (BaseCharacter) 的初始化邏輯
-	print("以防大家沒看到 菜心楊是傻逼")
+	print("以防大家沒看到 只有菜心楊是傻逼") # 合併雙方隊友的幽默宣告
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale # 鎖定原始比例防跑版
 	
 	DataManager.player_node = self # 將自己的實體註冊到全域大腦，讓所有系統都能輕易找到玩家
 	
+	# 綁定 Dialogic 過場動畫訊號
+	if not Dialogic.signal_event.is_connected(_on_dialogic_signal):
+		Dialogic.signal_event.connect(_on_dialogic_signal)
+		
 	# 綁定裝備變更訊號，只要換裝備就立刻重算血量
 	if not DataManager.equipment_changed.is_connected(recalculate_stats):
 		DataManager.equipment_changed.connect(recalculate_stats)
-	
+		
 	recalculate_stats() # 開局先算一次血量
 	
 	# 存檔點重生位置校正
@@ -118,9 +129,26 @@ func _ready():
 	_run_bug_radar(get_tree().root)
 
 # ==========================================
+# 🌟 相機邊界控制系統
+# ==========================================
+func update_camera_limits(left: int, top: int, right: int, bottom: int) -> void:
+	# 抓取阿尼身上的 Camera2D 節點
+	var camera = $Camera2D 
+	if camera:
+		camera.limit_left = left
+		camera.limit_top = top
+		camera.limit_right = right
+		camera.limit_bottom = bottom
+		print("【系統】相機邊界已更新：", left, ", ", top, ", ", right, ", ", bottom)
+		
+# ==========================================
 # 玩家硬體輸入攔截 (UI 操控層級)
 # ==========================================
 func _input(event):
+	# 🌟 新增：劇情中禁止按 TAB 筆記本或使用外掛
+	if is_in_dialogue:
+		return
+		
 	if is_shopping: return # 購物時鎖死操作
 
 	var pressed_cancel = event.is_action_pressed("TAB") or event.is_action_pressed("ESC")
@@ -169,6 +197,12 @@ func recalculate_stats():
 # 核心物理與邏輯迴圈 (每幀執行)
 # ==========================================
 func _physics_process(delta: float) -> void: 
+	# 🌟 新增：如果正在播劇情，強制煞車並鎖死所有動作！
+	if is_in_dialogue:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+	
 	if not is_dead: 
 		
 		# 【狀態鎖定】：如果在看書或買東西，強制煞車並跳出迴圈
@@ -425,20 +459,55 @@ func update_hp_bar():
 		var tween = get_tree().create_tween() 
 		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) 
 
-# 動畫播放封裝系統 (依據朝向加上後綴)
+# ==========================================
+# 🌟 動畫播放封裝系統 (支援 8 方向與 4 方向自動降級)
+# ==========================================
 func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	var anim = get_node_or_null("AnimatedSprite2D")
 	if anim == null: return
 
-	# 若沒在翻滾，且有在移動，才更新面朝變數
+	var target_suffix = facing_direction # 預設使用 4 方位記憶
+
+	# 只有正常移動時才更新面朝方向與 8 方位判定
 	if not is_dashing and input_direction != Vector2.ZERO:
+		# 1. 計算 8 方位字串 (給 8 方向移動用)
+		var y_str = ""
+		var x_str = ""
+		
+		# 容錯值設為 0.1，避免搖桿飄移
+		if input_direction.y < -0.1: y_str = "up"
+		elif input_direction.y > 0.1: y_str = "down"
+		
+		if input_direction.x < -0.1: x_str = "left"
+		elif input_direction.x > 0.1: x_str = "right"
+		
+		var eight_way_dir = ""
+		if y_str != "" and x_str != "":
+			eight_way_dir = y_str + "_" + x_str # 組合出 up_left, down_right 等
+		else:
+			eight_way_dir = y_str if y_str != "" else x_str
+
+		# 2. 依然計算 4 方位字串 (做為核心記憶，給 idle 備用)
 		if abs(input_direction.x) > abs(input_direction.y):
 			facing_direction = "right" if input_direction.x > 0 else "left"
 		else:
 			facing_direction = "down" if input_direction.y > 0 else "up"
+			
+		# 3. 移動狀態下，優先嘗試使用 8 方位後綴
+		target_suffix = eight_way_dir
 
-	var animation_name = prefix + "_" + facing_direction
+	# 組合「理想中」要播放的動畫名稱
+	var animation_name = prefix + "_" + target_suffix
+
+	# 4. 【自動降級防呆機制】
+	# 如果算出來是 8 方位，但在你的 SpriteFrames 裡找不到這個動畫
+	# 就會自動退回到核心記憶的 4 方位
+	if not anim.sprite_frames.has_animation(animation_name):
+		animation_name = prefix + "_" + facing_direction
+
+	# 如果連 4 方位的動畫都沒有，為了避免報錯，直接放棄播放
 	if not anim.sprite_frames.has_animation(animation_name): return
+
 	anim.play(animation_name)
 
 # 遞迴檢查樹狀結構，揪出空動畫節點
@@ -453,3 +522,16 @@ func _run_bug_radar(node: Node):
 			
 	for child in node.get_children():
 		_run_bug_radar(child)
+		
+
+# ==========================================
+# 🎬 演員接收器：阿尼專屬的過場動作庫 (第一軌廣播系統) 負責管理阿尼的動畫，之後新加動畫就在這裡加
+# ==========================================
+func _on_dialogic_signal(argument: String):
+	match argument:
+		"ani_stand_up":
+			if animated_sprite_2d:
+				animated_sprite_2d.play("idle_right") # 或你們站起來的動畫名稱
+		"ani_search":
+			if animated_sprite_2d:
+				animated_sprite_2d.play("idle_down")  # 或搜口袋的動畫名稱
