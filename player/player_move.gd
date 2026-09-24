@@ -1,28 +1,27 @@
-extends State # 繼承自狀態機模板 player_move
+extends State
 
-func state_physics_update(delta: float): # 每一物理幀執行
+func enter():
+	pass
+
+# 🌟 這裡的函數名稱必須加上 state_
+func state_physics_update(_delta: float):
+	# 1. 從大腦 (player.gd) 取得玩家目前的 WASD 輸入向量
+	var direction = character.input_direction
+
+	# 2. 【狀態切換判斷】
+	# 如果玩家鬆開了方向鍵，切換回待機狀態
+	if direction == Vector2.ZERO:
+		state_machine.change_state("PlayerIdle")
+		return
+
+	# 如果玩家按下翻滾鍵，且 CD 轉好了，切換到翻滾狀態
+	if Input.is_action_just_pressed("dash") and character.is_dash_ready:
+		state_machine.change_state("PlayerDash")
+		return
+
+	# 3. 【處理移動與動畫】
+	# 給予玩家速度
+	character.velocity = direction * character.walk_speed
 	
-	# --- 動作指令偵測 (最高優先級，確保能中斷移動) ---
-	if Input.is_action_just_pressed("dash"):      
-		state_machine.change_state("PlayerDash") 
-		return 
-		
-	if Input.is_action_just_pressed("attack"):    
-		state_machine.change_state("PlayerAttack") 
-		return 
-		
-	# --- 停止移動偵測 ---
-	if character.input_direction == Vector2.ZERO: 
-		state_machine.change_state("PlayerIdle") 
-		return 
-
-	# --- 擊退鎖定 ---
-	# 若擊退組件發力中，暫停輸入覆蓋，讓物理滑行自然完成
-	if character.knockback_component and character.knockback_component.knockback_force.length() > 0.0:
-		character.play_animation("move")
-		return 
-
-	# --- 🌟 執行移動 ---
-	# 【改動】：拔除了 is_overheated 的速度減半懲罰，還原為暢快的等速移動。
-	character.velocity = character.input_direction * character.walk_speed 
+	# 自動判定 8 方向動畫
 	character.play_animation("move")

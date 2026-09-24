@@ -46,7 +46,7 @@ func enter(): # 當大腦切換到「攻擊狀態」時，立刻執行此函數
 	sword_hitbox.monitoring = false 
 	
 	# 保留 0.2 秒收刀後搖，動作結束後切回待機
-	await character.get_tree().create_timer(0.2).timeout 
+	await character.get_node("AnimatedSprite2D").animation_finished
 	state_machine.change_state("PlayerIdle") 
 
 # 生成墨水殘影方向控制
