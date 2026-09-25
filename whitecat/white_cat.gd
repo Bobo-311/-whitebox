@@ -2,16 +2,20 @@ extends CharacterBody2D
 class_name WhiteCat
 
 @export var move_speed: float = 500.0          # 白貓正常移動速度
-@export var max_follow_distance: float = 700.0   # 離玩家的最遠極限距離
+@export var max_follow_distance: float = 700.0 # 離玩家的最遠極限距離
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var light_area: Area2D = $LightArea
-@onready var sprite: Sprite2D = $Sprite2D
+# 🌟【關鍵升級】改為抓取 AnimatedSprite2D（相容舊名 Sprite2D 防呆）
+@onready var anim_sprite: AnimatedSprite2D = get_node_or_null("AnimatedSprite2D") if has_node("AnimatedSprite2D") else get_node_or_null("Sprite2D")
 @onready var point_light_2d: PointLight2D = get_node_or_null("PointLight2D") # 燈光節點
 
 var player_node: Node2D = null
-var is_stunned: bool = false                     # 受傷/暈眩狀態開關
-var stun_tween: Tween = null                     # 紀錄動畫物件
+var is_stunned: bool = false                   # 受傷/暈眩狀態開關
+var stun_tween: Tween = null                   # 紀錄動畫物件
+
+# 🌟 紀錄白貓最後面對的 4 方位，供停下來時播放對應的 idle 動畫
+var facing_direction: String = "down"
 
 # 🌟 召回狀態開關 (加速衝回玩家身邊)
 var is_recalling: bool = false
@@ -23,12 +27,8 @@ var original_light_energy: float = 2.0          # 預設燈光亮度
 # 白貓主動監控的敵人動態清單
 var detected_enemies: Array[Node2D] = []
 
-# 🗑️ (已經幫你把白貓自己身上沒用的 is_in_dialogue 鎖刪除了)
-
 func _ready() -> void:
 	add_to_group("white_cat")
-	
-	# 🗑️ (已經幫你把會導致開局卡死的 if is_in_dialogue: return 刪除了)
 	
 	# 自動抓取場景中的玩家
 	player_node = get_tree().get_first_node_in_group("player")
@@ -56,6 +56,9 @@ func _ready() -> void:
 		if not light_area.body_exited.is_connected(_on_light_area_body_exited):
 			light_area.body_exited.connect(_on_light_area_body_exited)
 
+	# 開局先播待機動畫
+	play_animation("idle")
+
 	# 開局主動掃描一開場就在光圈內的野豬
 	await get_tree().process_frame
 	_check_initial_overlapping_enemies()
@@ -71,7 +74,6 @@ func _check_initial_overlapping_enemies() -> void:
 # ==========================================
 # 🌟 白貓受傷處置
 # ==========================================
-# 🌟【關鍵修改】新增第 4 個參數 _is_melee: bool = false，解決 4 個參數呼叫崩潰問題！
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_stunned: 
 		return # 已經在虛弱狀態中不重複觸發
@@ -79,6 +81,7 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 	is_stunned = true
 	is_recalling = false # 受傷時解除召回狀態
 	velocity = Vector2.ZERO # 立刻停在原地
+	play_animation("idle") # 停下時切回待機動畫
 	print("😿【白貓受傷】受到了來自敵人的傷害！進入虛弱狀態 3 秒！")
 
 	if stun_tween and stun_tween.is_running():
@@ -169,14 +172,16 @@ func _input(event: InputEvent) -> void:
 func _physics_process(_delta: float) -> void:
 	# 🌟 改為判斷阿尼(主人)的狀態：跑劇情時不准亂動，並且「踩煞車」避免滑行！
 	if DataManager.player_node and DataManager.player_node.is_in_dialogue:
-		is_recalling = false # 手動指揮時，自動取消召回狀態
-		velocity = Vector2.ZERO # 踩煞車
-		move_and_slide() # 套用靜止狀態
+		is_recalling = false
+		velocity = Vector2.ZERO
+		play_animation("idle") # 劇情停下時播待機動畫
+		move_and_slide()
 		return
 		
 	# 🌟 虛弱期間停在原地，不執行尋路位移
 	if is_stunned:
 		velocity = Vector2.ZERO
+		play_animation("idle")
 		move_and_slide()
 		return
 
@@ -188,7 +193,7 @@ func _physics_process(_delta: float) -> void:
 
 	# 🌟【長按右鍵邏輯】：每一幀即時追蹤滑鼠位置 (限制在主角範圍內)
 	if is_holding_move:
-		is_recalling = false # 手動指揮時，自動取消召回狀態
+		is_recalling = false
 		var target_pos = get_global_mouse_position()
 		
 		# 限制離玩家的極限距離
@@ -212,6 +217,7 @@ func _physics_process(_delta: float) -> void:
 		if not is_holding_space:
 			is_recalling = false
 		velocity = Vector2.ZERO
+		play_animation("idle") # 🌟 抵達終點時，自動播對應方向的 4 方位待機動畫
 		move_and_slide()
 		return
 
@@ -222,7 +228,67 @@ func _physics_process(_delta: float) -> void:
 	var current_speed: float = move_speed * 1.5 if is_recalling else move_speed
 	velocity = move_dir * current_speed
 	
-	if sprite and move_dir.x != 0:
-		sprite.flip_h = move_dir.x < 0
+	# 🌟 播放 8 方位移動動畫
+	play_animation("move", move_dir)
 		
 	move_and_slide()
+
+# ==========================================
+# 🌟 白貓專屬：尋路 8 方向移動與 4 方向待機動畫系統
+# ==========================================
+func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
+	if not anim_sprite or not (anim_sprite is AnimatedSprite2D) or not anim_sprite.sprite_frames:
+		return
+
+	var target_suffix: String = facing_direction
+
+	# 當有傳入移動方向向量時，計算 8 方位與更新 4 方位記憶
+	if dir != Vector2.ZERO:
+		var y_str: String = ""
+		var x_str: String = ""
+		
+		# 尋路向量為 360 度連續角度，使用 sin(22.5度) ≈ 0.38 作為八方位切分標準
+		if dir.y < -0.38: y_str = "up"
+		elif dir.y > 0.38: y_str = "down"
+		
+		if dir.x < -0.38: x_str = "left"
+		elif dir.x > 0.38: x_str = "right"
+		
+		var eight_way_dir: String = ""
+		if y_str != "" and x_str != "":
+			eight_way_dir = y_str + "_" + x_str # 例如 down_right, up_left
+		else:
+			eight_way_dir = y_str if y_str != "" else x_str
+
+		# 更新 4 方位核心記憶（供停下來時的 idle 使用）
+		if abs(dir.x) > abs(dir.y):
+			facing_direction = "right" if dir.x > 0 else "left"
+		else:
+			facing_direction = "down" if dir.y > 0 else "up"
+
+		if eight_way_dir != "":
+			target_suffix = eight_way_dir
+		else:
+			target_suffix = facing_direction
+
+	var anim_name: String = prefix + "_" + target_suffix
+
+	# 【自動降級防呆 1】：如果找不到 8 方位（例如 idle_down_right），自動退回 4 方位（idle_down 或 idle_right）
+	if not anim_sprite.sprite_frames.has_animation(anim_name):
+		anim_name = prefix + "_" + facing_direction
+
+	# 【自動降級防呆 2】：如果你在編輯器裡把移動動畫命名為 walk_ 而不是 move_，系統也會自動幫你找 walk_
+	if not anim_sprite.sprite_frames.has_animation(anim_name) and prefix == "move":
+		var walk_8 = "walk_" + target_suffix
+		var walk_4 = "walk_" + facing_direction
+		if anim_sprite.sprite_frames.has_animation(walk_8):
+			anim_name = walk_8
+		elif anim_sprite.sprite_frames.has_animation(walk_4):
+			anim_name = walk_4
+
+	if not anim_sprite.sprite_frames.has_animation(anim_name):
+		return
+
+	# 避免每一幀重複從第 0 格重頭播放同一個動畫
+	if anim_sprite.animation != anim_name or not anim_sprite.is_playing():
+		anim_sprite.play(anim_name)

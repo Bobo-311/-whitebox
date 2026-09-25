@@ -14526,12 +14526,13 @@ tile_map_data = PackedByteArray("AAAbAAAAAAAFABkAAAAbAAEAAAAFABoAAAAbAAIAAAAFABs
 tile_set = SubResource("TileSet_p78gd")
 
 [node name="WhiteCat" parent="." instance=ExtResource("4_032fq")]
-position = Vector2(6241, 3542)
-scale = Vector2(0.3, 0.3)
+position = Vector2(6440.9995, 3674)
+scale = Vector2(0.73, 0.73)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("5_5p81a")]
-position = Vector2(6463, 3847)
+position = Vector2(6226.0005, 3544)
+scale = Vector2(1.25, 1.25)
 base_max_hp = 100
 max_hp = 100
 
