@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=4 uid="uid://db1prwo40wbqw"]
+[gd_scene load_steps=141 format=4 uid="uid://db1prwo40wbqw"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_jw6xd"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_nao00"]
@@ -20,6 +20,9 @@
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="18_04go0"]
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="19_nao00"]
 [ext_resource type="PackedScene" uid="uid://dotstjks5o26m" path="res://Maps/elevation_zone.tscn" id="20_bgl0c"]
+[ext_resource type="PackedScene" uid="uid://dficxwu1kbuv" path="res://base_enemy/colorless_dango/colorless_dango_basic.tscn" id="21_032fq"]
+[ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="22_nn2f5"]
+[ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="23_tdm34"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -14531,7 +14534,7 @@ scale = Vector2(0.73, 0.73)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("5_5p81a")]
-position = Vector2(6226.0005, 3544)
+position = Vector2(6270.0005, 3656.0002)
 scale = Vector2(1.25, 1.25)
 base_max_hp = 100
 max_hp = 100
@@ -15887,7 +15890,11 @@ position = Vector2(6796, 163)
 scale = Vector2(126.677574, 31.441887)
 
 [node name="lightFlower" parent="." instance=ExtResource("19_nao00")]
-position = Vector2(2528, 1173)
+position = Vector2(2852, 231)
+scale = Vector2(3, 3)
+
+[node name="lightFlower3" parent="." instance=ExtResource("19_nao00")]
+position = Vector2(2965, 1111)
 scale = Vector2(3, 3)
 
 [node name="ElevationZone" parent="." instance=ExtResource("20_bgl0c")]
@@ -15913,13 +15920,6 @@ zone_elevation = 3
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ElevationZone3"]
 polygon = PackedVector2Array(1538, 1048, 1790, 1053, 1793, 925, 1856, 927, 1858, 862, 1926, 865, 1926, 799, 2048, 800, 2051, 735, 2178, 737, 2178, 674, 2308, 677, 2309, 608, 2373, 609, 2373, 544, 2505, 548, 2502, 479, 2815, 481, 8062, 482, 8064, -515, 1530, -511)
 
-[node name="Cliff_L1_Walls" type="StaticBody2D" parent="."]
-collision_layer = 1024
-collision_mask = 0
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cliff_L1_Walls"]
-polygon = PackedVector2Array(2879, 2588, 3073, 2588, 3072, 2651, 3138, 2652, 3137, 2716, 3393, 2716, 3393, 2780, 4220, 2779, 4220, 2715, 4413, 2716, 4412, 2650, 4542, 2651, 4542, 2588, 4734, 2588, 4733, 2523, 8064, 2524, 8067, 3056, 6039, 3056, 6040, 2992, 5761, 2992, 5761, 3056, 5532, 3057, 5534, 3119, 4864, 3121, 4864, 3185, 3455, 3185, 3457, 3121, 3134, 3121, 3135, 2993, 3070, 2992, 3071, 2929, 2943, 2929, 2943, 2863, 2891, 2863, 2873, 2864)
-
 [node name="Cliff_L3_Walls" type="StaticBody2D" parent="."]
 collision_layer = 4096
 collision_mask = 0
@@ -15936,3 +15936,38 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cliff_L2_Walls"]
 polygon = PackedVector2Array(1535, 1950, 2368, 1947, 2367, 1881, 2625, 1885, 2625, 2098, 2560, 2096, 2560, 2160, 2497, 2160, 2498, 2224, 2433, 2224, 2433, 2289, 2369, 2289, 2369, 2354, 2240, 2354, 2241, 2418, 2113, 2418, 2113, 2481, 1984, 2481, 1984, 2544, 1856, 2545, 1856, 2609, 1535, 2609)
+
+[node name="Colorless_Dango_basic" parent="." instance=ExtResource("21_032fq")]
+position = Vector2(2750, 3252)
+
+[node name="Colorless_Dango_basic2" parent="." instance=ExtResource("21_032fq")]
+position = Vector2(2333, 2781)
+
+[node name="Chipmunk" parent="." instance=ExtResource("22_nn2f5")]
+position = Vector2(3046, 2247)
+
+[node name="Chipmunk2" parent="." instance=ExtResource("22_nn2f5")]
+position = Vector2(5760, 1087)
+
+[node name="Colorless_Dango_basic3" parent="." instance=ExtResource("21_032fq")]
+position = Vector2(5779, 2155)
+
+[node name="Colorless_Dango_basic4" parent="." instance=ExtResource("21_032fq")]
+position = Vector2(6316, 1077)
+collision_mask = 7937
+
+[node name="Barbarian" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(2859, 1217)
+
+[node name="Chipmunk3" parent="." instance=ExtResource("22_nn2f5")]
+position = Vector2(3040, 364)
+
+[node name="Colorless_Dango_basic5" parent="." instance=ExtResource("21_032fq")]
+position = Vector2(3572, 269)
+
+[node name="Cliff_L1_Walls" type="StaticBody2D" parent="."]
+collision_layer = 1024
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cliff_L1_Walls"]
+polygon = PackedVector2Array(2880, 2589, 3071, 2594, 3072, 2656, 3137, 2656, 3136, 2720, 3392, 2720, 3392, 2784, 4224, 2783, 4224, 2719, 4417, 2718, 4416, 2655, 4544, 2656, 4543, 2592, 4736, 2592, 4736, 2527, 8063, 2528, 8064, 3056, 6058, 3055, 6058, 2991, 5761, 2992, 5761, 3057, 5535, 3055, 5534, 3118, 4864, 3121, 4864, 3184, 3456, 3185, 3456, 3120, 3135, 3121, 3136, 2992, 3072, 2992, 3072, 2928, 2944, 2928, 2944, 2864, 2878, 2864)

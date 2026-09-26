@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://dhlbnppdw5pyf"]
+[gd_scene load_steps=30 format=4 uid="uid://dhlbnppdw5pyf"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_pixp5"]
 [ext_resource type="Texture2D" uid="uid://bhmyaoipei0h4" path="res://最初之地地圖素材/01-2.png" id="3_86od2"]
@@ -18,6 +18,9 @@
 [ext_resource type="PackedScene" uid="uid://dv2e5dncjva81" path="res://單獨物件場景/blue_flower_3.tscn" id="16_pixp5"]
 [ext_resource type="PackedScene" uid="uid://bu587snypl02c" path="res://單獨物件場景/big_rock_a.tscn" id="17_pixp5"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="18_1750i"]
+[ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="19_ltiju"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="20_kcuab"]
+[ext_resource type="Resource" uid="uid://cqkjcw0m8gtx3" path="res://dialogic/character/？？？.dch" id="21_kcuab"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2ser"]
 texture = ExtResource("4_327rf")
@@ -7184,7 +7187,6 @@ limit_right = 6460
 limit_bottom = 2000
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -7198,7 +7200,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -7216,7 +7217,7 @@ tile_map_data = PackedByteArray("AAAZAPj/AwAAAAAAAAAZAPn/AwAAAAEAAAAZAPr/AwAAAAI
 tile_set = SubResource("TileSet_o2ser")
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
-position = Vector2(5883, 1022)
+position = Vector2(3491, 1473)
 base_max_hp = 100
 max_hp = 100
 
@@ -7798,3 +7799,18 @@ scale = Vector2(63.481632, 22.44164)
 [node name="CameraLockArea2" parent="." instance=ExtResource("18_1750i")]
 position = Vector2(2048.0002, 1432)
 scale = Vector2(44.498825, 65.62287)
+
+[node name="lightFlower" parent="." instance=ExtResource("19_ltiju")]
+position = Vector2(4053, 1337)
+scale = Vector2(3, 3)
+
+[node name="lightFlower2" parent="." instance=ExtResource("19_ltiju")]
+position = Vector2(3440, 1561)
+scale = Vector2(3, 3)
+
+[node name="CutsceneDirector" parent="." instance=ExtResource("20_kcuab")]
+position = Vector2(3811.9998, 1433)
+scale = Vector2(9.974088, 11.433463)
+collision_layer = 1
+target_timeline = "A001"
+player_dch = ExtResource("21_kcuab")

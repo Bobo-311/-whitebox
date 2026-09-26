@@ -6,6 +6,8 @@
 radius = 23.0
 
 [node name="CutsceneDirector" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_u73bl")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

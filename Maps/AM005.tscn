@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://nlff3ygrmq5v"]
+[gd_scene load_steps=44 format=4 uid="uid://nlff3ygrmq5v"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_64k2n"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_8l3il"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b7awiicllsshv" path="res://單獨物件場景/tree_stump_a.tscn" id="15_kfl2t"]
 [ext_resource type="PackedScene" uid="uid://cbc5kubrey2q2" path="res://單獨物件場景/twin_rock_a.tscn" id="16_64k2n"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="17_jeouf"]
+[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="18_s5mac"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x148i"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -1.4375, 8, -1.4375)
@@ -7285,7 +7286,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -7298,9 +7298,8 @@ tile_map_data = PackedByteArray("AACXAE4AAQAXAAAAAACXAE8AAQAXAAEAAACXAFAAAQAXAAI
 tile_set = SubResource("TileSet_r4s3s")
 
 [node name="WhiteCat" parent="." instance=ExtResource("3_loot5")]
-visible = false
-position = Vector2(3261, 1414)
-scale = Vector2(0.3, 0.3)
+position = Vector2(3042, 1147.0001)
+scale = Vector2(0.73, 0.73)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_jssex")]
@@ -7495,3 +7494,6 @@ scale = Vector2(26.430779, 54.122135)
 [node name="CameraLockArea4" parent="." instance=ExtResource("17_jeouf")]
 position = Vector2(4645, 153)
 scale = Vector2(29.638844, 54.46978)
+
+[node name="Big_Colorless_Dango" parent="." instance=ExtResource("18_s5mac")]
+position = Vector2(3922, 1301)

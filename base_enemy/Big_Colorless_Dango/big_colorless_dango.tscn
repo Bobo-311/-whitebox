@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_0nvv6"]
 [ext_resource type="Script" uid="uid://btl2ifx8exvsc" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.gd" id="2_woe7r"]
 [ext_resource type="Texture2D" uid="uid://cchl0aj3vpmvi" path="res://slime-pack/PNG/Slime2/Death/Slime2_Death_body.png" id="3_jkamn"]
-[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/Colorless_Dango/colorless_dango.tscn" id="3_vsfu5"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="3_vsfu5"]
 [ext_resource type="Texture2D" uid="uid://cwiogcdvkq37p" path="res://slime-pack/PNG/Slime2/Hurt/Slime2_Hurt_body.png" id="4_qtday"]
 [ext_resource type="Texture2D" uid="uid://c7pgy55dhd1e5" path="res://slime-pack/PNG/Slime2/Idle/Slime2_Idle_body.png" id="5_v884x"]
 [ext_resource type="Texture2D" uid="uid://cou8pb75jrurq" path="res://slime-pack/PNG/Slime2/Walk/Slime2_Walk_body.png" id="6_4duk6"]
@@ -1182,6 +1182,7 @@ height = 675.40814
 radius = 772.6921
 
 [node name="Big_Colorless_Dango" instance=ExtResource("1_l2fed")]
+collision_mask = 16129
 script = ExtResource("2_woe7r")
 minion_scene = ExtResource("3_vsfu5")
 coin_drop_count = 0

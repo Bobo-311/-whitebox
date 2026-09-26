@@ -1,7 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://byni4dbp6gfig"]
+[gd_scene load_steps=5 format=3 uid="uid://byni4dbp6gfig"]
 
 [ext_resource type="Script" uid="uid://ci87kxog5tctm" path="res://單獨物件場景/tree_a.gd" id="1_aal6m"]
 [ext_resource type="Texture2D" uid="uid://csary4abni1cq" path="res://最初之地地圖素材/only_obj/chreeytree.png" id="2_x7g4h"]
+
+[sub_resource type="Gradient" id="Gradient_aal6m"]
+colors = PackedColorArray(0.987071, 0.9047826, 0.93818295, 1, 0, 0, 0, 0.28235295)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x7g4h"]
+gradient = SubResource("Gradient_aal6m")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
 
 [node name="cheery tree" type="StaticBody2D"]
 y_sort_enabled = true
@@ -25,3 +36,8 @@ collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="FadeArea"]
 polygon = PackedVector2Array(-169, -61, -169, -103, -152, -133, -112, -147, -102, -178, -44, -206, -2, -213, 49, -210, 85, -205, 129, -157, 182, -60, 188, -34, 161, 20, 104, 38, 63, 42, 55, 34, -50, 34, -58, 43, -86, 37, -132, 24, -161, -17)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(15, -190)
+texture = SubResource("GradientTexture2D_x7g4h")
+texture_scale = 3.11

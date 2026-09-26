@@ -7,7 +7,7 @@ class_name Player # 宣告類別，方便其他節點透過 `is Player` 進行�
 @export var walk_speed: int = 400          # 正常走路的基準速度
 @export var dash_speed: float = 1500.0     # 翻滾衝刺時的瞬間爆發速度 (Juice：創造極大反差)
 @export var dash_duration: float = 0.2     # 衝刺維持的時間長度 (0.2秒是動作遊戲的黃金手感)
-@export var basic_attack_damage: float = 15.0 # 基礎揮刀攻擊力
+@export var basic_attack_damage: float = 20.0 # 基礎揮刀攻擊力
 
 @export var invincibility_duration: float = 0.6  # 受傷後的無敵時間 (Iframes)，避免被連續硬直連死
 var is_invincible: bool = false                  # 無敵狀態的總開關
