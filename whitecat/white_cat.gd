@@ -4,6 +4,11 @@ class_name WhiteCat
 @export var move_speed: float = 500.0          # 白貓正常移動速度
 @export var max_follow_distance: float = 700.0 # 離玩家的最遠極限距離
 
+# 🌟【受傷與無敵時間設定】(可在右側 Inspector 面板直接微調)
+@export var stun_duration: float = 2.0          # 白貓受傷變暗的持續秒數 (2秒)
+@export var invincibility_duration: float = 1.5 # 白貓恢復明亮後的無敵閃耀秒數 (1.5秒)
+@export var always_pass_through_enemies: bool = false # 🌟 若打勾：白貓連平時都不會卡住怪物（只會撞牆壁）
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var light_area: Area2D = $LightArea
 # 🌟【關鍵升級】改為抓取 AnimatedSprite2D（相容舊名 Sprite2D 防呆）
@@ -12,7 +17,15 @@ class_name WhiteCat
 
 var player_node: Node2D = null
 var is_stunned: bool = false                   # 受傷/暈眩狀態開關
+var is_invincible: bool = false                # 恢復後的無敵狀態開關
 var stun_tween: Tween = null                   # 紀錄動畫物件
+var flash_tween: Tween = null                  # 紀錄馬力歐閃耀特效的 Tween
+
+# 🌟 記憶白貓本體與子節點 (Hurtbox 等) 的原始碰撞 Layer 與 Mask，供無敵結束後還原
+var original_collision_layer: int = 1
+var original_collision_mask: int = 1
+var child_area_layers: Dictionary = {}         # 紀錄底下 Area2D 的原始 layer/mask
+var ignored_enemies: Array[PhysicsBody2D] = [] # 紀錄目前被設為穿透例外的怪物
 
 # 🌟 紀錄白貓最後面對的 4 方位，供停下來時播放對應的 idle 動畫
 var facing_direction: String = "down"
@@ -29,6 +42,22 @@ var detected_enemies: Array[Node2D] = []
 
 func _ready() -> void:
 	add_to_group("white_cat")
+	
+	# 1. 記憶開局原始的物理碰撞層設定
+	original_collision_layer = collision_layer
+	original_collision_mask = collision_mask
+	
+	# 2. 🌟 關鍵防呆：LightArea 只負責偵測敵人(Mask)，本身絕對不能有 Layer，否則怪物會把光圈當成實體卡住！
+	if light_area:
+		light_area.collision_layer = 0
+		
+	# 3. 記憶白貓底下其他 Area2D (例如 Hurtbox) 的原始 Layer 與 Mask
+	for child in get_children():
+		if child is Area2D and child != light_area:
+			child_area_layers[child] = {
+				"layer": child.collision_layer,
+				"mask": child.collision_mask
+			}
 	
 	# 自動抓取場景中的玩家
 	player_node = get_tree().get_first_node_in_group("player")
@@ -62,6 +91,9 @@ func _ready() -> void:
 	# 開局主動掃描一開場就在光圈內的野豬
 	await get_tree().process_frame
 	_check_initial_overlapping_enemies()
+	
+	if always_pass_through_enemies:
+		_set_cat_collision_enabled(false)
 
 # 掃描開局就在光圈裡的敵人
 func _check_initial_overlapping_enemies() -> void:
@@ -72,17 +104,23 @@ func _check_initial_overlapping_enemies() -> void:
 			_on_light_area_body_entered(body)
 
 # ==========================================
-# 🌟 白貓受傷處置
+# 🌟 白貓受傷處置 (變暗 2 秒 + 徹底清空所有 Layer + 轉移怪物仇恨)
 # ==========================================
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
-	if is_stunned: 
-		return # 已經在虛弱狀態中不重複觸發
+	# 已經在虛弱變暗狀態、或正處於 1.5 秒無敵閃耀期間，皆免疫傷害！
+	if is_stunned or is_invincible: 
+		return
 		
 	is_stunned = true
 	is_recalling = false # 受傷時解除召回狀態
 	velocity = Vector2.ZERO # 立刻停在原地
 	play_animation("idle") # 停下時切回待機動畫
-	print("😿【白貓受傷】受到了來自敵人的傷害！進入虛弱狀態 3 秒！")
+	
+	# 🌟 關鍵修正：徹底把白貓本體與 Hurtbox 的 Layer 和 Mask 全部歸零，並強制怪物放棄鎖定白貓！
+	_set_cat_collision_enabled(false)
+	_clear_cat_from_enemy_targets()
+	
+	print("😿【白貓受傷】受到了來自敵人的傷害！進入虛弱狀態 ", stun_duration, " 秒（已清空所有碰撞 Layer）！")
 
 	if stun_tween and stun_tween.is_running():
 		stun_tween.kill()
@@ -97,16 +135,21 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 
 	stun_tween.tween_property(self, "modulate", Color(0.6, 0.6, 0.6, 0.7), 0.25)
 
-	get_tree().create_timer(3.0).timeout.connect(_recover_from_damage)
+	# 等待 2 秒 (stun_duration) 後恢復明亮
+	get_tree().create_timer(stun_duration).timeout.connect(_recover_from_damage)
 
-# 🌟 復原狀態
+# 🌟 復原狀態 (恢復明亮 + 啟動 1.5 秒馬力歐無敵閃耀，期間維持穿怪能力！)
 func _recover_from_damage() -> void:
 	if not is_stunned: return
 
-	print("🐱【白貓復原】狀態恢復！燈光與偵測圈重新展開。")
+	print("🐱【白貓復原】狀態恢復！燈光展開並獲得 ", invincibility_duration, " 秒無敵閃耀狀態！")
 
 	if stun_tween and stun_tween.is_running():
 		stun_tween.kill()
+
+	# 解除虛弱鎖定（可以開始移動），並開啟 1.5 秒馬力歐無敵閃耀
+	is_stunned = false
+	_start_invincibility_flash()
 
 	stun_tween = create_tween().set_parallel(true)
 
@@ -116,12 +159,104 @@ func _recover_from_damage() -> void:
 	if light_area:
 		stun_tween.tween_property(light_area, "scale", original_light_scale, 0.4)
 
-	stun_tween.tween_property(self, "modulate", Color.WHITE, 0.4)
+	stun_tween.tween_property(self, "modulate", Color.WHITE, 0.2)
 
 	stun_tween.chain().tween_callback(func():
-		is_stunned = false
 		_check_initial_overlapping_enemies()
 	)
+
+# 🌟 徹底控制白貓與底下所有 Area2D 的 Layer / Mask 與物理碰撞開關
+func _set_cat_collision_enabled(enabled: bool) -> void:
+	# 1. 切換白貓本體的 CollisionShape2D
+	for child in get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.set_deferred("disabled", not enabled)
+			
+	# 2. 切換 NavigationAgent2D 的 RVO 避障 (防止尋路系統把停下的白貓當成障礙物互卡)
+	if nav_agent:
+		nav_agent.set_deferred("avoidance_enabled", enabled)
+			
+	# 3. 🌟 關鍵：將白貓底下除了 LightArea 以外的所有 Area2D (如 Hurtbox) 的 Layer 與 Mask 同步歸零/還原！
+	for area in child_area_layers.keys():
+		if is_instance_valid(area):
+			area.set_deferred("monitoring", enabled)
+			area.set_deferred("monitorable", enabled)
+			if enabled:
+				area.set_deferred("collision_layer", child_area_layers[area]["layer"])
+				area.set_deferred("collision_mask", child_area_layers[area]["mask"])
+			else:
+				area.set_deferred("collision_layer", 0)
+				area.set_deferred("collision_mask", 0)
+			for shape in area.get_children():
+				if shape is CollisionShape2D or shape is CollisionPolygon2D:
+					shape.set_deferred("disabled", not enabled)
+
+	# 4. 🌟 關鍵：同時切換白貓本體的 collision_layer 與 collision_mask，並對全場怪物加入雙向穿透例外！
+	if enabled:
+		set_deferred("collision_layer", original_collision_layer)
+		set_deferred("collision_mask", original_collision_mask)
+		for enemy in ignored_enemies:
+			if is_instance_valid(enemy):
+				remove_collision_exception_with(enemy)
+				enemy.remove_collision_exception_with(self)
+		ignored_enemies.clear()
+	else:
+		# Godot 4 雙向碰撞規則：必須把 Layer 跟 Mask 同時設為 0，怪物才不會撞上白貓！
+		set_deferred("collision_layer", 0)
+		set_deferred("collision_mask", 0)
+		
+		var scene_root = get_tree().current_scene
+		if scene_root:
+			var all_bodies = scene_root.find_children("*", "PhysicsBody2D", true, false)
+			for body in all_bodies:
+				if body != self and body != player_node and (body is BaseEnemy or body.is_in_group("enemies") or body is CharacterBody2D):
+					if not ignored_enemies.has(body):
+						add_collision_exception_with(body)
+						body.add_collision_exception_with(self)
+						ignored_enemies.append(body)
+
+# 🌟 強制讓正在追擊/卡在白貓身上的怪物轉移目標（改追玩家或解除鎖定）
+func _clear_cat_from_enemy_targets() -> void:
+	var scene_root = get_tree().current_scene
+	if not scene_root: return
+	
+	var all_nodes = scene_root.find_children("*", "Node2D", true, false)
+	for node in all_nodes:
+		if node is BaseEnemy or node.is_in_group("enemies"):
+			# 檢查怪物常見的追擊目標變數名稱，若正鎖定白貓則立刻改為玩家！
+			for prop_name in ["target", "current_target", "chase_target", "target_node", "aggro_target"]:
+				if prop_name in node and node.get(prop_name) == self:
+					node.set(prop_name, player_node)
+
+# 🌟 馬力歐式受傷恢復無敵閃耀特效 (持續 1.5 秒，結束後才恢復物理碰撞)
+func _start_invincibility_flash() -> void:
+	is_invincible = true
+	
+	if flash_tween and flash_tween.is_running():
+		flash_tween.kill()
+		
+	var target_visual: CanvasItem = anim_sprite if anim_sprite else self
+	# 計算閃爍次數：每 0.12 秒完成一次「亮白閃耀 ➔ 半透明」循環
+	var loop_count: int = max(1, int(invincibility_duration / 0.12))
+	
+	flash_tween = create_tween().set_loops(loop_count)
+	# 高亮閃耀 (HDR 微發光感)
+	flash_tween.tween_property(target_visual, "modulate", Color(1.8, 1.8, 1.8, 1.0), 0.06)
+	# 瞬間半透明殘影 (經典馬力歐無敵閃爍感)
+	flash_tween.tween_property(target_visual, "modulate", Color(1.0, 1.0, 1.0, 0.2), 0.06)
+	
+	# 等待 1.5 秒無敵時間結束後，自動關閉無敵、還原正常顏色，並重新開啟物理碰撞！
+	await get_tree().create_timer(invincibility_duration).timeout
+	if flash_tween and flash_tween.is_running():
+		flash_tween.kill()
+	if is_instance_valid(target_visual):
+		target_visual.modulate = Color.WHITE
+	is_invincible = false
+	
+	# 🌟 無敵閃爍徹底結束後，才恢復白貓的物理碰撞與 Layer
+	if not is_stunned and not always_pass_through_enemies:
+		_set_cat_collision_enabled(true)
+	print("🛡️【白貓無敵結束】1.5 秒無敵閃耀時間結束，已恢復物理碰撞與 Layer。")
 
 # ==========================================
 # 白貓探測敵人的主動邏輯
@@ -130,6 +265,13 @@ func _on_light_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") or body is BaseEnemy:
 		if not detected_enemies.has(body):
 			detected_enemies.append(body)
+			
+		# 如果新走進來的怪物遇到正在受傷或無敵的白貓，立刻將牠加入穿透名單！
+		if (is_stunned or is_invincible or always_pass_through_enemies) and body is PhysicsBody2D:
+			if not ignored_enemies.has(body):
+				add_collision_exception_with(body)
+				body.add_collision_exception_with(self)
+				ignored_enemies.append(body)
 			
 		if "is_illuminated_by_cat" in body:
 			body.is_illuminated_by_cat = true
@@ -178,11 +320,11 @@ func _physics_process(_delta: float) -> void:
 		move_and_slide()
 		return
 		
-	# 🌟 虛弱期間停在原地，不執行尋路位移
+	# 🌟 虛弱期間停在原地：不呼叫 move_and_slide()，並且持續清除怪物對白貓的鎖定！
 	if is_stunned:
 		velocity = Vector2.ZERO
 		play_animation("idle")
-		move_and_slide()
+		_clear_cat_from_enemy_targets()
 		return
 
 	# 1️⃣ 檢查是否正按著右鍵指派移動 (cat_move)

@@ -31,6 +31,7 @@ const DASH_READY_PARTICLES = preload("res://DashEffect/dash_ready_particles.tscn
 # [🌟 墨水系統] (玩家的遠程武器能量)
 # ==========================================
 var shoot_slow_timer: float = 0.0          # 發射武器時的減速懲罰計時器，模擬開槍後座力帶來的硬直
+var is_casting: bool = false               # 🌟【新增：甩魔法】動作鎖：記錄是否正在播放射擊甩手動畫
 
 var input_direction: Vector2 = Vector2.ZERO # 記錄 WASD 輸入向量
 var facing_direction: String = "down"       # 記錄最後面朝方向，用於決定播放哪個方向的動畫與判定框
@@ -210,8 +211,8 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-			move_and_slide()        
-			return                  
+			move_and_slide()       
+			return                
 		else:
 			# 解除狀態鎖定，恢復大腦運作
 			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
@@ -252,6 +253,7 @@ func _physics_process(delta: float) -> void:
 					# 藍黃槍：直接發射並扣墨水，套用減速硬直
 					else:
 						magic_brush.press_shoot(current_buff)
+						play_shoot_animation() # 🌟【新增：甩魔法】藍黃槍發射時播放上下左右甩手動畫
 						current_ink -= cost
 						if current_weapon == WeaponMode.YELLOW: shoot_slow_timer = 0.4 
 						else: shoot_slow_timer = 0.3 
@@ -274,6 +276,7 @@ func _physics_process(delta: float) -> void:
 						var current_buff = 1.0
 						if DataManager.has_sticker("004"): current_buff *= DataManager.STICKER_DB["004"].value
 						magic_brush.release_shoot(current_buff)
+						play_shoot_animation() # 🌟【新增：甩魔法】紅槍蓄力放開射擊時播放上下左右甩手動畫
 						current_ink -= (stage * 15.0)
 						shoot_slow_timer = 0.6 
 						if player_hud and player_hud.has_method("confirm_ink_drop"): player_hud.confirm_ink_drop(current_ink)
@@ -466,6 +469,13 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	var anim = get_node_or_null("AnimatedSprite2D")
 	if anim == null: return
 
+	# 🌟【新增：甩魔法】如果正在甩魔法，阻擋 idle 與 move 蓋台；但若是揮刀、衝刺或受傷則立刻打斷甩手！
+	if is_casting:
+		if prefix == "idle" or prefix == "move":
+			return
+		else:
+			is_casting = false
+
 	var target_suffix = facing_direction # 預設使用 4 方位記憶
 
 	# 只有正常移動時才更新面朝方向與 8 方位判定
@@ -509,6 +519,39 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	if not anim.sprite_frames.has_animation(animation_name): return
 
 	anim.play(animation_name)
+
+# 🌟【新增：甩魔法】根據滑鼠射擊方向播放上下左右甩魔法動作 (shoot_up / down / left / right)
+func play_shoot_animation(custom_dir: Vector2 = Vector2.ZERO) -> void:
+	if is_in_dialogue or is_dead or not animated_sprite_2d or not animated_sprite_2d.sprite_frames:
+		return
+		
+	# 自動計算阿尼指向滑鼠的射擊方向
+	var shoot_dir: Vector2 = custom_dir
+	if shoot_dir == Vector2.ZERO:
+		shoot_dir = (get_global_mouse_position() - global_position).normalized()
+		
+	# 將射擊方向轉為上下左右 4 方位，並更新阿尼的面朝方向
+	if shoot_dir != Vector2.ZERO:
+		if abs(shoot_dir.x) > abs(shoot_dir.y):
+			facing_direction = "right" if shoot_dir.x > 0 else "left"
+		else:
+			facing_direction = "down" if shoot_dir.y > 0 else "up"
+			
+	var anim_name: String = "shoot_" + facing_direction
+	if not animated_sprite_2d.sprite_frames.has_animation(anim_name):
+		return
+		
+	# 防呆保護：強制將該射擊動畫的 Loop 設為關閉，避免忘記關 Loop 導致永遠播不完卡死
+	animated_sprite_2d.sprite_frames.set_animation_loop(anim_name, false)
+	
+	is_casting = true
+	animated_sprite_2d.stop() # 連續射擊時，強制從第 0 格重新甩手
+	animated_sprite_2d.play(anim_name)
+	
+	# 等待甩魔法動畫播完後，自動解鎖恢復正常待機/走路動畫
+	await animated_sprite_2d.animation_finished
+	if animated_sprite_2d.animation == anim_name:
+		is_casting = false
 
 # 遞迴檢查樹狀結構，揪出空動畫節點
 func _run_bug_radar(node: Node):
