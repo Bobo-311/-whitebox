@@ -9,10 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://86rr4pin8o1o" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_left_down.tscn" id="3_ot11u"]
 [ext_resource type="PackedScene" uid="uid://bqpnj3read7vk" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_right_top.tscn" id="4_35oyh"]
 [ext_resource type="PackedScene" uid="uid://cwoug71y23lun" path="res://base_enemy/BossLotus/BaseTentacle/Tentacle/tentacle_right_down.tscn" id="5_b8ol4"]
-[ext_resource type="PackedScene" uid="uid://c1hqskpe2ls3g" path="res://HealthUI/HealthBar.tscn" id="6_40m5t"]
 [ext_resource type="Script" uid="uid://dyor1cp12ddso" path="res://base_enemy/BossLotus/BossBullet/bullet_spawner.gd" id="11_ot11u"]
 [ext_resource type="PackedScene" uid="uid://diu5iou3xd7fd" path="res://base_enemy/BossLotus/BossBullet/boss_bullet.tscn" id="12_35oyh"]
 [ext_resource type="Script" uid="uid://co7v5oj8vhoj0" path="res://base_enemy/BossLotus/BossBullet/laser_weapon.gd" id="13_b8ol4"]
+[ext_resource type="PackedScene" uid="uid://dtr8vcr5h66i" path="res://Boss_hud/boss_ui.tscn" id="13_mr3u7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6d0j"]
 atlas = ExtResource("1_ugsmv")
@@ -344,12 +344,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_g2ojk")
 }
 
-[node name="HealthBar" parent="." instance=ExtResource("6_40m5t")]
-offset_left = -458.0
-offset_top = -775.0
-offset_right = 461.25928
-offset_bottom = -605.0
-
 [node name="Spawners" type="Node2D" parent="."]
 script = ExtResource("11_ot11u")
 bullet_scene = ExtResource("12_35oyh")
@@ -398,3 +392,5 @@ position = Vector2(930, -930)
 
 [node name="SpawnPoint_RightDown" type="Marker2D" parent="TentacleAnchors"]
 position = Vector2(930, 930)
+
+[node name="BossUI" parent="." instance=ExtResource("13_mr3u7")]
