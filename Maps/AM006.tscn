@@ -15897,6 +15897,10 @@ scale = Vector2(3, 3)
 position = Vector2(2965, 1111)
 scale = Vector2(3, 3)
 
+[node name="lightFlower4" parent="." instance=ExtResource("19_nao00")]
+position = Vector2(6554, 2392)
+scale = Vector2(3, 3)
+
 [node name="ElevationZone" parent="." instance=ExtResource("20_bgl0c")]
 collision_layer = 0
 collision_mask = 2
@@ -15971,3 +15975,16 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cliff_L1_Walls"]
 polygon = PackedVector2Array(2880, 2589, 3071, 2594, 3072, 2656, 3137, 2656, 3136, 2720, 3392, 2720, 3392, 2784, 4224, 2783, 4224, 2719, 4417, 2718, 4416, 2655, 4544, 2656, 4543, 2592, 4736, 2592, 4736, 2527, 8063, 2528, 8064, 3056, 6058, 3055, 6058, 2991, 5761, 2992, 5761, 3057, 5535, 3055, 5534, 3118, 4864, 3121, 4864, 3184, 3456, 3185, 3456, 3120, 3135, 3121, 3136, 2992, 3072, 2992, 3072, 2928, 2944, 2928, 2944, 2864, 2878, 2864)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 8192
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(1541, -156, 1538, -104, 8063, -78, 8063, -194)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(7308, -179, 7330, 4010, 7415, 4004, 7387, -208)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(1612, -169, 1691, -169, 1759, 4017, 1649, 4026)
