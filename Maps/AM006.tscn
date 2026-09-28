@@ -1,7 +1,8 @@
-[gd_scene load_steps=141 format=4 uid="uid://db1prwo40wbqw"]
+[gd_scene load_steps=142 format=4 uid="uid://db1prwo40wbqw"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_jw6xd"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_nao00"]
+[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="2_tdm34"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="3_bgl0c"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="4_032fq"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="5_5p81a"]
@@ -15988,3 +15989,6 @@ polygon = PackedVector2Array(7308, -179, 7330, 4010, 7415, 4004, 7387, -208)
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(1612, -169, 1691, -169, 1759, 4017, 1649, 4026)
+
+[node name="ShopNPC" parent="." instance=ExtResource("2_tdm34")]
+position = Vector2(6662, 3466)

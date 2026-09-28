@@ -7217,7 +7217,7 @@ tile_map_data = PackedByteArray("AAAZAPj/AwAAAAAAAAAZAPn/AwAAAAEAAAAZAPr/AwAAAAI
 tile_set = SubResource("TileSet_o2ser")
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
-position = Vector2(3491, 1473)
+position = Vector2(3431, 1454)
 base_max_hp = 100
 max_hp = 100
 
