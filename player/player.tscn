@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://ccnqn5k11xxkd" path="res://阿尼動畫/近戰下.png" id="2_1so5t"]
 [ext_resource type="Texture2D" uid="uid://q2spj07u10js" path="res://阿尼動畫/近戰左.01.png" id="3_1so5t"]
 [ext_resource type="Texture2D" uid="uid://dg6ymyi4ag8od" path="res://阿尼動畫/近戰右.png" id="3_jd2rm"]
-[ext_resource type="Texture2D" uid="uid://bi6mkuuirycf2" path="res://阿尼動畫/ani_idle_down.png" id="4_s7qer"]
 [ext_resource type="Texture2D" uid="uid://clwulnu1gsfkk" path="res://阿尼動畫/近戰上.png" id="5_ge24q"]
 [ext_resource type="Script" uid="uid://dtv1jytooehf1" path="res://camera/camera_2d.gd" id="5_tnfn2"]
 [ext_resource type="AudioStream" uid="uid://bn4gy1h1qjiml" path="res://audio/玩家_攻擊_3.wav" id="6_boad6"]
 [ext_resource type="Script" uid="uid://b62eph5co61o2" path="res://player/player_hurt.gd" id="7_32hag"]
 [ext_resource type="PackedScene" uid="uid://bkatu3uq16087" path="res://Weapon/magic_brush.tscn" id="7_e7oew"]
 [ext_resource type="Texture2D" uid="uid://dqw8mcw44x2kt" path="res://阿尼動畫/ani_idle_left.png" id="7_rptt4"]
+[ext_resource type="Texture2D" uid="uid://cb7qe4b4ltfa0" path="res://test codex animation/ani_idle_down_resized_v2.png" id="8_1so5t"]
 [ext_resource type="Script" uid="uid://ct4xhpe6n0y17" path="res://StateMachine/StateMachine.gd" id="8_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://byffewvgr6b07" path="res://阿尼動畫/ani_idle_right.png" id="8_r7pn3"]
 [ext_resource type="Texture2D" uid="uid://chfnojldf7nvp" path="res://Asset/Animations/Player_Die.png" id="8_yllr7"]
@@ -29,9 +29,9 @@
 [ext_resource type="Texture2D" uid="uid://cj2tsivdfrwag" path="res://阿尼動畫/ani_walk_up.png" id="13_jd2rm"]
 [ext_resource type="Script" uid="uid://cht0tifwncydp" path="res://player/player_die.gd" id="13_tqiix"]
 [ext_resource type="PackedScene" uid="uid://hob5gel4cesh" path="res://HealthUI/player_hud.tscn" id="15_wodsf"]
-[ext_resource type="Texture2D" uid="uid://v3711dlsiub6" path="res://阿尼動畫/ani_walk_left_up.png" id="16_1s1yo"]
 [ext_resource type="Script" uid="uid://dklheqli3xyjo" path="res://player/player_heal.gd" id="16_65viv"]
 [ext_resource type="Texture2D" uid="uid://180jqdjvhmjq" path="res://阿尼動畫/ani_walk_right_up.png" id="17_5ejfk"]
+[ext_resource type="Texture2D" uid="uid://ca1qv25cetpbe" path="res://test codex animation/ani_walk_left_up_resized.png" id="18_1so5t"]
 [ext_resource type="Texture2D" uid="uid://djfcs4q3rvoo4" path="res://阿尼動畫/遠程前.png" id="20_1so5t"]
 [ext_resource type="Texture2D" uid="uid://b3hhtptqssdg3" path="res://阿尼動畫/遠程左.png" id="21_55jnj"]
 [ext_resource type="PackedScene" uid="uid://bqkyu35doaf21" path="res://NotebookUI/notebook_ui.tscn" id="22_bjvpn"]
@@ -388,51 +388,51 @@ atlas = ExtResource("9_wodsf")
 region = Rect2(672, 96, 96, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jdjat"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j420s"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kcq4v"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(256, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qavcc"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(384, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bd26m"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(0, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lufic"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(128, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nxclr"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(256, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rnncm"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(384, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nj2w7"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(0, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iojyt"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(128, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vhicv"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(256, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hrakr"]
-atlas = ExtResource("4_s7qer")
+atlas = ExtResource("8_1so5t")
 region = Rect2(384, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wsa1w"]
@@ -960,67 +960,67 @@ atlas = ExtResource("13_jd2rm")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gensk"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(384, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ppy1w"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(256, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yfgbq"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(128, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iutxy"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wgv86"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(384, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g3y62"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(256, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n3su0"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(128, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v5s5q"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(0, 128, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_alay4"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(384, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wr3tr"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(256, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_507xk"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(128, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_brheu"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(0, 256, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jlonr"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(384, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y5o86"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(256, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hfh73"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(128, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j5hx3"]
-atlas = ExtResource("16_1s1yo")
+atlas = ExtResource("18_1so5t")
 region = Rect2(0, 384, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqpy0"]
@@ -2032,7 +2032,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move_up_left",
-"speed": 10.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2254,8 +2254,9 @@ metadata/_edit_vertical_guides_ = [-129.0]
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -57)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
-animation = &"attack_up"
+animation = &"idle_down"
 autoplay = "idle_down"
+frame_progress = 0.8464032
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -10)
