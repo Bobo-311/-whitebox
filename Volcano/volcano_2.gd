@@ -4,7 +4,7 @@ extends Node2D
 @onready var ghost_cam = $GhostCamera # 抓取我們新蓋的幽靈相機
 
 func _ready() -> void:
-	DataManager.update_map_name("火山二區")
+	DataManager.update_map_name("火山孝子")
 	
 	# ==========================================
 	# 1. 傳送落地系統
