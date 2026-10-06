@@ -1182,6 +1182,7 @@ height = 675.40814
 radius = 772.6921
 
 [node name="Big_Colorless_Dango" instance=ExtResource("1_l2fed")]
+collision_mask = 16129
 script = ExtResource("2_woe7r")
 minion_scene = ExtResource("3_vsfu5")
 coin_drop_count = 0

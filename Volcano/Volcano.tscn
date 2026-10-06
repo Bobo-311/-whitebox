@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=68 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
 [ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="14_4kxmv"]
 [ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="15_741bu"]
-[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="15_yegem"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yegem"]
 size = Vector2(6539, 281)
@@ -1311,22 +1310,19 @@ texture = ExtResource("10_167qa")
 texture_scale = 10.0
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
-position = Vector2(154, 996)
+position = Vector2(339, 1570)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
-position = Vector2(406, 1201)
+position = Vector2(493, 1361)
 
 [node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
-position = Vector2(67, 1183)
+position = Vector2(632, 2075)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
-position = Vector2(71, 1404)
+position = Vector2(186, 1804)
 
 [node name="BigShieldBrother" parent="." instance=ExtResource("14_4kxmv")]
-position = Vector2(671, 1191)
+position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(446, 1259)
-
-[node name="Big_Colorless_Dango" parent="." instance=ExtResource("15_yegem")]
-position = Vector2(3286, 1034)
+position = Vector2(2787, 1676)

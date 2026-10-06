@@ -51,7 +51,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gn1o6"]
-radius = 1005.0179
+radius = 561.47125
 
 [node name="DeathExplosionHitbox" type="Area2D"]
 collision_layer = 64

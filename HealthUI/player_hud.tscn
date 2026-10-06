@@ -38,6 +38,7 @@ theme_override_constants/margin_top = 20
 layout_mode = 2
 
 [node name="PhotoStickers" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture = ExtResource("2_dpci0")
@@ -47,6 +48,7 @@ expand_mode = 1
 layout_mode = 2
 
 [node name="NameLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 text = "菜波能"

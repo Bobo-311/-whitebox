@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=4 uid="uid://n5el11gnhx3y"]
+[gd_scene load_steps=112 format=4 uid="uid://n5el11gnhx3y"]
 
 [ext_resource type="Texture2D" uid="uid://chxeqh77hs4fe" path="res://最初之地地圖素材/only map/02_onlymap2.png" id="1_lu4wg"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_qgvtp"]
@@ -17,6 +17,9 @@
 [ext_resource type="PackedScene" uid="uid://eox5yomlyn0l" path="res://單獨物件場景/door_a.tscn" id="15_qgvtp"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="16_aoh7f"]
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="17_cf5ks"]
+[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="18_r3mgl"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="19_uva5b"]
+[ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="20_gvfi4"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_56r8a"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -18946,7 +18949,6 @@ limit_right = 6780
 limit_bottom = 4355
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -18960,7 +18962,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -18980,7 +18981,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(5830, 165)
+position = Vector2(2656, 1039)
 base_max_hp = 100
 max_hp = 100
 
@@ -20458,3 +20459,19 @@ scale = Vector2(43.90935, 62.156647)
 [node name="lightFlower" parent="." instance=ExtResource("17_cf5ks")]
 position = Vector2(1997, 1555.0001)
 scale = Vector2(3, 3)
+
+[node name="ShopNPC" parent="." instance=ExtResource("18_r3mgl")]
+position = Vector2(3514, 1820)
+
+[node name="CutsceneDirector" parent="." instance=ExtResource("19_uva5b")]
+position = Vector2(2226, 1415)
+scale = Vector2(1.6620116, -7.4087677)
+collision_mask = 2
+target_timeline = "A005"
+markers = {
+"watch the tree": NodePath("watch the tree")
+}
+player_dch = ExtResource("20_gvfi4")
+
+[node name="watch the tree" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(444.04022, -15.6571245)

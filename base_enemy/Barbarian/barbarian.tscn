@@ -1293,18 +1293,19 @@ radius = 67.06713
 radius = 793.0006
 
 [node name="Barbarian" instance=ExtResource("1_yijmc")]
+collision_mask = 16129
 script = ExtResource("2_2pk4u")
 stage1_max_hp = 100.0
 stage1_walk_speed = 200.0
 stage1_damage = 50.0
 berserk_hp_threshold = 1.0
 coin_drop_count = 30
-max_hp = 100
+max_hp = 60
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ahywi")
 sprite_frames = SubResource("SpriteFrames_ni38p")
-animation = &"attack_down"
+animation = &"hurt_left"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

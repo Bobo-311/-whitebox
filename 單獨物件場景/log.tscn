@@ -6,8 +6,9 @@
 y_sort_enabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-0.29999542, -12)
+position = Vector2(-1, -22)
 texture = ExtResource("1_avgck")
+offset = Vector2(0, 10)
 region_enabled = true
 region_rect = Rect2(81.73909, 611.4458, 46.926773, 24.035645)
 
