@@ -1304,7 +1304,7 @@ tile_map_data = PackedByteArray("AAATAA8ABAAAAAAAAAATABAABAAAAAEAAAATABEABAAAAAI
 tile_set = SubResource("TileSet_167qa")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(2495, 1658)
+position = Vector2(4203, 409)
 energy = 1.5
 texture = ExtResource("10_167qa")
 texture_scale = 10.0

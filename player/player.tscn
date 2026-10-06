@@ -2246,6 +2246,7 @@ collision_layer = 2
 collision_mask = 15877
 motion_mode = 1
 script = ExtResource("1_boqn2")
+walk_speed = 600
 base_max_hp = 10000
 max_hp = 10000
 metadata/_edit_horizontal_guides_ = [-170.0, 85.0]
@@ -2278,7 +2279,7 @@ position = Vector2(-46.397102, 5.225772)
 [node name="Hurtbox" type="Area2D" parent="."]
 position = Vector2(0, -1)
 collision_layer = 8
-collision_mask = 0
+collision_mask = 64
 monitoring = false
 script = ExtResource("9_x7c3f")
 

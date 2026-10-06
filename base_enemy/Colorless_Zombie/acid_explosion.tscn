@@ -1,0 +1,73 @@
+[gd_scene load_steps=14 format=3 uid="uid://dcmvlollibhb5"]
+
+[ext_resource type="Texture2D" uid="uid://dkl0vgwlcglx2" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_1.png" id="1_82cn7"]
+[ext_resource type="Texture2D" uid="uid://c7qr1qq0v7bgn" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_2.png" id="2_jht8u"]
+[ext_resource type="Texture2D" uid="uid://duufkjbti1xo0" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_3.png" id="3_kul82"]
+[ext_resource type="Texture2D" uid="uid://b6gwrhmwwsllr" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_4.png" id="4_qriei"]
+[ext_resource type="Texture2D" uid="uid://jgbhvgf363pi" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_5.png" id="5_fltdb"]
+[ext_resource type="Texture2D" uid="uid://6weccj8hjw0m" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_6.png" id="6_pjssf"]
+[ext_resource type="Texture2D" uid="uid://bvslu4ojfwjx7" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_7.png" id="7_2rk1y"]
+[ext_resource type="Texture2D" uid="uid://cuusmo55hj34i" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_8.png" id="8_0sutx"]
+[ext_resource type="Texture2D" uid="uid://bxgd4ny662wks" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_9.png" id="9_0anmv"]
+[ext_resource type="Texture2D" uid="uid://0onfrxla2rls" path="res://base_enemy/Colorless_Zombie/寇格魔/explosion-sprite-pack/PNG/Explosion_8/Explosion_10.png" id="10_t8ine"]
+[ext_resource type="Script" uid="uid://clkdcn5fnwqyb" path="res://base_enemy/Colorless_Zombie/acid_explosion.gd" id="11_1emdb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_82cn7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_82cn7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jht8u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kul82")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qriei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_fltdb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_pjssf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_2rk1y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0sutx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0anmv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_t8ine")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_82cn7"]
+radius = 70.39922
+height = 267.5309
+
+[node name="AcidExplosion" type="Area2D"]
+scale = Vector2(0.39714286, 0.39714286)
+collision_layer = 64
+collision_mask = 2
+script = ExtResource("11_1emdb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -67.98561)
+scale = Vector2(0.61870503, 0.61870503)
+sprite_frames = SubResource("SpriteFrames_82cn7")
+animation = &"explode"
+frame = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.4227717e-08, -27.697842)
+rotation = -1.600173
+shape = SubResource("CapsuleShape2D_82cn7")

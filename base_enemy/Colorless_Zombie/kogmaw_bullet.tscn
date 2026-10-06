@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqlcrw2b00dvo"]
+
+[ext_resource type="Script" uid="uid://b3suipma7f2xv" path="res://base_enemy/Colorless_Zombie/kogmaw_bullet.gd" id="1_f1ee8"]
+[ext_resource type="PackedScene" uid="uid://dcmvlollibhb5" path="res://base_enemy/Colorless_Zombie/acid_explosion.tscn" id="2_fkbgg"]
+[ext_resource type="Texture2D" uid="uid://c4jr3guhuse5m" path="res://base_enemy/Colorless_Zombie/寇格魔/Glowing_Cyan_Arcane_Orb-removebg-preview.png" id="3_fkbgg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f1ee8"]
+radius = 16.124516
+
+[node name="KogmawBullet" type="Area2D"]
+collision_layer = 64
+collision_mask = 2
+script = ExtResource("1_f1ee8")
+flight_distance = 650.0
+flight_duration = 0.6
+explosion_scene = ExtResource("2_fkbgg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.13414828, 0.1341483)
+texture = ExtResource("3_fkbgg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.3841858e-07, -1.0000001)
+rotation = -1.5789123
+shape = SubResource("CircleShape2D_f1ee8")

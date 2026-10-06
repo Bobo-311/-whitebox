@@ -1,4 +1,4 @@
-[gd_scene load_steps=200 format=3 uid="uid://bufi7m0i0aj7c"]
+[gd_scene load_steps=201 format=3 uid="uid://bufi7m0i0aj7c"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_58mlq"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_mfkhu"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bxx886kqwe2k5" path="res://base_enemy/Colorless_Zombie/colorless_zombie_dead_body.tscn" id="10_1all8"]
 [ext_resource type="Script" uid="uid://broalbxsb2n70" path="res://base_enemy/Colorless_Zombie/colorless_zombie_attack.gd" id="10_t4lru"]
 [ext_resource type="Script" uid="uid://c5ugain68mmnf" path="res://base_enemy/Colorless_Zombie/colorless_zombie_pant.gd" id="12_itwug"]
+[ext_resource type="PackedScene" uid="uid://dqlcrw2b00dvo" path="res://base_enemy/Colorless_Zombie/kogmaw_bullet.tscn" id="13_riyr0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rbn8d"]
 resource_local_to_scene = true
@@ -1417,6 +1418,8 @@ radius = 82.63072
 radius = 452.13382
 
 [node name="ColorlessZombie" instance=ExtResource("1_58mlq")]
+scale = Vector2(0.75, 0.75)
+walk_speed = 100
 melee_damage = 30.0
 coin_drop_count = 10
 max_hp = 10
@@ -1446,10 +1449,11 @@ spawn_delay = 1.0
 
 [node name="Chase" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("9_clk6l")
-attack_distance = 100.0
+shooting_distance = 750.0
 
 [node name="Attack" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("10_t4lru")
+projectile_scene = ExtResource("13_riyr0")
 
 [node name="Pant" type="Node" parent="StateMachine" index="6"]
 script = ExtResource("12_itwug")
@@ -1461,3 +1465,9 @@ shape = SubResource("CircleShape2D_ejd70")
 [node name="HealthBar" parent="." index="6"]
 offset_top = -106.0
 offset_bottom = -79.0
+
+[node name="AimPivot" parent="." index="7"]
+position = Vector2(-6, -27)
+
+[node name="Muzzle" parent="AimPivot" index="0"]
+position = Vector2(-0.66666675, 1.6666718)

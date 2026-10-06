@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bmlfgt0m0wuem"]
+[gd_scene load_steps=23 format=3 uid="uid://bmlfgt0m0wuem"]
 
 [ext_resource type="Script" uid="uid://ddcj3uh5jsxfh" path="res://Volcano/volcano_2.gd" id="1_sjlws"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_d7ch3"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="4_ckj87"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="6_723fl"]
 [ext_resource type="PackedScene" uid="uid://cs8dl4ig6u0ej" path="res://base_enemy/BossLotus/boss_lotus.tscn" id="7_4q1m2"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="8_go6hg"]
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="8_xrg0l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jou6o"]
@@ -1828,4 +1829,8 @@ limit_bottom = 4923
 position_smoothing_enabled = true
 
 [node name="BossLotus" parent="." instance=ExtResource("7_4q1m2")]
+visible = false
 position = Vector2(1964, 2228)
+
+[node name="ColorlessZombie" parent="." instance=ExtResource("8_go6hg")]
+position = Vector2(1890, 3539)
