@@ -57,7 +57,7 @@ height = 267.5309
 [node name="AcidExplosion" type="Area2D"]
 scale = Vector2(0.39714286, 0.39714286)
 collision_layer = 64
-collision_mask = 2
+collision_mask = 8
 script = ExtResource("11_1emdb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

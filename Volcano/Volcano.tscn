@@ -1313,7 +1313,7 @@ texture_scale = 10.0
 position = Vector2(339, 1570)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
-position = Vector2(493, 1361)
+position = Vector2(2936, 1368)
 
 [node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
 position = Vector2(632, 2075)
@@ -1325,4 +1325,4 @@ position = Vector2(186, 1804)
 position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(2787, 1676)
+position = Vector2(123, 1173)

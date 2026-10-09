@@ -1,11 +1,11 @@
 extends State
 
-var pant_timer: float = 1.0 # 企劃設定：撞到人之後發呆 1 秒
+var pant_timer: float = 2.0 # 企劃設定：撞到人之後發呆 1 秒
 
 func enter():
-	pant_timer = 1.0
+	pant_timer = 2.0
 	character.velocity = Vector2.ZERO # 原地煞車
-	character.play_animation("idle", character.last_facing_vec) # 播放發呆動畫
+	character.play_animation("pant", character.last_facing_vec) # 播放發呆動畫
 
 func state_physics_update(delta: float):
 	pant_timer -= delta
