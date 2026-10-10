@@ -9,7 +9,7 @@ radius = 16.124516
 
 [node name="KogmawBullet" type="Area2D"]
 collision_layer = 64
-collision_mask = 8
+collision_mask = 15881
 script = ExtResource("1_f1ee8")
 flight_distance = 650.0
 explosion_scene = ExtResource("2_fkbgg")

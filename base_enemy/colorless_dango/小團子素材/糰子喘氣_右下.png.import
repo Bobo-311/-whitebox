@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drf4gqvayc6gc"
-path="res://.godot/imported/donko_die_processed.png-cfb5db24b3a1f89b0527bed351e1c5ff.ctex"
+uid="uid://i75d05x0varv"
+path="res://.godot/imported/糰子喘氣_右下.png-a2415aaa3ebf4e35eb54dc26da24dd29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/colorless_dango/小團子素材/donko_die_processed.png"
-dest_files=["res://.godot/imported/donko_die_processed.png-cfb5db24b3a1f89b0527bed351e1c5ff.ctex"]
+source_file="res://base_enemy/colorless_dango/小團子素材/糰子喘氣_右下.png"
+dest_files=["res://.godot/imported/糰子喘氣_右下.png-a2415aaa3ebf4e35eb54dc26da24dd29.ctex"]
 
 [params]
 

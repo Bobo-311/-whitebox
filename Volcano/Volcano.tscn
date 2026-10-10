@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=70 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -20,6 +20,12 @@ size = Vector2(6539, 281)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xrg6c"]
 size = Vector2(7306, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4kxmv"]
+size = Vector2(1345, 165.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_741bu"]
+size = Vector2(868.0962, 165.5)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0p35i"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
@@ -1182,7 +1188,7 @@ visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(3130, 1637)
+position = Vector2(4231, 1410)
 base_max_hp = 100
 
 [node name="Wall_Top" type="StaticBody2D" parent="."]
@@ -1246,6 +1252,39 @@ color = Color(0, 0, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left2"]
 position = Vector2(804.5, 33.5)
 shape = SubResource("RectangleShape2D_xrg6c")
+
+[node name="Wall_Left3" type="StaticBody2D" parent="."]
+position = Vector2(4129, 787)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left3"]
+offset_left = -689.6022
+offset_top = -45.949707
+offset_right = 641.8623
+offset_bottom = 116.12718
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left3"]
+position = Vector2(-14.5, 36.25)
+shape = SubResource("RectangleShape2D_4kxmv")
+
+[node name="Wall_Left4" type="StaticBody2D" parent="."]
+position = Vector2(4397.9995, 609.99994)
+rotation = 0.0035469532
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left4"]
+offset_left = -224.79285
+offset_top = -45.949707
+offset_right = 641.8623
+offset_bottom = 116.12718
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left4"]
+position = Vector2(205.04932, 36.25)
+scale = Vector2(1.0000001, 1.0000001)
+shape = SubResource("RectangleShape2D_741bu")
 
 [node name="Wall_Right" type="StaticBody2D" parent="."]
 position = Vector2(4690, 515)
@@ -1313,7 +1352,7 @@ texture_scale = 10.0
 position = Vector2(339, 1570)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
-position = Vector2(2936, 1368)
+position = Vector2(4404, 371)
 
 [node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
 position = Vector2(632, 2075)
@@ -1325,4 +1364,4 @@ position = Vector2(186, 1804)
 position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(123, 1173)
+position = Vector2(3799.0002, 1436)

@@ -47,7 +47,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"explode",
-"speed": 10.0
+"speed": 20.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_82cn7"]
@@ -65,7 +65,8 @@ position = Vector2(0, -67.98561)
 scale = Vector2(0.61870503, 0.61870503)
 sprite_frames = SubResource("SpriteFrames_82cn7")
 animation = &"explode"
-frame = 4
+frame = 9
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2.4227717e-08, -27.697842)

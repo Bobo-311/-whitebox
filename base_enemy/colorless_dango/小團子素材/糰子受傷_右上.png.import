@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://sw3fkxa6wgi0"
-path="res://.godot/imported/donko_hit_front_processed_v2.png-a357c8881dcc7d2c558d81d7956619b1.ctex"
+uid="uid://cv2bbjgh531pw"
+path="res://.godot/imported/糰子受傷_右上.png-776c10c530e6b445add830d542cf812c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/colorless_dango/小團子素材/donko_hit_front_processed_v2.png"
-dest_files=["res://.godot/imported/donko_hit_front_processed_v2.png-a357c8881dcc7d2c558d81d7956619b1.ctex"]
+source_file="res://base_enemy/colorless_dango/小團子素材/糰子受傷_右上.png"
+dest_files=["res://.godot/imported/糰子受傷_右上.png-776c10c530e6b445add830d542cf812c.ctex"]
 
 [params]
 

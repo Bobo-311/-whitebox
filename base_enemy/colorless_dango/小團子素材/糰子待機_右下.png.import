@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://8qyj6y4hxbud"
-path="res://.godot/imported/donko_pant_processed.png-b5a6e545e6ee5dfa64c3db5f2bc45748.ctex"
+uid="uid://c2pn60vw347hh"
+path="res://.godot/imported/糰子待機_右下.png-71962c95fb8edd11571fdbef7d699da6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/colorless_dango/小團子素材/donko_pant_processed.png"
-dest_files=["res://.godot/imported/donko_pant_processed.png-b5a6e545e6ee5dfa64c3db5f2bc45748.ctex"]
+source_file="res://base_enemy/colorless_dango/小團子素材/糰子待機_右下.png"
+dest_files=["res://.godot/imported/糰子待機_右下.png-71962c95fb8edd11571fdbef7d699da6.ctex"]
 
 [params]
 

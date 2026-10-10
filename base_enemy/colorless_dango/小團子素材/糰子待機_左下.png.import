@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcajnwalic6mt"
-path="res://.godot/imported/donko_move_back_processed.png-ff378b91f4b9384ef4459b9da71da706.ctex"
+uid="uid://bssr8ajp4fgrj"
+path="res://.godot/imported/糰子待機_左下.png-e2d1d031f5b2725b7b388d7af517dfd9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/colorless_dango/小團子素材/donko_move_back_processed.png"
-dest_files=["res://.godot/imported/donko_move_back_processed.png-ff378b91f4b9384ef4459b9da71da706.ctex"]
+source_file="res://base_enemy/colorless_dango/小團子素材/糰子待機_左下.png"
+dest_files=["res://.godot/imported/糰子待機_左下.png-e2d1d031f5b2725b7b388d7af517dfd9.ctex"]
 
 [params]
 

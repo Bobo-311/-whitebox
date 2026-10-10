@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdwahq4jt5pel"
-path="res://.godot/imported/danko_idle_front_processed.png-93b898a64d91e569afc7195255e59c01.ctex"
+uid="uid://8eoy750t8kfr"
+path="res://.godot/imported/糰子喘氣_左上.png-1917872322d361abe1f4ff11166f37d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/colorless_dango/小團子素材/danko_idle_front_processed.png"
-dest_files=["res://.godot/imported/danko_idle_front_processed.png-93b898a64d91e569afc7195255e59c01.ctex"]
+source_file="res://base_enemy/colorless_dango/小團子素材/糰子喘氣_左上.png"
+dest_files=["res://.godot/imported/糰子喘氣_左上.png-1917872322d361abe1f4ff11166f37d0.ctex"]
 
 [params]
 

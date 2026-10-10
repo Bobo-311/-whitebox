@@ -1415,7 +1415,7 @@ size = Vector2(99, 111)
 radius = 82.63072
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ejd70"]
-radius = 452.13382
+radius = 606.78534
 
 [node name="ColorlessZombie" instance=ExtResource("1_58mlq")]
 scale = Vector2(0.75, 0.75)

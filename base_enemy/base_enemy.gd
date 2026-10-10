@@ -8,6 +8,13 @@ class_name BaseEnemy                  # 定義為 Enemy 類別
 @export var melee_damage: float = 15.0             # 肉身衝撞傷害
 @export var coin_drop_count: int = 5                # 🌟 新增：這隻怪物死掉會噴幾枚金幣？預設為 5
 
+# 🌟【本次新增】對角線動畫開關
+# 預設為 false (關閉)。這意味著所有繼承這個腳本的舊敵人(如野豬)，
+# 預設都不會受到影響，維持原本的上下左右動畫邏輯。
+@export var use_diagonal_anim: bool = false
+
+
+
 const COIN_SCENE = preload("res://coin/coin.tscn") # 金幣場景
 
 # 【預載受擊特效】背部貫穿粒子特效
@@ -214,27 +221,74 @@ func update_hp_bar() -> void:
 	if hp_bar and hp_bar.has_method("update_bar"):
 		hp_bar.update_bar(current_hp, max_hp)
 
+# ==========================================
+# 🎬 動畫播放與方向判定核心
+# ==========================================
 func play_animation(prefix: String, dir: Vector2 = Vector2.ZERO) -> void:
-	var suffix = ""
+	var suffix = "" # 用來存放算出來的方向後綴詞 (例如 "_left_up" 或 "_down")
+	
+	# 如果沒有傳入新的方向 (dir 是 0)，就使用敵人最後一次面朝的方向
 	var target_dir = dir if dir != Vector2.ZERO else last_facing_vec
 
-	if abs(target_dir.x) > abs(target_dir.y):
-		suffix = "_right" if target_dir.x > 0 else "_left"
-	else:
-		suffix = "_down" if target_dir.y > 0 else "_up"
+	# 🌟【大腦分歧點】：檢查 Inspector 的開關有沒有被打勾
+	if use_diagonal_anim:
+		# ==========================================
+		# 🟢 開關【有】打勾：執行「對角線 4 方向」邏輯 (給糰子用)
+		# ==========================================
+		var x_name = "" # 用來裝水平方向字串
+		var y_name = "" # 用來裝垂直方向字串
 
+		# 1️⃣ 處理水平 (X軸) 判定
+		if target_dir.x > 0:
+			x_name = "right" # 往右走
+		elif target_dir.x < 0:
+			x_name = "left"  # 往左走
+		else:
+			# 【組長的防呆規定實作】當純粹往正上或正下走 (X = 0) 時：
+			if target_dir.y < 0:
+				x_name = "left"  # 純往上方走時，強制判定為偏左 (對應: 糰子左上)
+			else:
+				x_name = "right" # 純往下方走時，強制判定為偏右 (對應: 糰子右下)
+
+		# 2️⃣ 處理垂直 (Y軸) 判定
+		if target_dir.y > 0:
+			y_name = "down" # 往下走
+		elif target_dir.y < 0:
+			y_name = "up"   # 往上走
+		else:
+			# 當純粹往正左或正右走 (Y = 0) 時：
+			# 強制配給 "down" (向下)。因為通常帶有眼睛(面向玩家)的動畫，視覺上最合理。
+			y_name = "down" 
+
+		# 3️⃣ 把計算出來的 X 跟 Y 組合起來 (結果會像: "_left_up" 或 "_right_down")
+		suffix = "_" + x_name + "_" + y_name
+
+	else:
+		# ==========================================
+		# 🔴 開關【沒】打勾：維持「十字 4 方向」舊邏輯 (給野豬用)
+		# ==========================================
+		# 比較 X軸 與 Y軸 的絕對值，看哪個方向的力道比較大，就只播那個方向
+		if abs(target_dir.x) > abs(target_dir.y):
+			# 水平力道 > 垂直力道：只播左或右
+			suffix = "_right" if target_dir.x > 0 else "_left"
+		else:
+			# 垂直力道 > 水平力道：只播上或下
+			suffix = "_down" if target_dir.y > 0 else "_up"
+
+	# 把動作前綴 (如 "move") 加上算出來的方向後綴 (如 "_left_up")，合成最終動畫名稱
 	var animation_name = prefix + suffix
 
-	
-
+	# 如果名字是空的，直接跳出不執行
 	if animation_name == "":
-		
 		return
 
+	# 【安全機制】去 AnimatedSprite2D 檢查到底有沒有這個動畫？
 	if not animated_sprite_2d.sprite_frames.has_animation(animation_name):
-		
+		# 如果找不到，在除錯區印出紅字警告，方便你抓蟲 (例如忘記改動畫名字時)
+		push_warning("⚠️ 找不到動畫，請檢查拼字：", animation_name)
 		return
 
+	# 一切檢查就緒，正式播放動畫！
 	animated_sprite_2d.play(animation_name)
 
 func drop_coin() -> void:

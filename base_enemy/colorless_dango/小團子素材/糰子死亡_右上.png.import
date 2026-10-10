@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://oai48erykv6n"
-path="res://.godot/imported/danko_move_front_processed.png-0b6274798c29a67caf58dfc7dedc55d2.ctex"
+uid="uid://ccp3uosnptcaa"
+path="res://.godot/imported/糰子死亡_右上.png-1874e63381fbdff565cb459d2808c3ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/colorless_dango/小團子素材/danko_move_front_processed.png"
-dest_files=["res://.godot/imported/danko_move_front_processed.png-0b6274798c29a67caf58dfc7dedc55d2.ctex"]
+source_file="res://base_enemy/colorless_dango/小團子素材/糰子死亡_右上.png"
+dest_files=["res://.godot/imported/糰子死亡_右上.png-1874e63381fbdff565cb459d2808c3ec.ctex"]
 
 [params]
 
