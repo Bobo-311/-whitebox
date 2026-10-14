@@ -39,7 +39,7 @@ func state_physics_update(delta: float):
 	# 2️⃣ 鎖定玩家：身體與槍管死死盯著玩家
 	var aim_dir = (character.player_node.global_position - character.global_position).normalized()
 	character.last_facing_vec = aim_dir
-	character.play_animation("idle", aim_dir) # 站樁輸出，播 idle 動畫
+	character.play_animation("attack", aim_dir) # 站樁輸出，播 idle 動畫
 	
 	var aim_pivot = character.get_node_or_null("AimPivot") 
 	if aim_pivot:        

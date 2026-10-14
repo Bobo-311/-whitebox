@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=72 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -24,8 +24,14 @@ size = Vector2(7306, 160)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4kxmv"]
 size = Vector2(1345, 165.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oa6jy"]
+size = Vector2(554, 43)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_741bu"]
 size = Vector2(868.0962, 165.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qq5g5"]
+size = Vector2(783.13696, 40.865112)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_0p35i"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
@@ -1188,7 +1194,7 @@ visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(4231, 1410)
+position = Vector2(4322, 1699)
 base_max_hp = 100
 
 [node name="Wall_Top" type="StaticBody2D" parent="."]
@@ -1269,6 +1275,38 @@ color = Color(0, 0, 0, 1)
 position = Vector2(-14.5, 36.25)
 shape = SubResource("RectangleShape2D_4kxmv")
 
+[node name="Wall_Left7" type="StaticBody2D" parent="."]
+position = Vector2(2390, 1317)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left7"]
+offset_left = -323.0
+offset_top = -74.653076
+offset_right = 230.11328
+offset_bottom = -32.917236
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left7"]
+position = Vector2(-46, -53.5)
+shape = SubResource("RectangleShape2D_oa6jy")
+
+[node name="Wall_Left8" type="StaticBody2D" parent="."]
+position = Vector2(3210, 1318)
+rotation = 1.5707964
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left8"]
+offset_left = -323.0
+offset_top = -74.653076
+offset_right = 230.11328
+offset_bottom = -32.917236
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left8"]
+position = Vector2(-46, -53.5)
+shape = SubResource("RectangleShape2D_oa6jy")
+
 [node name="Wall_Left4" type="StaticBody2D" parent="."]
 position = Vector2(4397.9995, 609.99994)
 rotation = 0.0035469532
@@ -1285,6 +1323,40 @@ color = Color(0, 0, 0, 1)
 position = Vector2(205.04932, 36.25)
 scale = Vector2(1.0000001, 1.0000001)
 shape = SubResource("RectangleShape2D_741bu")
+
+[node name="Wall_Left5" type="StaticBody2D" parent="."]
+position = Vector2(2689, 1040)
+rotation = 0.0035469532
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left5"]
+offset_left = -224.79285
+offset_top = -45.949707
+offset_right = 553.99817
+offset_bottom = -4.6367188
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left5"]
+position = Vector2(162.56982, -26.067444)
+scale = Vector2(1.0000004, 1.0000004)
+shape = SubResource("RectangleShape2D_qq5g5")
+
+[node name="Wall_Left6" type="StaticBody2D" parent="."]
+position = Vector2(2689, 1550)
+rotation = 0.0035469532
+collision_mask = 0
+
+[node name="ColorRect" type="ColorRect" parent="Wall_Left6"]
+offset_left = -224.79285
+offset_top = -45.949707
+offset_right = 553.99817
+offset_bottom = -4.6367188
+color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall_Left6"]
+position = Vector2(162.56982, -26.067444)
+scale = Vector2(1.0000004, 1.0000004)
+shape = SubResource("RectangleShape2D_qq5g5")
 
 [node name="Wall_Right" type="StaticBody2D" parent="."]
 position = Vector2(4690, 515)
@@ -1355,7 +1427,7 @@ position = Vector2(339, 1570)
 position = Vector2(4404, 371)
 
 [node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
-position = Vector2(632, 2075)
+position = Vector2(3573, 1629)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
 position = Vector2(186, 1804)
@@ -1364,4 +1436,4 @@ position = Vector2(186, 1804)
 position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(3799.0002, 1436)
+position = Vector2(4323, 471)
