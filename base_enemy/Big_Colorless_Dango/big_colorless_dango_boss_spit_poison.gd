@@ -35,8 +35,8 @@ func enter():
 		dir = character.global_position.direction_to(character.player_node.global_position)
 		character.last_facing_vec = dir
 	
-	# 🎭 動畫：因為目前沒有專屬吐毒動畫，先播 idle 發呆，假裝在蓄力
-	character.play_animation("idle", dir) 
+	# 🎭 動畫：播放張嘴嘔吐動畫，對接空中飛彈黏液發射
+	character.play_animation("attack", dir) 
 	
 	# 🟢 呼叫下面的函數，讓身體閃綠光
 	_play_poison_flash()

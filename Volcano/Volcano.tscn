@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=73 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bp8w3w2c8ul04" path="res://base_enemy/boar/boar.tscn" id="10_877dg"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="10_q0gaw"]
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_q0gaw"]
+[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="12_741bu"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="12_877dg"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
 [ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="14_4kxmv"]
@@ -1187,7 +1188,7 @@ offset_right = 19683.832
 offset_bottom = 17356.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.7660208, 0.7142027, 0.81310016, 1)
+color = Color(0.4012075, 0.3523354, 0.65371335, 1)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
@@ -1195,7 +1196,6 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
 position = Vector2(4322, 1699)
-base_max_hp = 100
 
 [node name="Wall_Top" type="StaticBody2D" parent="."]
 position = Vector2(1305, 23)
@@ -1424,10 +1424,10 @@ texture_scale = 10.0
 position = Vector2(339, 1570)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
-position = Vector2(4404, 371)
+position = Vector2(4365, 376)
 
 [node name="Chipmunk" parent="." instance=ExtResource("12_877dg")]
-position = Vector2(3573, 1629)
+position = Vector2(4473, 487)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
 position = Vector2(186, 1804)
@@ -1436,4 +1436,7 @@ position = Vector2(186, 1804)
 position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(4323, 471)
+position = Vector2(4515, 309)
+
+[node name="Big_Colorless_Dango" parent="." instance=ExtResource("12_741bu")]
+position = Vector2(3317, 1788)

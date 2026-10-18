@@ -50,7 +50,10 @@ func _play_death_telegraph():
 	var camera = character.get_tree().get_first_node_in_group("camera")
 	if camera and camera.has_method("apply_shake"):
 		camera.apply_shake(15.0)
-		
+	
+	# 🌟【局部修改】：直接播放美術繪製的 bomb 充氣膨脹動畫，不再使用 Tween 硬拉 scale
+	character.play_animation("bomb")
+	
 	var tween = create_tween()
 	
 	# [假 3D 物理變形]：身體膨脹 1.5 倍。使用 EXPO (指數型) + EASE_IN (漸入加速) 模擬氣球快撐爆的物理感。
@@ -156,8 +159,13 @@ func _detonate():
 			)
 	
 	# ==========================================
-	# 👻 階段四：垃圾回收 (Garbage Collection)
+	# 👻 階段四：等待碎裂尾幀與垃圾回收 (Garbage Collection)
 	# ==========================================
-	# 所有的死亡機關都已經順利交付給地圖。
-	# 因為上方的 Tween 已經成功過繼給小怪了，大胖呆本體現在可以安心地從記憶體中抹除。
+	# 🌟【局部修改】：引爆瞬間將紅光洗白，讓 bomb 動畫最後幾幀的「碎肉飛濺」完整播完再刪除本體
+	var sprite = character.animated_sprite_2d
+	if sprite and sprite.is_playing():
+		var mat = sprite.material as ShaderMaterial
+		if mat: mat.set_shader_parameter("state_color", Color.WHITE)
+		await sprite.animation_finished
+		
 	character.queue_free()

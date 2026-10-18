@@ -11,6 +11,7 @@ var hp_thresholds: Array[float] = [0.8, 0.6, 0.4, 0.2] # 企劃設定：四次�
 var current_phase_index: int = 0 # 記錄目前打到第幾個階段了
 var is_invincible: bool = false  # Boss 專屬無敵開關 (紫光時會被開啟)
 
+
 # ==========================================
 # 🚀 開局初始化 (強制喚醒與霸體)
 # ==========================================
@@ -61,24 +62,51 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 	# 3. 扣完血後，檢查有沒有低於鎖血門檻
 	_check_hp_threshold()
 
-# ==========================================
-# 🩸 技能階段轉換與死亡控制
-# ==========================================
+# -------------------------------------------------------------------------
+# 🩸 技能階段轉換與血量監控 (覆寫或更新 BigDango.gd 中的這段邏輯)
+# -------------------------------------------------------------------------
 func _check_hp_threshold() -> void:
-	# 如果四個階段都放完招了，或者王已經死了，就不做事
+	# [防呆機制]：如果所有階段都已經放完，或者王已經死亡，直接中斷不處理
 	if current_phase_index >= hp_thresholds.size() or is_dead: 
 		return 
 		
 	# 計算目前的血量百分比 (例如 0.75)
 	var hp_ratio = float(current_hp) / float(max_hp)
 	
-	# 如果當前血量低於設定的門檻 (例如 80% / 0.8)
+	# 如果當前血量低於等於目前門檻陣列裡的數值
 	if hp_ratio <= hp_thresholds[current_phase_index]:
-		current_phase_index += 1 # 推進到下一階段，防止重複觸發
+		current_phase_index += 1 # 推進階段索引，確保下一次檢查下一個門檻
 		
-		# 強制大腦中斷目前的動作，進入「鎖血召喚」狀態 (紫光無敵)
+		# 強制大腦中斷目前的行動，進入鎖血爆開與縮水狀態
 		if state_machine:
 			state_machine.change_state("LockHpSpawn")
+
+# ==========================================
+# 🎭 單面 Boss 動畫轉接器 (加在 BigDango.gd 最下方)
+# ==========================================
+# 【正規作法】：覆寫底層的四向動畫邏輯，將大團子轉接為單面動畫與左右移動
+func play_animation(anim_name: String, dir: Vector2 = Vector2.ZERO) -> void:
+	# 防呆檢查：確保動畫節點與圖庫已經載入
+	if not animated_sprite_2d or not animated_sprite_2d.sprite_frames:
+		return
+		
+	var target_anim = anim_name
+	
+	# 1. 移動方向判定：大團子移動只分左右，根據實際物理速度或目標方向的 X 軸切換
+	if anim_name == "move":
+		var check_x = velocity.x if abs(velocity.x) > 1.0 else dir.x
+		target_anim = "move_left" if check_x < 0 else "move_right"
+		
+	# 2. 播放單面動畫：只要圖庫中有對應名稱 (如 idle, attack, roar, bomb)，直接播放
+	if animated_sprite_2d.sprite_frames.has_animation(target_anim):
+		# 避免在同一狀態下每幀重複重播第 0 幀，只有切換動作或動畫停下時才執行 play
+		if animated_sprite_2d.animation != target_anim or not animated_sprite_2d.is_playing():
+			animated_sprite_2d.play(target_anim)
+	else:
+		# 防呆降級：若找不到單面動畫名稱，才退回底層預設的四向邏輯
+		super.play_animation(anim_name, dir)
+
+
 
 func die() -> void:
 	if is_dead: return

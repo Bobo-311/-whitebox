@@ -23,7 +23,8 @@ func enter():
 	# 面向玩家，準備起跳
 	if character.player_node:
 		character.last_facing_vec = character.global_position.direction_to(character.player_node.global_position)
-	character.play_animation("idle", character.last_facing_vec)
+	# 🌟【局部修改】：播放自帶「壓扁蓄力＋飛出畫面」的 jump_up 動畫
+	character.play_animation("jump_up", character.last_facing_vec)
 	
 	# 🔴 階段一：視覺預警 (爆閃紅光)
 	_play_red_flash()
@@ -55,13 +56,12 @@ func _execute_jump() -> void:
 	var move_tween = create_tween()
 	move_tween.tween_property(character, "global_position", target_pos, jump_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	
-	var sprite = character.animated_sprite_2d
-	if sprite:
-		var arc_tween = create_tween()
-		# 往上飛 (Ease Out)
-		arc_tween.tween_property(sprite, "position:y", -jump_height, jump_time / 2.0).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
-		# 往下砸 (Ease In 加速墜落)
-		arc_tween.tween_property(sprite, "position:y", 0.0, jump_time / 2.0).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+	# 🌟【局部修改：移除 arc_tween，改用計時器銜接墜落動畫】
+	# 美術圖已內建高度變化與地面黑影，在飛行時間過了 40% 時切換為 fall_down 砸地動畫
+	get_tree().create_timer(jump_time * 0.4).timeout.connect(func():
+		if is_instance_valid(character) and not character.is_dead:
+			character.play_animation("fall_down", character.last_facing_vec)
+	)
 	
 	# 💥 階段三：落地結算
 	move_tween.finished.connect(_on_landing)

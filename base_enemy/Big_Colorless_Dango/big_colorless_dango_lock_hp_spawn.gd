@@ -15,10 +15,15 @@ extends State
 
 @export_group("視覺衝擊")
 @export var screen_shake_intensity: float = 20.0 # 震屏強度 (調強一點，展現爆發感)
+# 🌟【新增】：宣告爆開時要閃爍的危險紅光顏色 (紅光加滿、綠藍光歸零)
+@export var danger_flash_color: Color = Color(1.0, 0.2, 0.2, 1.0)
 
 var state_timer: float = 0.0  # 內部計時器
 var has_spawned: bool = false # 狀態標記：記錄這回合是不是已經吐過了
 
+# 📍 補在 LockHpSpawn.gd 最上方的變數區
+@export var shrink_factor: float = 0.85 # 階梯式縮放係數：每次縮小為 85%
+# 📍 1. 局部修改 LockHpSpawn 的 enter()
 func enter():
 	state_timer = 0.0   
 	has_spawned = false 
@@ -29,27 +34,38 @@ func enter():
 	if "is_invincible" in character:
 		character.is_invincible = true   
 	
-	# 3. 讓 Boss 轉向，死盯著玩家準備發射
+	# 3. 讓 Boss 轉向玩家
 	if character.player_node:
 		character.last_facing_vec = character.global_position.direction_to(character.player_node.global_position)
-	character.play_animation("idle", character.last_facing_vec)
 	
-	_play_custom_flash() # 4. 播紫光
+	# 🌟【正規作法】：不管今天是第幾個鎖血門檻 (80%, 60%, 40%, 20%)，
+	# 全面強制播放 bomb (充氣爆炸動畫)，營造「每掉 20% 血就炸開脫皮一次」的強烈視覺！
+	character.play_animation("bomb", character.last_facing_vec)
+	
+	# ⏱️ 將 bomb 動畫速度微調為 1.25 倍，確保在 1.0 秒的 spawn_delay 準時炸開
+	if character.animated_sprite_2d:
+		character.animated_sprite_2d.speed_scale = 1.25
+	# 🌟【正規作法】：一進場（一被砍到扣血鎖血的瞬間），就立刻啟動持續閃紅光，一路閃到爆炸結束！
+	_play_danger_flash()
 	
 func state_physics_update(delta: float):
 	state_timer += delta 
 	
-	# 🌟 核心邏輯 1：時間到了設定的「延遲秒數 (1.0)」，且還沒吐過，就發射保齡球！
+	# 時間到了設定的延遲秒數 (1.0秒，剛好對齊 bomb 動畫充氣到極限炸開的瞬間)
 	if state_timer >= spawn_delay and not has_spawned:
-		_spawn_minions(minion_spawn_count)
 		has_spawned = true 
 		
-		# 吐怪瞬間呼叫強烈震屏！
+		# 吐出保齡球小怪，透過「肉塊飛散」的視覺來解釋本體變小的合理性
+		_spawn_minions(minion_spawn_count)
+		
+		# 瞬間呼叫強烈震屏，增加打擊感與壓迫感
 		var camera = character.get_tree().get_first_node_in_group("camera")
 		if camera and camera.has_method("apply_shake"):
 			camera.apply_shake(screen_shake_intensity)
-	
-	# 🌟 核心邏輯 2：總時間到了設定的「無敵時間 (1.5)」，結束狀態
+		
+		# 🌟【新增這行】：在爆炸的同時，強制讓身體閃一下危險的紅光！
+		_play_danger_flash()
+	# 🌟 總無敵時間 (1.5秒) 結束，狀態安全退場
 	if state_timer >= invincible_duration:
 		state_machine.change_state("move") 
 
@@ -118,11 +134,39 @@ func _spawn_minions(count: int):
 							minion.state_machine.set_physics_process(true) 
 				)
 
+# 📍 局部修改 2：更新底部的閃紅光函數，讓它涵蓋整段無敵時間 (invincible_duration)
+# ==========================================
+# 🔴 視覺演出：從蓄力到爆炸結束的持續危險紅光
+# ==========================================
+func _play_danger_flash() -> void:
+	if not character.animated_sprite_2d: return
+	
+	var mat = character.animated_sprite_2d.material as ShaderMaterial
+	if mat:
+		var tween = create_tween()
+		# 1. 瞬間染上危險紅光
+		tween.tween_property(mat, "shader_parameter/state_color", danger_flash_color, 0.1)
+		
+		# 2. 在整段 invincible_duration (1.5秒) 爆炸過程結束前夕，慢慢褪回白色準備縮小
+		# 我們把時間設定為 invincible_duration - 0.1 秒，讓紅光完美覆蓋整段蓄力與碎裂期
+		tween.tween_property(mat, "shader_parameter/state_color", Color.WHITE, invincible_duration - 0.1)
+
+# 📍 局部修改 2：在 exit() 裡執行「本體脫殼縮水」
 func exit():
-	# 離開時務必解除無敵與洗白顏色
+	# 1. 離開狀態時解除無敵與洗白材質顏色
 	if "is_invincible" in character:
 		character.is_invincible = false
 		
 	var mat = character.animated_sprite_2d.material as ShaderMaterial
 	if mat:
 		mat.set_shader_parameter("state_color", Color.WHITE)
+		
+	# 恢復動畫正常播放倍速
+	if character.animated_sprite_2d:
+		character.animated_sprite_2d.speed_scale = 1.0
+		
+	# 🌟【正規作法：階梯式動態縮放 (Tiered Dynamic Scaling)】
+	# 當 1.5 秒的 bomb 碎裂動畫完全播完、準備切回 move 的瞬間：
+	# 將本體的 Scale 乘上 0.85。連續 4 次鎖血下來，王會精準變小一圈，
+	# 碰撞箱也會同步縮小，讓玩家感受到「越打越靈活、越打越難纏」的恐怖進化！
+	character.scale *= shrink_factor

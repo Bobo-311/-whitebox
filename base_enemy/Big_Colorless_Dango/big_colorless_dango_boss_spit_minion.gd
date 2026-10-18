@@ -30,8 +30,8 @@ func enter():
 		dir = character.global_position.direction_to(character.player_node.global_position)
 		character.last_facing_vec = dir
 		
-	# 播放發呆動畫當作「施法前搖」
-	character.play_animation("idle", dir)
+	# 🎭 動畫：播放咆哮動畫，作為吐出遠程小團子的施法前搖
+	character.play_animation("roar", dir)
 	
 	# 啟動嘔吐小怪的實例化流程
 	_spit_routine()

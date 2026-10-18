@@ -1,4 +1,4 @@
-[gd_scene load_steps=227 format=3 uid="uid://cfqu2ym2nra8u"]
+[gd_scene load_steps=223 format=3 uid="uid://cfqu2ym2nra8u"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_7irn1"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_cj0yd"]
@@ -76,13 +76,13 @@ region = Rect2(960, 320, 320, 320)
 atlas = ExtResource("5_a26cq")
 region = Rect2(0, 0, 320, 320)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g5er6"]
-atlas = ExtResource("5_a26cq")
-region = Rect2(320, 0, 320, 320)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_wn33h"]
 atlas = ExtResource("5_a26cq")
 region = Rect2(640, 0, 320, 320)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5er6"]
+atlas = ExtResource("5_a26cq")
+region = Rect2(320, 0, 320, 320)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fsi1j"]
 atlas = ExtResource("5_a26cq")
@@ -524,10 +524,6 @@ region = Rect2(640, 320, 320, 320)
 atlas = ExtResource("15_3l45s")
 region = Rect2(320, 320, 320, 320)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_broh5"]
-atlas = ExtResource("15_3l45s")
-region = Rect2(0, 320, 320, 320)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_niexx"]
 atlas = ExtResource("16_121tb")
 region = Rect2(960, 0, 320, 320)
@@ -555,10 +551,6 @@ region = Rect2(640, 320, 320, 320)
 [sub_resource type="AtlasTexture" id="AtlasTexture_un17d"]
 atlas = ExtResource("16_121tb")
 region = Rect2(320, 320, 320, 320)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d7e0c"]
-atlas = ExtResource("16_121tb")
-region = Rect2(0, 320, 320, 320)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7muri"]
 atlas = ExtResource("17_vk4ji")
@@ -588,10 +580,6 @@ region = Rect2(320, 320, 320, 320)
 atlas = ExtResource("17_vk4ji")
 region = Rect2(640, 320, 320, 320)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dkuku"]
-atlas = ExtResource("17_vk4ji")
-region = Rect2(960, 320, 320, 320)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_vegje"]
 atlas = ExtResource("18_71vdt")
 region = Rect2(0, 0, 320, 320)
@@ -619,10 +607,6 @@ region = Rect2(320, 320, 320, 320)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5xki5"]
 atlas = ExtResource("18_71vdt")
 region = Rect2(640, 320, 320, 320)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g0fw3"]
-atlas = ExtResource("18_71vdt")
-region = Rect2(960, 320, 320, 320)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_llod8"]
 atlas = ExtResource("19_wboqd")
@@ -863,10 +847,10 @@ animations = [{
 "texture": SubResource("AtlasTexture_ay5qa")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g5er6")
+"texture": SubResource("AtlasTexture_wn33h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wn33h")
+"texture": SubResource("AtlasTexture_g5er6")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fsi1j")
@@ -1247,9 +1231,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hl4qn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_broh5")
 }],
 "loop": true,
 "name": &"idle_left_down",
@@ -1276,9 +1257,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_un17d")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d7e0c")
 }],
 "loop": true,
 "name": &"idle_left_up",
@@ -1305,9 +1283,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5rh25")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dkuku")
 }],
 "loop": true,
 "name": &"idle_right_down",
@@ -1334,9 +1309,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5xki5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g0fw3")
 }],
 "loop": true,
 "name": &"idle_right_up",
@@ -1517,7 +1489,7 @@ radius = 52.009613
 radius = 61.608852
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a26cq"]
-radius = 478.37747
+radius = 501.43994
 
 [node name="Chipmunk" instance=ExtResource("1_7irn1")]
 collision_mask = 16129
@@ -1532,7 +1504,7 @@ material = SubResource("ShaderMaterial_2t0or")
 position = Vector2(-4, -47)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_ac88p")
-animation = &"attack_right_down"
+animation = &"idle_right_down"
 autoplay = "idle_left_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -1565,4 +1537,7 @@ position = Vector2(-5, -18)
 shape = SubResource("CircleShape2D_a26cq")
 
 [node name="AimPivot" parent="." index="7"]
-position = Vector2(-23, -14)
+position = Vector2(0, -31)
+
+[node name="Muzzle" parent="AimPivot" index="0"]
+position = Vector2(20, 16)
