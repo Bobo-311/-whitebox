@@ -7179,7 +7179,6 @@ sources/3 = SubResource("TileSetAtlasSource_b0jdx")
 
 [node name="AM001" type="Node2D"]
 y_sort_enabled = true
-position = Vector2(-19, 12)
 script = ExtResource("1_pixp5")
 map_name = "AM001"
 limit_left = 1800
@@ -7200,6 +7199,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -7218,7 +7218,6 @@ tile_set = SubResource("TileSet_o2ser")
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
 position = Vector2(3431, 1454)
-base_max_hp = 100
 max_hp = 100
 
 [node name="TreeA2" parent="." instance=ExtResource("7_o2ser")]
@@ -7642,7 +7641,7 @@ position = Vector2(6144.9995, 1167)
 scale = Vector2(4, 4)
 
 [node name="Log7" parent="." instance=ExtResource("11_xvatp")]
-position = Vector2(6319, 694)
+position = Vector2(6306, 707)
 scale = Vector2(4, 4)
 
 [node name="Log5" parent="." instance=ExtResource("11_xvatp")]
@@ -7814,3 +7813,11 @@ scale = Vector2(9.974088, 11.433463)
 collision_layer = 1
 target_timeline = "A001"
 player_dch = ExtResource("21_kcuab")
+
+[node name="空氣強" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣強"]
+position = Vector2(-83.496704, -48.07202)
+scale = Vector2(1.0575284, 1.0251963)
+polygon = PackedVector2Array(1590.9707, 1227.1522, 1759.2877, 1228.1277, 1758.3422, 1721.6917, 1593.8076, 1721.6917)

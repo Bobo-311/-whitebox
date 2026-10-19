@@ -18962,6 +18962,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -18982,7 +18983,6 @@ max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
 position = Vector2(2656, 1039)
-base_max_hp = 100
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -20466,7 +20466,6 @@ position = Vector2(3514, 1820)
 [node name="CutsceneDirector" parent="." instance=ExtResource("19_uva5b")]
 position = Vector2(2226, 1415)
 scale = Vector2(1.6620116, -7.4087677)
-collision_mask = 2
 target_timeline = "A005"
 markers = {
 "watch the tree": NodePath("watch the tree")
