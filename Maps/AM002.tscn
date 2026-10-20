@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=4 uid="uid://n5el11gnhx3y"]
+[gd_scene load_steps=115 format=4 uid="uid://n5el11gnhx3y"]
 
 [ext_resource type="Texture2D" uid="uid://chxeqh77hs4fe" path="res://最初之地地圖素材/only map/02_onlymap2.png" id="1_lu4wg"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_qgvtp"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="18_r3mgl"]
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="19_uva5b"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="20_gvfi4"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="21_4hswm"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_56r8a"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -18939,6 +18940,14 @@ physics_layer_0/collision_layer = 1
 navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_qgvtp")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uv71y"]
+resource_local_to_scene = true
+size = Vector2(316, 567)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4hswm"]
+resource_local_to_scene = true
+size = Vector2(255, 232)
+
 [node name="AM002" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_qgvtp")
@@ -18982,7 +18991,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(2656, 1039)
+position = Vector2(1237, 1492)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -20474,3 +20483,47 @@ player_dch = ExtResource("20_gvfi4")
 
 [node name="watch the tree" type="Marker2D" parent="CutsceneDirector"]
 position = Vector2(444.04022, -15.6571245)
+
+[node name="空氣牆上策" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆上策"]
+polygon = PackedVector2Array(4290, -1411, 3707, -1413, 3706, -2048, 4292, -2048)
+
+[node name="空氣牆右側上" type="StaticBody2D" parent="."]
+position = Vector2(2821, 1021)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆右側上"]
+polygon = PackedVector2Array(4218, 271, 3963, 271, 3964, -2049, 4218, -2049)
+
+[node name="空氣牆右側下" type="StaticBody2D" parent="."]
+position = Vector2(2821, 3569)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆右側下"]
+polygon = PackedVector2Array(4218, -508, 3960, -508, 3963, -2045, 4218, -2045)
+
+[node name="PortalArea左側門" parent="." instance=ExtResource("21_4hswm")]
+position = Vector2(836, 1458)
+target_scene_path = "uid://dhlbnppdw5pyf"
+target_spawn_name = "From_Map2"
+
+[node name="CollisionShape2D" parent="PortalArea左側門" index="0"]
+position = Vector2(-39, 37.5)
+shape = SubResource("RectangleShape2D_uv71y")
+
+[node name="From_Map1" type="Marker2D" parent="."]
+position = Vector2(1038, 1420)
+
+[node name="PortalArea右側門" parent="." instance=ExtResource("21_4hswm")]
+position = Vector2(6985, 1458)
+target_scene_path = "uid://dqfni11j7apy5"
+target_spawn_name = "From_Map2"
+
+[node name="CollisionShape2D" parent="PortalArea右側門" index="0"]
+position = Vector2(-73.5, -50)
+shape = SubResource("RectangleShape2D_4hswm")
+
+[node name="From_Map3" type="Marker2D" parent="."]
+position = Vector2(6701, 1420)
+
+[editable path="PortalArea左側門"]
+[editable path="PortalArea右側門"]

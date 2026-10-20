@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://dhlbnppdw5pyf"]
+[gd_scene load_steps=32 format=4 uid="uid://dhlbnppdw5pyf"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_pixp5"]
 [ext_resource type="Texture2D" uid="uid://bhmyaoipei0h4" path="res://最初之地地圖素材/01-2.png" id="3_86od2"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="19_ltiju"]
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="20_kcuab"]
 [ext_resource type="Resource" uid="uid://cqkjcw0m8gtx3" path="res://dialogic/character/？？？.dch" id="21_kcuab"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="22_g1h5u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2ser"]
 texture = ExtResource("4_327rf")
@@ -7177,6 +7178,10 @@ sources/1 = SubResource("TileSetAtlasSource_327rf")
 sources/0 = SubResource("TileSetAtlasSource_o2ser")
 sources/3 = SubResource("TileSetAtlasSource_b0jdx")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g1h5u"]
+resource_local_to_scene = true
+size = Vector2(149, 247)
+
 [node name="AM001" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_pixp5")
@@ -7217,7 +7222,7 @@ tile_map_data = PackedByteArray("AAAZAPj/AwAAAAAAAAAZAPn/AwAAAAEAAAAZAPr/AwAAAAI
 tile_set = SubResource("TileSet_o2ser")
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
-position = Vector2(3431, 1454)
+position = Vector2(6152, 1544)
 max_hp = 100
 
 [node name="TreeA2" parent="." instance=ExtResource("7_o2ser")]
@@ -7814,10 +7819,23 @@ collision_layer = 1
 target_timeline = "A001"
 player_dch = ExtResource("21_kcuab")
 
-[node name="空氣強" type="StaticBody2D" parent="."]
+[node name="空氣強左側" type="StaticBody2D" parent="."]
 collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣強"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣強左側"]
 position = Vector2(-83.496704, -48.07202)
 scale = Vector2(1.0575284, 1.0251963)
 polygon = PackedVector2Array(1590.9707, 1227.1522, 1759.2877, 1228.1277, 1758.3422, 1721.6917, 1593.8076, 1721.6917)
+
+[node name="PortalArea右側門" parent="." instance=ExtResource("22_g1h5u")]
+position = Vector2(6476, 1498)
+target_scene_path = "uid://n5el11gnhx3y"
+
+[node name="CollisionShape2D" parent="PortalArea右側門" index="0"]
+position = Vector2(71.5, 31.5)
+shape = SubResource("RectangleShape2D_g1h5u")
+
+[node name="From_Map2" type="Marker2D" parent="."]
+position = Vector2(6419, 1511)
+
+[editable path="PortalArea右側門"]

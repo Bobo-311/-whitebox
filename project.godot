@@ -20,6 +20,7 @@ config/icon="res://雜/icon.svg"
 DataManager="*res://global/data_manager.gd"
 TransitionManager="*res://portal/transition_manager.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+SceneTransition="*res://Maps/轉場/scene_transition.tscn"
 
 [dialogic]
 

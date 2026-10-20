@@ -1,10 +1,11 @@
-[gd_scene load_steps=99 format=4 uid="uid://dqfni11j7apy5"]
+[gd_scene load_steps=101 format=4 uid="uid://dqfni11j7apy5"]
 
 [ext_resource type="Texture2D" uid="uid://chxeqh77hs4fe" path="res://最初之地地圖素材/only map/02_onlymap2.png" id="1_ljwvj"]
 [ext_resource type="Texture2D" uid="uid://bt1q5ykccjx8" path="res://最初之地地圖素材/03-1.png" id="2_o77ah"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_42a2b"]
 [ext_resource type="Texture2D" uid="uid://d1bxqhijcvhry" path="res://最初之地地圖素材/only map/02_onlymap.png" id="3_dyx30"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="4_dyx30"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="6_yu4nh"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_56r8a"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -19836,6 +19837,10 @@ sources/0 = SubResource("TileSetAtlasSource_elndf")
 sources/1 = SubResource("TileSetAtlasSource_owftq")
 sources/2 = SubResource("TileSetAtlasSource_xx0ye")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_120el"]
+resource_local_to_scene = true
+size = Vector2(176, 205)
+
 [node name="AM003" type="Node2D"]
 position = Vector2(118, 1)
 
@@ -19875,5 +19880,30 @@ max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_dyx30")]
 position = Vector2(1923, 1599)
-base_max_hp = 100
 max_hp = 100
+
+[node name="PortalArea左側門" parent="." instance=ExtResource("6_yu4nh")]
+position = Vector2(1198, 1578)
+target_scene_path = "uid://n5el11gnhx3y"
+target_spawn_name = "From_Map3"
+
+[node name="CollisionShape2D" parent="PortalArea左側門" index="0"]
+position = Vector2(78, 7.5)
+shape = SubResource("RectangleShape2D_120el")
+
+[node name="From_Map2" type="Marker2D" parent="."]
+position = Vector2(1462, 1581)
+
+[node name="PortalArea右側門" parent="." instance=ExtResource("6_yu4nh")]
+position = Vector2(2786, 1576)
+target_scene_path = "uid://calmvvgqnx0bp"
+target_spawn_name = "From_Map3"
+
+[node name="CollisionShape2D" parent="PortalArea右側門" index="0"]
+shape = SubResource("RectangleShape2D_120el")
+
+[node name="From_Map4" type="Marker2D" parent="."]
+position = Vector2(2644, 1577)
+
+[editable path="PortalArea左側門"]
+[editable path="PortalArea右側門"]
