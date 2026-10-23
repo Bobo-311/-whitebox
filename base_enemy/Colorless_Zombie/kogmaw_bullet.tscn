@@ -1,11 +1,123 @@
-[gd_scene load_steps=5 format=3 uid="uid://dqlcrw2b00dvo"]
+[gd_scene load_steps=21 format=3 uid="uid://dqlcrw2b00dvo"]
 
 [ext_resource type="Script" uid="uid://b3suipma7f2xv" path="res://base_enemy/Colorless_Zombie/kogmaw_bullet.gd" id="1_f1ee8"]
 [ext_resource type="PackedScene" uid="uid://dcmvlollibhb5" path="res://base_enemy/Colorless_Zombie/acid_explosion.tscn" id="2_fkbgg"]
-[ext_resource type="Texture2D" uid="uid://c4jr3guhuse5m" path="res://base_enemy/Colorless_Zombie/寇格魔/Glowing_Cyan_Arcane_Orb-removebg-preview.png" id="3_fkbgg"]
+[ext_resource type="Texture2D" uid="uid://cygwkys2x57bv" path="res://base_enemy/Colorless_Zombie/青娃素材/蝌蚪子彈左_processed.png" id="3_mpxbj"]
+[ext_resource type="Texture2D" uid="uid://c0yqqp8hpymnl" path="res://base_enemy/Colorless_Zombie/青娃素材/蝌蚪子彈右_processed.png" id="4_8d3t8"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_f1ee8"]
-radius = 16.124516
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjpk1"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_waknt"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8wst"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgajo"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otxri"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(480, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wrtc"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21236"]
+atlas = ExtResource("3_mpxbj")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iv6uk"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfhtk"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4qmw"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv3jd"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ye47"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0gel"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vkcd"]
+atlas = ExtResource("4_8d3t8")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2scxr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjpk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_waknt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8wst")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgajo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otxri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wrtc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21236")
+}],
+"loop": true,
+"name": &"left",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iv6uk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfhtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4qmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv3jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ye47")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0gel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vkcd")
+}],
+"loop": true,
+"name": &"right",
+"speed": 15.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0jeax"]
+height = 33.998882
 
 [node name="KogmawBullet" type="Area2D"]
 collision_layer = 64
@@ -14,11 +126,13 @@ script = ExtResource("1_f1ee8")
 flight_distance = 650.0
 explosion_scene = ExtResource("2_fkbgg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.13414828, 0.1341483)
-texture = ExtResource("3_fkbgg")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_2scxr")
+animation = &"right"
+frame_progress = 0.5840761
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2.3841858e-07, -1.0000001)
 rotation = -1.5789123
-shape = SubResource("CircleShape2D_f1ee8")
+shape = SubResource("CapsuleShape2D_0jeax")

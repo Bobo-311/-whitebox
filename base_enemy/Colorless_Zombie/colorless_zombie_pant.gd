@@ -6,7 +6,7 @@ var pant_timer: float = 0.0
 func enter():
 	pant_timer = rest_time
 	character.velocity = Vector2.ZERO # 確保原地不動
-	character.play_animation("idle")  # 播放待機/喘氣動畫
+	character.play_animation("pant", character.last_facing_vec)  # 播放喘氣動畫
 	
 	# 買個保險：發呆時絕對不能有傷害
 	if character.hitbox:

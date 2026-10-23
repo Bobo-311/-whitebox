@@ -5,14 +5,14 @@ extends State
 # ==========================================
 @export_group("遠程走位設定")
 @export var chase_speed: float = 120.0       # 遠程怪通常比較脆，移動速度可以設慢一點
-@export var shooting_distance: float = 500.0 # 🌟 核心距離限制：距離玩家多近時要停下來開火？
+@export var shooting_distance: float = 250.0 # 🌟 核心距離限制：距離玩家多近時要停下來開火？
 
 # ==========================================
 # 🎬 狀態進入 (剛切換到追擊狀態的第一幀)
 # ==========================================
 func enter():
 	# 播放跑步/追擊動畫
-	character.play_animation("run") 
+	character.play_animation("move", character.last_facing_vec) 
 	
 	# 🌟【正規作法：關閉近戰傷害】
 	# 因為牠是遠程怪物，肉體碰到玩家不應該扣血 (對玩家才公平)
@@ -46,9 +46,11 @@ func state_physics_update(_delta: float):
 	# 算出從怪物指向玩家的方向向量 (normalized 會把它變成基準長度 1 的方向指針)
 	var dir = (character.player_node.global_position - character.global_position).normalized()
 	
-	# 賦予怪物移動速度
+	# 🌟 套用最上面設定的 chase_speed 決定移動速度
 	character.velocity = dir * chase_speed
-	# 記憶怪物最後面朝的方向，確保動畫播放正確
+	
+	# 隨時更新怪物最後面朝的方向，讓下一個狀態（Attack / Pant）能記住面向
 	character.last_facing_vec = dir
-	# 播放對應方向的跑步動畫
-	character.play_animation("run", dir)
+	
+	# 傳入移動方向 dir，讓老爸自動切換 move_left_up / move_right_down 等四向移動動畫
+	character.play_animation("move", dir)

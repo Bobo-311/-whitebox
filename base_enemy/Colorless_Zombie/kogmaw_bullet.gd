@@ -1,5 +1,5 @@
 extends Area2D
-class_name DarkOrb # 迴旋暗影球
+class_name DarkOrb # 迴旋暗影球 (蝌蚪子彈版)
 
 # -------------------------------------------------------------------------
 # ⚙️ 序列化設定面板 (企劃專用參數，可在 Inspector 自由調整)
@@ -10,12 +10,19 @@ class_name DarkOrb # 迴旋暗影球
 @export var explosion_scene: PackedScene     # 彈藥庫：裝填爆炸特效場景 (acid_explosion.tscn)
 
 # -------------------------------------------------------------------------
+# 🔗 節點引用
+# -------------------------------------------------------------------------
+# 🌟【新增引用】：抓取替換後的 AnimatedSprite2D 動畫節點
+@onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+# -------------------------------------------------------------------------
 # 🔒 狀態內部的暫存變數與防呆鎖
 # -------------------------------------------------------------------------
 var hit_cooldowns: Dictionary = {} # 防呆：穿透冷卻鎖，防止同一次接觸連續觸發爆炸
 var movement_tween: Tween          # 動畫控制器：存成變數，才能在撞牆時隨時打斷它
 var home_pos: Vector2              # 記憶體：老家座標 (發射點)
 var is_returning: bool = false     # 狀態鎖：紀錄現在是不是已經在回程路上？
+var flight_dir: Vector2 = Vector2.RIGHT # 🌟【新增記憶體】：記住去程的飛行方向向量，供回程掉頭使用
 
 # -------------------------------------------------------------------------
 # 🎬 生命週期初始化 (掛載雙雷達)
@@ -43,9 +50,12 @@ func fire(start_pos: Vector2, target_pos: Vector2) -> void:
 	home_pos = start_pos  # 拍照記住老家的位置
 	is_returning = false  # 初始化狀態為「去程」
 	
-	# 計算極限折返點
-	var dir = start_pos.direction_to(target_pos)
-	var end_pos = start_pos + (dir * flight_distance)
+	# 計算去程方向與極限折返點
+	flight_dir = start_pos.direction_to(target_pos)
+	var end_pos = start_pos + (flight_dir * flight_distance)
+	
+	# 🌟【去程視覺校正】：起飛瞬間，讓蝌蚪根據去程方向決定播 left/right 並轉向目標！
+	_update_visual_direction(flight_dir)
 	
 	_start_forward_flight(end_pos)
 
@@ -55,26 +65,54 @@ func _start_forward_flight(end_pos: Vector2) -> void:
 	
 	# 【去程動畫】：使用 EASE_OUT 產生在最遠處減速滯空的手感
 	movement_tween.tween_property(self, "global_position", end_pos, flight_duration)\
-		 .set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 		
 	# 正常情況下：在空中飛到極限距離都沒撞到牆，就會自動無縫接軌呼叫「回程」
 	movement_tween.chain().tween_callback(_start_return_flight)
 
 # -------------------------------------------------------------------------
-# 🔙 飛行邏輯 2：正常回程 (幽靈狀態)
+# 🔙 飛行邏輯 2：正常回程 (幽靈狀態 + 空中掉頭)
 # -------------------------------------------------------------------------
 func _start_return_flight() -> void:
 	is_returning = true # 狀態改變：正在回家，開啟幽靈穿透模式
+	
+	# 🌟【回程視覺校正 (空中掉頭)】：
+	# 飛到極限距離準備折返時，傳入反方向 (-flight_dir)，
+	# 讓蝌蚪在滯空瞬間完美 180 度轉頭面向老家，避免尾巴朝前「倒車滑行」！
+	var return_dir = global_position.direction_to(home_pos)
+	if return_dir == Vector2.ZERO:
+		return_dir = -flight_dir
+	_update_visual_direction(return_dir)
 	
 	if movement_tween: movement_tween.kill() 
 	movement_tween = create_tween()
 	
 	# 【回程動畫】：使用 EASE_IN 產生飛回來時越吸越快的手感
 	movement_tween.tween_property(self, "global_position", home_pos, flight_duration)\
-		 .set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		
 	# 飛回老家後自我刪除
 	movement_tween.chain().tween_callback(queue_free)
+
+# -------------------------------------------------------------------------
+# 🎯 視覺核心：蝌蚪左右動畫分流與上下角度校正
+# -------------------------------------------------------------------------
+func _update_visual_direction(dir: Vector2) -> void:
+	if not anim_sprite or dir == Vector2.ZERO:
+		return
+		
+	# 🟢【右半圓與垂直上下 (dir.x >= 0)】：包含往右、右上、右下、正上、正下
+	if dir.x >= 0:
+		anim_sprite.play("right")
+		# 直接將右向圖片旋轉至飛行角度 (-90度正上 ~ +90度正下)，垂直上下吐也完全自然！
+		anim_sprite.rotation = dir.angle()
+		
+	# 🔵【左半圓 (dir.x < 0)】：包含往左、左上、左下
+	else:
+		anim_sprite.play("left")
+		# 【正規防翻肚算法】：因為 "left" 素材本身頭已經朝左 (180度)，
+		# 取反向量 (-dir).angle() 計算仰角，可讓左向蝌蚪精準指向左上/左下，且背部永遠朝上！
+		anim_sprite.rotation = (-dir).angle()
 
 # -------------------------------------------------------------------------
 # 💥 雷達 A：撞到玩家 (穿透並產生傷害)

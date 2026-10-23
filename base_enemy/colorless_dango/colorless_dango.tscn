@@ -1575,7 +1575,7 @@ material = SubResource("ShaderMaterial_ynskx")
 position = Vector2(-1, -30)
 scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_xmo1u")
-animation = &"hurt_right_down"
+animation = &"pant_left_down"
 autoplay = "idle_left_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
