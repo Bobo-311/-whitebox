@@ -1,4 +1,4 @@
-[gd_scene load_steps=134 format=4 uid="uid://dqfni11j7apy5"]
+[gd_scene load_steps=138 format=4 uid="uid://dqfni11j7apy5"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_0byee"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_42a2b"]
@@ -12,6 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://5c0rpiyj3mwn" path="res://單獨物件場景/tree_b.tscn" id="11_0byee"]
 [ext_resource type="Texture2D" uid="uid://bthgsfjirllo1" path="res://最初之地地圖素材/小屋內部.png" id="11_33vms"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="12_fq0it"]
+[ext_resource type="PackedScene" uid="uid://bfppguw5v73ao" path="res://單獨物件場景/log.tscn" id="13_4ejkw"]
+[ext_resource type="PackedScene" uid="uid://dv2e5dncjva81" path="res://單獨物件場景/blue_flower_3.tscn" id="14_i3hsg"]
+[ext_resource type="PackedScene" uid="uid://24vi44auck7k" path="res://單獨物件場景/blue_flower_2.tscn" id="15_halet"]
+[ext_resource type="PackedScene" uid="uid://bed1w2j41swih" path="res://單獨物件場景/blue_flower_1.tscn" id="16_7kvl5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_120el"]
 resource_local_to_scene = true
@@ -22209,6 +22213,11 @@ limit_top = 100
 limit_right = 7700
 limit_bottom = 1900
 
+[node name="CameraLockArea" parent="." instance=ExtResource("12_fq0it")]
+visible = false
+position = Vector2(3901.9998, 1323.9999)
+scale = Vector2(540.5673, 86.845726)
+
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 z_index = -20
@@ -22382,9 +22391,27 @@ scale = Vector2(3.5, 3.5)
 position = Vector2(6105, 1745.0002)
 scale = Vector2(3.5, 3.5)
 
-[node name="CameraLockArea" parent="." instance=ExtResource("12_fq0it")]
-position = Vector2(3901.9998, 1323.9999)
-scale = Vector2(540.5673, 86.845726)
+[node name="Log" parent="." instance=ExtResource("13_4ejkw")]
+position = Vector2(3595, 1697)
+scale = Vector2(4, 4)
+
+[node name="Sprite2D" parent="." instance=ExtResource("14_i3hsg")]
+position = Vector2(2827, 1618)
+
+[node name="Sprite2D4" parent="." instance=ExtResource("15_halet")]
+position = Vector2(1789, 1763)
+
+[node name="Sprite2D2" parent="." instance=ExtResource("15_halet")]
+position = Vector2(988, 1698)
+
+[node name="Sprite2D3" parent="." instance=ExtResource("16_7kvl5")]
+position = Vector2(1319, 1622)
+
+[node name="Sprite2D5" parent="." instance=ExtResource("16_7kvl5")]
+position = Vector2(4626, 1642)
+
+[node name="Sprite2D6" parent="." instance=ExtResource("14_i3hsg")]
+position = Vector2(6410, 1621)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]
