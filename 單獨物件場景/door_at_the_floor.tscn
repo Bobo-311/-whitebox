@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://2yj4wq8nsmac"]
+
+[ext_resource type="Texture2D" uid="uid://ea52gs7w6ki" path="res://最初之地地圖素材/only_obj/小屋部件.png" id="1_5y6yf"]
+
+[node name="door at the floor" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -20)
+texture = ExtResource("1_5y6yf")
+region_enabled = true
+region_rect = Rect2(77.27768, 126.32482, 34.99076, 43.002663)

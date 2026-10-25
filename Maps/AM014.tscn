@@ -1,11 +1,15 @@
-[gd_scene load_steps=126 format=4 uid="uid://cka71yxrarl35"]
+[gd_scene load_steps=130 format=4 uid="uid://cka71yxrarl35"]
 
-[ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_i0jf2"]
-[ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_3rir4"]
-[ext_resource type="Texture2D" uid="uid://br4vjhfooxdxg" path="res://最初之地地圖素材/only map/013.png" id="3_u5y3f"]
-[ext_resource type="Texture2D" uid="uid://bthgsfjirllo1" path="res://最初之地地圖素材/小屋內部.png" id="4_y12tr"]
-[ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="5_3jlqp"]
-[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="6_v8r3m"]
+[ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_j8m1d"]
+[ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_1jqui"]
+[ext_resource type="Texture2D" uid="uid://br4vjhfooxdxg" path="res://最初之地地圖素材/only map/013.png" id="3_pro6m"]
+[ext_resource type="Texture2D" uid="uid://bthgsfjirllo1" path="res://最初之地地圖素材/小屋內部.png" id="4_20yyl"]
+[ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="5_44toe"]
+[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="6_efa07"]
+[ext_resource type="PackedScene" uid="uid://dsme8erkqg8h" path="res://單獨物件場景/cabinet.tscn" id="7_1ixav"]
+[ext_resource type="PackedScene" uid="uid://biit4lp10kksr" path="res://單獨物件場景/2_boxes.tscn" id="8_okfcj"]
+[ext_resource type="PackedScene" uid="uid://dov21nugel1ws" path="res://單獨物件場景/table_n_mirror.tscn" id="9_inmjs"]
+[ext_resource type="PackedScene" uid="uid://cy41lx0f2xb0s" path="res://單獨物件場景/carpet.tscn" id="10_fwges"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -550,7 +554,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_evv1p"]
-texture = ExtResource("1_i0jf2")
+texture = ExtResource("1_j8m1d")
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_k088r")
 1:0/0 = 0
@@ -8045,7 +8049,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -1.4388695, 8, -1.4
 agent_radius = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bcx63"]
-texture = ExtResource("2_3rir4")
+texture = ExtResource("2_1jqui")
 23:0/0 = 0
 23:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_wtndr")
 24:0/0 = 0
@@ -14473,7 +14477,7 @@ texture = ExtResource("2_3rir4")
 110:12/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lwrqy"]
-texture = ExtResource("3_u5y3f")
+texture = ExtResource("3_pro6m")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -15916,7 +15920,7 @@ texture = ExtResource("3_u5y3f")
 35:39/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sx2vb"]
-texture = ExtResource("4_y12tr")
+texture = ExtResource("4_20yyl")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -16106,6 +16110,7 @@ sources/2 = SubResource("TileSetAtlasSource_lwrqy")
 sources/3 = SubResource("TileSetAtlasSource_sx2vb")
 
 [node name="AM014" type="Node2D"]
+y_sort_enabled = true
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -10
@@ -16134,14 +16139,30 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(2445, 1659)
 
-[node name="WhiteCat" parent="." instance=ExtResource("5_3jlqp")]
+[node name="WhiteCat" parent="." instance=ExtResource("5_44toe")]
 visible = false
 position = Vector2(1697, 1763)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
-[node name="player" parent="." instance=ExtResource("6_v8r3m")]
-position = Vector2(2450, 1301)
-scale = Vector2(0.3, 0.3)
+[node name="cabinet" parent="." instance=ExtResource("7_1ixav")]
+position = Vector2(1852, 411)
+scale = Vector2(4.2, 4.2)
+
+[node name="2boxes" parent="." instance=ExtResource("8_okfcj")]
+position = Vector2(1821.9999, 878)
+scale = Vector2(4.2, 4.2)
+
+[node name="table_n_mirror" parent="." instance=ExtResource("9_inmjs")]
+position = Vector2(2225.9998, 406)
+scale = Vector2(3.5, 3.5)
+
+[node name="carpet" parent="." instance=ExtResource("10_fwges")]
+z_index = -10
+position = Vector2(2018, 888)
+scale = Vector2(4, 4)
+
+[node name="player" parent="." instance=ExtResource("6_efa07")]
+position = Vector2(2049, 535)
 base_max_hp = 100
 max_hp = 100

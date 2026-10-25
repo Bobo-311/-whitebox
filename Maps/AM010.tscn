@@ -1,6 +1,5 @@
-[gd_scene load_steps=42 format=4 uid="uid://ctrp2sfkprsj2"]
+[gd_scene load_steps=41 format=4 uid="uid://ctrp2sfkprsj2"]
 
-[ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_e6uax"]
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="1_krbdi"]
 [ext_resource type="Texture2D" uid="uid://biasketeuh2vh" path="res://最初之地地圖素材/only map/10_onlymap.png" id="2_83phv"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_e6uax"]
@@ -2673,12 +2672,7 @@ sources/2 = SubResource("TileSetAtlasSource_7oqhj")
 sources/3 = SubResource("TileSetAtlasSource_wdeki")
 
 [node name="AM010" type="Node2D"]
-script = ExtResource("1_e6uax")
-map_name = "AM010"
-limit_left = 580
-limit_top = -358
-limit_right = 3678
-limit_bottom = 1600
+scale = Vector2(5, 5)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -2712,12 +2706,6 @@ position = Vector2(1697, 1763)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
-[node name="player" parent="." instance=ExtResource("4_caut0")]
-position = Vector2(2450, 1301)
-scale = Vector2(0.3, 0.3)
-base_max_hp = 100
-max_hp = 100
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 8192
 collision_mask = 0
@@ -2747,3 +2735,9 @@ scale = Vector2(25.836145, 23.047226)
 [node name="CameraLockArea2" parent="." instance=ExtResource("5_83phv")]
 position = Vector2(2718, -368.00003)
 scale = Vector2(25.836145, 23.047226)
+
+[node name="player" parent="." instance=ExtResource("4_caut0")]
+position = Vector2(2439.8, 1366.8)
+scale = Vector2(0.2, 0.2)
+base_max_hp = 100
+max_hp = 100

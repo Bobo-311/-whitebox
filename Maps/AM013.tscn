@@ -15931,6 +15931,7 @@ sources/0 = SubResource("TileSetAtlasSource_30iot")
 sources/2 = SubResource("TileSetAtlasSource_3s1r7")
 
 [node name="AM013" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_wppda")
 map_name = "AM013"
 limit_left = 1300
@@ -15971,15 +15972,9 @@ position = Vector2(1697, 1763)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
-[node name="player" parent="." instance=ExtResource("6_nr7xe")]
-position = Vector2(2450, 1301)
-scale = Vector2(0.3, 0.3)
-base_max_hp = 100
-max_hp = 100
-
 [node name="小木屋" parent="." instance=ExtResource("7_3s1r7")]
 position = Vector2(2969, 1420)
-scale = Vector2(4.9397435, 4.9397435)
+scale = Vector2(3.5797386, 3.5797386)
 
 [node name="TreeA3" parent="." instance=ExtResource("8_briul")]
 position = Vector2(1773, 970.99994)
@@ -16088,3 +16083,38 @@ scale = Vector2(29.031725, -140.0678)
 [node name="CameraLockArea4" parent="." instance=ExtResource("15_briul")]
 position = Vector2(4635, 1362)
 scale = Vector2(29.031725, -140.0678)
+
+[node name="player" parent="." instance=ExtResource("6_nr7xe")]
+position = Vector2(2557, 1390)
+base_max_hp = 100
+max_hp = 100
+
+[node name="Sprite2D9" parent="." instance=ExtResource("14_8uf40")]
+position = Vector2(3319, 1426)
+
+[node name="Sprite2D10" parent="." instance=ExtResource("12_87alg")]
+position = Vector2(2439, 1158)
+
+[node name="Sprite2D11" parent="." instance=ExtResource("13_y33ob")]
+position = Vector2(2357, 1325)
+
+[node name="Sprite2D12" parent="." instance=ExtResource("12_87alg")]
+position = Vector2(3326, 1104)
+
+[node name="Sprite2D13" parent="." instance=ExtResource("14_8uf40")]
+position = Vector2(3438, 1214)
+
+[node name="Sprite2D14" parent="." instance=ExtResource("13_y33ob")]
+position = Vector2(3476, 1335)
+
+[node name="Sprite2D15" parent="." instance=ExtResource("13_y33ob")]
+position = Vector2(2632, 1478)
+
+[node name="Sprite2D16" parent="." instance=ExtResource("14_8uf40")]
+position = Vector2(2647, 1233)
+
+[node name="Sprite2D17" parent="." instance=ExtResource("14_8uf40")]
+position = Vector2(2630, 1060)
+
+[node name="Sprite2D18" parent="." instance=ExtResource("12_87alg")]
+position = Vector2(3090, 1457)
