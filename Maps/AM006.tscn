@@ -567,7 +567,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
 agent_radius = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8b3u3"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tdm34"]
 texture = ExtResource("2_nao00")
 0:0/0 = 0
 0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_k088r")
@@ -8062,7 +8062,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -1.4388695, 8, -1.4388695, 8, 8, -8, 8)])
 agent_radius = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3kg34"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xs68e"]
 texture = ExtResource("3_bgl0c")
 23:0/0 = 0
 23:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_wtndr")
@@ -14492,8 +14492,8 @@ texture = ExtResource("3_bgl0c")
 
 [sub_resource type="TileSet" id="TileSet_p78gd"]
 navigation_layer_0/layers = 1
-sources/1 = SubResource("TileSetAtlasSource_3kg34")
-sources/0 = SubResource("TileSetAtlasSource_8b3u3")
+sources/1 = SubResource("TileSetAtlasSource_xs68e")
+sources/0 = SubResource("TileSetAtlasSource_tdm34")
 
 [node name="AM006" type="Node2D"]
 y_sort_enabled = true
@@ -14518,6 +14518,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]

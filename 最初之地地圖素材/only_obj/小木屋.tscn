@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://fxx8h6xunwb"]
+
+[ext_resource type="Texture2D" uid="uid://c67appdncq63r" path="res://最初之地地圖素材/小木屋本體.png" id="1_j85s7"]
+
+[node name="小木屋" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -73)
+texture = ExtResource("1_j85s7")
+region_enabled = true
+region_rect = Rect2(125, 158.5, 281, 246)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-59, -82, -59, -1, 58, 0, 58, -81)
