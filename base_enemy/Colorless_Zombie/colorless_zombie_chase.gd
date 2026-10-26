@@ -7,10 +7,16 @@ extends State
 @export var chase_speed: float = 120.0       # 遠程怪通常比較脆，移動速度可以設慢一點
 @export var shooting_distance: float = 250.0 # 🌟 核心距離限制：距離玩家多近時要停下來開火？
 
+var locked_jump_dir: Vector2 = Vector2.ZERO  # 🌟 記住起跳瞬間鎖定的方向 (防止在半空中轉彎)
+
 # ==========================================
 # 🎬 狀態進入 (剛切換到追擊狀態的第一幀)
 # ==========================================
 func enter():
+	# 🌟【本次修改 1：初始化起跳方向】
+	# 剛進入追擊時，先繼承角色最後面對的方向，避免第一幀方向為 (0,0)
+	locked_jump_dir = character.last_facing_vec
+	
 	# 播放跑步/追擊動畫
 	character.play_animation("move", character.last_facing_vec) 
 	
@@ -36,21 +42,26 @@ func state_physics_update(_delta: float):
 	# 實時計算怪物自己與玩家之間的「直線距離」
 	var dist = character.global_position.distance_to(character.player_node.global_position)
 	
-	if dist <= shooting_distance:
-		# 如果進入了我們設定的 250 像素射程內...
-		# 停止走位，立刻切換到攻擊狀態，準備吐酸液！
+	# 🌟【本次修改 2：加上 character.is_jump_grounded() 落地檢查】
+	# 如果進入了 250 像素射程內，而且青蛙目前「已經雙腳落地 (不在半空中)」：
+	# 才停止走位、切換到攻擊狀態，避免跳到一半在半空中突兀瞬間開火！
+	if dist <= shooting_distance and character.is_jump_grounded():
 		state_machine.change_state("Attack")
 		return
 
 	# 🏃 3. 追擊移動邏輯 (還沒進入射程時)
-	# 算出從怪物指向玩家的方向向量 (normalized 會把它變成基準長度 1 的方向指針)
-	var dir = (character.player_node.global_position - character.global_position).normalized()
+	# 🌟【本次修改 3：起跳方向鎖定 + 呼叫老爸的影格跳躍調度器】
+	# 只有當青蛙「手腳撐在地板上蓄力 (第 1~4 格)」時，才重新瞄準玩家並更新動畫方向！
+	# 一旦雙腳離地騰空 (第 5, 6, 7, 0 格)，就鎖死 locked_jump_dir 直線飛躍，絕不在空中轉彎！
+	if character.is_jump_grounded() or locked_jump_dir == Vector2.ZERO:
+		locked_jump_dir = (character.player_node.global_position - character.global_position).normalized()
+		
+		# 隨時更新怪物最後面朝的方向，讓下一個狀態（Attack / Pant）能記住面向
+		character.last_facing_vec = locked_jump_dir
+		
+		# 傳入移動方向，讓老爸自動切換 move_left_up / move_right_down 等四向移動動畫
+		character.play_animation("move", locked_jump_dir)
 	
-	# 🌟 套用最上面設定的 chase_speed 決定移動速度
-	character.velocity = dir * chase_speed
-	
-	# 隨時更新怪物最後面朝的方向，讓下一個狀態（Attack / Pant）能記住面向
-	character.last_facing_vec = dir
-	
-	# 傳入移動方向 dir，讓老爸自動切換 move_left_up / move_right_down 等四向移動動畫
-	character.play_animation("move", dir)
+	# 🌟 把原本寫死的 character.velocity = dir * chase_speed 替換成這行：
+	# 交給老爸 BaseEnemy 的 apply_locomotion()，自動依影格決定「撐地停頓 (速度 0)」或「騰空衝刺」！
+	character.apply_locomotion(locked_jump_dir, chase_speed)

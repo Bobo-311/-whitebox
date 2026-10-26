@@ -8,6 +8,25 @@ class_name BaseEnemy                  # 定義為 Enemy 類別
 @export var melee_damage: float = 15.0             # 肉身衝撞傷害
 @export var coin_drop_count: int = 5                # 🌟 新增：這隻怪物死掉會噴幾枚金幣？預設為 5
 
+
+# 🌟【拋物線跳躍設定 (青蛙專用)】
+# 預設為 false (關閉)，野豬等舊怪物維持原本平滑走路；
+# 打勾後，怪物移動時會以 60 FPS 畫出圓滑的「⌒ ⌒ ⌒」拋物線往前彈跳！
+@export_group("🐸 拋物線跳躍設定 (青蛙專用)")
+@export var use_jump_movement: bool = false
+@export var jump_arc_height: float = 35.0         # 拋物線最高點：每一跳往空中拱起多少像素？(數字越大跳越高)
+@export var jump_air_time: float = 0.45           # 滯空時間：在空中畫完一道「⌒」拋物線需要幾秒？
+@export var jump_ground_time: float = 0.18        # 落地緩衝：跳完一下落地後，在地上蹲幾秒才跳下一波？
+@export var jump_burst_multiplier: float = 1.8    # 推進倍率：每一跳往前跨出的距離倍數
+
+# 🔒 拋物線內部運算變數 (不用在面板調整)
+var _jump_timer: float = 0.0                      # 拋物線週期碼錶
+var _is_jumping_this_frame: bool = false          # 紀錄這一幀有沒有在執行跳躍移動
+var _base_sprite_pos_y: float = 0.0               # 記憶圖片原本的地面 Y 軸基準點
+
+
+
+
 # 🌟【本次新增】對角線動畫開關
 # 預設為 false (關閉)。這意味著所有繼承這個腳本的舊敵人(如野豬)，
 # 預設都不會受到影響，維持原本的上下左右動畫邏輯。
@@ -53,6 +72,7 @@ func _ready() -> void:
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale
+		_base_sprite_pos_y = animated_sprite_2d.position.y # 🌟【新增這行】記住圖片站在地面時的原始高度
 		# 【保險機制】確保精靈圖本身絕對是純白的
 		animated_sprite_2d.modulate = Color.WHITE
 		animated_sprite_2d.self_modulate = Color.WHITE
@@ -86,7 +106,18 @@ func _physics_process(_delta: float) -> void:
 		can_see_player = not vision_ray.is_colliding()
 	else:
 		can_see_player = false
-
+	
+	
+	# 🌟【拋物線防浮空保護】：
+	# 如果這隻怪有開跳躍，但這一幀已經停止移動（例如進入 Idle / Attack / Pant / Hurt），
+	# 自動把還在半空中的圖片平滑拉回地面基準點，絕對不會卡在半空中！
+	if use_jump_movement and animated_sprite_2d:
+		if not _is_jumping_this_frame:
+			_jump_timer = 0.0
+			animated_sprite_2d.position.y = move_toward(animated_sprite_2d.position.y, _base_sprite_pos_y, 250.0 * _delta)
+		_is_jumping_this_frame = false # 重置本幀標記，等待下一幀狀態機呼叫
+	
+	
 # ==========================================
 # 👁️ 迷霧現形系統 ( 已修復 Tween 報錯)
 # ==========================================
@@ -381,3 +412,54 @@ func apply_stun(duration: float = 1.0) -> void:
 			
 		# 🌟 2. 呼叫大腦切換狀態 (切換的瞬間，它就會去讀取信箱的秒數)
 		state_machine.change_state("Stun")
+
+
+
+# ==========================================
+# 🐸 圓滑拋物線跳躍核心 (60 FPS Sine-Arc Locomotion)
+# ==========================================
+func apply_locomotion(move_dir: Vector2, base_speed: float) -> void:
+	# 🔴 情況 A：沒勾選跳躍開關 (如野豬)，維持原本直線等速移動
+	if not use_jump_movement or not animated_sprite_2d:
+		velocity = move_dir * base_speed
+		return
+		
+	# 🟢 情況 B：有勾選跳躍開關 (如青蛙)，啟動「⌒ ⌒ ⌒」圓滑拋物線演算法！
+	_is_jumping_this_frame = true
+	var delta = get_physics_process_delta_time()
+	var total_cycle = jump_air_time + jump_ground_time # 完整跳一次的總週期 (滯空 + 落地蹲伏)
+	
+	# 推進拋物線週期碼錶 (使用 fmod 讓它無限循環：跳 ➔ 蹲 ➔ 跳 ➔ 蹲)
+	_jump_timer = fmod(_jump_timer + delta, total_cycle)
+	
+	# 🌟 階段 1：【空中拋物線期 (0.0 ~ jump_air_time)】—— 畫出圓滑的「⌒」
+	if _jump_timer < jump_air_time:
+		# 算出目前在空中的進度百分比 t (從 0.0 圓滑走到 1.0)
+		var t: float = _jump_timer / jump_air_time
+		
+		# 📐【核心數學：正弦波拋物線 sin(t * PI)】
+		# 當 t = 0.0 (起跳) -> sin(0) = 0 (在地面)
+		# 當 t = 0.5 (最高點) -> sin(PI/2) = 1 (拱起到最高點 -jump_arc_height)
+		# 當 t = 1.0 (落地) -> sin(PI) = 0 (完美落回地面)
+		var arc_curve: float = sin(t * PI)
+		
+		# 1. 將圖片往上拉出漂亮的拋物線弧度 (Godot 中 Y 軸負數代表往上)
+		animated_sprite_2d.position.y = _base_sprite_pos_y - (arc_curve * jump_arc_height)
+		
+		# 2. 圓滑推進速度：搭配 arc_curve 讓起跳與落地都有絲滑的加減速感，不再硬邦邦分段！
+		# (乘以 1.4 是為了補償正弦波頭尾減速損失的距離)
+		velocity = move_dir * (base_speed * jump_burst_multiplier * arc_curve * 1.4)
+		
+	# 🌟 階段 2：【落地緩衝蹲伏期】—— 雙腳踩穩地面，準備下一跳
+	else:
+		# 確保圖片穩穩踩回地面高度
+		animated_sprite_2d.position.y = _base_sprite_pos_y
+		# 落地期間速度平滑煞車歸零
+		velocity = velocity.move_toward(Vector2.ZERO, base_speed * 15.0 * delta)
+
+# 輔助查詢：判斷青蛙目前是不是已經落地踩在地板上 (供轉向鎖定與落地開火使用)
+func is_jump_grounded() -> bool:
+	if not use_jump_movement or not animated_sprite_2d:
+		return true
+	# 當碼錶進入「落地緩衝期」(或者還沒開始跳時)，代表雙腳正踩在地上！
+	return (_jump_timer >= jump_air_time) or (not _is_jumping_this_frame)

@@ -21,9 +21,10 @@ func _start_moving(): # 開始走路邏輯
 	timer = walk_time # 固定走 3 秒
 	
 	wander_dir = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized() # 隨機決定一個方向
-	character.velocity = wander_dir * character.walk_speed # 給予速度
 	character.last_facing_vec = wander_dir # 記憶方向
 	character.play_animation("move", wander_dir) # 播動畫
+	# 🌟【修改 1】：改呼叫老爸的移動調度器（野豬會直接走，青蛙會依影格跳）
+	character.apply_locomotion(wander_dir, character.walk_speed)
 
 func _stop_moving(): # 停下邏輯
 	is_moving = false # 標記停止
@@ -42,22 +43,28 @@ func state_physics_update(delta: float): # 物理更新
 	if wall_bump_cooldown > 0:
 		wall_bump_cooldown -= delta
 
+	# 🌟【修改 2】：在移動期間，每一幀交由老爸判斷目前影格該「騰空衝刺」還是「撐地停頓」
+	if is_moving:
+		character.apply_locomotion(wander_dir, character.walk_speed)
+
 	# 🌟 核心防卡牆優化：掃地機器人反射法！
-	# 如果在走路，且碰到牆壁，且轉向冷卻已經結束
 	if is_moving and character.is_on_wall() and wall_bump_cooldown <= 0: 
-		var normal = character.get_wall_normal() # 取得這面牆壁的「法線」(牆壁面對的方向)
+		var normal = character.get_wall_normal()
 		if normal != Vector2.ZERO:
-			wander_dir = wander_dir.bounce(normal) # 讓目前的走路方向像撞球一樣反射！
-			character.velocity = wander_dir * character.walk_speed # 給予反射後的新速度
-			character.last_facing_vec = wander_dir # 記憶新方向
-			character.play_animation("move", wander_dir) # 播放新方向的動畫
-			wall_bump_cooldown = 0.5 # 🌟 進入 0.5 秒的轉向冷卻，防止在角落瘋狂抖動
-			return # 轉向後繼續走，不中斷原本的 3 秒計時器！
+			wander_dir = wander_dir.bounce(normal)
+			character.last_facing_vec = wander_dir
+			character.play_animation("move", wander_dir)
+			character.apply_locomotion(wander_dir, character.walk_speed)
+			wall_bump_cooldown = 0.5
+			return
 
 	timer -= delta # 倒數總行為計時器
 	
 	if timer <= 0: # 時間到
 		if is_moving: 
-			_stop_moving() # 走滿 3 秒就停下發呆
+			# 🌟【修改 3：青蛙完美落地防呆】
+			# 如果是青蛙且剛好跳在半空中，等牠這一下落地 (is_jump_grounded) 再切換成 idle 發呆！
+			if character.is_jump_grounded():
+				_stop_moving()
 		else: 
 			_start_moving() # 發呆完 1.5 秒就繼續走

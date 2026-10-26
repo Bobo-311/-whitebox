@@ -1194,9 +1194,6 @@ color = Color(0.4012075, 0.3523354, 0.65371335, 1)
 visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
-[node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(4322, 1699)
-
 [node name="Wall_Top" type="StaticBody2D" parent="."]
 position = Vector2(1305, 23)
 collision_mask = 0
@@ -1260,7 +1257,7 @@ position = Vector2(804.5, 33.5)
 shape = SubResource("RectangleShape2D_xrg6c")
 
 [node name="Wall_Left3" type="StaticBody2D" parent="."]
-position = Vector2(4129, 787)
+position = Vector2(3826, 787)
 rotation = 1.5707964
 collision_mask = 0
 
@@ -1308,7 +1305,7 @@ position = Vector2(-46, -53.5)
 shape = SubResource("RectangleShape2D_oa6jy")
 
 [node name="Wall_Left4" type="StaticBody2D" parent="."]
-position = Vector2(4397.9995, 609.99994)
+position = Vector2(4099, 816.9999)
 rotation = 0.0035469532
 collision_mask = 0
 
@@ -1420,6 +1417,9 @@ energy = 1.5
 texture = ExtResource("10_167qa")
 texture_scale = 10.0
 
+[node name="player" parent="." instance=ExtResource("2_scycs")]
+position = Vector2(3596, 1775)
+
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
 position = Vector2(339, 1570)
 
@@ -1436,7 +1436,7 @@ position = Vector2(186, 1804)
 position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(4339, 506)
+position = Vector2(3149, 1890)
 
 [node name="Big_Colorless_Dango" parent="." instance=ExtResource("15_yegem")]
-position = Vector2(3088, 1701)
+position = Vector2(-9, 233)

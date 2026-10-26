@@ -2234,6 +2234,7 @@ scale = Vector2(0.75, 0.75)
 walk_speed = 100
 melee_damage = 30.0
 coin_drop_count = 10
+use_jump_movement = true
 use_diagonal_anim = true
 max_hp = 10
 
@@ -2242,7 +2243,7 @@ material = SubResource("ShaderMaterial_rbn8d")
 position = Vector2(-9.333334, -49.333332)
 scale = Vector2(1.4, 1.4)
 sprite_frames = SubResource("SpriteFrames_muy0c")
-animation = &"die_spit_right_down"
+animation = &"move_left_down"
 autoplay = "idle_left_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
