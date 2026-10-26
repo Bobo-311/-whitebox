@@ -18991,7 +18991,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(1237, 1492)
+position = Vector2(6557, 1452)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]

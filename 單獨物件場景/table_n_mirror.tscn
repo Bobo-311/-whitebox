@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dov21nugel1ws"]
+
+[ext_resource type="Texture2D" uid="uid://ea52gs7w6ki" path="res://最初之地地圖素材/only_obj/小屋部件.png" id="1_khxbv"]
+
+[node name="table_n_mirror" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -37)
+texture = ExtResource("1_khxbv")
+region_enabled = true
+region_rect = Rect2(125.73191, 28.772644, 49.239647, 74.64434)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-24, 0, -23, -75, 26, -75, 26, 0)

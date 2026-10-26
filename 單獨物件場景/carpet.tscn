@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cy41lx0f2xb0s"]
+
+[ext_resource type="Texture2D" uid="uid://ea52gs7w6ki" path="res://最初之地地圖素材/only_obj/小屋部件.png" id="1_knx1u"]
+
+[node name="carpet" type="StaticBody2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, -10)
+texture = ExtResource("1_knx1u")
+region_enabled = true
+region_rect = Rect2(123.13345, 199.36655, 42.640793, 24.27388)

@@ -77,7 +77,7 @@ var current_elevation: int = 0 # 0=平地, 1=二樓, 2=三樓
 # ==========================================
 func _ready(): 
 	super._ready() # 執行父類別 (BaseCharacter) 的初始化邏輯
-	print("以防大家沒看到 洪川育跟菜心楊都是傻逼") # 合併雙方隊友的幽默宣告
+	print("以防大家沒看到 只有菜心楊是傻逼") # 合併雙方隊友的幽默宣告 ps使用方式只是check github有沒有抓到
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale # 鎖定原始比例防跑版
