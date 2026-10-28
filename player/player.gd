@@ -578,3 +578,21 @@ func _on_dialogic_signal(argument: String):
 		"ani_search":
 			if animated_sprite_2d:
 				animated_sprite_2d.play("idle_down")  # 或搜口袋的動畫名稱
+
+
+# ==========================================
+# 🧭 跨場景轉向接收器 (對接 SceneTransition)
+# ==========================================
+# 🌟【正規作法】：接收轉場總管傳來的方向向量，改寫阿尼內部的 facing_direction 字串記憶！
+func set_facing_direction(dir: Vector2) -> void:
+	if dir == Vector2.ZERO:
+		return
+		
+	# 1. 將轉場傳來的 Vector2 向量，翻譯成阿尼專用的 4 方位字串 ("right", "left", "down", "up")
+	if abs(dir.x) >= abs(dir.y):
+		facing_direction = "right" if dir.x > 0 else "left"
+	else:
+		facing_direction = "down" if dir.y > 0 else "up"
+		
+	# 2. 立刻刷新一次待機動畫，把開局預設的 idle_down 洗成正確的面向 (如 idle_right / idle_left)！
+	play_animation("idle")

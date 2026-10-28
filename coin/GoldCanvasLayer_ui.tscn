@@ -162,7 +162,7 @@ scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_vtdmk")
 animation = &"spin"
 autoplay = "spin"
-frame_progress = 0.21391927
+frame_progress = 0.69790405
 
 [node name="SymbolLabel" type="Label" parent="GoldUI/GoldContainer/Layout"]
 layout_mode = 2
