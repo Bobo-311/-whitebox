@@ -1,10 +1,11 @@
-[gd_scene load_steps=41 format=4 uid="uid://ctrp2sfkprsj2"]
+[gd_scene load_steps=44 format=4 uid="uid://ctrp2sfkprsj2"]
 
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="1_krbdi"]
 [ext_resource type="Texture2D" uid="uid://biasketeuh2vh" path="res://最初之地地圖素材/only map/10_onlymap.png" id="2_83phv"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_e6uax"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="4_caut0"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="5_83phv"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="6_e6uax"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
@@ -2671,8 +2672,17 @@ navigation_layer_0/layers = 1
 sources/2 = SubResource("TileSetAtlasSource_7oqhj")
 sources/3 = SubResource("TileSetAtlasSource_wdeki")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_caut0"]
+resource_local_to_scene = true
+size = Vector2(54.92311, 99.69237)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e6uax"]
+resource_local_to_scene = true
+size = Vector2(89.53853, 73.69202)
+
 [node name="AM010" type="Node2D"]
 scale = Vector2(5, 5)
+metadata/_edit_horizontal_guides_ = [-2055.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -2693,7 +2703,7 @@ visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(2445, 1659)
+position = Vector2(2438.8, 1666)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -20
@@ -2737,7 +2747,60 @@ position = Vector2(2718, -368.00003)
 scale = Vector2(25.836145, 23.047226)
 
 [node name="player" parent="." instance=ExtResource("4_caut0")]
-position = Vector2(2439.8, 1366.8)
+position = Vector2(2723.8, -79.4)
 scale = Vector2(0.2, 0.2)
 base_max_hp = 100
 max_hp = 100
+
+[node name="PortalArea下門" parent="." instance=ExtResource("6_e6uax")]
+position = Vector2(1795, 1763.0001)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://dfa7qn8iuye7n"
+target_spawn_name = "From_Map10"
+
+[node name="CollisionShape2D" parent="PortalArea下門" index="0"]
+position = Vector2(495.38464, 0.5383301)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_caut0")
+
+[node name="From_Map9" type="Marker2D" parent="."]
+position = Vector2(2438.8, 1665.8)
+scale = Vector2(1.3, 1.3)
+
+[node name="PortalArea上門" parent="." instance=ExtResource("6_e6uax")]
+position = Vector2(1795, 1763.0001)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://cxl02fpi83ed4"
+target_spawn_name = "From_Map10"
+
+[node name="CollisionShape2D" parent="PortalArea上門" index="0"]
+position = Vector2(711.0769, -1688.5388)
+shape = SubResource("RectangleShape2D_e6uax")
+
+[node name="From_Map11" type="Marker2D" parent="."]
+position = Vector2(2719.8, -324.2)
+scale = Vector2(1.3, 1.3)
+
+[node name="空氣牆下方" type="StaticBody2D" parent="."]
+position = Vector2(6322.5005, 2514.9001)
+scale = Vector2(1.6899998, 1.6899998)
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆下方"]
+position = Vector2(383.25418, -5145.622)
+rotation = 1.5707964
+polygon = PackedVector2Array(4722.249, 2719.5269, 4680.0005, 2720.2368, 4680.0005, 2708.9941, 4695.977, 2708.9941, 4695.977, 2654.5562, 4680.0005, 2654.5562, 4680.0005, 2642.8403, 4695.977, 2642.8403, 4722.486, 2642.8403)
+
+[node name="空氣牆上方" type="StaticBody2D" parent="."]
+position = Vector2(-1166.6, -1171)
+rotation = 3.1415927
+scale = Vector2(1.6899998, 1.6899998)
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆上方"]
+position = Vector2(383.25418, -5145.622)
+rotation = 1.5707964
+polygon = PackedVector2Array(4722.545, 2717.337, 4679.9414, 2717.337, 4679.9414, 2705.5027, 4695.9175, 2705.5027, 4695.9175, 2659.9404, 4679.9414, 2659.9404, 4679.9414, 2648.1062, 4695.9175, 2648.2246, 4722.427, 2648.2246)
+
+[editable path="PortalArea下門"]
+[editable path="PortalArea上門"]

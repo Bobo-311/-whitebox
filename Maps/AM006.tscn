@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=4 uid="uid://db1prwo40wbqw"]
+[gd_scene load_steps=145 format=4 uid="uid://db1prwo40wbqw"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_jw6xd"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_nao00"]
@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://dficxwu1kbuv" path="res://base_enemy/colorless_dango/colorless_dango_basic.tscn" id="21_032fq"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="22_nn2f5"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="23_tdm34"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="25_xs68e"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -14495,6 +14496,14 @@ navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_xs68e")
 sources/0 = SubResource("TileSetAtlasSource_tdm34")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lo5nj"]
+resource_local_to_scene = true
+size = Vector2(370.00024, 139.99939)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kembs"]
+resource_local_to_scene = true
+size = Vector2(142.308, 172.30785)
+
 [node name="AM006" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_jw6xd")
@@ -14503,6 +14512,8 @@ limit_left = 1700
 limit_top = -100
 limit_right = 7200
 limit_bottom = 3850
+metadata/_edit_horizontal_guides_ = [3849.0, 352.0, 128.0]
+metadata/_edit_vertical_guides_ = [6224.0, 6705.0, 7203.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -20
@@ -14531,15 +14542,10 @@ tile_map_data = PackedByteArray("AAAbAAAAAAAFABkAAAAbAAEAAAAFABoAAAAbAAIAAAAFABs
 tile_set = SubResource("TileSet_p78gd")
 
 [node name="WhiteCat" parent="." instance=ExtResource("4_032fq")]
+visible = false
 position = Vector2(6440.9995, 3674)
 scale = Vector2(0.73, 0.73)
 max_follow_distance = 700.0
-
-[node name="player" parent="." instance=ExtResource("5_5p81a")]
-position = Vector2(6270.0005, 3656.0002)
-scale = Vector2(1.25, 1.25)
-base_max_hp = 100
-max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("6_nn2f5")]
 position = Vector2(2833, 2070)
@@ -15978,18 +15984,69 @@ collision_mask = 0
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cliff_L1_Walls"]
 polygon = PackedVector2Array(2880, 2589, 3071, 2594, 3072, 2656, 3137, 2656, 3136, 2720, 3392, 2720, 3392, 2784, 4224, 2783, 4224, 2719, 4417, 2718, 4416, 2655, 4544, 2656, 4543, 2592, 4736, 2592, 4736, 2527, 8063, 2528, 8064, 3056, 6058, 3055, 6058, 2991, 5761, 2992, 5761, 3057, 5535, 3055, 5534, 3118, 4864, 3121, 4864, 3184, 3456, 3185, 3456, 3120, 3135, 3121, 3136, 2992, 3072, 2992, 3072, 2928, 2944, 2928, 2944, 2864, 2878, 2864)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="空氣牆壁四周" type="StaticBody2D" parent="."]
 collision_layer = 8192
 collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(1541, -156, 1538, -104, 8063, -78, 8063, -194)
+[node name="上" type="CollisionPolygon2D" parent="空氣牆壁四周"]
+polygon = PackedVector2Array(1532, -219, 1533, 3, 8064, 3, 8064, -218)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(7308, -179, 7330, 4010, 7415, 4004, 7387, -208)
+[node name="右" type="CollisionPolygon2D" parent="空氣牆壁四周"]
+polygon = PackedVector2Array(7203, 352, 7203, 4032, 7395, 4032, 7388, 352)
 
-[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(1612, -169, 1691, -169, 1759, 4017, 1649, 4026)
+[node name="右上" type="CollisionPolygon2D" parent="空氣牆壁四周"]
+polygon = PackedVector2Array(7203, -152, 7203, 128, 7388, 128, 7388, -152)
+
+[node name="下" type="CollisionPolygon2D" parent="空氣牆壁四周"]
+position = Vector2(7398, -3354)
+rotation = 1.5707964
+polygon = PackedVector2Array(7203, 1174, 7203, 5862, 7386, 5862, 7386, 1174)
+
+[node name="下右" type="CollisionPolygon2D" parent="空氣牆壁四周"]
+position = Vector2(7398, -3354)
+rotation = 1.5707964
+polygon = PackedVector2Array(7203, 4, 7203, 693, 7386, 693, 7386, 3)
+
+[node name="左" type="CollisionPolygon2D" parent="空氣牆壁四周"]
+polygon = PackedVector2Array(1536, -512, 1698, -512, 1698, 4032, 1536, 4032)
 
 [node name="ShopNPC" parent="." instance=ExtResource("2_tdm34")]
 position = Vector2(6662, 3466)
+
+[node name="player" parent="." instance=ExtResource("5_5p81a")]
+position = Vector2(6157, 3621.0002)
+scale = Vector2(1.25, 1.25)
+basic_attack_damage = 1000.0
+base_max_hp = 100000
+max_hp = 100000
+
+[node name="PortalArea下門" parent="." instance=ExtResource("25_xs68e")]
+position = Vector2(1795, 1763.0001)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://nlff3ygrmq5v"
+target_spawn_name = "From_Map6"
+
+[node name="CollisionShape2D" parent="PortalArea下門" index="0"]
+position = Vector2(3591.9233, 1674.6157)
+shape = SubResource("RectangleShape2D_lo5nj")
+
+[node name="From_Map5" type="Marker2D" parent="."]
+position = Vector2(6466.0005, 3707.0002)
+scale = Vector2(1.3, 1.3)
+
+[node name="PortalArea上右門" parent="." instance=ExtResource("25_xs68e")]
+position = Vector2(3661, -543)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://2pps4a1niskn"
+target_spawn_name = "From_Map6"
+
+[node name="CollisionShape2D" parent="PortalArea上右門" index="0"]
+position = Vector2(2795.7698, 602.30786)
+shape = SubResource("RectangleShape2D_kembs")
+
+[node name="From_Map7" type="Marker2D" parent="."]
+position = Vector2(7050.0005, 237.00002)
+scale = Vector2(1.3, 1.3)
+
+[editable path="PortalArea下門"]
+[editable path="PortalArea上右門"]

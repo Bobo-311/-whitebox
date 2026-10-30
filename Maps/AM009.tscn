@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://dfa7qn8iuye7n"]
+[gd_scene load_steps=46 format=4 uid="uid://dfa7qn8iuye7n"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_chhuo"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="2_7ujck"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dvha7dpjfa0dl" path="res://最初之地地圖素材/09.png" id="4_kjpat"]
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="5_nuqpg"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="6_7ujck"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="7_qij2i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ujck"]
 texture = ExtResource("4_kjpat")
@@ -3185,6 +3186,18 @@ navigation_layer_0/layers = 1
 sources/2 = SubResource("TileSetAtlasSource_qij2i")
 sources/0 = SubResource("TileSetAtlasSource_7ujck")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kjpat"]
+resource_local_to_scene = true
+size = Vector2(150.38455, 421.15402)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qij2i"]
+resource_local_to_scene = true
+size = Vector2(416.15384, 135.38464)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nuqpg"]
+resource_local_to_scene = true
+size = Vector2(418.46136, 257.69104)
+
 [node name="AM009" type="Node2D"]
 script = ExtResource("1_chhuo")
 map_name = "AM009"
@@ -3192,6 +3205,7 @@ limit_left = 2843
 limit_top = 200
 limit_right = 6200
 limit_bottom = 2450
+metadata/_edit_horizontal_guides_ = [2449.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -3224,11 +3238,6 @@ position = Vector2(2793, 2424)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
-[node name="player" parent="." instance=ExtResource("3_qij2i")]
-position = Vector2(4190, 1295)
-base_max_hp = 100
-max_hp = 100
-
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -20
 y_sort_enabled = true
@@ -3259,3 +3268,55 @@ polygon = PackedVector2Array(4228, 2625, 4230, 1427, 6337, 1422, 6337, 1516, 430
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(4240, -1, 4241, 1089, 6336, 1088, 6335, 1015, 4319, 1012, 4320, -1)
+
+[node name="player" parent="." instance=ExtResource("3_qij2i")]
+position = Vector2(3971, 308)
+base_max_hp = 100
+max_hp = 100
+
+[node name="PortalArea上門" parent="." instance=ExtResource("7_qij2i")]
+position = Vector2(1795, 1763.0001)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://ctrp2sfkprsj2"
+target_spawn_name = "From_Map9"
+
+[node name="CollisionShape2D" parent="PortalArea上門" index="0"]
+position = Vector2(1669.8077, -1280.9618)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_kjpat")
+
+[node name="From_Map10" type="Marker2D" parent="."]
+position = Vector2(3972.0002, 333.00003)
+scale = Vector2(1.3, 1.3)
+
+[node name="PortalArea下門" parent="." instance=ExtResource("7_qij2i")]
+position = Vector2(1795, 1763.0001)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://cnjndu48dqf3o"
+target_spawn_name = "From_Map9"
+
+[node name="CollisionShape2D" parent="PortalArea下門" index="0"]
+position = Vector2(1664.2308, 595.38464)
+shape = SubResource("RectangleShape2D_qij2i")
+
+[node name="From_Map8" type="Marker2D" parent="."]
+position = Vector2(3960.0002, 2324.0002)
+scale = Vector2(1.3, 1.3)
+
+[node name="PortalArea右門" parent="." instance=ExtResource("7_qij2i")]
+position = Vector2(3846.0005, 2116)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://dfa7qn8iuye7n"
+target_spawn_name = "From_Map8"
+
+[node name="CollisionShape2D" parent="PortalArea右門" index="0"]
+position = Vector2(1616.9229, -656.1538)
+shape = SubResource("RectangleShape2D_nuqpg")
+
+[node name="From_MapX" type="Marker2D" parent="."]
+position = Vector2(3040.0002, 923)
+scale = Vector2(1.3, 1.3)
+
+[editable path="PortalArea上門"]
+[editable path="PortalArea下門"]
+[editable path="PortalArea右門"]

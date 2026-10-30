@@ -1436,7 +1436,7 @@ position = Vector2(186, 1804)
 position = Vector2(547, 1752)
 
 [node name="ColorlessZombie" parent="." instance=ExtResource("15_741bu")]
-position = Vector2(3149, 1890)
+position = Vector2(4078.0002, 578)
 
 [node name="Big_Colorless_Dango" parent="." instance=ExtResource("15_yegem")]
-position = Vector2(-9, 233)
+position = Vector2(2921, 1790)

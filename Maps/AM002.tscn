@@ -18946,7 +18946,7 @@ size = Vector2(316, 567)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4hswm"]
 resource_local_to_scene = true
-size = Vector2(255, 232)
+size = Vector2(257, 232)
 
 [node name="AM002" type="Node2D"]
 y_sort_enabled = true
@@ -18956,6 +18956,7 @@ limit_left = 960
 limit_top = -1500
 limit_right = 6780
 limit_bottom = 4355
+metadata/_edit_vertical_guides_ = [6782.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -20
@@ -20493,13 +20494,13 @@ polygon = PackedVector2Array(4290, -1411, 3707, -1413, 3706, -2048, 4292, -2048)
 position = Vector2(2821, 1021)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆右側上"]
-polygon = PackedVector2Array(4218, 271, 3963, 271, 3964, -2049, 4218, -2049)
+polygon = PackedVector2Array(4218, 271, 3961, 271, 3961, -2049, 4218, -2049)
 
 [node name="空氣牆右側下" type="StaticBody2D" parent="."]
 position = Vector2(2821, 3569)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆右側下"]
-polygon = PackedVector2Array(4218, -508, 3960, -508, 3963, -2045, 4218, -2045)
+polygon = PackedVector2Array(4218, -508, 3961, -508, 3961, -2045, 4218, -2045)
 
 [node name="PortalArea左側門" parent="." instance=ExtResource("21_4hswm")]
 position = Vector2(836, 1458)
@@ -20519,7 +20520,7 @@ target_scene_path = "uid://dqfni11j7apy5"
 target_spawn_name = "From_Map2"
 
 [node name="CollisionShape2D" parent="PortalArea右側門" index="0"]
-position = Vector2(-73.5, -50)
+position = Vector2(-74.5, -50)
 shape = SubResource("RectangleShape2D_4hswm")
 
 [node name="From_Map3" type="Marker2D" parent="."]

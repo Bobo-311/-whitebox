@@ -7269,7 +7269,7 @@ size = Vector2(278, 1451)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t3uua"]
 resource_local_to_scene = true
-size = Vector2(249, 359)
+size = Vector2(258, 359)
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
@@ -7279,6 +7279,7 @@ limit_left = 2012
 limit_top = 55
 limit_right = 7100
 limit_bottom = 2460
+metadata/_edit_vertical_guides_ = [7102.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -7312,10 +7313,6 @@ visible = false
 position = Vector2(3261, 1414)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
-
-[node name="player" parent="." instance=ExtResource("3_1l5mq")]
-position = Vector2(2041, 2352)
-max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("4_ujntt")]
 position = Vector2(4654, 1015)
@@ -8069,7 +8066,7 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆右方"]
 position = Vector2(2642, -845)
-polygon = PackedVector2Array(4718, 2265, 4718, 3306, 4471, 3306, 4469, 2265)
+polygon = PackedVector2Array(4718, 2265, 4718, 3306, 4460, 3306, 4460, 2265)
 
 [node name="空氣牆右上方" type="StaticBody2D" parent="."]
 position = Vector2(0, -1400)
@@ -8077,7 +8074,7 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆右上方"]
 position = Vector2(2642, -845)
-polygon = PackedVector2Array(4718, 3224, 4718, 3306, 4469, 3306, 4469, 3224)
+polygon = PackedVector2Array(4718, 3224, 4718, 3306, 4460, 3306, 4460, 3224)
 
 [node name="PortalArea左側門" parent="." instance=ExtResource("19_i7tjv")]
 position = Vector2(1874, 1701)
@@ -8097,11 +8094,15 @@ target_scene_path = "uid://nlff3ygrmq5v"
 target_spawn_name = "From_Map4"
 
 [node name="CollisionShape2D" parent="PortalArea右側門" index="0"]
-position = Vector2(-3.5, -2.5)
+position = Vector2(-8, -2.5)
 shape = SubResource("RectangleShape2D_t3uua")
 
 [node name="From_Map5" type="Marker2D" parent="."]
 position = Vector2(6950, 1242)
+
+[node name="player" parent="." instance=ExtResource("3_1l5mq")]
+position = Vector2(7013, 2383)
+max_hp = 100
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

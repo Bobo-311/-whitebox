@@ -2246,7 +2246,6 @@ collision_layer = 2
 collision_mask = 15877
 motion_mode = 1
 script = ExtResource("1_boqn2")
-walk_speed = 600
 basic_attack_damage = 1.0
 base_max_hp = 10000
 max_hp = 10000
@@ -2258,7 +2257,6 @@ position = Vector2(0, -57)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
 animation = &"idle_down"
 autoplay = "idle_down"
-frame_progress = 0.8464032
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -10)

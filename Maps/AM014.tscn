@@ -1,4 +1,4 @@
-[gd_scene load_steps=130 format=4 uid="uid://cka71yxrarl35"]
+[gd_scene load_steps=133 format=4 uid="uid://cka71yxrarl35"]
 
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_j8m1d"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_1jqui"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://biit4lp10kksr" path="res://單獨物件場景/2_boxes.tscn" id="8_okfcj"]
 [ext_resource type="PackedScene" uid="uid://dov21nugel1ws" path="res://單獨物件場景/table_n_mirror.tscn" id="9_inmjs"]
 [ext_resource type="PackedScene" uid="uid://cy41lx0f2xb0s" path="res://單獨物件場景/carpet.tscn" id="10_fwges"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="11_1jqui"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -16109,8 +16110,17 @@ sources/0 = SubResource("TileSetAtlasSource_evv1p")
 sources/2 = SubResource("TileSetAtlasSource_lwrqy")
 sources/3 = SubResource("TileSetAtlasSource_sx2vb")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pro6m"]
+resource_local_to_scene = true
+size = Vector2(12.307732, 92.30748)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_20yyl"]
+resource_local_to_scene = true
+size = Vector2(69.230545, 12.3076935)
+
 [node name="AM014" type="Node2D"]
 y_sort_enabled = true
+metadata/_edit_horizontal_guides_ = [904.0]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -10
@@ -16166,3 +16176,44 @@ scale = Vector2(4, 4)
 position = Vector2(2049, 535)
 base_max_hp = 100
 max_hp = 100
+
+[node name="PortalArea木屋門" parent="." instance=ExtResource("11_1jqui")]
+position = Vector2(-538, 3313)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://hsot31p0hdgv"
+target_spawn_name = "From_Map14"
+
+[node name="CollisionShape2D" parent="PortalArea木屋門" index="0"]
+position = Vector2(2136.9233, -1868.4617)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_pro6m")
+
+[node name="From_Map13" type="Marker2D" parent="."]
+position = Vector2(2240.0002, 837)
+scale = Vector2(1.3, 1.3)
+
+[node name="PortalArea轉地圖二" parent="." instance=ExtResource("11_1jqui")]
+position = Vector2(-3734, 1282)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://cka71yxrarl35"
+target_spawn_name = "From_Map14"
+
+[node name="CollisionShape2D" parent="PortalArea轉地圖二" index="0"]
+position = Vector2(2643.0771, -1448.4615)
+shape = SubResource("RectangleShape2D_20yyl")
+
+[node name="From_Map2" type="Marker2D" parent="."]
+position = Vector2(-299, -510)
+scale = Vector2(1.3, 1.3)
+
+[node name="空氣牆左方" type="StaticBody2D" parent="."]
+position = Vector2(6322.5005, 2514.9001)
+scale = Vector2(1.6899998, 1.6899998)
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆左方"]
+position = Vector2(-7147.6343, -3528.3438)
+polygon = PackedVector2Array(4767.4565, 2568.0479, 4767.4565, 2582.249, 4696.4507, 2582.249, 4696.4507, 2568.0479)
+
+[editable path="PortalArea木屋門"]
+[editable path="PortalArea轉地圖二"]
