@@ -2747,8 +2747,8 @@ position = Vector2(2718, -368.00003)
 scale = Vector2(25.836145, 23.047226)
 
 [node name="player" parent="." instance=ExtResource("4_caut0")]
-position = Vector2(2723.8, -79.4)
-scale = Vector2(0.2, 0.2)
+position = Vector2(2442.8, 1387.6)
+scale = Vector2(0.25, 0.25)
 base_max_hp = 100
 max_hp = 100
 
