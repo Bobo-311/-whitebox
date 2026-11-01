@@ -66,9 +66,10 @@ directories/dtl_directory={
 layout/style_directory={
 "": "res://dialogic/timeline/bubble_text_style.tres",
 "bubble_text_style": "res://dialogic/timeline/bubble_text_style.tres",
+"galstyle": "res://dialogic/timeline/galstyle.tres",
 "style001": "res://dialogic/timeline/style001.tres"
 }
-layout/style_list=["res://dialogic/timeline/style001.tres", "res://dialogic/timeline/bubble_text_style.tres"]
+layout/style_list=["res://dialogic/timeline/style001.tres", "res://dialogic/timeline/bubble_text_style.tres", "res://dialogic/timeline/galstyle.tres"]
 layout/default_style="res://dialogic/timeline/bubble_text_style.tres"
 variables={}
 text/letter_speed=0.01
@@ -79,7 +80,7 @@ text/autoadvance_per_character_delay=0.1
 text/autoadvance_ignored_characters_enabled=true
 animations/join_default_length=0.5
 animations/join_default_wait=true
-animations/leave_default_length=0.5
+animations/leave_default_length=0.4
 animations/leave_default_wait=true
 animations/cross_fade_default_length=0.5
 choices/autofocus_first=true

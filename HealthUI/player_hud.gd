@@ -26,6 +26,7 @@ var original_hud_pos: Vector2   # 記憶初始位置 (震動歸位用)
 var damage_tween: Tween         # 控制白血殘影
 var hp_heal_tween: Tween        # 控制回血閃爍
 var cinema_tween: Tween         # 控制電影黑邊動畫
+var is_closing_early: bool = false # 🌟 記錄是否已經透過暗號提早收起黑邊
 @export var bar_height: float = 120.0 # 電影黑邊高度
 
 func _ready():
@@ -40,6 +41,9 @@ func _ready():
 		Dialogic.timeline_started.connect(_on_dialogic_started)
 	if not Dialogic.timeline_ended.is_connected(_on_dialogic_ended):
 		Dialogic.timeline_ended.connect(_on_dialogic_ended)
+	# 🌟 讓 UI 也監聽 Dialogic 的自訂暗號（用於提早同步收起黑邊）
+	if not Dialogic.signal_event.is_connected(_on_dialogic_signal_ui):
+		Dialogic.signal_event.connect(_on_dialogic_signal_ui)
 
 # 🌟 自動建立與校正上下黑邊節點（強制撐滿全螢幕寬度）
 func _ensure_cinematic_bars() -> void:
@@ -155,6 +159,7 @@ func confirm_ink_drop(final_val: float) -> void:
 # 🎬 🌟 電影模式 (對話黑邊與 UI 淡出)
 # ==========================================
 func _on_dialogic_started():
+	is_closing_early = false # 🌟 重置提早退場狀態
 	print("【系統】對話開始，開啟電影黑邊")
 	if cinema_tween and cinema_tween.is_running():
 		cinema_tween.kill()
@@ -170,7 +175,31 @@ func _on_dialogic_started():
 		cinema_tween.tween_property(top_bar, "offset_bottom", bar_height, 0.5)
 		cinema_tween.tween_property(bottom_bar, "offset_top", -bar_height, 0.5)
 
+# 🌟 接收劇本暗號，提早 0.4 秒同步收起黑邊
+func _on_dialogic_signal_ui(argument: String):
+	if argument == "fade_out_cinematic":
+		is_closing_early = true
+		print("【系統】收到提早退場暗號，同步收起電影黑邊與恢復 UI")
+		if cinema_tween and cinema_tween.is_running():
+			cinema_tween.kill()
+			
+		cinema_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+		
+		if margin_container: cinema_tween.tween_property(margin_container, "modulate:a", 1.0, 0.4)
+		if quick_slot_ui: cinema_tween.tween_property(quick_slot_ui, "modulate:a", 1.0, 0.4)
+		if gold_canvas_layer: gold_canvas_layer.visible = true
+		
+		# 🌟 上下黑邊收回螢幕邊緣 (0.4秒對齊立繪與對話框退場速度)
+		if top_bar and bottom_bar:
+			cinema_tween.tween_property(top_bar, "offset_bottom", 0.0, 0.4)
+			cinema_tween.tween_property(bottom_bar, "offset_top", 0.0, 0.4)
+
 func _on_dialogic_ended():
+	# 🌟 防呆：如果已經透過 fade_out_cinematic 暗號提早收起黑邊，就不重複執行
+	if is_closing_early:
+		is_closing_early = false
+		return
+		
 	print("【系統】對話結束，關閉電影黑邊") 
 	if cinema_tween and cinema_tween.is_running():
 		cinema_tween.kill()

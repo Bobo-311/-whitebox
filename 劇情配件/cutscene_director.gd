@@ -49,6 +49,12 @@ func _on_body_entered(body: Node2D) -> void:
 func _on_dialogic_signal(argument: String) -> void:
 	if not has_triggered: return 
 	
+	# 🌟 新增：接收淡出電影黑邊的暗號
+	if argument == "fade_out_cinematic":
+		# 在這裡呼叫你們電影黑邊的淡出動畫！(時間請對齊 Dialogic 的 0.4 秒)
+		# 例如: UI_Manager.hide_cinematic_bars(0.4) 
+		return
+		
 	var parts = argument.split(":")
 	if parts.size() < 3: return
 	
@@ -86,7 +92,6 @@ func _on_dialogic_signal(argument: String) -> void:
 # 🔓 3. 劇本結束 ➡️ 解鎖阿尼
 func _on_timeline_ended() -> void:
 	var player = DataManager.player_node
-	# 確保是同一個劇本結束才解鎖
 	if player and player.is_in_dialogue and has_triggered:
 		player.is_in_dialogue = false
 		if player.state_machine:
