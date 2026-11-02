@@ -18992,7 +18992,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(6557, 1452)
+position = Vector2(2020, 1433)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -20473,17 +20473,38 @@ scale = Vector2(3, 3)
 [node name="ShopNPC" parent="." instance=ExtResource("18_r3mgl")]
 position = Vector2(3514, 1820)
 
-[node name="CutsceneDirector" parent="." instance=ExtResource("19_uva5b")]
+[node name="劇情用mark2d" parent="." instance=ExtResource("19_uva5b")]
 position = Vector2(2226, 1415)
 scale = Vector2(1.6620116, -7.4087677)
 target_timeline = "A005"
 markers = {
-"watch the tree": NodePath("watch the tree")
+"behind_tree_pos": NodePath("behind_tree_pos"),
+"cam_tree_pos": NodePath("cam_tree_pos"),
+"cam_tree_pos2": NodePath("cam_tree_pos2"),
+"girl_side_pos": NodePath("girl_side_pos"),
+"run1": NodePath("run1"),
+"run2": NodePath("run2"),
+"watch the tree": NodePath("")
 }
 player_dch = ExtResource("20_gvfi4")
 
-[node name="watch the tree" type="Marker2D" parent="CutsceneDirector"]
-position = Vector2(444.04022, -15.6571245)
+[node name="cam_tree_pos" type="Marker2D" parent="劇情用mark2d"]
+position = Vector2(993.97626, 136.99983)
+
+[node name="cam_tree_pos2" type="Marker2D" parent="劇情用mark2d"]
+position = Vector2(991.5695, -41.43739)
+
+[node name="girl_side_pos" type="Marker2D" parent="劇情用mark2d"]
+position = Vector2(895.90234, -68.567406)
+
+[node name="run1" type="Marker2D" parent="劇情用mark2d"]
+position = Vector2(1500.5913, -56.14969)
+
+[node name="run2" type="Marker2D" parent="劇情用mark2d"]
+position = Vector2(1516.235, 64.51815)
+
+[node name="behind_tree_pos" type="Marker2D" parent="劇情用mark2d"]
+position = Vector2(1005.4082, 66.002884)
 
 [node name="空氣牆上策" type="StaticBody2D" parent="."]
 

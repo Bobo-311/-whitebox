@@ -20,6 +20,10 @@ scene = ExtResource("1_vi4xv")
 script = ExtResource("2_20e1w")
 scene = ExtResource("3_jwr2c")
 
+[sub_resource type="Resource" id="Resource_20e1w"]
+script = ExtResource("2_20e1w")
+scene = ExtResource("10_vi4xv")
+
 [sub_resource type="Resource" id="Resource_jwcin"]
 script = ExtResource("2_20e1w")
 scene = ExtResource("5_2qy3b")
@@ -57,10 +61,6 @@ scene = ExtResource("9_r3m7r")
 [sub_resource type="Resource" id="Resource_3x10m"]
 script = ExtResource("2_20e1w")
 scene = ExtResource("10_sr4b0")
-
-[sub_resource type="Resource" id="Resource_20e1w"]
-script = ExtResource("2_20e1w")
-scene = ExtResource("10_vi4xv")
 
 [resource]
 script = ExtResource("11_pruh6")
