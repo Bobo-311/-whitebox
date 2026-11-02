@@ -1,6 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwoug71y23lun"]
+[gd_scene load_steps=5 format=3 uid="uid://cwoug71y23lun"]
 
 [ext_resource type="PackedScene" uid="uid://bmtfpv7po4p30" path="res://base_enemy/BossLotus/BaseTentacle/base_tentacle.tscn" id="1_il5or"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_il5or"]
+radius = 33.969692
+height = 378.4765
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4vnk6"]
+radius = 32.782864
+height = 369.9697
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ct3qd"]
+radius = 86.83684
+height = 439.54333
+
 [node name="TentacleRightDown" instance=ExtResource("1_il5or")]
-rotation = -0.7853982
+facing_dir = "right_down"
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+animation = &"attack_right_down"
+frame = 15
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(140.8, 65.99999)
+rotation = -0.7961919
+shape = SubResource("CapsuleShape2D_il5or")
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(144.8, 69.20001)
+rotation = -0.77143604
+shape = SubResource("CapsuleShape2D_4vnk6")
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(118.4, 95.20001)
+rotation = -0.77504474
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("CapsuleShape2D_ct3qd")

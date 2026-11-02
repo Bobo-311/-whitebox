@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cafnp4gdvgpsi"
-path="res://.godot/imported/新待機_uniform.png-ae7776d6dab9cafbd002e3501935cd9f.ctex"
+uid="uid://vthmpfaufnll"
+path="res://.godot/imported/觸手攻擊_右下_processed.png-1c029432bfab10f058584680e85a2718.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://base_enemy/Chipmunk/花栗鼠素材/新待機_uniform.png"
-dest_files=["res://.godot/imported/新待機_uniform.png-ae7776d6dab9cafbd002e3501935cd9f.ctex"]
+source_file="res://base_enemy/BossLotus/蓮花素材/觸手/觸手攻擊_右下_processed.png"
+dest_files=["res://.godot/imported/觸手攻擊_右下_processed.png-1c029432bfab10f058584680e85a2718.ctex"]
 
 [params]
 
