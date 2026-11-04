@@ -5,7 +5,8 @@ class_name CutsceneDirector
 # ⚙️ 企劃設定區 (在右側面板拖拉設定)
 # ==========================================
 @export var target_timeline: String = ""    # 1. 填寫要播放的 Dialogic 劇本名稱
-@export var target_npc: Node2D              # 2. 拖入這場戲的 NPC (例如小女孩)
+@export var target_npc: Node2D              # 2. 單一 NPC (相容舊劇本，對應暗號 "npc")
+@export var actors: Dictionary = {}         # 🌟 新增：複數演員字典 (例如 key 填 "m1", "m2" 指派多隻怪物)
 @export var markers: Dictionary = {}        # 3. 裝載所有走位目標的字典
 @export var player_dch: Resource
 @export var npc_dch: Resource
@@ -28,6 +29,22 @@ func _ready() -> void:
 		Dialogic.signal_event.connect(_on_dialogic_signal)
 	if not Dialogic.timeline_ended.is_connected(_on_timeline_ended):
 		Dialogic.timeline_ended.connect(_on_timeline_ended)
+		
+	# 🌟 防呆：把 target_npc 以及 actors 字典裡所有「一開始關眼睛隱形」的怪物都先凍結 AI
+	if target_npc and not target_npc.visible:
+		target_npc.process_mode = Node.PROCESS_MODE_DISABLED
+	for key in actors.keys():
+		var actor_node = get_node_or_null(actors[key]) as Node2D
+		if actor_node and not actor_node.visible:
+			actor_node.process_mode = Node.PROCESS_MODE_DISABLED
+
+# 🌟 輔助函數：根據暗號裡的名稱 ("npc" 或 "m1"、"m2") 抓出對應的角色節點
+func _get_actor_node(actor_key: String) -> Node2D:
+	if actor_key == "npc":
+		return target_npc
+	elif actors.has(actor_key):
+		return get_node_or_null(actors[actor_key]) as Node2D
+	return null
 
 # ==========================================
 # 🎬 玩家踩進觸發區 ➡️ 開拍！
@@ -54,8 +71,7 @@ func _on_body_entered(body: Node2D) -> void:
 			layout.register_character(npc_dch, target_npc.get_node("BubbleMaker"))
 
 # 🏃‍♂️ 2. 接收劇本暗號 ➡️ 指揮走位與運鏡
-# 暗號格式支援彈性填寫： 動作:對象:目標點:[移動動畫]:[停下動畫]:[秒數]
-# 例如： run:player:girl_side_pos:1.2 或 run:player:girl_side_pos:move_up:idle_right:1.5
+# 暗號格式： 動作:對象(player/cam/npc/m1/m2...):目標點:[移動動畫]:[停下動畫]:[秒數]
 func _on_dialogic_signal(argument: String) -> void:
 	if not has_triggered: return 
 	
@@ -66,11 +82,11 @@ func _on_dialogic_signal(argument: String) -> void:
 	var parts = argument.split(":")
 	if parts.size() < 3: return
 	
-	var action = parts[0].strip_edges()     # "walk"、"run"、"pan"、"reset"、"anim"
-	var actor = parts[1].strip_edges()      # "player"、"npc"、"cam"
-	var target_key = parts[2].strip_edges() # 字典裡的 key (例如 "girl_side_pos")
+	var action = parts[0].strip_edges()     # "walk"、"run"、"back"、"ambush"、"show"、"hide"、"pan"、"reset"、"anim"
+	var actor = parts[1].strip_edges()      # "player"、"cam"、"npc" 或 actors 字典裡的 "m1"、"m2"
+	var target_key = parts[2].strip_edges() # markers 字典裡的 key 或 動畫名稱
 	
-	# 🌟 智慧解析第 4 格以後的參數：如果是數字就當作「秒數」，如果是文字就依序當作「移動動畫」與「停下動畫」
+	# 🌟 智慧解析第 4 格以後的參數：數字當「秒數」，文字依序當「移動動畫」與「停下動畫」
 	var custom_move_anim: String = ""
 	var custom_idle_anim: String = ""
 	var custom_duration: float = -1.0 # -1 代表未指定，將使用預設秒數
@@ -111,14 +127,27 @@ func _on_dialogic_signal(argument: String) -> void:
 			)
 		return
 
-	# 🎭 原地單純切換動畫邏輯 (例如 anim:npc:stand_up 或 anim:player:idle_up)
+	# 🎭 原地單純切換動畫 或 顯示/隱藏邏輯 (支援 player、npc、m1、m2...)
 	if action == "anim":
 		if actor == "player" and DataManager.player_node:
 			DataManager.player_node.animated_sprite_2d.play(target_key)
-		elif actor == "npc" and target_npc:
-			var npc_sprite = target_npc.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
-			if npc_sprite:
-				npc_sprite.play(target_key)
+		else:
+			var current_npc = _get_actor_node(actor)
+			if current_npc:
+				var npc_sprite = current_npc.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+				if npc_sprite:
+					npc_sprite.play(target_key)
+		return
+	elif action == "show":
+		var current_npc = _get_actor_node(actor)
+		if current_npc:
+			current_npc.visible = true
+			current_npc.modulate.a = 1.0
+		return
+	elif action == "hide":
+		var current_npc = _get_actor_node(actor)
+		if current_npc:
+			current_npc.visible = false
 		return
 
 	# 檢查有沒有這個定位點
@@ -126,26 +155,27 @@ func _on_dialogic_signal(argument: String) -> void:
 	var target_marker = get_node(markers[target_key]) as Node2D
 	if not target_marker: return
 	
-	# 🌟 阿尼移動邏輯
+	# 🌟 阿尼移動邏輯 (支援 walk、run、以及嚇到倒退一步 back)
 	if actor == "player":
 		var player = DataManager.player_node
 		if player:
-			# 1. 決定預設動畫 (如果沒有填動畫名稱，就自動判斷左右)
 			var is_moving_right = target_marker.global_position.x > player.global_position.x
 			var move_anim = "move_right" if is_moving_right else "move_left"
 			var idle_anim = "idle_right" if is_moving_right else "idle_left"
 			
-			# 2. 如果有填自訂移動動畫，覆蓋移動動畫！
+			# 若是嚇到後退一步 (back)，預設面朝反方向（看著怪物倒退）
+			if action == "back":
+				move_anim = "move_left" if is_moving_right else "move_right"
+				idle_anim = "idle_left" if is_moving_right else "idle_right"
+			
 			if custom_move_anim != "":
 				move_anim = custom_move_anim
 				if custom_idle_anim == "" and custom_move_anim.begins_with("move_"):
 					idle_anim = custom_move_anim.replace("move_", "idle_")
 					
-			# 3. 如果有填自訂停下動畫，覆蓋停下動畫！
 			if custom_idle_anim != "":
 				idle_anim = custom_idle_anim
 			
-			# 4. 執行移動與動畫播放 (優先使用 Signal 填的秒數，沒填則用預設秒數)
 			if action == "walk":
 				var duration = custom_duration if custom_duration > 0.0 else player_walk_time
 				player.animated_sprite_2d.play(move_anim)
@@ -160,33 +190,53 @@ func _on_dialogic_signal(argument: String) -> void:
 				tween.tween_property(player, "global_position", target_marker.global_position, duration)
 				tween.tween_callback(func(): player.animated_sprite_2d.play(idle_anim))
 				
-	# 🌟 NPC 移動邏輯
-	elif actor == "npc":
-		if target_npc:
-			var npc_sprite = target_npc.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+			elif action == "back":
+				var duration = custom_duration if custom_duration > 0.0 else 0.25
+				player.animated_sprite_2d.play(move_anim)
+				var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+				tween.tween_property(player, "global_position", target_marker.global_position, duration)
+				tween.tween_callback(func(): player.animated_sprite_2d.play(idle_anim))
+				
+	# 🌟 單一 NPC 或 複數怪物 (m1, m2...) 移動邏輯
+	else:
+		var current_npc = _get_actor_node(actor)
+		if current_npc:
+			var npc_sprite = current_npc.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 			if npc_sprite and custom_move_anim != "":
 				npc_sprite.play(custom_move_anim)
 				
 			if action == "run":
+				# 小女孩專用：邊跑邊淡出消失
 				var duration = custom_duration if custom_duration > 0.0 else npc_run_time
 				var tween = create_tween()
-				tween.tween_property(target_npc, "global_position", target_marker.global_position, duration)
-				tween.parallel().tween_property(target_npc, "modulate:a", 0.0, npc_fade_time) # 淡出
+				tween.tween_property(current_npc, "global_position", target_marker.global_position, duration)
+				tween.parallel().tween_property(current_npc, "modulate:a", 0.0, npc_fade_time) # 淡出
 				tween.tween_callback(func(): 
-					target_npc.visible = false
+					current_npc.visible = false
 					if npc_sprite and custom_idle_anim != "":
 						npc_sprite.play(custom_idle_anim)
 				)
 			elif action == "walk":
 				var duration = custom_duration if custom_duration > 0.0 else npc_walk_time
 				var tween = create_tween()
-				tween.tween_property(target_npc, "global_position", target_marker.global_position, duration)
+				tween.tween_property(current_npc, "global_position", target_marker.global_position, duration)
+				tween.tween_callback(func():
+					if npc_sprite and custom_idle_anim != "":
+						npc_sprite.play(custom_idle_anim)
+				)
+			elif action == "ambush":
+				# 👾 🌟 怪物專用：瞬間打開眼睛現身，並猛烈衝向目標點攔路（不淡出！）
+				current_npc.visible = true
+				current_npc.modulate.a = 1.0
+				var duration = custom_duration if custom_duration > 0.0 else 0.35
+				var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+				tween.tween_property(current_npc, "global_position", target_marker.global_position, duration)
 				tween.tween_callback(func():
 					if npc_sprite and custom_idle_anim != "":
 						npc_sprite.play(custom_idle_anim)
 				)
 
-# 🔓 3. 劇本結束 ➡️ 解鎖阿尼並確保鏡頭歸位
+# 🔓 3. 劇本結束 ➡️ 解鎖阿尼，並把場上所有已現身的怪物 AI 全部解凍！
 func _on_timeline_ended() -> void:
 	var player = DataManager.player_node
 	# 確保是同一個劇本結束才解鎖
@@ -194,6 +244,14 @@ func _on_timeline_ended() -> void:
 		player.is_in_dialogue = false
 		if player.state_machine:
 			player.state_machine.process_mode = Node.PROCESS_MODE_INHERIT
+			
+		# 🌟 解凍單一 target_npc 與 actors 字典裡所有已經現身的怪物
+		if target_npc and target_npc.visible:
+			target_npc.process_mode = Node.PROCESS_MODE_INHERIT
+		for key in actors.keys():
+			var actor_node = get_node_or_null(actors[key]) as Node2D
+			if actor_node and actor_node.visible:
+				actor_node.process_mode = Node.PROCESS_MODE_INHERIT
 			
 		# 防呆：確保對話結束時鏡頭一定回到玩家身上
 		var cam = get_viewport().get_camera_2d()

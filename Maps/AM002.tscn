@@ -18972,7 +18972,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -18992,7 +18991,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(2020, 1433)
+position = Vector2(1378, 1429)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -20467,15 +20466,27 @@ position = Vector2(3988.0005, -1653)
 scale = Vector2(43.90935, 62.156647)
 
 [node name="lightFlower" parent="." instance=ExtResource("17_cf5ks")]
-position = Vector2(1997, 1555.0001)
+position = Vector2(2174, 2015)
 scale = Vector2(3, 3)
 
 [node name="ShopNPC" parent="." instance=ExtResource("18_r3mgl")]
 position = Vector2(3514, 1820)
 
-[node name="劇情用mark2d" parent="." instance=ExtResource("19_uva5b")]
-position = Vector2(2226, 1415)
-scale = Vector2(1.6620116, -7.4087677)
+[node name="聽見樹林有聲音" parent="." instance=ExtResource("19_uva5b")]
+position = Vector2(5524, 1395.0001)
+scale = Vector2(4.920005, 4.920005)
+target_timeline = "A008"
+markers = {
+"camgo1": NodePath("camgo1")
+}
+player_dch = ExtResource("20_gvfi4")
+
+[node name="camgo1" type="Marker2D" parent="聽見樹林有聲音"]
+position = Vector2(185.36568, 2.2357454)
+
+[node name="初見小女孩劇情" parent="." instance=ExtResource("19_uva5b")]
+position = Vector2(1985, 1415.9998)
+scale = Vector2(18.702019, -19.29248)
 target_timeline = "A005"
 markers = {
 "behind_tree_pos": NodePath("behind_tree_pos"),
@@ -20488,23 +20499,23 @@ markers = {
 }
 player_dch = ExtResource("20_gvfi4")
 
-[node name="cam_tree_pos" type="Marker2D" parent="劇情用mark2d"]
-position = Vector2(993.97626, 136.99983)
+[node name="cam_tree_pos" type="Marker2D" parent="初見小女孩劇情"]
+position = Vector2(100.47044, 63.599895)
 
-[node name="cam_tree_pos2" type="Marker2D" parent="劇情用mark2d"]
-position = Vector2(991.5695, -41.43739)
+[node name="cam_tree_pos2" type="Marker2D" parent="初見小女孩劇情"]
+position = Vector2(102.93005, -24.20633)
 
-[node name="girl_side_pos" type="Marker2D" parent="劇情用mark2d"]
-position = Vector2(895.90234, -68.567406)
+[node name="girl_side_pos" type="Marker2D" parent="初見小女孩劇情"]
+position = Vector2(89.72293, -24.413668)
 
-[node name="run1" type="Marker2D" parent="劇情用mark2d"]
-position = Vector2(1500.5913, -56.14969)
+[node name="run1" type="Marker2D" parent="初見小女孩劇情"]
+position = Vector2(148.59355, -11.921745)
 
-[node name="run2" type="Marker2D" parent="劇情用mark2d"]
-position = Vector2(1516.235, 64.51815)
+[node name="run2" type="Marker2D" parent="初見小女孩劇情"]
+position = Vector2(148.1658, 23.584305)
 
-[node name="behind_tree_pos" type="Marker2D" parent="劇情用mark2d"]
-position = Vector2(1005.4082, 66.002884)
+[node name="behind_tree_pos" type="Marker2D" parent="初見小女孩劇情"]
+position = Vector2(101.53984, 35.66155)
 
 [node name="空氣牆上策" type="StaticBody2D" parent="."]
 
