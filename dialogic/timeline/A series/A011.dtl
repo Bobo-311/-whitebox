@@ -1,4 +1,25 @@
-？？？: [wave amp=50.0 freq=5.0 connected=1]呼~~~
+[style name="galstyle"]
+join 阿尼 left
+join ？？？ right
+？？？: 這裡這裡！！！
+[signal arg="pan:cam:hide_cam:2.0"]
+[wait time="2.0"]
+[signal arg="walk:player:1:move_right:1.0"]
+[wait time="1.0"]
+[signal arg="walk:player:2:move_down:1.0"]
+[wait time="1.0"]
+[signal arg="walk:player:hide_place:move_left:idle_left:1.0"]
+[wait time="1.0"]
+阿尼: [shake rate=20.0 level=20 connected=1]哈...哈...哈...
+？？？: 噓...
+[signal arg="pan:cam:cam1:2.0"]
+[wait time="2.0"]
+[signal arg="ambush:m1:m_go_here:move_right_down:4.0"]
+[wait time="0.1"]
+[signal arg="ambush:m2:m_go_here:move_right_down:4.0"]
+[wait time="3.0"]
+[signal arg="pan:cam:hide_cam:2.0"]
+[wait time="2.0"]
 ？？？: 差點就被抓到了。
 阿尼: 剛剛......
 阿尼: 那到底是什麼東西？
@@ -11,8 +32,7 @@
 阿尼: 我......不知道......
 阿尼: 我醒來時就在森林裡了。
 阿尼: 什麼都想不起來。
-？？？: 真的假的？
-？？？: 妳失憶了嗎？
+？？？: 真的假的？失憶了嗎？
 阿尼: 嗯......
 ？？？: 咦？你手上拿著的是什麼？
 阿尼: 哦這個嗎......
@@ -27,11 +47,11 @@
 ？？？: 阿尼是吧！
 ？？？: 那我就叫妳阿尼吧！
 ？？？: 對了！我還沒自我介紹！！
-白貓: 我叫路克斯！
-白貓: 很高興認識妳！！
-阿尼: 雖然......我也不確定我是不是叫這個......
-白貓: 沒關係啦！
-白貓: 名字只是稱呼而已。
-白貓: 等恢復記憶就知道啦！
-白貓: 我會幫你的！！
-白貓: 當務之急是快點離開這裡，走吧走吧！
+路克斯: 我叫路克斯！
+路克斯: 很高興認識妳！！
+阿尼: 謝謝你剛剛救我，路克斯。
+路克斯: 小事啦嘿嘿
+路克斯: 在那麼暗的樹林中迷路一定嚇壞了，接下來我們一起行動吧！
+阿尼: 謝謝你。
+路克斯: 當務之急是離開這裡，走吧走吧！
+[signal arg="fade_out_cinematic"]

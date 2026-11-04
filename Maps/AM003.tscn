@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=4 uid="uid://dqfni11j7apy5"]
+[gd_scene load_steps=143 format=4 uid="uid://dqfni11j7apy5"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_0byee"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_42a2b"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="17_7kvl5"]
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="18_mwcdo"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="19_37wv2"]
+[ext_resource type="Texture2D" uid="uid://dntvwhahx7oo" path="res://外在素材/復古像素風岩石圖示.png" id="20_mwcdo"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -22442,8 +22443,7 @@ position = Vector2(-1862, 3697)
 polygon = PackedVector2Array(9852, -1765, 9447, -1765, 9446, -2138, 9852, -2138)
 
 [node name="Colorless_Dango" parent="." instance=ExtResource("17_7kvl5")]
-visible = false
-position = Vector2(2622, 1413)
+position = Vector2(3237, 1432)
 
 [node name="Colorless_Dango2" parent="." instance=ExtResource("17_7kvl5")]
 visible = false
@@ -22455,7 +22455,8 @@ scale = Vector2(5.6530285, 28.33303)
 target_timeline = "A009"
 actors = {
 "m1": NodePath("../Colorless_Dango"),
-"m2": NodePath("../Colorless_Dango2")
+"m2": NodePath("../Colorless_Dango2"),
+"rock": NodePath("../tinyrock")
 }
 markers = {
 "block_back_pos": NodePath("block_back_pos"),
@@ -22466,7 +22467,7 @@ markers = {
 player_dch = ExtResource("19_37wv2")
 
 [node name="block_back_pos" type="Marker2D" parent="CutsceneDirector"]
-position = Vector2(-51.123035, -2.3647308)
+position = Vector2(-62.444405, -1.800019)
 
 [node name="block_back_pos2" type="Marker2D" parent="CutsceneDirector"]
 position = Vector2(99.94643, -2.223553)
@@ -22476,6 +22477,12 @@ position = Vector2(235.80278, -1.8353136)
 
 [node name="escape_front_pos" type="Marker2D" parent="CutsceneDirector"]
 position = Vector2(162.74461, -2.082375)
+
+[node name="tinyrock" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(6064.7144, 1306.2858)
+scale = Vector2(0.05946705, 0.05946705)
+texture = ExtResource("20_mwcdo")
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

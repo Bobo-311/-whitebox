@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=4 uid="uid://calmvvgqnx0bp"]
+[gd_scene load_steps=49 format=4 uid="uid://calmvvgqnx0bp"]
 
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="1_iffoy"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_x148i"]
@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://b7awiicllsshv" path="res://單獨物件場景/tree_stump_a.tscn" id="17_k0k1n"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="18_ldu50"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="19_i7tjv"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="20_t3uua"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="21_xepns"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x148i"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -1.4375, 8, -1.4375)
@@ -7309,8 +7311,7 @@ tile_map_data = PackedByteArray("AAAbAAAAAQAXAAAAAAAbAAEAAQAXAAEAAAAbAAIAAQAXAAI
 tile_set = SubResource("TileSet_4n4jk")
 
 [node name="WhiteCat" parent="." instance=ExtResource("2_a22ou")]
-visible = false
-position = Vector2(3261, 1414)
+position = Vector2(2896, 2091)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -8101,8 +8102,55 @@ shape = SubResource("RectangleShape2D_t3uua")
 position = Vector2(6950, 1242)
 
 [node name="player" parent="." instance=ExtResource("3_1l5mq")]
-position = Vector2(7013, 2383)
+position = Vector2(2695, 1653)
 max_hp = 100
+
+[node name="CutsceneDirector" parent="." instance=ExtResource("20_t3uua")]
+position = Vector2(2947.0002, 1578)
+scale = Vector2(6.97719, 6.97719)
+target_timeline = "A011"
+actors = {
+"m1": NodePath("../M1"),
+"m2": NodePath("../M2"),
+"w_cat": NodePath("../WhiteCat")
+}
+markers = {
+"1": NodePath("../Node2D/1"),
+"2": NodePath("../Node2D/2"),
+"cam1": NodePath("../Node2D/cam1"),
+"hide_cam": NodePath("../Node2D/hide_cam"),
+"hide_place": NodePath("../Node2D/hide_place"),
+"m_go_here": NodePath("../Node2D/m_go_here")
+}
+trigger_on_map_enter = true
+
+[node name="M1" parent="." instance=ExtResource("21_xepns")]
+visible = false
+position = Vector2(3176, 1732)
+
+[node name="M2" parent="." instance=ExtResource("21_xepns")]
+visible = false
+position = Vector2(3065, 1715)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="hide_cam" type="Marker2D" parent="Node2D"]
+position = Vector2(2961, 2095)
+
+[node name="cam1" type="Marker2D" parent="Node2D"]
+position = Vector2(3785, 1727)
+
+[node name="1" type="Marker2D" parent="Node2D"]
+position = Vector2(3262, 1687)
+
+[node name="2" type="Marker2D" parent="Node2D"]
+position = Vector2(3268, 2075)
+
+[node name="m_go_here" type="Marker2D" parent="Node2D"]
+position = Vector2(5254, 1737)
+
+[node name="hide_place" type="Marker2D" parent="Node2D"]
+position = Vector2(3041, 2094)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]
