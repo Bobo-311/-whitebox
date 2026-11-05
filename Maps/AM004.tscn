@@ -8123,14 +8123,15 @@ markers = {
 "m_go_here": NodePath("../Node2D/m_go_here")
 }
 trigger_on_map_enter = true
+permanent_hide_actors = Array[String](["m1", "m2"])
 
 [node name="M1" parent="." instance=ExtResource("21_xepns")]
 visible = false
-position = Vector2(3176, 1732)
+position = Vector2(3142, 1732)
 
 [node name="M2" parent="." instance=ExtResource("21_xepns")]
 visible = false
-position = Vector2(3065, 1715)
+position = Vector2(3031, 1715)
 
 [node name="Node2D" type="Node2D" parent="."]
 

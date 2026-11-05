@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=4 uid="uid://nlff3ygrmq5v"]
+[gd_scene load_steps=49 format=4 uid="uid://nlff3ygrmq5v"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_64k2n"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_8l3il"]
@@ -18,7 +18,9 @@
 [ext_resource type="PackedScene" uid="uid://cbc5kubrey2q2" path="res://單獨物件場景/twin_rock_a.tscn" id="16_64k2n"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="17_jeouf"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="18_s5mac"]
-[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="19_k4yd4"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="19_k4yd4"]
+[ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="20_60i82"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="21_w1fo3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x148i"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -1.4375, 8, -1.4375)
@@ -7310,7 +7312,8 @@ tile_map_data = PackedByteArray("AACXAE4AAQAXAAAAAACXAE8AAQAXAAEAAACXAFAAAQAXAAI
 tile_set = SubResource("TileSet_r4s3s")
 
 [node name="WhiteCat" parent="." instance=ExtResource("3_loot5")]
-position = Vector2(3042, 1147.0001)
+visible = false
+position = Vector2(2048, 1265.0001)
 scale = Vector2(0.73, 0.73)
 max_follow_distance = 700.0
 
@@ -7486,7 +7489,7 @@ position = Vector2(3855, 1649.0001)
 scale = Vector2(4, 4)
 
 [node name="CameraLockArea" parent="." instance=ExtResource("17_jeouf")]
-position = Vector2(2318, 1263)
+position = Vector2(2218.0002, 1263)
 scale = Vector2(22.015875, 113.753456)
 
 [node name="CameraLockArea2" parent="." instance=ExtResource("17_jeouf")]
@@ -7502,9 +7505,12 @@ position = Vector2(4645, 153)
 scale = Vector2(29.638844, 54.46978)
 
 [node name="player" parent="." instance=ExtResource("4_jssex")]
-position = Vector2(4598, 516.00024)
+position = Vector2(2057.0002, 1212)
 scale = Vector2(1.3, 1.3)
 max_hp = 100
+
+[node name="right_mark" type="Marker2D" parent="player"]
+position = Vector2(101.538284, -50.000004)
 
 [node name="空氣牆左方" type="StaticBody2D" parent="."]
 position = Vector2(2044.0001, 1763.0001)
@@ -7570,8 +7576,79 @@ shape = SubResource("RectangleShape2D_k4yd4")
 position = Vector2(4638, 451.00003)
 scale = Vector2(1.3, 1.3)
 
-[node name="Big_Colorless_Dango" parent="." instance=ExtResource("19_k4yd4")]
-position = Vector2(4082, 1399)
+[node name="A012" parent="." instance=ExtResource("19_k4yd4")]
+position = Vector2(2774, 1644)
+target_timeline = "A012"
+actors = {
+"": NodePath(""),
+"m1": NodePath("../m1"),
+"m2": NodePath("../m2"),
+"m3": NodePath("../m3"),
+"w_cat": NodePath("../WhiteCat")
+}
+markers = {
+"pounce_pos": NodePath("../Node2D/pounce_pos1"),
+"pounce_pos2": NodePath("../Node2D/pounce_pos2"),
+"pounce_pos3": NodePath("../Node2D/pounce_pos3"),
+"surround_pos1": NodePath("../Node2D/surround_pos1"),
+"surround_pos2": NodePath("../Node2D/surround_pos2"),
+"surround_pos3": NodePath("../Node2D/surround_pos3"),
+"walk_to_here": NodePath("../Node2D/walk_to_here")
+}
+player_dch = ExtResource("20_60i82")
+trigger_on_map_enter = true
+
+[node name="m1" parent="." instance=ExtResource("21_w1fo3")]
+visible = false
+position = Vector2(2725, 1245)
+
+[node name="m3" parent="." instance=ExtResource("21_w1fo3")]
+visible = false
+position = Vector2(3559, 1753)
+
+[node name="m2" parent="." instance=ExtResource("21_w1fo3")]
+visible = false
+position = Vector2(4385, 1254)
+
+[node name="A013" parent="." node_paths=PackedStringArray("target_enemies") instance=ExtResource("19_k4yd4")]
+target_timeline = "A013"
+actors = {
+"cat": NodePath("../WhiteCat"),
+"m1": NodePath("../m1"),
+"m2": NodePath("../m2"),
+"m3": NodePath("../m3")
+}
+markers = {
+"": NodePath(""),
+"right_mark": NodePath("../player/right_mark")
+}
+player_dch = ExtResource("20_60i82")
+permanent_hide_actors = Array[String](["m1", "m2", "m3"])
+trigger_on_enemies_cleared = true
+target_enemies = [NodePath("../m1"), NodePath("../m2"), NodePath("../m3")]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="surround_pos1" type="Marker2D" parent="Node2D"]
+position = Vector2(3210, 1227)
+
+[node name="surround_pos2" type="Marker2D" parent="Node2D"]
+position = Vector2(3904, 1227)
+
+[node name="surround_pos3" type="Marker2D" parent="Node2D"]
+position = Vector2(3550, 1389)
+
+[node name="pounce_pos1" type="Marker2D" parent="Node2D"]
+position = Vector2(3399, 1228)
+
+[node name="pounce_pos2" type="Marker2D" parent="Node2D"]
+position = Vector2(3688, 1228)
+
+[node name="pounce_pos3" type="Marker2D" parent="Node2D"]
+position = Vector2(3549, 1314)
+
+[node name="walk_to_here" type="Marker2D" parent="Node2D"]
+position = Vector2(3546, 1233)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea上門"]

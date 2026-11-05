@@ -239,3 +239,17 @@ func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -
 	
 	Engine.time_scale = 1.0
 		
+# ==========================================
+# 📖 劇情觸發紀錄 (跨地圖永久保存)
+# ==========================================
+var completed_cutscenes: Array[String] = []
+
+# 檢查某段劇本是否已經看過
+func is_cutscene_completed(timeline_id: String) -> bool:
+	if timeline_id == "": return false
+	return completed_cutscenes.has(timeline_id)
+
+# 將劇本標記為已看過
+func mark_cutscene_completed(timeline_id: String) -> void:
+	if timeline_id != "" and not completed_cutscenes.has(timeline_id):
+		completed_cutscenes.append(timeline_id)

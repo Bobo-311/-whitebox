@@ -8,7 +8,7 @@ join ？？？ right
 [wait time="1.0"]
 [signal arg="walk:player:2:move_down:1.0"]
 [wait time="1.0"]
-[signal arg="walk:player:hide_place:move_left:idle_left:1.0"]
+[signal arg="walk:player:hide_place:move_left:idle_left:0.7"]
 [wait time="1.0"]
 阿尼: [shake rate=20.0 level=20 connected=1]哈...哈...哈...
 ？？？: 噓...
@@ -41,7 +41,7 @@ join ？？？ right
 阿尼: 但上面刻著『阿尼』兩個字。
 阿尼: 所以我猜......
 阿尼: 這可能是我的名字？
-？？？: [font_size=11]這...應該不是真的畫筆吧...[/font_size]
+？？？: [font_size=11]這...應該不是真的吧...[/font_size]
 阿尼: 蛤？你說什麼？
 ？？？: 哦哦哦沒事！
 ？？？: 阿尼是吧！
@@ -54,4 +54,6 @@ join ？？？ right
 路克斯: 在那麼暗的樹林中迷路一定嚇壞了，接下來我們一起行動吧！
 阿尼: 謝謝你。
 路克斯: 當務之急是離開這裡，走吧走吧！
+[signal arg="hide:m1"]
+[signal arg="hide:m2"]
 [signal arg="fade_out_cinematic"]
