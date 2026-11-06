@@ -1,5 +1,6 @@
-[gd_scene load_steps=134 format=4 uid="uid://cka71yxrarl35"]
+[gd_scene load_steps=138 format=4 uid="uid://cka71yxrarl35"]
 
+[ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_efa07"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_j8m1d"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_1jqui"]
 [ext_resource type="Texture2D" uid="uid://br4vjhfooxdxg" path="res://最初之地地圖素材/only map/013.png" id="3_pro6m"]
@@ -12,6 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://cy41lx0f2xb0s" path="res://單獨物件場景/carpet.tscn" id="10_fwges"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="11_1jqui"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="12_pro6m"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="13_20yyl"]
+[ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="15_1ixav"]
+[ext_resource type="PackedScene" uid="uid://2yj4wq8nsmac" path="res://單獨物件場景/door_at_the_floor.tscn" id="16_1ixav"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -16121,7 +16125,10 @@ size = Vector2(69.230545, 12.3076935)
 
 [node name="AM014" type="Node2D"]
 y_sort_enabled = true
-metadata/_edit_horizontal_guides_ = [904.0]
+script = ExtResource("1_efa07")
+limit_right = 3000
+metadata/_edit_horizontal_guides_ = [904.0, -64.0, 1002.0]
+metadata/_edit_vertical_guides_ = [2505.0, 1614.0, 3000.0]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = -10
@@ -16151,8 +16158,7 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(2445, 1659)
 
 [node name="WhiteCat" parent="." instance=ExtResource("5_44toe")]
-visible = false
-position = Vector2(1697, 1763)
+position = Vector2(2076, 841)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -16174,7 +16180,7 @@ position = Vector2(2018, 907)
 scale = Vector2(5.3600097, 4.4799995)
 
 [node name="player" parent="." instance=ExtResource("6_efa07")]
-position = Vector2(2049, 535)
+position = Vector2(2010, 861)
 base_max_hp = 100
 max_hp = 100
 
@@ -16230,6 +16236,42 @@ polygon = PackedVector2Array(2369, 346, 2369, 355, 1712, 354, 1711, 345)
 visible = false
 position = Vector2(2030, 499)
 scale = Vector2(39.839996, 61.12959)
+
+[node name="CutsceneDirector" parent="." instance=ExtResource("13_20yyl")]
+position = Vector2(2334, 672)
+target_timeline = "A017"
+actors = {
+"cat": NodePath("../WhiteCat"),
+"door_at_floor": NodePath("../door at the floor")
+}
+markers = {
+"book_pos": NodePath("../Node2D/book_pos"),
+"cabin_center_pos": NodePath("../Node2D/cabin_center_pos"),
+"cabin_center_pos2": NodePath("../Node2D/cabin_center_pos2"),
+"chair_pos": NodePath("../Node2D/chair_pos")
+}
+player_dch = ExtResource("15_1ixav")
+trigger_on_map_enter = true
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="chair_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(1849, 425)
+
+[node name="cabin_center_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(1986, 604)
+
+[node name="cabin_center_pos2" type="Marker2D" parent="Node2D"]
+position = Vector2(2099, 604)
+
+[node name="book_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(2226, 431)
+
+[node name="door at the floor" parent="." instance=ExtResource("16_1ixav")]
+visible = false
+z_index = -2
+position = Vector2(2047, 653)
+scale = Vector2(3, 3)
 
 [editable path="PortalArea木屋門"]
 [editable path="PortalArea轉地圖二"]

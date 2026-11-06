@@ -2229,15 +2229,23 @@ actors = {
 "cat": NodePath("../WhiteCat")
 }
 markers = {
-"shop_dront": NodePath("../Node2D/shop_front")
+"1": NodePath("../Node2D/shop_dront2"),
+"2": NodePath("../Node2D/shop_dront3"),
+"shop_dront": NodePath("../Node2D/shop_dront")
 }
 player_dch = ExtResource("10_b0vjx")
 hide_target_npc_after_complete = true
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="shop_front" type="Marker2D" parent="Node2D"]
+[node name="shop_dront" type="Marker2D" parent="Node2D"]
 position = Vector2(4637, 1903)
+
+[node name="shop_dront2" type="Marker2D" parent="Node2D"]
+position = Vector2(4578, 1902)
+
+[node name="shop_dront3" type="Marker2D" parent="Node2D"]
+position = Vector2(4697, 1904)
 
 [node name="ShopNPC" parent="." instance=ExtResource("11_1dykj")]
 position = Vector2(4658, 1735)

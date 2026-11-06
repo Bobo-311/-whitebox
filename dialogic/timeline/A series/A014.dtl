@@ -17,12 +17,12 @@ join 阿尼 left
 白貓: 這附近安全多了。
 白貓: 只要穿過池塘，再往前走就能到涼亭。
 ？？？: 兩位~~
-[signal arg="pan:cam:shop_front:2.0"]
+[signal arg="pan:cam:shop_dront:2.0"]
 ？？？: 走過路過千萬別錯過！一天三度的最初之地大甩賣！
 ？？？: 看看不花錢，兩位要不要來看看啊！
-[signal arg="walk:player:shop_dront:move_right:idle_up:2.0"]
+[signal arg="walk:player:1:move_right:idle_up:2.0"]
 [wait time="0.1"]
-[signal arg="walk:cat:shop_front:move_right:idle_up:2.0"]
+[signal arg="walk:cat:2:move_right:idle_up:2.0"]
 [wait time="2.0"]
 join 商人 center
 阿尼: 在這種地方大甩賣嗎？
