@@ -24,9 +24,22 @@ func _on_pressed():
 	# 按下按鈕時，發射訊號把自己的身分證交出去
 	slot_clicked.emit(slot_type, slot_index)
 
-# 外部呼叫用：主程式直接傳入圖片路徑就能換圖
+# ==========================================
+# 🌟 視覺替換魔法 (Visual Replacement)
+# ==========================================
+# 外部呼叫用：主程式 (equip_page) 會把圖片路徑傳進來
 func set_icon(texture_path: String):
 	if texture_path == "":
+		# 【狀態 A：空置狀態】(大腦說這格沒裝東西)
 		item_icon.texture = null
+		
+		# 🌟 恢復顯示自己 (TextureButton) 的白色圓角底圖，告訴玩家這裡可以裝備
+		self_modulate.a = 1.0 
 	else:
+		# 【狀態 B：裝備狀態】(大腦說這格有裝東西)
 		item_icon.texture = load(texture_path)
+		
+		# 🌟 隱藏白色圓角底圖！
+		# 使用 self_modulate 只會隱藏 TextureButton 自己的底圖，
+		# 但子節點 (ItemIcon) 的貼紙圖案依然會 100% 顯示，達成完美的「取代」效果！
+		self_modulate.a = 0.0

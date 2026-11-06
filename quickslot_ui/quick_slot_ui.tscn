@@ -1,20 +1,17 @@
 [gd_scene load_steps=7 format=3 uid="uid://b6fvc0lb7ehpm"]
 
-[ext_resource type="Texture2D" uid="uid://73yornmgp45i" path="res://快捷欄素材/蛇扣.png" id="1_iqudl"]
 [ext_resource type="Script" uid="uid://bh1rcx2n7ins7" path="res://quickslot_ui/quick_slot_ui.gd" id="1_ncb3i"]
-[ext_resource type="Texture2D" uid="uid://b4hcb1k1mvr3o" path="res://快捷欄素材/tilemap.png" id="2_ncb3i"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bsjtw"]
-atlas = ExtResource("2_ncb3i")
-region = Rect2(289.93594, 34.972176, 13.08252, 14.026543)
+[ext_resource type="Texture2D" uid="uid://cr4ninv41jar3" path="res://UI美術素材圖/道具格/4x/button_pill_focus_4x.png" id="2_bsjtw"]
+[ext_resource type="Texture2D" uid="uid://bn3h8woe3sp4b" path="res://UI美術素材圖/按鍵/Individual Tiles/(Recommended) With Anti-Aliasing/Letters + Numbers/LettersNumbers2.png" id="3_bsjtw"]
+[ext_resource type="Texture2D" uid="uid://bdcxrxctxnanf" path="res://UI美術素材圖/按鍵/Tilesets/FullKeyboardMouse_Tileset.png" id="4_bsjtw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7ove4"]
-atlas = ExtResource("2_ncb3i")
-region = Rect2(289.95108, 17.978384, 13.073364, 14.020353)
+atlas = ExtResource("4_bsjtw")
+region = Rect2(319.94943, 16.972725, 14.993866, 14.999535)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7el2n"]
-atlas = ExtResource("2_ncb3i")
-region = Rect2(323.96637, 18.005653, 13.036743, 13.988087)
+atlas = ExtResource("4_bsjtw")
+region = Rect2(383.97296, 16.967781, 14.991699, 14.96866)
 
 [node name="QuickSlotUI" type="Control"]
 layout_mode = 3
@@ -26,104 +23,104 @@ grow_vertical = 2
 script = ExtResource("1_ncb3i")
 
 [node name="CenterSlot" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(200, 130)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 90.0
-offset_top = -130.0
-offset_right = 290.0
+offset_left = 147.0
+offset_top = -126.0
+offset_right = 247.0
+offset_bottom = -26.0
 grow_vertical = 0
-texture = ExtResource("1_iqudl")
+texture = ExtResource("2_bsjtw")
 expand_mode = 1
 
 [node name="ItemIcon" type="TextureRect" parent="CenterSlot"]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 0
-offset_left = 57.0
-offset_top = 21.0
-offset_right = 144.0
-offset_bottom = 108.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 96.0
+offset_bottom = 96.0
 expand_mode = 1
 stretch_mode = 5
 
 [node name="AmountLabel" type="Label" parent="CenterSlot"]
 layout_mode = 0
-offset_left = 106.0
-offset_top = 77.0
-offset_right = 146.0
-offset_bottom = 100.0
+offset_left = 64.0
+offset_top = 63.0
+offset_right = 104.0
+offset_bottom = 86.0
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 12
 text = "2/2"
 
 [node name="PromptQ" type="TextureRect" parent="CenterSlot"]
 layout_mode = 0
-offset_left = 80.0
-offset_top = -26.0
-offset_right = 120.0
-offset_bottom = 14.0
-texture = SubResource("AtlasTexture_bsjtw")
+offset_left = 30.0
+offset_top = -47.0
+offset_right = 70.0
+offset_bottom = -7.0
+texture = ExtResource("3_bsjtw")
 
 [node name="LeftSlot" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(150, 80)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 11.0
-offset_top = -100.0
-offset_right = 161.0
+offset_left = 50.0
+offset_top = -96.0
+offset_right = 115.0
+offset_bottom = -31.0
 grow_vertical = 0
-texture = ExtResource("1_iqudl")
+texture = ExtResource("2_bsjtw")
 expand_mode = 1
 
 [node name="ItemIcon" type="TextureRect" parent="LeftSlot"]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 0
-offset_left = 43.0
-offset_top = 16.0
-offset_right = 107.0
-offset_bottom = 84.0
+offset_left = 3.0
+offset_top = -1.0
+offset_right = 67.0
+offset_bottom = 67.0
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Prompt1" type="TextureRect" parent="LeftSlot"]
 layout_mode = 0
-offset_left = 60.0
-offset_top = -12.0
-offset_right = 86.0
-offset_bottom = 14.0
+offset_left = 19.0
+offset_top = -32.0
+offset_right = 45.0
+offset_bottom = -6.0
 texture = SubResource("AtlasTexture_7ove4")
 
 [node name="RightSlot" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(150, 80)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 224.0
-offset_top = -100.0
-offset_right = 374.0
+offset_left = 282.0
+offset_top = -96.0
+offset_right = 347.0
+offset_bottom = -31.0
 grow_vertical = 0
-texture = ExtResource("1_iqudl")
+texture = ExtResource("2_bsjtw")
 expand_mode = 1
 
 [node name="ItemIcon" type="TextureRect" parent="RightSlot"]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 0
-offset_left = 43.0
-offset_top = 16.0
-offset_right = 107.0
-offset_bottom = 84.0
+offset_left = 2.0
+offset_top = -1.0
+offset_right = 66.0
+offset_bottom = 67.0
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Prompt3" type="TextureRect" parent="RightSlot"]
 layout_mode = 0
-offset_left = 60.0
-offset_top = -12.0
-offset_right = 86.0
-offset_bottom = 14.0
+offset_left = 20.0
+offset_top = -33.0
+offset_right = 46.0
+offset_bottom = -7.0
 texture = SubResource("AtlasTexture_7el2n")
