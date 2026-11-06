@@ -1,9 +1,30 @@
+[style name="galstyle"]
+if {merchant_quest} == 1:
+	join 阿尼 left
+	join  center
+	join 商人 center
+	商人: 喲！改變主意想幫我找回掉在花園密室的貨物了嗎？
+	jump 交易
+elif {merchant_quest} == 2:
+	join 阿尼 left
+	join 商人 center
+	商人: 密室的捷徑就在前方水池區右轉處，把紅色木箱裡的東西帶回來就行啦！
+	jump 結束對話
+
+join  center
+join 阿尼 left
 白貓: 呼......
 白貓: 這附近安全多了。
 白貓: 只要穿過池塘，再往前走就能到涼亭。
 ？？？: 兩位~~
+[signal arg="pan:cam:shop_front:2.0"]
 ？？？: 走過路過千萬別錯過！一天三度的最初之地大甩賣！
 ？？？: 看看不花錢，兩位要不要來看看啊！
+[signal arg="walk:player:shop_dront:move_right:idle_up:2.0"]
+[wait time="0.1"]
+[signal arg="walk:cat:shop_front:move_right:idle_up:2.0"]
+[wait time="2.0"]
+join 商人 center
 阿尼: 在這種地方大甩賣嗎？
 白貓: 多半是騙子吧...
 白貓: 等等......
@@ -15,9 +36,8 @@
 白貓: 可是偽裝城的人怎麼會跑到最初之地？
 商人: 哎呀生意不好做嘛~
 商人: 而且用最低的價格將寶貝商品們賣給顧客就是我的使命！
-阿尼: （質疑）
-商人: 我來給你看看我有什麼寶貝哦！
-翻找
+阿尼: ……（總覺得很可疑。）
+商人: 我來給你們看看我有什麼寶貝哦！
 商人: 啊......
 商人: 果然不見了。
 阿尼: 怎麼了？
@@ -40,18 +60,25 @@
 商人: 真是謹慎呢！
 商人: 但像你們那麼厲害的冒險家，這樣的任務應該很輕鬆吧！
 白貓: ！！！
-白貓: 哼哼！！當然！！
-阿尼: 不要別人誇你兩句就飄了啊！
+白貓: [shake rate=20.0 level=15 connected=1]哼哼！！當然！！[/shake]
+阿尼: [shake rate=25.0 level=20 connected=1]不要別人誇你兩句就飄了啊！[/shake]
+
 label 交易
 商人: 怎麼樣啊？要不要跟我做這筆交易！
 - 幫助商人
+	set {merchant_quest} = 2
 	阿尼: ......
 	阿尼: 好吧。
 	白貓: 交給我們吧！
 	商人: 哦吼真是可靠！
 	阿尼: 那就麻煩你等等我們了。
 	商人: 祝兩位一路順利。
-	商人: 記得捷徑就在前方水池去左轉處。
+	商人: 記得捷徑就在前方水池區右轉處。
 - 不幫助商人
+	set {merchant_quest} = 1
 	商人: 哎呀，真是可惜。
 	商人: 想反悔再跟我說哦。
+
+label 結束對話
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]

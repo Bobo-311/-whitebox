@@ -71,7 +71,9 @@ layout/style_directory={
 }
 layout/style_list=["res://dialogic/timeline/style001.tres", "res://dialogic/timeline/bubble_text_style.tres", "res://dialogic/timeline/galstyle.tres"]
 layout/default_style="res://dialogic/timeline/bubble_text_style.tres"
-variables={}
+variables={
+"merchant_quest": "0"
+}
 text/letter_speed=0.01
 text/initial_text_reveal_skippable=true
 text/text_reveal_skip_delay=0.1

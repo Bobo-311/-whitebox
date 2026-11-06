@@ -30,6 +30,7 @@ var menu_items: Array = [] # 用來存放目前選單裡所有 Label 的陣列
 var current_index: int = 0 # 記錄游標目前停留在第幾個選項 (從 0 開始)
 var cursor_offset: Vector2 = Vector2(-55, -20) # 游標相對於選項文字的微調位置
 var current_state: int = 0 # 記錄目前的選單狀態：0 代表在主選單，1 代表在購買清單
+var talk_timeline: String = "" # 🌟 新增：由 ShopNPC 傳入，點擊 Talk 時要播放的 Dialogic 劇本名稱
 
 # ==========================================
 # 🛒 商店商品資料庫
@@ -73,6 +74,7 @@ var item_database = {
 func _ready():
 	# 遊戲一開始執行時，強制先切換到主選單狀態
 	switch_to_main_menu()
+
 # ==========================================
 # 玩家按鍵輸入處理
 # ==========================================
@@ -123,7 +125,6 @@ func refresh_menu_items(container):
 	menu_items.clear() # 先清空舊的選項陣列
 	
 	# 🌟🌟🌟 [本次修改：自動為每一個選項綁定滑鼠功能，並檢查售罄] 🌟🌟🌟
-	# 🌟🌟🌟 [本次修改：自動為每一個選項綁定滑鼠功能，並檢查售罄] 🌟🌟🌟
 	for child in container.get_children():
 		if child is Label:
 			menu_items.append(child) 
@@ -154,6 +155,7 @@ func refresh_menu_items(container):
 	
 	# 排版完成後，更新游標的位置
 	update_cursor_position()
+
 # ==========================================
 # 🖱️ 滑鼠專用邏輯區
 # ==========================================
@@ -185,6 +187,21 @@ func handle_selection():
 		if current_index == 0: # 如果游標在第一個選項 (Buy)
 			check_sound.play()
 			switch_to_buy_menu() # 切換到購買選單
+			
+		elif current_index == 2: # 🌟 新增：如果游標在第三個選項 (Talk)
+			check_sound.play()
+			# 1. 先解除購物狀態並隱藏商店 UI (等對話結束再徹底銷毀)
+			if DataManager.player_node:
+				DataManager.player_node.is_shopping = false
+			hide()
+			set_process_input(false)
+			
+			# 2. 啟動商人的支線劇本！
+			if talk_timeline != "":
+				start_merchant_talk(talk_timeline)
+			else:
+				queue_free()
+				
 		elif current_index == 3: # 如果游標在第四個選項 (Exit)
 			back_sound.play()
 			# 🌟 1. 商店關閉了，解除主角的購物模式 (恢復自由)
@@ -251,6 +268,33 @@ func handle_selection():
 					
 					# 1 秒後把對話框文字恢復原狀
 					buy_prompt_label.text = "What would you like to buy?"
+
+# ==========================================
+# 🌟 點擊 Talk 後啟動 Dialogic 對話與收尾解鎖
+# ==========================================
+func start_merchant_talk(timeline_name: String) -> void:
+	var player = DataManager.player_node
+	if player:
+		player.is_in_dialogue = true
+		if "velocity" in player:
+			player.velocity = Vector2.ZERO
+		if player.state_machine:
+			player.state_machine.process_mode = Node.PROCESS_MODE_DISABLED
+			
+	# 監聽對話結束訊號，確保講完話後會解鎖阿尼並銷毀隱藏的商店節點
+	if not Dialogic.timeline_ended.is_connected(_on_talk_timeline_ended):
+		Dialogic.timeline_ended.connect(_on_talk_timeline_ended, CONNECT_ONE_SHOT)
+		
+	Dialogic.start(timeline_name)
+	Dialogic.timeline_started.emit()
+
+func _on_talk_timeline_ended() -> void:
+	var player = DataManager.player_node
+	if player:
+		player.is_in_dialogue = false
+		if player.state_machine:
+			player.state_machine.process_mode = Node.PROCESS_MODE_INHERIT
+	queue_free()
 
 # ==========================================
 # 更新游標位置與說明文字
