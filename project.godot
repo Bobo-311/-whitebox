@@ -107,6 +107,8 @@ audio/channel_defaults={
 }
 }
 glossary/default_case_sensitive=true
+animations/cross_fade_default="Fade Cross"
+animations/leave_default="Fade Out Down"
 
 [display]
 

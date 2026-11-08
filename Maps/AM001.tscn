@@ -7814,6 +7814,7 @@ scale = Vector2(9.974088, 11.433463)
 collision_layer = 1
 target_timeline = "A001"
 player_dch = ExtResource("21_kcuab")
+trigger_on_map_enter = true
 
 [node name="空氣強左側" type="StaticBody2D" parent="."]
 collision_mask = 0
@@ -7835,7 +7836,12 @@ shape = SubResource("RectangleShape2D_g1h5u")
 position = Vector2(6419, 1511)
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
-position = Vector2(2643, 1450)
+position = Vector2(3415, 1502)
 max_hp = 100
+
+[node name="CutsceneDirector2" parent="." instance=ExtResource("20_kcuab")]
+position = Vector2(4651.9995, 698.99994)
+scale = Vector2(7.9093475, 7.9093475)
+target_timeline = "A003"
 
 [editable path="PortalArea右側門"]

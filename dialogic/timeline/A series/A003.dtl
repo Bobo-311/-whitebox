@@ -1,10 +1,14 @@
 [style name="galstyle"]
+join 阿尼 (...咦？) left
 ？？？: 這是......[n+]一支筆？
 ？？？: 上面刻著一個名字......
-？？？: 阿尼?
-阿尼: 我叫......阿尼嗎？
+？？？: 「阿尼」......？
+阿尼 (思考): 我叫......阿尼嗎？
 阿尼: 不行……[n]完全想不起來……
-[signal arg="閃了一下"]
-阿尼: ……他剛剛是不是閃了一下？
-阿尼: 是我看錯嗎？
+[signal arg="flash:player:0.7"]
+[wait time="0.6"]
+阿尼 (驚訝（...咦？）): [shake rate=20.0 level=8 connected=1]……！[/shake]
+阿尼: ……它剛剛是不是閃了一下？
+阿尼 (思考): 是我看錯嗎……？
 [signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]

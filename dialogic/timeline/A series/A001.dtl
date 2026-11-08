@@ -1,11 +1,20 @@
 [style name="galstyle"]
-join ？？？ (不安) left
-？？？ (不安): ......
-？？？: 這裡......是哪裡？？
-[signal arg="ani_stand_up"]
-？？？: 現在是幾點...
-[signal arg="ani_search"]
-？？？: (一陣頭痛)
+[background arg="#000000ff" fade="0.0"]
+join ？？？ (閉眼) left
+[wait_input hide_text="false"]
+[background fade="0.0"]
+？？？ (睜眼): ......
+[signal arg="anim:player:idle_left"]
+[wait time="0.2"]
+[signal arg="anim:player:idle_right"]
+[wait time="0.2"]
+[signal arg="anim:player:idle_left"]
+[wait time="0.2"]
+？？？ (不安): 這裡......是哪裡？？
+[signal arg="anim:player:idle_down"]
+[wait time="0.2"]
+[signal arg="shake:cam"]
+？？？ (恐慌): (一陣頭痛)
 ？？？: 奇怪......？
 ？？？: 這是哪...我是誰...
 ？？？: [shake rate=20.0 level=5 connected=1]我怎麼...[n+]什麼都想不起來...

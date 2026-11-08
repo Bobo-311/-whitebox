@@ -10,12 +10,148 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "噓",
 &"description": "",
 &"display_name": "路克斯",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"噓": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/噓.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"得意": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/得意.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"快看！": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/快看！.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"提議（冒汗）": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/提議（冒汗）.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"數到三": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/數到三.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"沉思": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/沉思.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"無言": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/無言.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"疑惑": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/疑惑.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"笑容": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/笑容.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"糊弄笑": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/糊弄笑.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"緊張拒絕": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/緊張拒絕.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"認真說話": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/認真說話.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"走吧走吧（糊弄）": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/走吧走吧（糊弄）.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"閉眼沉思": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/閉眼沉思.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"驚嚇": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白貓/驚嚇.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
 &"scale": 1.0
 }

@@ -37,7 +37,12 @@ var _battle_started: bool = false # 確保怪物已經正式登場開始戰鬥�
 
 var has_triggered: bool = false # 確保劇情只觸發一次
 var is_active: bool = false     # 🌟 確保只有「正在演出中」的導演會接收暗號，多場戲不互衝！
+var _cam_tween: Tween = null # 🌟 記錄當前的鏡頭動畫，防止玩家按太快時兩個鏡頭動畫打架！
+var _actor_tweens: Dictionary = {}         # 🌟 記錄每個角色正在跑的移動 Tween (key: actor名稱 -> value: Tween)
+var _actor_target_pos: Dictionary = {}     # 🌟 記錄每個角色這一步原本要走到的終點座標 (被跳過時瞬間補位！)
 
+@export var click_cooldown: float = 0.18   # 🌟 防連點冷卻秒數 (避免狂按空白鍵/滑鼠導致 Dialogic 與 Tween 崩潰)
+var _last_advance_time: float = 0.0
 func _ready() -> void:
 	# ==========================================
 	# 🌟 1. 跨地圖記憶檢查：如果這段劇情已經在 DataManager 登記看過了
@@ -97,6 +102,55 @@ func _ready() -> void:
 		set_process(false)
 		body_entered.connect(_on_body_entered)
 
+# 🛡️ 防禦 1：過場演戲期間的「防狂按節流閥」
+func _input(event: InputEvent) -> void:
+	if not is_active: return
+	
+	# 偵測滑鼠左鍵按下、空白鍵、Enter 或互動鍵 (連按不放 is_echo 也會直接擋掉)
+	var is_click = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+	var is_key = event is InputEventKey and event.pressed and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER)
+	var is_act = event.is_action_pressed("ui_accept") or event.is_action_pressed("interact")
+	
+	if is_click or is_key or is_act:
+		if event.is_echo():
+			get_viewport().set_input_as_handled()
+			return
+		var now = Time.get_ticks_msec() / 1000.0
+		if now - _last_advance_time < click_cooldown:
+			# 點太快了！直接吃掉這次按鍵，不讓它傳給 Dialogic 造成當機
+			get_viewport().set_input_as_handled()
+			return
+		_last_advance_time = now
+
+# 🛡️ 防禦 2：安全建立角色移動 Tween (若上一個動作還沒跑完就被連點跳過，自動切斷並瞬間補位到上一步終點！)
+func _create_safe_actor_tween(actor_key: String, actor_node: Node2D, new_target_pos: Vector2) -> Tween:
+	if _actor_tweens.has(actor_key):
+		var old_tween = _actor_tweens[actor_key] as Tween
+		if old_tween and old_tween.is_valid() and old_tween.is_running():
+			old_tween.kill()
+			# 🌟 超重要：如果玩家狂按跳過，先把角色瞬間移到上一步原本該到的位置，才不會走位錯亂！
+			if is_instance_valid(actor_node) and _actor_target_pos.has(actor_key):
+				actor_node.global_position = _actor_target_pos[actor_key]
+				
+	_actor_target_pos[actor_key] = new_target_pos
+	# 綁定在角色節點自身上 (bind_node)，萬一角色被刪除或換場景，Tween 會自動安全銷毀不報錯！
+	var new_tween = create_tween().bind_node(actor_node)
+	_actor_tweens[actor_key] = new_tween
+	return new_tween
+
+# 🛡️ 防禦 3：劇本結束或離開場景時，清理所有殘留的 Tween
+func _clear_all_cutscene_tweens() -> void:
+	if _cam_tween and _cam_tween.is_valid():
+		_cam_tween.kill()
+	_cam_tween = null
+	
+	for key in _actor_tweens.keys():
+		var t = _actor_tweens[key] as Tween
+		if t and t.is_valid():
+			t.kill()
+	_actor_tweens.clear()
+	_actor_target_pos.clear()
+	
 # 🌟 自動收集要追蹤的目標小怪（支援從 Target Enemies、Permanent Hide Actors 或 Actors 自動抓取！）
 func _setup_enemy_clear_trigger() -> void:
 	_tracked_enemies.clear()
@@ -336,31 +390,45 @@ func _on_dialogic_signal(argument: String) -> void:
 				target_node.modulate.a = 1.0
 		return
 
-	# 以下指令至少需要 3 格參數 (action:actor:target_key)
-	if parts.size() < 3: return
+	# 以下指令至少需要 3 格參數 (但如果是 shake:cam 或 reset:cam 可以只寫 2 格！)
+	if parts.size() < 3 and action != "shake" and action != "reset": return
 	
-	# 🎥 鏡頭運鏡邏輯 (支援 pan:cam:目標點:秒數、reset:cam:player:秒數、zoom:cam:倍率:秒數)
+# 🎥 鏡頭運鏡邏輯 (支援單點 pan:cam:點1:秒數、多點連續 pan:cam:點1,點2:每段秒數)
 	if actor == "cam":
 		var cam = get_viewport().get_camera_2d()
 		var player = _get_player()
 		if not cam: return
 		
-		if action == "pan" and (markers.has(target_key) or markers.has(target_key.replace("_", " "))):
-			var actual_key = target_key if markers.has(target_key) else target_key.replace("_", " ")
-			var cam_marker = get_node_or_null(markers[actual_key]) as Node2D
-			if cam_marker:
+		if action == "pan":
+			# 🌟 支援用逗號 "," 串聯多個鏡頭定位點！(例如 cam_tree_pos,cam_tree_pos2)
+			var point_keys = target_key.split(",")
+			var valid_markers: Array[Node2D] = []
+			for pk in point_keys:
+				var k = pk.strip_edges()
+				var actual_key = k if markers.has(k) else k.replace("_", " ")
+				if markers.has(actual_key):
+					var m = get_node_or_null(markers[actual_key]) as Node2D
+					if m: valid_markers.append(m)
+					
+			if valid_markers.size() > 0:
 				var duration = custom_duration if custom_duration > 0.0 else cam_pan_time
 				var current_pos = cam.get_screen_center_position()
 				cam.top_level = true
 				cam.global_position = current_pos
-				var tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-				tween.tween_property(cam, "global_position", cam_marker.global_position, duration)
+				
+				if _cam_tween and _cam_tween.is_running():
+					_cam_tween.kill()
+				_cam_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+				for m in valid_markers:
+					_cam_tween.tween_property(cam, "global_position", m.global_position, duration)
 				
 		elif action == "reset" and player:
 			var duration = custom_duration if custom_duration > 0.0 else cam_reset_time
-			var tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-			tween.tween_property(cam, "global_position", player.global_position, duration)
-			tween.tween_callback(func():
+			if _cam_tween and _cam_tween.is_running():
+				_cam_tween.kill()
+			_cam_tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+			_cam_tween.tween_property(cam, "global_position", player.global_position, duration)
+			_cam_tween.tween_callback(func():
 				cam.top_level = false
 				cam.position = Vector2.ZERO
 			)
@@ -369,6 +437,24 @@ func _on_dialogic_signal(argument: String) -> void:
 			var duration = custom_duration if custom_duration > 0.0 else 0.5
 			var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 			tween.tween_property(cam, "zoom", Vector2(zoom_val, zoom_val), duration)
+			
+		elif action == "shake":
+			# 💥 鏡頭受擊短促搖晃 (支援 shake:cam 或 shake:cam:強度:秒數)
+			var strength: float = target_key.to_float() if target_key.is_valid_float() else 8.0 # 預設中等強度 8 像素
+			var duration: float = custom_duration if custom_duration > 0.0 else 0.2            # 預設短促時間 0.2 秒
+			var step_count: int = 5
+			var step_time: float = duration / float(step_count)
+			
+			var shake_tween = create_tween()
+			for i in range(step_count):
+				# 強度隨次數遞減 (100% -> 80% -> 60% -> 40% -> 20%)，做出被打到的瞬間爆發與快速收斂感
+				var current_str = strength * (1.0 - float(i) / float(step_count))
+				# 左右交替猛烈震動，上下帶一點點隨機微幅偏移
+				var dir_x = 1.0 if i % 2 == 0 else -1.0
+				var offset_vec = Vector2(dir_x * current_str, randf_range(-current_str * 0.5, current_str * 0.5))
+				shake_tween.tween_property(cam, "offset", offset_vec, step_time)
+			# 最後一瞬間精準歸零
+			shake_tween.tween_property(cam, "offset", Vector2.ZERO, 0.02)
 		return
 
 	# 🎭 原地單純切換動畫、投擲、畫筆發光、光束秒殺邏輯 (支援 player、npc、m1、m2...)
@@ -390,6 +476,18 @@ func _on_dialogic_signal(argument: String) -> void:
 			var glow_target = brush if (brush and brush.visible) else target_node
 			var tween = create_tween()
 			tween.tween_property(glow_target, "modulate", Color(4.0, 4.0, 4.0, 1.0), duration)
+		return
+	elif action == "flash":
+		# 🌟 新增：瞬間閃一下光又恢復原狀 (例如 flash:player:0.35 或 flash:brush:0.35)
+		var target_node = _get_player() if actor == "player" else _get_actor_node(actor)
+		if target_node:
+			var duration = custom_duration if custom_duration > 0.0 else 0.35
+			var brush = target_node.get_node_or_null("MagicBrush") as Node2D
+			var flash_target = brush if (brush and brush.visible) else target_node
+			var tween = create_tween()
+			# 先在極短時間內衝高亮度 (HDR 發光)，再平滑退回原本顏色
+			tween.tween_property(flash_target, "modulate", Color(4.5, 4.5, 5.0, 1.0), duration * 0.3).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+			tween.tween_property(flash_target, "modulate", Color.WHITE, duration * 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		return
 	elif action == "beam":
 		var shooter = _get_player() if actor == "player" else _get_actor_node(actor)
@@ -493,10 +591,14 @@ func _on_dialogic_signal(argument: String) -> void:
 
 	if not has_valid_target: return
 	
-	# 🌟 阿尼移動邏輯 (支援 walk、run、以及嚇到倒退一步 back)
+
+# 🌟 阿尼移動邏輯 (支援 walk、run、以及嚇到倒退一步 back，具備防連點覆蓋保護)
 	if actor == "player":
 		var player = _get_player()
-		if player:
+		if is_instance_valid(player):
+			# 先切斷上一個還沒跑完的移動並自動補位，再計算這次的方向
+			var tween = _create_safe_actor_tween("player", player, target_pos)
+			
 			var is_moving_right = target_pos.x > player.global_position.x
 			var move_anim = "move_right" if is_moving_right else "move_left"
 			var idle_anim = "idle_right" if is_moving_right else "idle_left"
@@ -516,28 +618,37 @@ func _on_dialogic_signal(argument: String) -> void:
 			if action == "walk":
 				var duration = custom_duration if custom_duration > 0.0 else player_walk_time
 				player.animated_sprite_2d.play(move_anim)
-				var tween = create_tween()
 				tween.tween_property(player, "global_position", target_pos, duration)
-				tween.tween_callback(func(): player.animated_sprite_2d.play(idle_anim))
+				tween.tween_callback(func(): 
+					if is_instance_valid(player) and player.animated_sprite_2d:
+						player.animated_sprite_2d.play(idle_anim)
+				)
 				
 			elif action == "run":
 				var duration = custom_duration if custom_duration > 0.0 else player_run_time
 				player.animated_sprite_2d.play(move_anim)
-				var tween = create_tween()
 				tween.tween_property(player, "global_position", target_pos, duration)
-				tween.tween_callback(func(): player.animated_sprite_2d.play(idle_anim))
+				tween.tween_callback(func(): 
+					if is_instance_valid(player) and player.animated_sprite_2d:
+						player.animated_sprite_2d.play(idle_anim)
+				)
 				
 			elif action == "back":
 				var duration = custom_duration if custom_duration > 0.0 else 0.25
 				player.animated_sprite_2d.play(move_anim)
-				var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+				tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 				tween.tween_property(player, "global_position", target_pos, duration)
-				tween.tween_callback(func(): player.animated_sprite_2d.play(idle_anim))
+				tween.tween_callback(func(): 
+					if is_instance_valid(player) and player.animated_sprite_2d:
+						player.animated_sprite_2d.play(idle_anim)
+				)
 				
-	# 🌟 單一 NPC 或 複數怪物/白貓 (cat, m1, m2...) 移動邏輯
+	# 🌟 單一 NPC 或 複數怪物/白貓 (cat, m1, m2...) 移動邏輯 (具備防連點覆蓋保護)
 	else:
 		var current_npc = _get_actor_node(actor)
-		if current_npc:
+		if is_instance_valid(current_npc):
+			# 先切斷該 NPC 上一個還沒跑完的移動並自動補位
+			var tween = _create_safe_actor_tween(actor, current_npc, target_pos)
 			var npc_sprite = _get_actor_sprite(current_npc)
 			
 			var is_moving_right = target_pos.x > current_npc.global_position.x
@@ -547,13 +658,11 @@ func _on_dialogic_signal(argument: String) -> void:
 			
 			if npc_sprite and npc_sprite.sprite_frames:
 				var frames = npc_sprite.sprite_frames
-				# 1. 若沒填移動動畫，自動嘗試尋找 move_ / walk_ / run_
 				if move_anim == "":
 					for candidate in ["move_" + dir_suffix, "walk_" + dir_suffix, "run_" + dir_suffix, "move", "walk", "run"]:
 						if frames.has_animation(candidate):
 							move_anim = candidate
 							break
-				# 2. 若沒填停下動畫，自動嘗試尋找對應方向的 idle
 				if idle_anim == "":
 					for candidate in ["idle_" + dir_suffix, "idle"]:
 						if frames.has_animation(candidate):
@@ -565,39 +674,38 @@ func _on_dialogic_signal(argument: String) -> void:
 				
 			if action == "run":
 				var duration = custom_duration if custom_duration > 0.0 else npc_run_time
-				var tween = create_tween()
 				tween.tween_property(current_npc, "global_position", target_pos, duration)
-				tween.parallel().tween_property(current_npc, "modulate:a", 0.0, npc_fade_time) # 淡出
+				tween.parallel().tween_property(current_npc, "modulate:a", 0.0, npc_fade_time)
 				tween.tween_callback(func(): 
-					current_npc.visible = false
-					if npc_sprite and idle_anim != "":
+					if is_instance_valid(current_npc):
+						current_npc.visible = false
+					if is_instance_valid(npc_sprite) and idle_anim != "":
 						npc_sprite.play(idle_anim)
 				)
 			elif action == "walk":
 				current_npc.visible = true
 				current_npc.modulate.a = 1.0
 				var duration = custom_duration if custom_duration > 0.0 else npc_walk_time
-				var tween = create_tween()
 				tween.tween_property(current_npc, "global_position", target_pos, duration)
 				tween.tween_callback(func():
-					if npc_sprite and idle_anim != "":
+					if is_instance_valid(npc_sprite) and idle_anim != "":
 						npc_sprite.play(idle_anim)
 				)
 			elif action == "ambush":
 				current_npc.visible = true
 				current_npc.modulate.a = 1.0
 				var duration = custom_duration if custom_duration > 0.0 else 0.35
-				var tween = create_tween()
 				tween.tween_property(current_npc, "global_position", target_pos, duration)
 				tween.tween_callback(func():
-					if npc_sprite and idle_anim != "":
+					if is_instance_valid(npc_sprite) and idle_anim != "":
 						npc_sprite.play(idle_anim)
 				)
 
-# 🔓 3. 劇本結束 ➡️ 解鎖阿尼，並把場上所有已現身的怪物/白貓 AI 全部恢復！
+# 🔓 3. 劇本結束 ➡️ 解鎖阿尼，並清理殘留動畫、恢復場上角色 AI！
 func _on_timeline_ended() -> void:
-	if not is_active: return # 🌟 確保只有當前這場戲結束時才執行收尾
+	if not is_active: return
 	is_active = false
+	_clear_all_cutscene_tweens() # 🌟 劇本結束瞬間，安全清光所有未完成的 Tween！
 	
 	var player = _get_player()
 	if player and player.is_in_dialogue:
@@ -605,7 +713,6 @@ func _on_timeline_ended() -> void:
 		if player.state_machine:
 			player.state_machine.process_mode = Node.PROCESS_MODE_INHERIT
 			
-		# 🌟 解凍單一 target_npc 與 actors 字典裡所有已經現身的角色 (同時恢復白貓的 _physics_process)
 		if target_npc and is_instance_valid(target_npc) and target_npc.visible:
 			target_npc.process_mode = Node.PROCESS_MODE_INHERIT
 			_set_actor_ai_active(target_npc, true)
@@ -615,10 +722,10 @@ func _on_timeline_ended() -> void:
 				actor_node.process_mode = Node.PROCESS_MODE_INHERIT
 				_set_actor_ai_active(actor_node, true)
 			
-		# 防呆：確保對話結束時鏡頭一定回到玩家身上、縮放倍率歸位
 		var cam = get_viewport().get_camera_2d()
 		if cam:
 			cam.zoom = Vector2.ONE
+			cam.offset = Vector2.ZERO
 			if cam.top_level:
 				cam.top_level = false
 				cam.position = Vector2.ZERO
