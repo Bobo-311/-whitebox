@@ -2385,7 +2385,7 @@ metadata/_edit_vertical_guides_ = [-129.0]
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -57)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
-animation = &"get_up"
+animation = &"idle_up"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

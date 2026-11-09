@@ -22443,6 +22443,7 @@ position = Vector2(-1862, 3697)
 polygon = PackedVector2Array(9852, -1765, 9447, -1765, 9446, -2138, 9852, -2138)
 
 [node name="Colorless_Dango" parent="." instance=ExtResource("17_7kvl5")]
+visible = false
 position = Vector2(3237, 1432)
 
 [node name="Colorless_Dango2" parent="." instance=ExtResource("17_7kvl5")]

@@ -5,14 +5,14 @@ join ？？？ (閉眼) left
 [background fade="0.0"]
 ？？？ (睜眼): ......
 [signal arg="anim:player:idle_left"]
-[wait time="0.2"]
+[wait time="0.2" hide_text="false"]
 [signal arg="anim:player:idle_right"]
-[wait time="0.2"]
+[wait time="0.2" hide_text="false"]
 [signal arg="anim:player:idle_left"]
-[wait time="0.2"]
+[wait time="0.2" hide_text="false"]
 ？？？ (不安): 這裡......是哪裡？？
 [signal arg="anim:player:idle_down"]
-[wait time="0.2"]
+[wait time="0.2" hide_text="false"]
 [signal arg="shake:cam"]
 ？？？ (恐慌): (一陣頭痛)
 ？？？: 奇怪......？

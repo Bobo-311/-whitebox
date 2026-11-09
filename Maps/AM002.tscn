@@ -21359,5 +21359,17 @@ position = Vector2(-1, 63)
 scale = Vector2(3.2000997, 1.1319487)
 shape = SubResource("CircleShape2D_tgabe")
 
+[node name="CutsceneDirector" parent="." instance=ExtResource("19_uva5b")]
+position = Vector2(3970, 2999)
+scale = Vector2(7.3196454, 3.9961963)
+target_timeline = "A007"
+markers = {
+"1": NodePath("1")
+}
+
+[node name="1" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(0, 1.7516658)
+scale = Vector2(1, 1.0500476)
+
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

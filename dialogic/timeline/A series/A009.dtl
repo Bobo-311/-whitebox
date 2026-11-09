@@ -1,8 +1,9 @@
 [style name="galstyle"]
-join 阿尼 left
+join 阿尼 (不安) left
 「啪。」
 [signal arg="anim:player:idle_left"]
-阿尼: [shake rate=30.0 level=20 connected=1]誰？！！[/shake]
+update 阿尼 (驚嚇) left [animation="Shake Y" length="0.4"]
+阿尼 (驚嚇): [shake rate=30.0 level=20 connected=1]誰？！！[/shake]
 leave 阿尼
 [signal arg="ambush:m1:block_back_pos:move_right_down:idle_right_down:2.0"]
 [wait time="4.0"]
@@ -13,6 +14,7 @@ join 阿尼 left
 [wait time="0.8"]
 [signal arg="ambush:m2:block_front_pos:move_left_down:idle_left_down:1.2"]
 [wait time="1.2"]
+join 阿尼 (驚嚇) left [animation="Shake Y" length="0.4"]
 阿尼: [shake rate=30.0 level=20 connected=1]！！[/shake]
 [signal arg="walk:m1:block_back_pos2:move_right_down:idle_right_down:1.5"]
 [wait time="0.8"]
