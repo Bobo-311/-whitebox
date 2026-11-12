@@ -6,7 +6,7 @@ extends CanvasLayer # 繼承 CanvasLayer，這樣 UI 才會獨立繪製在最上
 @export var sticker_ui_scene: PackedScene # 在右邊屬性面板掛載「貼紙介面」的場景檔案 (.tscn)
 @export var portal_menu_scene: PackedScene # 在右邊屬性面板掛載「傳送介面」的場景檔案 (.tscn)
 
-@onready var map_name_label: Label = $BackgroundDim/LocationFrame/Label # 抓取顯示「當前地圖名稱」的文字節點
+@onready var map_name_label: Label = $LocationFrame/Label# 抓取顯示「當前地圖名稱」的文字節點
 
 # 🌟 狀態標記：記錄玩家現在是不是在「存檔畫架」的狀態下打開了筆記本？
 var is_reading_from_savepoint: bool = false

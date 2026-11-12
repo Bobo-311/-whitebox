@@ -31,6 +31,10 @@ shader = ExtResource("2_cj0yd")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_66c65"]
 atlas = ExtResource("3_5mnod")
@@ -1478,7 +1482,7 @@ scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_ac88p")
 animation = &"idle_left_up"
 autoplay = "idle_left_down"
-frame_progress = 0.33024374
+frame_progress = 0.13028981
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(-5, -18)

@@ -4,14 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://qrhe3xr68o2d" path="res://筆記本素材/ButtonMediumBlue.png" id="2_54p31"]
 [ext_resource type="Texture2D" uid="uid://b8kdxtmmyjd2a" path="res://筆記本素材/ButtonLargeBlue.png" id="3_r102h"]
 [ext_resource type="Texture2D" uid="uid://cpjqnvxubyfo5" path="res://筆記本素材/ButtonMediumWhite.png" id="4_r102h"]
-[ext_resource type="Texture2D" uid="uid://camr6ktujvcl" path="res://筆記本素材/素描本.png" id="5_hb2fw"]
+[ext_resource type="Texture2D" uid="uid://dviilij1cksq4" path="res://UI美術素材圖/外觀/筆記本.png" id="6_1yomv"]
 [ext_resource type="Texture2D" uid="uid://d0llj8eypjnrw" path="res://筆記本素材/ButtonLargeWhite.png" id="7_1yomv"]
 [ext_resource type="FontFile" uid="uid://4ivxqvgtefn1" path="res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf" id="8_1yomv"]
 [ext_resource type="Script" uid="uid://ct3hnt5payij4" path="res://NotebookUI/equip_page.gd" id="9_1yomv"]
 [ext_resource type="PackedScene" uid="uid://dh5cl5pl6gask" path="res://NotebookUI/格子場景/notebook_equip_slot.tscn" id="9_hb2fw"]
 [ext_resource type="Texture2D" uid="uid://0c082qkq35a4" path="res://UI美術素材圖/道具格/4x/9_slice_pill_border_4x.png" id="10_c287t"]
-[ext_resource type="Texture2D" uid="uid://dbmslwmxy7tkg" path="res://筆記本素材/便利貼.png" id="10_hb2fw"]
 [ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="11_1yomv"]
+[ext_resource type="Texture2D" uid="uid://dnwfrm7fftnf5" path="res://UI美術素材圖/外觀/便利貼.png" id="11_xm4em"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1yomv"]
 atlas = ExtResource("2_54p31")
@@ -58,7 +58,7 @@ font = ExtResource("11_1yomv")
 font_size = 25
 font_color = Color(0, 0, 0, 1)
 
-[node name="NotebookUI" type="Control"]
+[node name="NotebookUI" type="Control" groups=["blocking_ui"]]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -104,17 +104,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -755.08203
-offset_top = -498.48203
-offset_right = 144.1618
-offset_bottom = 1066.7498
+offset_left = 1038.0
+offset_top = -1910.0
+offset_right = 1937.2437
+offset_bottom = -344.7683
 grow_horizontal = 2
 grow_vertical = 2
-rotation = 1.5729063
-scale = Vector2(1, -1)
+rotation = 3.1415927
+scale = Vector2(2.3, -2.3)
 mouse_filter = 2
-texture = ExtResource("5_hb2fw")
+texture = ExtResource("6_1yomv")
 expand_mode = 1
+stretch_mode = 5
 
 [node name="EquipPage" type="Control" parent="."]
 custom_minimum_size = Vector2(120, 40)
@@ -135,6 +136,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -63.216003
+offset_right = 122.70386
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -268,18 +271,21 @@ size_flags_horizontal = 3
 
 [node name="PencilBackground" type="NinePatchRect" parent="EquipPage/MarginContainer/MainLayout/Right_Panel"]
 layout_mode = 0
-offset_left = -49.216003
-offset_top = -92.048004
-offset_right = 581.784
-offset_bottom = 556.952
-texture = ExtResource("10_hb2fw")
+offset_left = -55.0
+offset_top = -47.947998
+offset_right = 576.0
+offset_bottom = 601.052
+rotation = -0.077014044
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("11_xm4em")
+region_rect = Rect2(98.64107, 65.12064, 81.53102, 90.95553)
 
 [node name="InfoTextContainer" type="VBoxContainer" parent="EquipPage/MarginContainer/MainLayout/Right_Panel"]
 layout_mode = 0
-offset_left = 38.0
-offset_top = -31.0
-offset_right = 439.0
-offset_bottom = 406.0
+offset_left = 69.0
+offset_top = 32.052002
+offset_right = 636.4292
+offset_bottom = 650.4225
 rotation = -0.05934244
 size_flags_horizontal = 3
 mouse_filter = 2

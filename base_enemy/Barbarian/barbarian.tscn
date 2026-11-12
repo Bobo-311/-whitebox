@@ -20,6 +20,10 @@ shader = ExtResource("2_x826l")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rh1c1"]
 atlas = ExtResource("3_cu41e")
@@ -1366,5 +1370,5 @@ script = ExtResource("11_dprkn")
 shape = SubResource("CircleShape2D_rh1c1")
 
 [node name="HealthBar" parent="." index="7"]
-offset_top = -127.0
-offset_bottom = -100.0
+offset_top = -113.0
+offset_bottom = -110.0

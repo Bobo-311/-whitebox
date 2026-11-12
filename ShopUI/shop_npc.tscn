@@ -1,16 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://dyjyrhflnxusp"]
+[gd_scene load_steps=7 format=3 uid="uid://dyjyrhflnxusp"]
 
 [ext_resource type="Script" uid="uid://bmwutle5bexps" path="res://ShopUI/shop_npc.gd" id="1_4ks1w"]
 [ext_resource type="PackedScene" uid="uid://v4f6gx7t7lh4" path="res://ShopUI/shop_ui.tscn" id="2_udjyi"]
 [ext_resource type="Texture2D" uid="uid://dhwjkan4psf82" path="res://大家不為人知的祕密/我是gay.png" id="3_udjyi"]
-[ext_resource type="Texture2D" uid="uid://2f21qswny7tc" path="res://雜/tilemap_packed.png" id="3_vbmfm"]
+[ext_resource type="Texture2D" uid="uid://bdcxrxctxnanf" path="res://UI美術素材圖/按鍵/Tilesets/FullKeyboardMouse_Tileset.png" id="4_udjyi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fk1ft"]
 radius = 192.02344
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_udjyi"]
-atlas = ExtResource("3_vbmfm")
-region = Rect2(66.96332, 97.01159, 10.143608, 13.925972)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2qngp"]
 radius = 101.07918
@@ -29,9 +25,11 @@ texture = ExtResource("3_udjyi")
 shape = SubResource("CircleShape2D_fk1ft")
 
 [node name="InteractPrompt" type="Sprite2D" parent="."]
-position = Vector2(7.1054274e-15, -97)
-scale = Vector2(3.8730767, 2.5519223)
-texture = SubResource("AtlasTexture_udjyi")
+position = Vector2(-11, -110.00001)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("4_udjyi")
+region_enabled = true
+region_rect = Rect2(79.98912, 0.9910455, 15.020897, 14.97533)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

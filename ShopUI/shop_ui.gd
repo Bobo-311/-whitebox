@@ -74,22 +74,48 @@ func _ready():
 	# 遊戲一開始執行時，強制先切換到主選單狀態
 	switch_to_main_menu()
 # ==========================================
-# 玩家按鍵輸入處理
+# 玩家按鍵輸入處理 (包含 ESC/TAB 狀態退回邏輯)
 # ==========================================
 func _input(event):
+	# 🌟 新增：攔截 ESC 或 TAB 鍵 (快捷退出 / 上一頁功能)
+	if event.is_action_pressed("ESC") or event.is_action_pressed("TAB"):
+		# 1. 攔截訊號，防止穿透到底層遊戲世界 (比如防止主角又打開了身上的筆記本)
+		get_viewport().set_input_as_handled()
+		
+		# 2. 判斷目前的選單狀態
+		if current_state == 1:
+			# 【情況 A】：目前在商品清單 (Buy Menu) -> 退回主選單
+			if back_sound: back_sound.play()
+			switch_to_main_menu()
+		elif current_state == 0:
+			# 【情況 B】：目前已經在最底層的主選單 (Main Menu) -> 徹底關閉商店
+			if back_sound: back_sound.play()
+			
+			# 解除主角的購物模式，恢復自由
+			if DataManager.player_node:
+				DataManager.player_node.is_shopping = false
+				
+			# 銷毀商店 UI
+			queue_free()
+			
+		return # 執行完返回功能就結束，不往下執行其他的按鍵判斷
+
+	# ----------------------------------------------------
+	# 下面是你原本的上下移動與確認鍵邏輯
+	# ----------------------------------------------------
 	# 如果按下「往下」鍵
 	if event.is_action_pressed("down"):
 		# 游標索引值 +1。使用 % 取餘數可以讓游標到底部時，自動循環回到最上面
 		current_index = (current_index + 1) % menu_items.size()
 		update_cursor_position()
-		select_sound.play()
+		if select_sound: select_sound.play()
 		
 	# 如果按下「往上」鍵
 	elif event.is_action_pressed("up"):
 		# 游標索引值 -1。加上陣列大小再取餘數，可以讓游標在最上方時，自動循環到底部
 		current_index = (current_index - 1 + menu_items.size()) % menu_items.size()
 		update_cursor_position()
-		select_sound.play()
+		if select_sound: select_sound.play()
 
 	# 如果按下「確認」鍵 (Enter/空白鍵)
 	elif event.is_action_pressed("enter"):

@@ -12,7 +12,7 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 region_rect = Rect2(176.39244, 47.92899, 48.14821, 15.635006)
 
-[node name="PortalMenu" type="CanvasLayer"]
+[node name="PortalMenu" type="CanvasLayer" groups=["blocking_ui"]]
 process_mode = 3
 script = ExtResource("1_ymoul")
 metadata/_edit_vertical_guides_ = [-335.0]

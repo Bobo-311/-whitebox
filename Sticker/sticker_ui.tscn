@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://d5h0npu180rc"]
 
 [ext_resource type="Script" uid="uid://vdiyp1aq7e1p" path="res://Sticker/sticker_ui.gd" id="1_wuxxh"]
-[ext_resource type="Texture2D" uid="uid://bvtwl8k34rcns" path="res://UI美術素材圖/畫架.png" id="2_o61nr"]
+[ext_resource type="Texture2D" uid="uid://dd7b0wmxwqqdq" path="res://UI美術素材圖/外觀/新畫架.png" id="2_o61nr"]
 [ext_resource type="FontFile" uid="uid://4ivxqvgtefn1" path="res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf" id="3_o61nr"]
 [ext_resource type="Script" uid="uid://1tbcl7rqyg2c" path="res://Sticker/equip_slot.gd" id="4_b1cfg"]
 [ext_resource type="Texture2D" uid="uid://l43udewcomlt" path="res://UI美術素材圖/道具格/4x/button_pill_border_4x.png" id="4_f6c2s"]
 [ext_resource type="Texture2D" uid="uid://1mx44ejkc6dh" path="res://UI美術素材圖/道具格/4x/checkbox_radio_checked_4x.png" id="6_f6c2s"]
-[ext_resource type="Texture2D" uid="uid://bxntrfabibfln" path="res://UI美術素材圖/道具格/4x/progress_bar_round_background_4x.png" id="7_o61nr"]
+[ext_resource type="Texture2D" uid="uid://dnwfrm7fftnf5" path="res://UI美術素材圖/外觀/便利貼.png" id="7_f6c2s"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_wuxxh"]
 paragraph_spacing = 3.0
@@ -25,7 +25,7 @@ font = ExtResource("3_o61nr")
 font_size = 34
 font_color = Color(0, 0, 0, 1)
 
-[node name="StickerUI" type="CanvasLayer"]
+[node name="StickerUI" type="CanvasLayer" groups=["blocking_ui"]]
 process_mode = 3
 layer = 101
 script = ExtResource("1_wuxxh")
@@ -260,10 +260,10 @@ size_flags_horizontal = 3
 layout_mode = 0
 offset_left = -12.531925
 offset_top = -42.642006
-offset_right = 1196.7595
-offset_bottom = 1512.0717
-texture = ExtResource("7_o61nr")
-region_rect = Rect2(0, 0, 128, 128)
+offset_right = 635.48706
+offset_bottom = 707.338
+texture = ExtResource("7_f6c2s")
+region_rect = Rect2(98.52806, 64.855835, 80.816376, 92.1042)
 
 [node name="VBox_Info" type="VBoxContainer" parent="Easel/MainLayout/RightPanel"]
 layout_mode = 0

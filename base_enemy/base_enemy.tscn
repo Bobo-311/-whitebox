@@ -17,6 +17,10 @@ shader = ExtResource("2_pg32h")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c6eq3"]
 size = Vector2(78, 107)
@@ -86,9 +90,9 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_1wwld")
 
 [node name="HealthBar" parent="." instance=ExtResource("14_gf88j")]
-offset_left = -72.0
-offset_top = -95.0
-offset_right = 74.0
+offset_left = -53.0
+offset_top = -71.0
+offset_right = 52.0
 offset_bottom = -68.0
 
 [node name="AimPivot" type="Node2D" parent="."]

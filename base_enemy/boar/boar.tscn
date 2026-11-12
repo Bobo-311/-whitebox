@@ -21,6 +21,10 @@ shader = ExtResource("2_fb2q3")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6sogc"]
 atlas = ExtResource("2_hdtff")
@@ -927,3 +931,7 @@ script = ExtResource("11_evh06")
 
 [node name="Pant" type="Node" parent="StateMachine" index="8"]
 script = ExtResource("12_4p2u1")
+
+[node name="HealthBar" parent="." index="6"]
+offset_left = -52.0
+offset_right = 53.0
