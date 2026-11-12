@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://cnjndu48dqf3o"]
+[gd_scene load_steps=49 format=4 uid="uid://cnjndu48dqf3o"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_a18nb"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_h8b51"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="9_cocp8"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="10_b0vjx"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="11_1dykj"]
+[ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="12_1dykj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
@@ -2250,6 +2251,22 @@ position = Vector2(4697, 1904)
 [node name="ShopNPC" parent="." instance=ExtResource("11_1dykj")]
 position = Vector2(4658, 1735)
 talk_timeline = "A014"
+
+[node name="2boxes4" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(4322, 1449)
+scale = Vector2(3, 3)
+
+[node name="2boxes7" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(4322, 1449)
+scale = Vector2(3, 3)
+
+[node name="2boxes5" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(3839.0002, 712)
+scale = Vector2(3, 3)
+
+[node name="2boxes6" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(3845.0002, 665.00006)
+scale = Vector2(3.5, 3.5)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

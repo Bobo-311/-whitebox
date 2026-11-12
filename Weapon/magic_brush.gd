@@ -29,7 +29,14 @@ var max_allowed_stages: int = 3
 @export var max_charge_time: float = 3.0 # 🌟 總蓄力時間 3.0 秒 (滿1秒=1段, 2秒=2段, 3秒=3段)
 
 func _process(delta: float) -> void:
-	look_at(get_global_mouse_position())
+	
+	if not DataManager.can_combat():
+		visible = false # 還沒解鎖前連畫筆本體都隱藏起來（可選）
+		return
+	else:
+		visible = true
+		
+		look_at(get_global_mouse_position())
 	
 	if is_charging and current_mode == Mode.RED:
 		charge_timer += delta

@@ -17,15 +17,6 @@
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
 &"portraits": {
-"...咦？）": {
-"export_overrides": {
-"image": "\"res://眠境-角色立繪/阿尼/驚訝（...咦？）.png\""
-},
-"mirror": false,
-"offset": Vector2(0, 0),
-"scale": 1,
-"scene": ""
-},
 "不安": {
 "export_overrides": {
 "image": "\"res://眠境-角色立繪/阿尼/不安.png\""
@@ -35,9 +26,9 @@
 "scale": 1,
 "scene": ""
 },
-"哇！）": {
+"大喘氣": {
 "export_overrides": {
-"image": "\"res://眠境-角色立繪/阿尼/驚訝（哇！）.png\""
+"image": "\"res://眠境-角色立繪/阿尼/大喘氣.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),
@@ -71,6 +62,15 @@
 "scale": 1,
 "scene": ""
 },
+"戰鬥": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/戰鬥.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
 "找到人的表情": {
 "export_overrides": {
 "image": "\"res://眠境-角色立繪/阿尼/找到人的表情.png\""
@@ -89,9 +89,36 @@
 "scale": 1,
 "scene": ""
 },
+"正常說話": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/正常說話.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"無言": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/無言.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
 "疑惑": {
 "export_overrides": {
 "image": "\"res://眠境-角色立繪/阿尼/疑惑.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"眺望": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/眺望.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),
@@ -116,9 +143,72 @@
 "scale": 1,
 "scene": ""
 },
+"超級疑惑": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/超級疑惑.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
 "閉眼": {
 "export_overrides": {
 "image": "\"res://眠境-角色立繪/阿尼/閉眼.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"饒頭困擾": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/饒頭困擾.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"驚嚇": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/驚嚇.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"驚愕吐槽": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/驚愕吐槽.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"驚訝（...咦？）": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/驚訝（...咦？）.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"驚訝（哇！）": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/驚訝（哇！）.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"鬆一口氣": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/阿尼/鬆一口氣.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),

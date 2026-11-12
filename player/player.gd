@@ -212,14 +212,20 @@ func _physics_process(delta: float) -> void:
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
 			move_and_slide()       
-			return                
+			return                 
 		else:
 			# 解除狀態鎖定，恢復大腦運作
 			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_INHERIT
 		
-		# 獲取玩家移動向量
-		input_direction = Input.get_vector("left", "right", "up", "down") 
+		var current_state_name = ""
+		if state_machine and state_machine.current_state:
+			current_state_name = state_machine.current_state.name.to_lower()
+			
+		if "attack" in current_state_name or "hurt" in current_state_name:
+			input_direction = Vector2.ZERO
+		else:
+			input_direction = Input.get_vector("left", "right", "up", "down") 
 
 		# 狙擊槍蓄力罰站系統：蓄力時強制清空輸入向量，讓玩家定格
 		if magic_brush and magic_brush.is_charging:
@@ -237,7 +243,8 @@ func _physics_process(delta: float) -> void:
 		# ==========================================
 		# 發射與蓄力邏輯 (墨水消耗系統)
 		# ==========================================
-		if state_machine.current_state.name != "PlayerHeal": 
+		# 🌟【關鍵修正】：外層多加 DataManager.can_combat() 攔截，未解鎖前完全禁用 skill_01！
+		if DataManager.can_combat() and state_machine.current_state.name != "PlayerHeal": 
 			var cost = get_weapon_cost()
 			
 			# 按下射擊

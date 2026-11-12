@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://dhlbnppdw5pyf"]
+[gd_scene load_steps=33 format=4 uid="uid://dhlbnppdw5pyf"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_pixp5"]
 [ext_resource type="Texture2D" uid="uid://bhmyaoipei0h4" path="res://最初之地地圖素材/01-2.png" id="3_86od2"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="20_kcuab"]
 [ext_resource type="Resource" uid="uid://cqkjcw0m8gtx3" path="res://dialogic/character/？？？.dch" id="21_kcuab"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="22_g1h5u"]
+[ext_resource type="PackedScene" uid="uid://x48l6f0pyxj8" path="res://單獨物件場景/magic_brush_item.tscn" id="23_5favj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2ser"]
 texture = ExtResource("4_327rf")
@@ -7192,6 +7193,7 @@ limit_bottom = 2000
 metadata/_edit_vertical_guides_ = [1798.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -7205,6 +7207,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -7839,9 +7842,8 @@ position = Vector2(6419, 1511)
 position = Vector2(3415, 1502)
 max_hp = 100
 
-[node name="CutsceneDirector2" parent="." instance=ExtResource("20_kcuab")]
-position = Vector2(4651.9995, 698.99994)
-scale = Vector2(7.9093475, 7.9093475)
-target_timeline = "A003"
+[node name="MagicBrushItem" parent="." instance=ExtResource("23_5favj")]
+z_index = -10
+position = Vector2(4948, 766)
 
 [editable path="PortalArea右側門"]

@@ -370,13 +370,22 @@ func start_cutscene(player_body: Node2D = null) -> void:
 func _on_dialogic_signal(argument: String) -> void:
 	if not is_active: return # 🌟 只有當前正在演出的導演才處理暗號！
 	
-	# 🌟 接收淡出電影黑邊的暗號 (交給 player_hud.gd 與黑底處理)
+	# 🌟 1. 處理「不需要冒號」的單字暗號 (一定要放在 split 之前！)
 	if argument == "fade_out_cinematic":
 		return
 		
+	if argument == "unlock_combat":
+		print("【系統】收到解鎖戰鬥暗號！正式開啟攻擊！")
+		if "combat_unlocked" in DataManager:
+			DataManager.combat_unlocked = true
+		var p = _get_player()
+		if p and p.has_node("MagicBrush"):
+			p.get_node("MagicBrush").visible = true
+		return
+		
+	# 🌟 2. 處理「需要冒號」的複雜暗號 (走位、震動等)
 	var parts = argument.split(":")
-	# 🌟 放寬為至少 2 格，這樣直接寫 "hide:npc" 或 "show:m1" 或 "shake:cam" 也能正常運作！
-	if parts.size() < 2: return
+	if parts.size() < 2: return # 這裡會把沒有冒號的暗號擋掉
 	
 	var action = parts[0].strip_edges()     # "walk"、"run"、"back"、"ambush"、"throw"、"glow"、"flash"、"beam"、"show"、"hide"、"pan"、"reset"、"zoom"、"shake"、"anim"
 	var actor = parts[1].strip_edges()      # "player"、"cam"、"npc" 或 actors 字典裡的 "m1"、"m2"、"rock"

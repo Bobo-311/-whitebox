@@ -253,3 +253,14 @@ func is_cutscene_completed(timeline_id: String) -> bool:
 func mark_cutscene_completed(timeline_id: String) -> void:
 	if timeline_id != "" and not completed_cutscenes.has(timeline_id):
 		completed_cutscenes.append(timeline_id)
+		
+# 🌟 戰鬥能力總開關：只要看過 "A012" 劇本，或是手動設為 true，就會永久解鎖戰鬥！
+var combat_unlocked: bool = false
+
+func can_combat() -> bool:
+	if combat_unlocked:
+		return true
+	# 如果已經完成 A012 劇情，自動視為已解鎖戰鬥！
+	if has_method("is_cutscene_completed") and is_cutscene_completed("A012"):
+		return true
+	return false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://ccfun1apw4e15"]
+[gd_scene load_steps=48 format=4 uid="uid://ccfun1apw4e15"]
 
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_eddww"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_xj7ka"]
@@ -6,6 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://byx6hcby20sit" path="res://最初之地地圖素材/only map/水池3.png" id="3_4q2km"]
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="4_6qkpw"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="5_dc5a4"]
+[ext_resource type="PackedScene" uid="uid://c8d86o31hcim8" path="res://單獨物件場景/tree_a.tscn" id="7_4q2km"]
+[ext_resource type="PackedScene" uid="uid://bu587snypl02c" path="res://單獨物件場景/big_rock_a.tscn" id="8_kng1a"]
+[ext_resource type="PackedScene" uid="uid://i64wuo4ydny8" path="res://單獨物件場景/mid_rock_a.tscn" id="9_nqmvu"]
+[ext_resource type="PackedScene" uid="uid://5c0rpiyj3mwn" path="res://單獨物件場景/tree_b.tscn" id="10_hiv2a"]
+[ext_resource type="PackedScene" uid="uid://cbc5kubrey2q2" path="res://單獨物件場景/twin_rock_a.tscn" id="11_bg1pq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw5g3"]
 texture = ExtResource("2_xj7ka")
@@ -3290,6 +3295,7 @@ sources/0 = SubResource("TileSetAtlasSource_cw5g3")
 sources/1 = SubResource("TileSetAtlasSource_kng1a")
 
 [node name="AM009B" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_xj7ka")
 limit_left = 3900
 limit_top = -800
@@ -3356,3 +3362,1411 @@ polygon = PackedVector2Array(5096, -1025, 5097, 1012, 5093, 1012, 5079, -1024)
 
 [node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(5096, 1465, 5096, 3329, 5088, 3329, 5082, 1461)
+
+[node name="TreeA5" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7168, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA6" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7276, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA2" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7063, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA7" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5379, -944)
+scale = Vector2(4, 4)
+
+[node name="TreeA85" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6957, -938)
+scale = Vector2(4, 4)
+
+[node name="TreeA86" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6749, -937)
+scale = Vector2(4, 4)
+
+[node name="TreeA87" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6647, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA88" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6540, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA89" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6433, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA90" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6857, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA91" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6326, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA92" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6221, -938)
+scale = Vector2(4, 4)
+
+[node name="TreeA93" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6013, -937)
+scale = Vector2(4, 4)
+
+[node name="TreeA94" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5911, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA95" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5804, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA96" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5697, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA97" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6121, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA98" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5590, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA99" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5484, -937)
+scale = Vector2(4, 4)
+
+[node name="TreeA100" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5276, -936)
+scale = Vector2(4, 4)
+
+[node name="TreeA101" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5174, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA8" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9380, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA9" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9488, -929)
+scale = Vector2(4, 4)
+
+[node name="TreeA3" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9275, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA10" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7591, -940)
+scale = Vector2(4, 4)
+
+[node name="TreeA102" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9169, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA103" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8961, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA104" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8859, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA105" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8752, -927)
+scale = Vector2(4, 4)
+
+[node name="TreeA106" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8645, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA107" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9069, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA108" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8538, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA109" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8433, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA110" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8225, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA111" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8123, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA112" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8016, -927)
+scale = Vector2(4, 4)
+
+[node name="TreeA113" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7909, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA114" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8333, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA115" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7802, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA116" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7696, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA117" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7488, -932)
+scale = Vector2(4, 4)
+
+[node name="TreeA118" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7386, -929)
+scale = Vector2(4, 4)
+
+[node name="TreeA11" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7220, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA12" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7328, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA4" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7115, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA13" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5431, -879)
+scale = Vector2(4, 4)
+
+[node name="TreeA119" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7009, -873)
+scale = Vector2(4, 4)
+
+[node name="TreeA120" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6801, -872)
+scale = Vector2(4, 4)
+
+[node name="TreeA121" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6699, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA122" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6592, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA123" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6485, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA124" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6909, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA125" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6378, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA126" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6273, -873)
+scale = Vector2(4, 4)
+
+[node name="TreeA127" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6065, -872)
+scale = Vector2(4, 4)
+
+[node name="TreeA128" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5963, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA129" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5856, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA130" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5749, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA131" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6173, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA132" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5642, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA133" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5536, -872)
+scale = Vector2(4, 4)
+
+[node name="TreeA134" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5328, -871)
+scale = Vector2(4, 4)
+
+[node name="TreeA135" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5226, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA14" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9436, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA15" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9544, -864)
+scale = Vector2(4, 4)
+
+[node name="TreeA16" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9331, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA17" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7647, -875)
+scale = Vector2(4, 4)
+
+[node name="TreeA136" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9225, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA137" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9017, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA138" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8915, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA139" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8808, -862)
+scale = Vector2(4, 4)
+
+[node name="TreeA140" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8701, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA141" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9125, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA142" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8594, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA143" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8489, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA144" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8281, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA145" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8179, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA146" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8072, -862)
+scale = Vector2(4, 4)
+
+[node name="TreeA147" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7965, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA148" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8389, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA149" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7858, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA150" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7752, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA151" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7544, -867)
+scale = Vector2(4, 4)
+
+[node name="TreeA152" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7442, -864)
+scale = Vector2(4, 4)
+
+[node name="TreeA18" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7153, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA19" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7261, -784)
+scale = Vector2(4, 4)
+
+[node name="TreeA20" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7048, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA21" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5364, -795)
+scale = Vector2(4, 4)
+
+[node name="TreeA153" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6942, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA154" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6734, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA155" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6632, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA156" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6525, -782)
+scale = Vector2(4, 4)
+
+[node name="TreeA157" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6418, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA158" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6842, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA159" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6311, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA160" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6206, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA161" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5998, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA162" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5896, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA163" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5789, -782)
+scale = Vector2(4, 4)
+
+[node name="TreeA164" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5682, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA165" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6106, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA166" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5575, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA167" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5469, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA168" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5261, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA169" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5159, -784)
+scale = Vector2(4, 4)
+
+[node name="TreeA22" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9371, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA23" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9479, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA24" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9266, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA25" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7582, -796)
+scale = Vector2(4, 4)
+
+[node name="TreeA170" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9160, -790)
+scale = Vector2(4, 4)
+
+[node name="TreeA171" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8952, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA172" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8850, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA173" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8743, -783)
+scale = Vector2(4, 4)
+
+[node name="TreeA174" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8636, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA175" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9060, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA176" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8529, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA177" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8424, -790)
+scale = Vector2(4, 4)
+
+[node name="TreeA178" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8216, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA179" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8114, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA180" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8007, -783)
+scale = Vector2(4, 4)
+
+[node name="TreeA181" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7900, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA182" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8324, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA183" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7793, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA184" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7687, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA185" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7479, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA186" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7377, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA26" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7148, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA27" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7256, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA28" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7043, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA29" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5359, 3296)
+scale = Vector2(4, 4)
+
+[node name="TreeA187" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6937, 3302)
+scale = Vector2(4, 4)
+
+[node name="TreeA188" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6729, 3303)
+scale = Vector2(4, 4)
+
+[node name="TreeA189" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6627, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA190" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6520, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA191" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6413, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA192" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6837, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA193" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6306, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA194" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6201, 3302)
+scale = Vector2(4, 4)
+
+[node name="TreeA195" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5993, 3303)
+scale = Vector2(4, 4)
+
+[node name="TreeA196" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5891, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA197" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5784, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA198" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5677, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA199" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6101, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA200" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5570, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA201" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5464, 3303)
+scale = Vector2(4, 4)
+
+[node name="TreeA202" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5256, 3304)
+scale = Vector2(4, 4)
+
+[node name="TreeA203" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5154, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA30" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9367, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA31" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9475, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA32" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9262, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA33" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7578, 3298)
+scale = Vector2(4, 4)
+
+[node name="TreeA204" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9156, 3304)
+scale = Vector2(4, 4)
+
+[node name="TreeA205" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8948, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA206" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8846, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA207" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8739, 3311)
+scale = Vector2(4, 4)
+
+[node name="TreeA208" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8632, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA209" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9056, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA210" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8525, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA211" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8420, 3304)
+scale = Vector2(4, 4)
+
+[node name="TreeA212" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8212, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA213" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8110, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA214" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8003, 3311)
+scale = Vector2(4, 4)
+
+[node name="TreeA215" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7896, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA216" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8320, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA217" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7789, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA218" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7683, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA219" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7475, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA220" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7373, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA34" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7193, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA35" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7301, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA36" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7088, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA37" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5404, 3226)
+scale = Vector2(4, 4)
+
+[node name="TreeA221" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6982, 3232)
+scale = Vector2(4, 4)
+
+[node name="TreeA222" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6774, 3233)
+scale = Vector2(4, 4)
+
+[node name="TreeA223" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6672, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA224" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6565, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA225" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6458, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA226" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6882, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA227" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6351, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA228" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6246, 3232)
+scale = Vector2(4, 4)
+
+[node name="TreeA229" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6038, 3233)
+scale = Vector2(4, 4)
+
+[node name="TreeA230" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5936, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA231" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5829, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA232" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5722, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA233" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6146, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA234" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5615, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA235" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5509, 3233)
+scale = Vector2(4, 4)
+
+[node name="TreeA236" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5301, 3234)
+scale = Vector2(4, 4)
+
+[node name="TreeA237" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5199, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA38" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9409, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA39" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9517, 3241)
+scale = Vector2(4, 4)
+
+[node name="TreeA40" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9304, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA41" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7620, 3230)
+scale = Vector2(4, 4)
+
+[node name="TreeA238" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9198, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA239" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8990, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA240" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8888, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA241" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8781, 3243)
+scale = Vector2(4, 4)
+
+[node name="TreeA242" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8674, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA243" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9098, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA244" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8567, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA245" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8462, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA246" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8254, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA247" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8152, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA248" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8045, 3243)
+scale = Vector2(4, 4)
+
+[node name="TreeA249" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7938, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA250" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8362, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA251" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7831, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA252" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7725, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA253" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7517, 3238)
+scale = Vector2(4, 4)
+
+[node name="TreeA254" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7415, 3241)
+scale = Vector2(4, 4)
+
+[node name="TreeA255" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2517)
+scale = Vector2(4, 4)
+
+[node name="TreeA256" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2713)
+scale = Vector2(4, 4)
+
+[node name="TreeA257" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2811)
+scale = Vector2(4, 4)
+
+[node name="TreeA258" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2617)
+scale = Vector2(4, 4)
+
+[node name="TreeA259" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 2898)
+scale = Vector2(4, 4)
+
+[node name="TreeA260" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9517, 2982)
+scale = Vector2(4, 4)
+
+[node name="TreeA261" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 2299)
+scale = Vector2(4, 4)
+
+[node name="TreeA262" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9517, 2405)
+scale = Vector2(4, 4)
+
+[node name="TreeA263" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1682)
+scale = Vector2(4, 4)
+
+[node name="TreeA264" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1878)
+scale = Vector2(4, 4)
+
+[node name="TreeA265" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1976)
+scale = Vector2(4, 4)
+
+[node name="TreeA266" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1782)
+scale = Vector2(4, 4)
+
+[node name="TreeA267" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 2063)
+scale = Vector2(4, 4)
+
+[node name="TreeA268" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 2147)
+scale = Vector2(4, 4)
+
+[node name="TreeA269" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 1464)
+scale = Vector2(4, 4)
+
+[node name="TreeA270" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 1570)
+scale = Vector2(4, 4)
+
+[node name="TreeA271" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 895)
+scale = Vector2(4, 4)
+
+[node name="TreeA272" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 1091)
+scale = Vector2(4, 4)
+
+[node name="TreeA273" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 1189)
+scale = Vector2(4, 4)
+
+[node name="TreeA274" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 995)
+scale = Vector2(4, 4)
+
+[node name="TreeA275" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, 1276)
+scale = Vector2(4, 4)
+
+[node name="TreeA276" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 1360)
+scale = Vector2(4, 4)
+
+[node name="TreeA277" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, 677)
+scale = Vector2(4, 4)
+
+[node name="TreeA278" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 783)
+scale = Vector2(4, 4)
+
+[node name="TreeA279" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 93)
+scale = Vector2(4, 4)
+
+[node name="TreeA280" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 289)
+scale = Vector2(4, 4)
+
+[node name="TreeA281" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 387)
+scale = Vector2(4, 4)
+
+[node name="TreeA282" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 193)
+scale = Vector2(4, 4)
+
+[node name="TreeA283" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, 474)
+scale = Vector2(4, 4)
+
+[node name="TreeA284" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 558)
+scale = Vector2(4, 4)
+
+[node name="TreeA285" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, -125)
+scale = Vector2(4, 4)
+
+[node name="TreeA286" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, -19)
+scale = Vector2(4, 4)
+
+[node name="TreeA287" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -729)
+scale = Vector2(4, 4)
+
+[node name="TreeA288" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -533)
+scale = Vector2(4, 4)
+
+[node name="TreeA289" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -435)
+scale = Vector2(4, 4)
+
+[node name="TreeA290" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -629)
+scale = Vector2(4, 4)
+
+[node name="TreeA291" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, -348)
+scale = Vector2(4, 4)
+
+[node name="TreeA292" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, -264)
+scale = Vector2(4, 4)
+
+[node name="TreeA293" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2560)
+scale = Vector2(4, 4)
+
+[node name="TreeA294" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2756)
+scale = Vector2(4, 4)
+
+[node name="TreeA295" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2854)
+scale = Vector2(4, 4)
+
+[node name="TreeA296" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2660)
+scale = Vector2(4, 4)
+
+[node name="TreeA297" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 2941)
+scale = Vector2(4, 4)
+
+[node name="TreeA298" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9423, 3025)
+scale = Vector2(4, 4)
+
+[node name="TreeA299" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 2342)
+scale = Vector2(4, 4)
+
+[node name="TreeA300" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9423, 2448)
+scale = Vector2(4, 4)
+
+[node name="TreeA301" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 1725)
+scale = Vector2(4, 4)
+
+[node name="TreeA302" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 1921)
+scale = Vector2(4, 4)
+
+[node name="TreeA303" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 2019)
+scale = Vector2(4, 4)
+
+[node name="TreeA304" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 1825)
+scale = Vector2(4, 4)
+
+[node name="TreeA305" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 2106)
+scale = Vector2(4, 4)
+
+[node name="TreeA306" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 2190)
+scale = Vector2(4, 4)
+
+[node name="TreeA307" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 1507)
+scale = Vector2(4, 4)
+
+[node name="TreeA308" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 1613)
+scale = Vector2(4, 4)
+
+[node name="TreeA309" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 938)
+scale = Vector2(4, 4)
+
+[node name="TreeA310" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 1134)
+scale = Vector2(4, 4)
+
+[node name="TreeA311" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 1232)
+scale = Vector2(4, 4)
+
+[node name="TreeA312" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 1038)
+scale = Vector2(4, 4)
+
+[node name="TreeA313" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, 1319)
+scale = Vector2(4, 4)
+
+[node name="TreeA314" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 1403)
+scale = Vector2(4, 4)
+
+[node name="TreeA315" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, 720)
+scale = Vector2(4, 4)
+
+[node name="TreeA316" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 826)
+scale = Vector2(4, 4)
+
+[node name="TreeA317" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 136)
+scale = Vector2(4, 4)
+
+[node name="TreeA318" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 332)
+scale = Vector2(4, 4)
+
+[node name="TreeA319" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 430)
+scale = Vector2(4, 4)
+
+[node name="TreeA320" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 236)
+scale = Vector2(4, 4)
+
+[node name="TreeA321" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, 517)
+scale = Vector2(4, 4)
+
+[node name="TreeA322" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 601)
+scale = Vector2(4, 4)
+
+[node name="TreeA323" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, -82)
+scale = Vector2(4, 4)
+
+[node name="TreeA324" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 24)
+scale = Vector2(4, 4)
+
+[node name="TreeA325" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -686)
+scale = Vector2(4, 4)
+
+[node name="TreeA326" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -490)
+scale = Vector2(4, 4)
+
+[node name="TreeA327" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -392)
+scale = Vector2(4, 4)
+
+[node name="TreeA328" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -586)
+scale = Vector2(4, 4)
+
+[node name="TreeA329" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, -305)
+scale = Vector2(4, 4)
+
+[node name="TreeA330" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, -221)
+scale = Vector2(4, 4)
+
+[node name="TreeA331" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2659)
+scale = Vector2(4, 4)
+
+[node name="TreeA332" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2855)
+scale = Vector2(4, 4)
+
+[node name="TreeA333" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2953)
+scale = Vector2(4, 4)
+
+[node name="TreeA334" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2759)
+scale = Vector2(4, 4)
+
+[node name="TreeA335" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 3040)
+scale = Vector2(4, 4)
+
+[node name="TreeA336" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9602, 3124)
+scale = Vector2(4, 4)
+
+[node name="TreeA337" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 2441)
+scale = Vector2(4, 4)
+
+[node name="TreeA338" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9602, 2547)
+scale = Vector2(4, 4)
+
+[node name="TreeA339" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 1824)
+scale = Vector2(4, 4)
+
+[node name="TreeA340" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 2020)
+scale = Vector2(4, 4)
+
+[node name="TreeA341" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 2118)
+scale = Vector2(4, 4)
+
+[node name="TreeA342" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 1924)
+scale = Vector2(4, 4)
+
+[node name="TreeA343" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 2205)
+scale = Vector2(4, 4)
+
+[node name="TreeA344" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 2289)
+scale = Vector2(4, 4)
+
+[node name="TreeA345" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 1606)
+scale = Vector2(4, 4)
+
+[node name="TreeA346" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 1712)
+scale = Vector2(4, 4)
+
+[node name="TreeA347" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1037)
+scale = Vector2(4, 4)
+
+[node name="TreeA348" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1233)
+scale = Vector2(4, 4)
+
+[node name="TreeA349" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1331)
+scale = Vector2(4, 4)
+
+[node name="TreeA350" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1137)
+scale = Vector2(4, 4)
+
+[node name="TreeA351" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 1418)
+scale = Vector2(4, 4)
+
+[node name="TreeA352" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 1502)
+scale = Vector2(4, 4)
+
+[node name="TreeA353" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 819)
+scale = Vector2(4, 4)
+
+[node name="TreeA354" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 925)
+scale = Vector2(4, 4)
+
+[node name="TreeA355" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 235)
+scale = Vector2(4, 4)
+
+[node name="TreeA356" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 431)
+scale = Vector2(4, 4)
+
+[node name="TreeA357" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 529)
+scale = Vector2(4, 4)
+
+[node name="TreeA358" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 335)
+scale = Vector2(4, 4)
+
+[node name="TreeA359" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 616)
+scale = Vector2(4, 4)
+
+[node name="TreeA360" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 700)
+scale = Vector2(4, 4)
+
+[node name="TreeA361" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 17)
+scale = Vector2(4, 4)
+
+[node name="TreeA362" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 123)
+scale = Vector2(4, 4)
+
+[node name="TreeA363" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -587)
+scale = Vector2(4, 4)
+
+[node name="TreeA369" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9626, -776)
+scale = Vector2(4, 4)
+
+[node name="TreeA370" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9626, -920)
+scale = Vector2(4, 4)
+
+[node name="TreeA371" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9632, -697)
+scale = Vector2(4, 4)
+
+[node name="TreeA372" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9605, 3229)
+scale = Vector2(4, 4)
+
+[node name="TreeA373" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9588, 3315)
+scale = Vector2(4, 4)
+
+[node name="TreeA374" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9680, 3285)
+scale = Vector2(4, 4)
+
+[node name="TreeA364" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -391)
+scale = Vector2(4, 4)
+
+[node name="TreeA365" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -293)
+scale = Vector2(4, 4)
+
+[node name="TreeA366" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -487)
+scale = Vector2(4, 4)
+
+[node name="TreeA375" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6305, 460)
+scale = Vector2(4, 4)
+
+[node name="TreeA380" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5554, -202)
+scale = Vector2(4, 4)
+
+[node name="TreeA377" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8439, -58)
+scale = Vector2(4, 4)
+
+[node name="TreeA378" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8646, 2596)
+scale = Vector2(4, 4)
+
+[node name="TreeA376" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8798, 1745)
+scale = Vector2(4, 4)
+
+[node name="TreeA382" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7491, -323)
+scale = Vector2(4, 4)
+
+[node name="TreeA383" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6668, -178)
+scale = Vector2(4, 4)
+
+[node name="TreeA379" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6183, 2137)
+scale = Vector2(4, 4)
+
+[node name="TreeA381" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7506, 2615)
+scale = Vector2(4, 4)
+
+[node name="TreeA367" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, -206)
+scale = Vector2(4, 4)
+
+[node name="TreeA368" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, -122)
+scale = Vector2(4, 4)
+
+[node name="big rock A" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(6013, 1697)
+scale = Vector2(4, 4)
+
+[node name="big rock A4" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(5485, 2731)
+scale = Vector2(4, 4)
+
+[node name="big rock A2" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(8729, 1083)
+scale = Vector2(4.5, 4.5)
+
+[node name="big rock A5" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(9018, 2607)
+scale = Vector2(4.5, 4.5)
+
+[node name="big rock A3" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(8792, -226)
+scale = Vector2(4.5, 4.5)
+
+[node name="mid_rock_a" parent="." instance=ExtResource("9_nqmvu")]
+position = Vector2(6101, 695)
+scale = Vector2(4, 4)
+
+[node name="TreeB" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(6196, 1402)
+scale = Vector2(4, 4)
+
+[node name="TreeB3" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(5443, 1240)
+scale = Vector2(4, 4)
+
+[node name="TreeB2" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(5757, 551)
+scale = Vector2(4, 4)
+
+[node name="TreeB4" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(5713, -122)
+scale = Vector2(4, 4)
+
+[node name="TreeB5" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(8070, 112)
+scale = Vector2(4, 4)
+
+[node name="TreeB6" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(8215, 2203)
+scale = Vector2(4, 4)
+
+[node name="twin_rock_a" parent="." instance=ExtResource("11_bg1pq")]
+position = Vector2(5946, -69)
+scale = Vector2(4, 4)

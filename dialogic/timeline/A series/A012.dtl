@@ -9,7 +9,7 @@
 [wait time="1.5"]
 join 路克斯 (驚嚇) right
 路克斯: 糟了......
-join 阿尼 (超級不安) left
+join 阿尼 (驚嚇) left
 阿尼: [shake rate=5.0 level=5 connected=1]被包圍了......[/shake]
 路克斯 (數到三): 阿尼，聽好......
 路克斯: 我們只能放手一搏了。
@@ -24,6 +24,7 @@ leave --All--
 [wait time="0.4"]
 路克斯: [shake rate=30.0 level=20 connected=1]！！！！[/shake]
 路克斯: [shake rate=30.0 level=20 connected=1]小心！！！[/shake]
+[signal arg="unlock_combat"]
 阿尼: [shake rate=30.0 level=20 connected=1]啊啊啊啊！！！[/shake]
 
 [signal arg="anim:player:attack_down"]

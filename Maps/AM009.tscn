@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=4 uid="uid://dfa7qn8iuye7n"]
+[gd_scene load_steps=48 format=4 uid="uid://dfa7qn8iuye7n"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_chhuo"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="2_7ujck"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="5_nuqpg"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="6_7ujck"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="7_qij2i"]
+[ext_resource type="PackedScene" uid="uid://biit4lp10kksr" path="res://單獨物件場景/2_boxes.tscn" id="8_nuqpg"]
+[ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="9_abugf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ujck"]
 texture = ExtResource("4_kjpat")
@@ -3199,6 +3201,7 @@ resource_local_to_scene = true
 size = Vector2(418.46136, 257.69104)
 
 [node name="AM009" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_chhuo")
 map_name = "AM009"
 limit_left = 2843
@@ -3316,6 +3319,42 @@ shape = SubResource("RectangleShape2D_nuqpg")
 [node name="From_MapX" type="Marker2D" parent="."]
 position = Vector2(3040.0002, 923)
 scale = Vector2(1.3, 1.3)
+
+[node name="2boxes" parent="." instance=ExtResource("8_nuqpg")]
+position = Vector2(3741, 1921)
+scale = Vector2(4, 4)
+
+[node name="2boxes2" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(4604, 1154)
+scale = Vector2(4, 4)
+
+[node name="2boxes4" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(4370, 1426)
+scale = Vector2(3.5, 3.5)
+
+[node name="2boxes5" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(4210.0005, 808.0002)
+scale = Vector2(3.5, 3.5)
+
+[node name="2boxes6" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(3724.9998, 979)
+scale = Vector2(3.5, 3.5)
+
+[node name="2boxes8" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(3791.0002, 978.99994)
+scale = Vector2(3.5, 3.5)
+
+[node name="2boxes9" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(3726, 922.00006)
+scale = Vector2(3.5, 3.5)
+
+[node name="2boxes3" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(4668, 1131)
+scale = Vector2(3, 3)
+
+[node name="2boxes7" parent="." instance=ExtResource("9_abugf")]
+position = Vector2(5463, 1428)
+scale = Vector2(3, 3)
 
 [editable path="PortalArea上門"]
 [editable path="PortalArea下門"]
