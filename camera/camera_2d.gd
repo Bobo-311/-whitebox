@@ -40,8 +40,23 @@ func _process(delta: float) -> void:
 	# --------------------------------------
 	var target_look = Vector2.ZERO
 	
-	# 🌟 新增防護網：只有在「沒有播放劇情」的時候，才允許滑鼠探頭
-	if DataManager.player_node and not DataManager.player_node.is_in_dialogue and not is_look_ahead_disabled:
+	# 🌟【正規解法：全域 UI 掃描系統】
+	var is_any_ui_blocking: bool = false
+	
+	# 尋找全宇宙所有貼著 "blocking_ui" 標籤的節點 (請在編輯器幫你的 UI 貼上這個標籤)
+	var ui_list = get_tree().get_nodes_in_group("blocking_ui")
+	for ui in ui_list:
+		if ui.visible: # 只要發現有任何一個是「顯示中」的狀態
+			is_any_ui_blocking = true
+			break      # 抓到一個就可以停了，準備踩煞車！
+
+	# 保險防呆：把大腦裡的玩家狀態也加進來雙重確認 (筆記本或商店)
+	if DataManager.player_node:
+		if DataManager.player_node.is_reading_book or DataManager.player_node.is_shopping:
+			is_any_ui_blocking = true
+
+	# 🌟 最終判定：如果沒有對話、相機沒被強制鎖定、且沒有任何 UI 擋住畫面，才允許滑鼠探頭！
+	if DataManager.player_node and not DataManager.player_node.is_in_dialogue and not is_look_ahead_disabled and not is_any_ui_blocking:
 		var mouse_pos = get_local_mouse_position()
 		var mouse_dist = mouse_pos.length()
 		
@@ -52,7 +67,7 @@ func _process(delta: float) -> void:
 			var ease_t = raw_t * raw_t
 			target_look = mouse_pos.normalized() * (ease_t * max_look_distance)
 	
-	# 💡 這個 lerp 留著！這樣劇情一開始，鏡頭就會「平滑地」回到主角正中央
+	# 💡 這個 lerp 留著！這樣 UI 關閉或劇情結束時，鏡頭就會「平滑地」回到主角正中央
 	current_look_offset = current_look_offset.lerp(target_look, look_smooth_speed * real_delta)
 	
 	# --------------------------------------

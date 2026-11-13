@@ -47,7 +47,7 @@ paragraph_spacing = 3.0
 font = ExtResource("7_kddjk")
 font_size = 34
 
-[node name="ShopUI" type="CanvasLayer"]
+[node name="ShopUI" type="CanvasLayer" groups=["blocking_ui"]]
 layer = 50
 script = ExtResource("1_6ggnr")
 

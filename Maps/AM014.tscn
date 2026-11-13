@@ -16117,7 +16117,7 @@ sources/3 = SubResource("TileSetAtlasSource_sx2vb")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pro6m"]
 resource_local_to_scene = true
-size = Vector2(13.075775, 144.61523)
+size = Vector2(21.53851, 147.69223)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_20yyl"]
 resource_local_to_scene = true
@@ -16191,7 +16191,7 @@ target_scene_path = "uid://hsot31p0hdgv"
 target_spawn_name = "From_Map14"
 
 [node name="CollisionShape2D" parent="PortalArea木屋門" index="0"]
-position = Vector2(2135.3853, -1868.8472)
+position = Vector2(1964.6157, -1863.8462)
 rotation = 1.5707964
 shape = SubResource("RectangleShape2D_pro6m")
 
@@ -16219,8 +16219,8 @@ scale = Vector2(1.6899998, 1.6899998)
 collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆左方"]
-position = Vector2(-7147.6343, -3528.3438)
-polygon = PackedVector2Array(4767.4565, 2568.0479, 4767.4565, 2582.249, 4696.4507, 2582.249, 4696.4507, 2568.0479)
+position = Vector2(-7280.77, -3521.243)
+polygon = PackedVector2Array(4789.3496, 2568.0476, 4789.3496, 2582.2488, 4675.7397, 2582.2488, 4675.7397, 2568.0476)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_mask = 0

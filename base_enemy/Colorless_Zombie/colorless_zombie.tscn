@@ -43,6 +43,10 @@ shader = ExtResource("2_mfkhu")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_at8cw"]
 atlas = ExtResource("3_lnn8e")
@@ -2280,7 +2284,9 @@ rest_time = 1.2
 shape = SubResource("CircleShape2D_ejd70")
 
 [node name="HealthBar" parent="." index="6"]
-offset_top = -106.0
+offset_left = -57.000008
+offset_top = -84.0
+offset_right = 47.999992
 offset_bottom = -79.0
 
 [node name="AimPivot" parent="." index="7"]

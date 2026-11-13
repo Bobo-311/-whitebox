@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://gm5yd1ca5qkj"]
 
-[ext_resource type="Texture2D" uid="uid://jmjls55guxhf" path="res://OOOOOOOOOOOOO/dragon-huds/dragon-huds/dragon-huds/rounded-bars/rounded-health-bar.png" id="1_mafet"]
+[ext_resource type="Texture2D" uid="uid://cuw11ocnm56ul" path="res://UI美術素材圖/道具格/4x/button_pill_disabled_4x.png" id="1_s0me5"]
 [ext_resource type="Script" uid="uid://bm634r5k66giu" path="res://StickerItem/sticker_item.gd" id="2_s0me5"]
 
 [node name="StickerItem" type="TextureRect"]
-custom_minimum_size = Vector2(99.125, 116.995)
+custom_minimum_size = Vector2(81, 93)
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("1_mafet")
+texture = ExtResource("1_s0me5")
 expand_mode = 1
 stretch_mode = 5
 script = ExtResource("2_s0me5")

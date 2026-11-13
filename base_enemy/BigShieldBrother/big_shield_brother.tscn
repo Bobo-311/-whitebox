@@ -18,6 +18,10 @@ shader = ExtResource("2_m0aib")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h4hyc"]
 atlas = ExtResource("4_thvxi")
@@ -1136,8 +1140,8 @@ size = Vector2(145, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ao5cn"]
 size = Vector2(81, 85)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2bana"]
-size = Vector2(55, 79)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k16pf"]
+size = Vector2(68, 90)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vlpbl"]
 size = Vector2(80, 85)
@@ -1154,9 +1158,8 @@ max_hp = 100
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_w26d7")
 sprite_frames = SubResource("SpriteFrames_pgcmc")
-animation = &"run_left"
+animation = &"idle_down"
 autoplay = "idle_down"
-frame_progress = 0.4963749
 
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(-9.000001, 2.5)
@@ -1175,8 +1178,8 @@ position = Vector2(-8.5, 32.5)
 shape = SubResource("RectangleShape2D_ao5cn")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-9.5, -42.5)
-shape = SubResource("RectangleShape2D_2bana")
+position = Vector2(-9, -49)
+shape = SubResource("RectangleShape2D_k16pf")
 
 [node name="Hitbox" parent="." index="5"]
 position = Vector2(-11, 31)
@@ -1197,5 +1200,7 @@ push_speed = 600.0
 shape = SubResource("CircleShape2D_ao5cn")
 
 [node name="HealthBar" parent="." index="8"]
-offset_top = -102.0
-offset_bottom = -75.0
+offset_left = -61.0
+offset_top = -90.0
+offset_right = 44.0
+offset_bottom = -86.0

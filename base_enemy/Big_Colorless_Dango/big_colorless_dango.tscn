@@ -1074,8 +1074,9 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2a84"]
-size = Vector2(160, 226)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5ldoh"]
+radius = 39.0
+height = 234.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dxmqk"]
 size = Vector2(159, 226)
@@ -1098,12 +1099,12 @@ max_hp = 100
 material = SubResource("ShaderMaterial_ynskx")
 scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_xmo1u")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-5.000002, -31)
-shape = SubResource("RectangleShape2D_y2a84")
+position = Vector2(0, 16)
+shape = SubResource("CapsuleShape2D_5ldoh")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(-5.000004, -30.500006)
@@ -1144,9 +1145,9 @@ minion_flight_time = 0.8
 [node name="LockHpSpawn" type="Node" parent="StateMachine" index="4"]
 script = ExtResource("10_8mbbp")
 post_explode_recovery = 1.5
+shrink_factor = 0.93
 minion_scene = ExtResource("3_vsfu5")
 screen_shake_intensity = 50.0
-invincible_duration = 5.0
 
 [node name="SpitPoison" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("12_mee13")

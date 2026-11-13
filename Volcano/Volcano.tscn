@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=72 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
@@ -14,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="13_vetra"]
 [ext_resource type="PackedScene" uid="uid://ddkdojri5t6at" path="res://base_enemy/BigShieldBrother/big_shield_brother.tscn" id="14_4kxmv"]
 [ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="15_741bu"]
-[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="15_yegem"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yegem"]
 size = Vector2(6539, 281)
@@ -1404,7 +1403,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(1370, 1857)
+position = Vector2(3547, 291)
 
 [node name="Ground" type="TileMapLayer" parent="."]
 position = Vector2(395, 1585)
@@ -1418,10 +1417,10 @@ texture = ExtResource("10_167qa")
 texture_scale = 10.0
 
 [node name="player" parent="." instance=ExtResource("2_scycs")]
-position = Vector2(3596, 1775)
+position = Vector2(2795, 899)
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
-position = Vector2(339, 1570)
+position = Vector2(2971, 1227)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
 position = Vector2(4365, 376)

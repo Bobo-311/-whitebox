@@ -31,6 +31,10 @@ shader = ExtResource("2_s2o76")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7fu2f"]
 atlas = ExtResource("3_rksyd")
@@ -1600,3 +1604,9 @@ script = ExtResource("8_qbl1b")
 
 [node name="CollisionShape2D2" parent="DetectPlayer" index="0"]
 shape = SubResource("CircleShape2D_s8a4f")
+
+[node name="HealthBar" parent="." index="6"]
+offset_left = -28.0
+offset_top = -31.0
+offset_right = 27.0
+offset_bottom = -28.0
