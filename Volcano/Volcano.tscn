@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=4 uid="uid://dc6xujthm4cy4"]
+[gd_scene load_steps=73 format=4 uid="uid://dc6xujthm4cy4"]
 
 [ext_resource type="Script" uid="uid://bp75v67wi71pl" path="res://Volcano/volcano.gd" id="1_scycs"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_scycs"]
