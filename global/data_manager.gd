@@ -264,3 +264,24 @@ func can_combat() -> bool:
 	if has_method("is_cutscene_completed") and is_cutscene_completed("A012"):
 		return true
 	return false
+
+# ==========================================
+# 🎯 全域劇本暗號接收器 (在任何劇本發 signal 都能改寫大腦資料！)
+# ==========================================
+func _ready() -> void:
+	if not Dialogic.signal_event.is_connected(_on_global_dialogic_signal):
+		Dialogic.signal_event.connect(_on_global_dialogic_signal)
+
+func _on_global_dialogic_signal(arg: String) -> void:
+	# 1. 支援手動標記任務完成：例如在 A014D 劇本寫 [signal arg="complete:got_cargo"]
+	if arg.begins_with("complete:"):
+		var flag_name = arg.split(":")[1].strip_edges()
+		mark_cutscene_completed(flag_name)
+		print("【大腦】收到劇本暗號，已登記任務進度：", flag_name)
+		
+	# 2. 支援在劇本中直接贈送貼紙：例如在 A014E 寫 [signal arg="give_sticker:001"]
+	elif arg.begins_with("give_sticker:"):
+		var sticker_id = arg.split(":")[1].strip_edges()
+		if not owned_stickers.has(sticker_id):
+			owned_stickers.append(sticker_id)
+			print("【大腦】從劇情獲得新貼紙：", sticker_id)

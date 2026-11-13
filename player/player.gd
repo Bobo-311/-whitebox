@@ -175,10 +175,23 @@ func _input(event):
 		state_machine.process_mode = Node.PROCESS_MODE_DISABLED # 凍結大腦
 		if notebook_ui: notebook_ui.toggle_notebook(false)
 
-	# 開發者外掛
+	# 🛠️ 開發者外掛 1：原本的 cheater 按鍵（印鈔 + 解鎖戰鬥 + 補滿墨水）
 	if event.is_action_pressed("cheater") and DataManager: 
 		DataManager.total_gold += 100
-		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
+		DataManager.combat_unlocked = true
+		refill_full_ink()
+		if magic_brush:
+			magic_brush.visible = true
+		print("【開發者外掛】印鈔 100 元 + 強制解鎖戰鬥與補滿墨水！總金額：", DataManager.total_gold)
+
+	# 🛠️ 開發者外掛 2：按下鍵盤 F1 隨時「切換（開/關）」戰鬥鎖定狀態（免去專案設定綁按鍵）
+	if event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_F1:
+		if DataManager:
+			DataManager.combat_unlocked = not DataManager.combat_unlocked
+			refill_full_ink()
+			if magic_brush:
+				magic_brush.visible = DataManager.can_combat()
+			print("【開發者測試】F1 切換戰鬥狀態！目前是否可戰鬥：", DataManager.can_combat())
 
 # ==========================================
 # 數值重算 (裝備系統對接)

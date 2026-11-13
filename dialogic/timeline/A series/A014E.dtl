@@ -1,10 +1,21 @@
+[style name="galstyle"]
+join 商人 right
 商人: 回來啦！真的找到了嗎？
-阿尼: 應該是這個吧？
+join 阿尼 (正常說話) left
+阿尼 (正常說話): 應該是這個吧？
 商人: ......
+update 商人 [animation="Bounce" length="0.3"]
 商人: 沒錯！就是這個！
 商人: 哈哈！我還以為再也拿不回來了！
+update 商人 [animation="Shake X" length="0.3"]
 商人: 但......好臭......
-白貓: 發生了點意外...你就先別管那麼多啦！
+update 阿尼 (饒頭困擾)
+阿尼 (饒頭困擾): 發生了點意外...你就先別管那麼多啦！
 商人: 那...等我一下...
-翻箱搗櫃
+
+update 商人 [animation="Shake X" repeat="2"]
+（商人一陣翻箱倒櫃……）
+[wait time="0.6"]
+
 商人: 說好的東西，我可不會食言的。
+jump A015/

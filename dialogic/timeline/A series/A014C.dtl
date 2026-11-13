@@ -1,5 +1,23 @@
-阿尼: 奇怪？
-阿尼: 沒什麼看到商人說的怪物啊？
-白貓: 等等！你看遠處！
-△大胖呆跳出來
-阿尼: [shake rate=30.0 level=20 connected=1]那啥啊？！！
+[style name="galstyle"]
+[signal arg="walk:player:walk_to_here:move_right:4.0"]
+[signal arg="walk:w_cat:walk_to_here:move_right:idle_right:4.0"]
+[wait time="4.0"]
+join 阿尼 (疑惑) left
+阿尼 (疑惑): 奇怪？
+阿尼 (疑惑): 沒什麼看到商人說的怪物啊？
+join 路克斯 (快看！) right [animation="Bounce" length="0.3"]
+路克斯 (快看！): 等等！你看遠處！
+leave --All--
+
+[signal arg="pan:cam:cam_bos_pos:1.2"]
+[wait time="1.2"]
+[signal arg="jump:boss:boss_land_pos:fall_down:idle:0.6"]
+[wait time="1.0"]
+
+join 阿尼 (驚嚇) left [animation="Shake Y" length="0.4"]
+阿尼 (驚嚇): [shake rate=30.0 level=20 connected=1]那是什麼東西啊？！！[/shake]
+[signal arg="reset:cam:0.6"]
+[signal arg="fade_out_cinematic"]
+[signal arg="unlock_combat"]
+leave --All-- [animation="Fade Out Down" length="0.4"]
+[wait time="0.4"]

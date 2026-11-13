@@ -785,6 +785,33 @@ func _on_dialogic_signal(argument: String) -> void:
 				if is_instance_valid(npc_sprite) and idle_anim != "":
 					npc_sprite.play(idle_anim)
 			)
+		elif action == "jump":
+			# 🦖 Boss 專用跳躍登場：支援從高處/起點跳到目標點，並在落地瞬間觸發劇烈震屏！
+			current_npc.visible = true
+			current_npc.modulate.a = 1.0
+			var duration = custom_duration if custom_duration > 0.0 else 0.6
+			
+			# 確保跳躍動畫從第 0 格開始播放
+			if is_instance_valid(npc_sprite) and move_anim != "":
+				npc_sprite.stop()
+				npc_sprite.play(move_anim)
+				
+			# 使用 QUAD EASE_IN 模擬重力加速砸下來的重量感
+			tween.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
+			tween.tween_property(current_npc, "global_position", target_pos, duration)
+			tween.tween_callback(func():
+				if is_instance_valid(npc_sprite) and idle_anim != "":
+					npc_sprite.play(idle_anim)
+				# 💥 落地瞬間自動觸發高強度鏡頭震動！
+				var cam = get_viewport().get_camera_2d()
+				if is_instance_valid(cam):
+					var land_shake = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+					for i in range(6):
+						var s = 18.0 * (1.0 - float(i) / 6.0)
+						var dir_x = 1.0 if i % 2 == 0 else -1.0
+						land_shake.tween_property(cam, "offset", Vector2(dir_x * s, randf_range(-s, s * 0.5)), 0.04)
+					land_shake.tween_property(cam, "offset", Vector2.ZERO, 0.02)
+			)
 		elif action == "knockback":
 			# 💥 爆發擊退效果：受擊瞬間閃白光 + EXPO 爆發減速曲線震飛！
 			current_npc.visible = true
