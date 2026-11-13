@@ -1198,7 +1198,7 @@ tentacle_right_down = ExtResource("5_b8ol4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_ysnm2")
-animation = &"laser_end"
+animation = &"laser_loop"
 autoplay = "idle"
 
 [node name="Hurtbox" type="Area2D" parent="."]

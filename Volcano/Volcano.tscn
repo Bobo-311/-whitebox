@@ -1420,7 +1420,7 @@ texture_scale = 10.0
 position = Vector2(2795, 899)
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
-position = Vector2(3191, 813)
+position = Vector2(2971, 1227)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
 position = Vector2(4365, 376)

@@ -478,8 +478,16 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 
 	var target_suffix = facing_direction # 預設使用 4 方位記憶
 
-	# 只有正常移動時才更新面朝方向與 8 方位判定
-	if not is_dashing and input_direction != Vector2.ZERO:
+	# 🌟【正規修改】
+	# 只有在播放 Move 動畫時，才允許 WASD 更新角色面向。
+	#
+	# 為什麼？
+	# Attack 的方向由滑鼠決定。
+	# Shoot 的方向由滑鼠決定。
+	# Hurt 則應保留原本面向。
+	#
+	# 避免其他動畫播放時，被 WASD 覆蓋面向。
+	if prefix == "move" and not is_dashing and input_direction != Vector2.ZERO:
 		# 1. 計算 8 方位字串 (給 8 方向移動用)
 		var y_str = ""
 		var x_str = ""
