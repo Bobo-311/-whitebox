@@ -1198,8 +1198,9 @@ tentacle_right_down = ExtResource("5_b8ol4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_ysnm2")
-animation = &"laser_loop"
+animation = &"pant"
 autoplay = "idle"
+frame_progress = 0.15821311
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 16
@@ -1248,15 +1249,15 @@ default_color = Color(1, 0, 0, 1)
 [node name="TentacleAnchors" type="Node2D" parent="."]
 
 [node name="SpawnPoint_RightDown" type="Marker2D" parent="TentacleAnchors"]
-position = Vector2(1100, 1100)
+position = Vector2(1632, 1492)
 
 [node name="SpawnPoint_LeftDown" type="Marker2D" parent="TentacleAnchors"]
-position = Vector2(-1100, 1100)
+position = Vector2(-1631, 1490)
 
 [node name="SpawnPoint_RightTop" type="Marker2D" parent="TentacleAnchors"]
-position = Vector2(1100, -1100)
+position = Vector2(1595, -1295)
 
 [node name="SpawnPoint_LeftTop" type="Marker2D" parent="TentacleAnchors"]
-position = Vector2(-1100, -1100)
+position = Vector2(-1526, -1267)
 
 [node name="BossUI" parent="." instance=ExtResource("13_mr3u7")]

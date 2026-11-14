@@ -37,6 +37,7 @@ var _battle_started: bool = false # 確保怪物已經正式登場開始戰鬥�
 
 var has_triggered: bool = false # 確保劇情只觸發一次
 var is_active: bool = false     # 🌟 確保只有「正在演出中」的導演會接收暗號，多場戲不互衝！
+var _map_ready_for_trigger: bool = false # 🌟 過圖保護鎖：防止剛換地圖阿尼還沒瞬移到定位針時誤觸發！
 var _cam_tween: Tween = null    # 🌟 記錄當前的鏡頭動畫，防止玩家按太快時兩個鏡頭動畫打架！
 var _shake_tween: Tween = null  # 🌟 記錄鏡頭震動動畫，防止連續震動互搶
 var _zoom_tween: Tween = null   # 🌟 記錄鏡頭縮放動畫，防止連續 zoom 互搶
@@ -79,9 +80,11 @@ func _ready() -> void:
 	# ==========================================
 	# 🌟 2. 尚未看過此劇情的正常初始化
 	# ==========================================
-	# 讓導演監聽 Dialogic 的暗號與結束通知
+	# 讓導演監聽 Dialogic 的暗號、開始與結束通知
 	if not Dialogic.signal_event.is_connected(_on_dialogic_signal):
 		Dialogic.signal_event.connect(_on_dialogic_signal)
+	if not Dialogic.timeline_started.is_connected(_on_external_timeline_started):
+		Dialogic.timeline_started.connect(_on_external_timeline_started)
 	if not Dialogic.timeline_ended.is_connected(_on_timeline_ended):
 		Dialogic.timeline_ended.connect(_on_timeline_ended)
 		
@@ -103,17 +106,48 @@ func _ready() -> void:
 		await get_tree().process_frame
 		_setup_enemy_clear_trigger()
 	else:
+		# 🌟 關鍵修正：過圖剛載入時先強制關閉 Area2D 感應，防止阿尼還沒瞬移到定位點前誤觸發！
 		set_process(false)
+		monitoring = false
 		if not body_entered.is_connected(_on_body_entered):
 			body_entered.connect(_on_body_entered)
+			
+		# 等待物理幀與 0.2 秒過圖保護時間，確保 SceneTransition 已經把阿尼移到 From_Map 定位點！
+		await get_tree().physics_frame
+		await get_tree().physics_frame
+		await get_tree().create_timer(0.2).timeout
+		if not is_inside_tree() or has_triggered:
+			return
+		_map_ready_for_trigger = true
+		monitoring = true
+		
+		# 再等一幀讓物理引擎刷新重疊名單，如果阿尼真的站在感應區內才觸發
+		await get_tree().physics_frame
+		if not is_inside_tree() or has_triggered:
+			return
+		for body in get_overlapping_bodies():
+			if body == _get_player():
+				_on_body_entered(body)
+				break
 
 # 🌟 離開場景樹時安全清理所有 Tween 與訊號連線，防止換地圖時閃退
 func _exit_tree() -> void:
 	_clear_all_cutscene_tweens(false)
 	if Dialogic.signal_event.is_connected(_on_dialogic_signal):
 		Dialogic.signal_event.disconnect(_on_dialogic_signal)
+	if Dialogic.timeline_started.is_connected(_on_external_timeline_started):
+		Dialogic.timeline_started.disconnect(_on_external_timeline_started)
 	if Dialogic.timeline_ended.is_connected(_on_timeline_ended):
 		Dialogic.timeline_ended.disconnect(_on_timeline_ended)
+
+# 🌟 支援外部物件（如 door_a.gd 按 E 推門）啟動劇本時，若劇本名稱相符，導演自動接管走位演出！
+func _on_external_timeline_started() -> void:
+	if is_active or target_timeline == "":
+		return
+	if Dialogic.current_timeline and Dialogic.current_timeline.resource_path.get_file().get_basename() == target_timeline:
+		is_active = true
+		has_triggered = true
+		_last_advance_time = Time.get_ticks_msec() / 1000.0
 
 # 🛡️ 防禦 1：過場演戲期間的「防狂按節流閥」
 func _input(event: InputEvent) -> void:
@@ -154,8 +188,6 @@ func _create_safe_actor_tween(actor_key: String, actor_node: Node2D, new_target_
 	_actor_target_pos[actor_key] = new_target_pos
 	_actor_target_idle[actor_key] = idle_anim
 	
-	# 🌟 關鍵修正：不能 bind_node 在被 DISABLED 的怪物身上，否則 Tween 會跟著被凍結！
-	# 改為由 CutsceneDirector 建立並強制設定 TWEEN_PAUSE_PROCESS，確保所有怪物都能順暢移動！
 	var new_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	_actor_tweens[actor_key] = new_tween
 	return new_tween
@@ -189,16 +221,14 @@ func _clear_all_cutscene_tweens(snap_to_end: bool = true) -> void:
 	_actor_target_pos.clear()
 	_actor_target_idle.clear()
 	
-# 🌟 自動收集要追蹤的目標小怪（支援從 Target Enemies、Permanent Hide Actors 或 Actors 自動抓取！）
+# 🌟 自動收集要追蹤的目標小怪
 func _setup_enemy_clear_trigger() -> void:
 	_tracked_enemies.clear()
 	
-	# 1. 優先使用 Target Enemies 陣列裡設定的怪物
 	for enemy in target_enemies:
 		if is_instance_valid(enemy) and not _tracked_enemies.has(enemy):
 			_tracked_enemies.append(enemy)
 			
-	# 2. 🌟 貼心防呆：如果你是把 m1, m2, m3 填在 Permanent Hide Actors 或 Actors 字典，直接自動幫你抓過來！
 	if _tracked_enemies.is_empty():
 		for key in permanent_hide_actors:
 			if actors.has(key):
@@ -208,22 +238,21 @@ func _setup_enemy_clear_trigger() -> void:
 					
 	if _tracked_enemies.is_empty():
 		for key in actors.keys():
-			if key == "cat" or key == "npc": continue # 自動排除白貓！
+			if key == "cat" or key == "npc": continue
 			var node = get_node_or_null(actors[key]) as Node2D
 			if is_instance_valid(node) and node != target_npc and not _tracked_enemies.has(node):
 				_tracked_enemies.append(node)
 
 	print("【CutsceneDirector: ", name, "】已綁定戰鬥全滅監聽，目標怪物數量：", _tracked_enemies.size())
 	if _tracked_enemies.size() > 0:
-		set_process(true) # 啟動即時監控！
+		set_process(true)
 
-# 🌟 每幀自動檢查怪物是否全滅（無論怪物是 queue_free 刪除、還是血量歸零，都能 100% 偵測！）
+# 🌟 每幀自動檢查怪物是否全滅
 func _process(_delta: float) -> void:
 	if not trigger_on_enemies_cleared or has_triggered:
 		set_process(false)
 		return
 		
-	# 步驟 A：如果怪物一開始是隱形埋伏的，要先等至少一隻怪物現身 (visible == true) 且不在對話中，才算戰鬥正式開始！
 	if not _battle_started:
 		for enemy in _tracked_enemies:
 			if is_instance_valid(enemy) and enemy.visible:
@@ -231,12 +260,10 @@ func _process(_delta: float) -> void:
 				break
 		return
 		
-	# 步驟 B：如果此時正在播前一段劇情 (A012)，先不要判定，等進入實機戰鬥再說
 	var player = _get_player()
 	if player and player.is_in_dialogue:
 		return
 		
-	# 步驟 C：檢查還有幾隻怪物活著
 	var alive_count: int = 0
 	for enemy in _tracked_enemies:
 		if is_instance_valid(enemy) and enemy.is_inside_tree() and enemy.visible:
@@ -245,7 +272,6 @@ func _process(_delta: float) -> void:
 			if not is_dead_flag and current_hp > 0:
 				alive_count += 1
 				
-	# 🌟 當存活數量歸零 ➡️ 觸發戰後劇情！
 	if alive_count == 0:
 		set_process(false)
 		print("【CutsceneDirector: ", name, "】偵測到怪物全滅！將於 ", clear_delay, " 秒後啟動劇本：", target_timeline)
@@ -261,7 +287,7 @@ func _freeze_hidden_actor(actor_node: Node2D) -> void:
 		if sprite:
 			sprite.process_mode = Node.PROCESS_MODE_ALWAYS
 
-# 🌟 輔助函數：安全取得玩家節點 (防止開場第一幀 DataManager.player_node 還沒賦值)
+# 🌟 輔助函數：安全取得玩家節點
 func _get_player() -> Node2D:
 	if is_instance_valid(DataManager.player_node):
 		return DataManager.player_node
@@ -272,7 +298,7 @@ func _get_player() -> Node2D:
 		return p as Node2D
 	return null
 
-# 🌟 輔助函數：根據暗號裡的名稱 ("npc" 或 "m1"、"m2") 抓出對應的角色節點
+# 🌟 輔助函數：根據暗號裡的名稱抓出對應的角色節點
 func _get_actor_node(actor_key: String) -> Node2D:
 	if actor_key == "npc":
 		return target_npc
@@ -280,7 +306,7 @@ func _get_actor_node(actor_key: String) -> Node2D:
 		return get_node_or_null(actors[actor_key]) as Node2D
 	return null
 
-# 🌟 輔助函數：不管 AnimatedSprite2D 叫什麼名字，都能自動從角色身上抓出來！
+# 🌟 輔助函數：自動從角色身上抓出 AnimatedSprite2D
 func _get_actor_sprite(actor_node: Node2D) -> AnimatedSprite2D:
 	if not is_instance_valid(actor_node): return null
 	if "animated_sprite_2d" in actor_node and actor_node.animated_sprite_2d is AnimatedSprite2D:
@@ -290,10 +316,10 @@ func _get_actor_sprite(actor_node: Node2D) -> AnimatedSprite2D:
 		sprite = actor_node.find_child("*Sprite*", true, false) as AnimatedSprite2D
 	return sprite
 
-# 🌟 輔助函數：演戲期間暫時關閉白貓/NPC 自身的腳本與狀態機，防止牠每幀把導演播放的動畫蓋掉！
+# 🌟 輔助函數：演戲期間暫時關閉白貓/NPC 自身的腳本與狀態機
 func _set_actor_ai_active(actor_node: Node2D, active: bool) -> void:
 	if not actor_node or not is_instance_valid(actor_node): return
-	if not actor_node.visible: return # 隱形埋伏怪維持原本的凍結狀態即可
+	if not actor_node.visible: return
 	
 	actor_node.set_physics_process(active)
 	actor_node.set_process(active)
@@ -304,7 +330,6 @@ func _set_actor_ai_active(actor_node: Node2D, active: bool) -> void:
 	elif actor_node.has_node("StateMachine"):
 		actor_node.get_node("StateMachine").process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
 		
-	# 確保角色身上的動畫播放器在演戲期間永遠維持開啟！
 	var sprite = _get_actor_sprite(actor_node)
 	if sprite:
 		sprite.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -313,6 +338,9 @@ func _set_actor_ai_active(actor_node: Node2D, active: bool) -> void:
 # 🎬 玩家踩進觸發區 ➡️ 開拍！
 # ==========================================
 func _on_body_entered(body: Node2D) -> void:
+	# 🌟 關鍵攔截：如果地圖還沒完成過圖定位、正在轉場中、或已經在對話中，絕對不觸發！
+	if not _map_ready_for_trigger or DataManager.is_teleporting or Dialogic.current_timeline != null:
+		return
 	if body == _get_player() and not has_triggered:
 		start_cutscene(body)
 			
@@ -371,7 +399,7 @@ func _on_dialogic_signal(argument: String) -> void:
 	if not is_active: return # 🌟 只有當前正在演出的導演才處理暗號！
 	
 	# 🌟 1. 處理「不需要冒號」的單字暗號 (一定要放在 split 之前！)
-	if argument == "fade_out_cinematic":
+	if argument == "fade_out_cinematic" or argument == "fade_in_cinematic":
 		return
 		
 	if argument == "unlock_combat":
@@ -402,7 +430,6 @@ func _on_dialogic_signal(argument: String) -> void:
 		if param.is_valid_float():
 			custom_duration = param.to_float()
 		elif param.begins_with("idle") and custom_idle_anim == "":
-			# 🌟 如果只填了 idle_left，直接當作「停下動畫」，把移動動畫留給系統自動判斷左右！
 			custom_idle_anim = param
 		elif custom_move_anim == "":
 			custom_move_anim = param
@@ -444,17 +471,15 @@ func _on_dialogic_signal(argument: String) -> void:
 				target_node.modulate.a = 1.0
 		return
 
-	# 以下指令至少需要 3 格參數 (但如果是 shake:cam 或 reset:cam 可以只寫 2 格！)
 	if parts.size() < 3 and action != "shake" and action != "reset": return
 	
-	# 🎥 鏡頭運鏡邏輯 (支援單點 pan:cam:點1:秒數、多點連續 pan:cam:點1,點2:每段秒數)
+	# 🎥 鏡頭運鏡邏輯
 	if actor == "cam":
 		var cam = get_viewport().get_camera_2d()
 		var player = _get_player()
 		if not cam: return
 		
 		if action == "pan":
-			# 🌟 支援用逗號 "," 串聯多個鏡頭定位點！(例如 cam_tree_pos,cam_tree_pos2)
 			var point_keys = target_key.split(",")
 			var valid_markers: Array[Node2D] = []
 			for pk in point_keys:
@@ -488,7 +513,6 @@ func _on_dialogic_signal(argument: String) -> void:
 					cam.position = Vector2.ZERO
 			)
 		elif action == "zoom":
-			# 🔍 鏡頭縮放並維持狀態 (放大：zoom:cam:1.35:2.0 / 恢復原狀：zoom:cam:1.0:0.8)
 			var zoom_val = target_key.to_float() if target_key.is_valid_float() else 1.0
 			var duration = custom_duration if custom_duration > 0.0 else 0.5
 			if _zoom_tween and _zoom_tween.is_valid() and _zoom_tween.is_running():
@@ -497,9 +521,8 @@ func _on_dialogic_signal(argument: String) -> void:
 			_zoom_tween.tween_property(cam, "zoom", Vector2(zoom_val, zoom_val), duration)
 			
 		elif action == "shake":
-			# 💥 鏡頭受擊短促搖晃 (支援 shake:cam 或 shake:cam:強度:秒數)
-			var strength: float = target_key.to_float() if target_key.is_valid_float() else 8.0 # 預設中等強度 8 像素
-			var duration: float = custom_duration if custom_duration > 0.0 else 0.2            # 預設短促時間 0.2 秒
+			var strength: float = target_key.to_float() if target_key.is_valid_float() else 8.0
+			var duration: float = custom_duration if custom_duration > 0.0 else 0.2
 			var step_count: int = 5
 			var step_time: float = duration / float(step_count)
 			
@@ -509,17 +532,14 @@ func _on_dialogic_signal(argument: String) -> void:
 				
 			_shake_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 			for i in range(step_count):
-				# 強度隨次數遞減 (100% -> 80% -> 60% -> 40% -> 20%)，做出被打到的瞬間爆發與快速收斂感
 				var current_str = strength * (1.0 - float(i) / float(step_count))
-				# 左右交替猛烈震動，上下帶一點點隨機微幅偏移
 				var dir_x = 1.0 if i % 2 == 0 else -1.0
 				var offset_vec = Vector2(dir_x * current_str, randf_range(-current_str * 0.5, current_str * 0.5))
 				_shake_tween.tween_property(cam, "offset", offset_vec, step_time)
-			# 最後一瞬間精準歸零
 			_shake_tween.tween_property(cam, "offset", Vector2.ZERO, 0.02)
 		return
 
-	# 🎭 原地單純切換動畫、投擲、畫筆發光、光束秒殺邏輯 (支援 player、npc、m1、m2...)
+	# 🎭 原地單純切換動畫、投擲、畫筆發光、光束秒殺邏輯
 	if action == "anim":
 		var player = _get_player()
 		if actor == "player" and is_instance_valid(player):
@@ -544,14 +564,12 @@ func _on_dialogic_signal(argument: String) -> void:
 			tween.tween_property(glow_target, "modulate", Color(4.0, 4.0, 4.0, 1.0), duration)
 		return
 	elif action == "flash":
-		# 🌟 瞬間閃一下光又恢復原狀 (例如 flash:player:0.35 或 flash:brush:0.35)
 		var target_node = _get_player() if actor == "player" else _get_actor_node(actor)
 		if is_instance_valid(target_node):
 			var duration = custom_duration if custom_duration > 0.0 else 0.35
 			var brush = target_node.get_node_or_null("MagicBrush") as Node2D
 			var flash_target = brush if (brush and brush.visible) else target_node
 			var tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-			# 先在極短時間內衝高亮度 (HDR 發光)，再平滑退回原本顏色
 			tween.tween_property(flash_target, "modulate", Color(4.5, 4.5, 5.0, 1.0), duration * 0.3).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 			tween.tween_property(flash_target, "modulate", Color.WHITE, duration * 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		return
@@ -595,10 +613,10 @@ func _on_dialogic_signal(argument: String) -> void:
 			)
 		return
 	elif action == "throw":
-		var projectile = _get_actor_node(actor)      # 抓取石頭 (例如 "rock")
-		var victim = _get_actor_node(target_key)     # 抓取被砸的怪物 (例如 "m2" 或 "m1")
+		var projectile = _get_actor_node(actor)
+		var victim = _get_actor_node(target_key)
 		if is_instance_valid(projectile) and is_instance_valid(victim):
-			_snap_and_kill_actor_tween(target_key, victim) # 確保被砸的怪物已經站到定位點上！
+			_snap_and_kill_actor_tween(target_key, victim)
 			var duration = custom_duration if custom_duration > 0.0 else 0.25
 			projectile.visible = true
 			projectile.modulate.a = 1.0
@@ -634,19 +652,16 @@ func _on_dialogic_signal(argument: String) -> void:
 		return
 
 	# ==========================================
-	# 🌟 移動前預處理：在計算相對座標 (self_right / player_right) 與方向之前，先把角色上一步未完成的 Tween 補位！
+	# 🌟 移動前預處理：先把角色上一步未完成的 Tween 補位！
 	# ==========================================
 	var player_node = _get_player()
 	var current_actor_node = player_node if actor == "player" else _get_actor_node(actor)
 	if not is_instance_valid(current_actor_node): return
 	
-	# 如果該角色上一步還沒走完就被玩家連點跳過，這裡會先把他瞬間移到上一步的終點！
 	_snap_and_kill_actor_tween(actor, current_actor_node)
-	# 如果目標是參考阿尼的位置 (player_right / player_left)，也要確保阿尼本人已經站到定位點上！
 	if (target_key == "player_right" or target_key == "player_left") and is_instance_valid(player_node):
 		_snap_and_kill_actor_tween("player", player_node)
 
-	# 🌟 智慧計算目標座標 (支援免 Marker 的動態位置，如 player_right、self_right，也自動容錯 markers 字典的底線與空白！)
 	var target_pos: Vector2 = Vector2.ZERO
 	var has_valid_target: bool = false
 
@@ -677,7 +692,7 @@ func _on_dialogic_signal(argument: String) -> void:
 
 	if not has_valid_target: return
 
-	# 🌟 阿尼移動邏輯 (支援 walk、run、以及嚇到倒退一步 back，具備防連點覆蓋保護)
+	# 🌟 阿尼移動邏輯
 	if actor == "player":
 		var player = player_node
 		var is_moving_right = target_pos.x > player.global_position.x
@@ -726,7 +741,7 @@ func _on_dialogic_signal(argument: String) -> void:
 					player.animated_sprite_2d.play(idle_anim)
 			)
 				
-	# 🌟 單一 NPC 或 複數怪物/白貓 (cat, m1, m2...) 移動邏輯 (具備防連點覆蓋保護)
+	# 🌟 單一 NPC 或 複數怪物/白貓 (cat, m1, m2...) 移動邏輯
 	else:
 		var current_npc = current_actor_node
 		var npc_sprite = _get_actor_sprite(current_npc)
@@ -751,7 +766,6 @@ func _on_dialogic_signal(argument: String) -> void:
 						
 		var tween = _create_safe_actor_tween(actor, current_npc, target_pos, idle_anim)
 		
-		# 確保角色身上的動畫播放器開啟，不會因為父節點 DISABLED 而卡住動畫幀
 		if npc_sprite:
 			npc_sprite.process_mode = Node.PROCESS_MODE_ALWAYS
 			if move_anim != "":
@@ -786,23 +800,19 @@ func _on_dialogic_signal(argument: String) -> void:
 					npc_sprite.play(idle_anim)
 			)
 		elif action == "jump":
-			# 🦖 Boss 專用跳躍登場：支援從高處/起點跳到目標點，並在落地瞬間觸發劇烈震屏！
 			current_npc.visible = true
 			current_npc.modulate.a = 1.0
 			var duration = custom_duration if custom_duration > 0.0 else 0.6
 			
-			# 確保跳躍動畫從第 0 格開始播放
 			if is_instance_valid(npc_sprite) and move_anim != "":
 				npc_sprite.stop()
 				npc_sprite.play(move_anim)
 				
-			# 使用 QUAD EASE_IN 模擬重力加速砸下來的重量感
 			tween.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 			tween.tween_property(current_npc, "global_position", target_pos, duration)
 			tween.tween_callback(func():
 				if is_instance_valid(npc_sprite) and idle_anim != "":
 					npc_sprite.play(idle_anim)
-				# 💥 落地瞬間自動觸發高強度鏡頭震動！
 				var cam = get_viewport().get_camera_2d()
 				if is_instance_valid(cam):
 					var land_shake = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
@@ -813,9 +823,8 @@ func _on_dialogic_signal(argument: String) -> void:
 					land_shake.tween_property(cam, "offset", Vector2.ZERO, 0.02)
 			)
 		elif action == "knockback":
-			# 💥 爆發擊退效果：受擊瞬間閃白光 + EXPO 爆發減速曲線震飛！
 			current_npc.visible = true
-			current_npc.modulate = Color(4.0, 4.0, 4.0, 1.0) # 受擊閃白光
+			current_npc.modulate = Color(4.0, 4.0, 4.0, 1.0)
 			var duration = custom_duration if custom_duration > 0.0 else 0.25
 			tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 			tween.tween_property(current_npc, "global_position", target_pos, duration)
@@ -829,7 +838,7 @@ func _on_dialogic_signal(argument: String) -> void:
 func _on_timeline_ended() -> void:
 	if not is_active: return
 	is_active = false
-	_clear_all_cutscene_tweens(true) # 🌟 劇本結束瞬間，安全清光所有未完成的 Tween 並把角色補位到終點！
+	_clear_all_cutscene_tweens(true)
 	
 	var player = _get_player()
 	if is_instance_valid(player) and player.is_in_dialogue:

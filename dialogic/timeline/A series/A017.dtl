@@ -7,6 +7,7 @@ join 路克斯 (鬆一口氣) right
 join 阿尼 (鬆一口氣) left
 阿尼 (鬆一口氣): 太好了……
 阿尼: 剛剛那些怪物真的嚇死我了。
+update 阿尼 (正常說話) left
 阿尼 (正常說話): 對了……
 阿尼: 鑰匙在哪裡呢？
 [signal arg="anim:cat:idle_down"]
@@ -19,6 +20,7 @@ join 阿尼 (鬆一口氣) left
 [signal arg="walk:player:book_pos:idle_up:1.0"]
 [wait time="1.0"]
 路克斯 (笑容): 有了！就是這個！
+[signal arg="complete:got_key"]
 路克斯: 太棒了！真的在這裡！
 阿尼 (微笑): 太好了。
 阿尼 (搭話): 但你先過來看一下，我找到了這個東西。

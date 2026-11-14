@@ -10,12 +10,31 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "微笑",
 &"description": "",
 &"display_name": "白國王",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"微笑": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白國王/微笑.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"離開": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/白國王/離開.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
 &"scale": 1.0
 }

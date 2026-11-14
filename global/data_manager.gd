@@ -4,8 +4,8 @@ extends Node
 # 📻 廣播電台系統 (事件驅動)
 # ==========================================
 signal map_changed(new_map_name: String) # 廣播：玩家跨地圖了！UI 快更新地圖名字！
-signal equipment_changed                  # 廣播：玩家換裝備了！玩家肉體快重新計算血量！
-signal quick_slot_updated                 # 廣播：道具數量變了！左下角快捷欄快更新數字！
+signal equipment_changed                 # 廣播：玩家換裝備了！玩家肉體快重新計算血量！
+signal quick_slot_updated                # 廣播：道具數量變了！左下角快捷欄快更新數字！
 
 # ==========================================
 # 🧠 全域變數儲存區 (跨場景大腦記憶體)
@@ -38,19 +38,19 @@ const STICKER_DB = {
 		"name": "愛心",
 		"texture_path": "res://Stickers/001愛心.png", 
 		"type": "max_hp_boost",
-		"value": 20             
+		"value": 20               
 	},
 	"004": {
 		"name": "魔法棒",
 		"texture_path": "res://Stickers/004魔法棒.png", 
 		"type": "skill_dmg_multiplier",
-		"value": 1.35                    
+		"value": 1.35                     
 	},
 	"006": {
 		"name": "手裡劍",
 		"texture_path": "res://Stickers/006手裡劍.png", 
 		"type": "heal_on_kill",
-		"value": 0.10           
+		"value": 0.10            
 	},
 	"008": {
 		"name": "起床氣",
@@ -71,6 +71,15 @@ const STICKER_DB = {
 # 🎒 道具與快捷欄系統 (全面升級版)
 # ==========================================
 const ITEM_DB = {
+	"hp_paint": {
+		"name": "顏料",
+		"max_carry": 3, # 🌟 起手可喝 3 次
+		"heal_amount": 35, # 🌟 每次回血量 (可依平衡調整)
+		"is_auto_refill": true, # 🌟 標記為「元素瓶機制」：在畫架休息時無條件免費補滿！
+		"description": "散發微光的顏料。\n恢復 35 HP（於畫架處自動補滿）",
+		"story": "在畫架上發現的神秘顏料，飲用後能修補受損的色彩與生命力，每次在畫架前休息都會重新凝結填滿。",
+		"texture_path": "res://雜/color_bottle.png" # ⚠️ 請換成藍色顏料的圖片路徑！
+	},
 	"potion_gugu": {
 		"name": "咕咕嘎嘎药水",
 		"max_carry": 2, 
@@ -114,6 +123,8 @@ const ITEM_DB = {
 }
 
 var inventory_items = {
+	# 🌟 藍色顏料開局預設為 0 且尚未解鎖 (unlocked: false)，等第一次碰到畫架才獲得！
+	"hp_paint": { "current_carry": 0, "reserve_amount": 0, "unlocked": false },
 	"potion_gugu": { "current_carry": 2, "reserve_amount": 0 },
 	"miracle_apple": { "current_carry": 1, "reserve_amount": 0 },
 	"steak_bone": { "current_carry": 1, "reserve_amount": 0 },
@@ -143,6 +154,27 @@ func add_item_to_reserve(item_id: String, amount: int) -> void:
 			"reserve_amount": amount
 		}
 	print("【大腦】獲得道具：", item_id, "，目前庫存總數：", inventory_items[item_id]["reserve_amount"])
+
+# 🌟 新增：解鎖「藍色顏料（元素瓶）」並自動裝進快捷欄！
+func unlock_auto_refill_item(item_id: String) -> void:
+	if not ITEM_DB.has(item_id):
+		return
+	var max_c: int = ITEM_DB[item_id]["max_carry"]
+	if not inventory_items.has(item_id):
+		inventory_items[item_id] = { "current_carry": max_c, "reserve_amount": 0, "unlocked": true }
+	else:
+		inventory_items[item_id]["unlocked"] = true
+		inventory_items[item_id]["current_carry"] = max_c
+		
+	# 如果快捷欄裡還沒有這個顏料，自動幫玩家放進第一個空格並切換過去！
+	if not quick_slots.has(item_id):
+		for i in range(quick_slots.size()):
+			if quick_slots[i] == "":
+				quick_slots[i] = item_id
+				current_slot_index = i
+				break
+	print("【大腦】成功獲得並解鎖元素瓶道具：", item_id, "，已補滿至 ", max_c, " 次！")
+	quick_slot_updated.emit()
 
 func get_item_count(item_id: String) -> int:
 	if inventory_items.has(item_id):
@@ -180,19 +212,34 @@ func use_current_item() -> void:
 		var heal_value = ITEM_DB[item_id]["heal_amount"]
 		player_node.heal(heal_value)
 		
-	# 數量歸零時的判定 (🌟 這次改動的核心：不移除裝備，只印提示)
+	# 數量歸零時的判定
 	if inventory_items[item_id]["current_carry"] <= 0:
 		print("【系統】道具用盡！留在快捷欄上顯示 0 數量並變灰。")
 			
 	# 大喊一聲，叫 UI 更新畫面
 	quick_slot_updated.emit() 
 
+# 🌟 升級版畫架補給：同時支援「元素瓶免費自動回滿 (hp_paint)」與「一般道具從倉庫調貨」！
 func replenish_quick_slots() -> void:
-	print("【系統】抵達存檔點！開始從倉庫調用物資補給...")
+	print("【系統】抵達畫架存檔點！開始補充顏料與調用倉庫物資...")
 	var has_replenished = false
 	
+	# 1. 先把所有「已解鎖的自動補充道具 (如藍色顏料 hp_paint)」不論有沒有放快捷欄，全部免費補滿至上限！
+	for item_id in inventory_items.keys():
+		if ITEM_DB.has(item_id) and ITEM_DB[item_id].get("is_auto_refill", false):
+			if inventory_items[item_id].get("unlocked", false):
+				var max_carry = ITEM_DB[item_id]["max_carry"]
+				if inventory_items[item_id]["current_carry"] < max_carry:
+					inventory_items[item_id]["current_carry"] = max_carry
+					has_replenished = true
+					print("【畫架共鳴】", ITEM_DB[item_id]["name"], " 已自動補滿至 ", max_carry, " 次！")
+	
+	# 2. 一般消耗品從倉庫 (reserve_amount) 調貨補進快捷欄
 	for item_id in quick_slots:
 		if item_id != "" and inventory_items.has(item_id) and ITEM_DB.has(item_id):
+			if ITEM_DB[item_id].get("is_auto_refill", false):
+				continue # 元素瓶剛剛已經免費補滿了，跳過倉庫扣除邏輯
+				
 			var max_carry = ITEM_DB[item_id]["max_carry"]
 			var current = inventory_items[item_id]["current_carry"]
 			var reserve = inventory_items[item_id]["reserve_amount"]
@@ -212,8 +259,6 @@ func replenish_quick_slots() -> void:
 # ==========================================
 # 💥 打擊感卡頓/頓幀系統 (Hitstop)
 # ==========================================
-
-# 🌟 一般打擊頓幀
 func trigger_hitstop(duration: float = 0.08, freeze_scale: float = 0.05) -> void:
 	Engine.time_scale = freeze_scale
 	await get_tree().create_timer(duration, true, false, true).timeout
@@ -229,14 +274,10 @@ func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -
 	Engine.time_scale = slow_scale
 	
 	var camera = get_viewport().get_camera_2d()
-	
-	# 🌟 【正規作法】：呼叫 API，把放大的任務丟給相機自己去處理！
 	if camera and camera.has_method("apply_zoom_pulse"):
 		camera.apply_zoom_pulse(1.06) 
 		
-	# 接著繼續等你的頓幀時間，但完全不用擔心縮放的問題了
 	await get_tree().create_timer(duration, true, false, true).timeout
-	
 	Engine.time_scale = 1.0
 		
 # ==========================================
@@ -244,23 +285,19 @@ func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -
 # ==========================================
 var completed_cutscenes: Array[String] = []
 
-# 檢查某段劇本是否已經看過
 func is_cutscene_completed(timeline_id: String) -> bool:
 	if timeline_id == "": return false
 	return completed_cutscenes.has(timeline_id)
 
-# 將劇本標記為已看過
 func mark_cutscene_completed(timeline_id: String) -> void:
 	if timeline_id != "" and not completed_cutscenes.has(timeline_id):
 		completed_cutscenes.append(timeline_id)
 		
-# 🌟 戰鬥能力總開關：只要看過 "A012" 劇本，或是手動設為 true，就會永久解鎖戰鬥！
 var combat_unlocked: bool = false
 
 func can_combat() -> bool:
 	if combat_unlocked:
 		return true
-	# 如果已經完成 A012 劇情，自動視為已解鎖戰鬥！
 	if has_method("is_cutscene_completed") and is_cutscene_completed("A012"):
 		return true
 	return false
@@ -273,15 +310,20 @@ func _ready() -> void:
 		Dialogic.signal_event.connect(_on_global_dialogic_signal)
 
 func _on_global_dialogic_signal(arg: String) -> void:
-	# 1. 支援手動標記任務完成：例如在 A014D 劇本寫 [signal arg="complete:got_cargo"]
+	# 1. 支援手動標記任務完成：例如 [signal arg="complete:got_cargo"]
 	if arg.begins_with("complete:"):
 		var flag_name = arg.split(":")[1].strip_edges()
 		mark_cutscene_completed(flag_name)
 		print("【大腦】收到劇本暗號，已登記任務進度：", flag_name)
 		
-	# 2. 支援在劇本中直接贈送貼紙：例如在 A014E 寫 [signal arg="give_sticker:001"]
+	# 2. 支援在劇本中直接贈送貼紙：例如 [signal arg="give_sticker:001"]
 	elif arg.begins_with("give_sticker:"):
 		var sticker_id = arg.split(":")[1].strip_edges()
 		if not owned_stickers.has(sticker_id):
 			owned_stickers.append(sticker_id)
 			print("【大腦】從劇情獲得新貼紙：", sticker_id)
+			
+	# 3. 🌟 支援在劇本中解鎖元素瓶道具：例如 [signal arg="unlock_item:blue_paint"]
+	elif arg.begins_with("unlock_item:"):
+		var item_id = arg.split(":")[1].strip_edges()
+		unlock_auto_refill_item(item_id)

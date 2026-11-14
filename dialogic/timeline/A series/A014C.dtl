@@ -5,7 +5,7 @@
 join 阿尼 (疑惑) left
 阿尼 (疑惑): 奇怪？
 阿尼 (疑惑): 沒什麼看到商人說的怪物啊？
-join 路克斯 (快看！) right [animation="Bounce" length="0.3"]
+join 路克斯 (快看！) right [length="0.3"]
 路克斯 (快看！): 等等！你看遠處！
 leave --All--
 

@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://gy3n015gas33"]
+
+[ext_resource type="Script" uid="uid://bmuny5bqsuget" path="res://單獨物件場景/light_flower.gd" id="1_mnlfr"]
+[ext_resource type="Texture2D" uid="uid://cwcvmy5sv2344" path="res://雜/1.png" id="2_mqofe"]
+[ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="3_4bybb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r7r6w"]
+radius = 71.25307
+
+[node name="oil_lamp" type="StaticBody2D"]
+z_index = -1
+y_sort_enabled = true
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_mnlfr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = ExtResource("2_mqofe")
+region_enabled = true
+region_rect = Rect2(85.47279, 130.45845, 16.967102, 22.648636)
+
+[node name="LightArea" type="Area2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(0.4960723, 0.4960723)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightArea"]
+scale = Vector2(3.9402747, 3.9402747)
+shape = SubResource("CircleShape2D_r7r6w")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(4.3651514, 4.3651514)
+texture = ExtResource("3_4bybb")
+texture_scale = 1.85

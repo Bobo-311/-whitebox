@@ -26,6 +26,7 @@ SceneTransition="*res://Maps/轉場/scene_transition.tscn"
 
 directories/dch_directory={
 "unit_test_character": "res://Tests/Resources/unit_test_character.dch",
+"各種物件": "res://dialogic/character/各種物件.dch",
 "商人": "res://dialogic/character/商人.dch",
 "白國王": "res://dialogic/character/白國王.dch",
 "路克斯": "res://dialogic/character/路克斯.dch",

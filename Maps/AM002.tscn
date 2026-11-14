@@ -17,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://eox5yomlyn0l" path="res://單獨物件場景/door_a.tscn" id="15_qgvtp"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="16_aoh7f"]
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="17_cf5ks"]
-[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="18_r3mgl"]
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="19_uva5b"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="20_gvfi4"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="21_4hswm"]
@@ -27,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://24cqg4xnjlja" path="res://阿尼動畫/白國王動畫/向右待機_processed.png" id="24_hmwsn"]
 [ext_resource type="Texture2D" uid="uid://1s1bsowo7v7s" path="res://阿尼動畫/白國王動畫/向左走路_processed.png" id="26_7ct62"]
 [ext_resource type="Texture2D" uid="uid://b1f157a1nkc2x" path="res://阿尼動畫/白國王動畫/向右走路_processed.png" id="27_h3ucv"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="28_4gm3v"]
 [ext_resource type="Texture2D" uid="uid://cavholwuj7oma" path="res://阿尼動畫/白國王動畫/背面走路_processed.png" id="28_lenp6"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_56r8a"]
@@ -19773,7 +19773,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(1378, 1429)
+position = Vector2(3973, 2476)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -21234,6 +21234,8 @@ scale = Vector2(5, 5)
 
 [node name="doorA" parent="." instance=ExtResource("15_qgvtp")]
 position = Vector2(3967, 3056)
+locked_timeline = "A007"
+unlock_timeline = "A019"
 
 [node name="CameraLockArea" parent="." instance=ExtResource("16_aoh7f")]
 position = Vector2(1160, 1452.9999)
@@ -21251,8 +21253,21 @@ scale = Vector2(43.90935, 62.156647)
 position = Vector2(2174, 2015)
 scale = Vector2(3, 3)
 
-[node name="ShopNPC" parent="." instance=ExtResource("18_r3mgl")]
-position = Vector2(3514, 1820)
+[node name="lightFlower2" parent="." instance=ExtResource("17_cf5ks")]
+position = Vector2(3494, 2696)
+scale = Vector2(3, 3)
+
+[node name="lightFlower4" parent="." instance=ExtResource("17_cf5ks")]
+position = Vector2(5666, 138)
+scale = Vector2(3, 3)
+
+[node name="lightFlower5" parent="." instance=ExtResource("17_cf5ks")]
+position = Vector2(2955, -163)
+scale = Vector2(3, 3)
+
+[node name="lightFlower6" parent="." instance=ExtResource("17_cf5ks")]
+position = Vector2(5166, 2368)
+scale = Vector2(3, 3)
 
 [node name="聽見樹林有聲音" parent="." instance=ExtResource("19_uva5b")]
 position = Vector2(5524, 1395.0001)
@@ -21283,7 +21298,9 @@ markers = {
 "watch the tree": NodePath("")
 }
 player_dch = ExtResource("20_gvfi4")
+trigger_on_map_enter = true
 hide_target_npc_after_complete = true
+permanent_hide_actors = Array[String](["king"])
 
 [node name="cam_tree_pos" type="Marker2D" parent="初見小女孩劇情"]
 position = Vector2(100.47044, 63.599895)
@@ -21292,7 +21309,7 @@ position = Vector2(100.47044, 63.599895)
 position = Vector2(101.91521, -23.995104)
 
 [node name="girl_side_pos" type="Marker2D" parent="初見小女孩劇情"]
-position = Vector2(92.87767, -31.463053)
+position = Vector2(96.19282, -27.160858)
 
 [node name="run1" type="Marker2D" parent="初見小女孩劇情"]
 position = Vector2(148.59355, -11.921745)
@@ -21345,7 +21362,7 @@ shape = SubResource("RectangleShape2D_4hswm")
 position = Vector2(6701, 1420)
 
 [node name="white_king" type="CharacterBody2D" parent="."]
-position = Vector2(3891, 1958)
+position = Vector2(3892, 1885.9999)
 scale = Vector2(0.76, 0.76)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="white_king"]
@@ -21370,6 +21387,9 @@ markers = {
 [node name="1" type="Marker2D" parent="CutsceneDirector"]
 position = Vector2(0, 1.7516658)
 scale = Vector2(1, 1.0500476)
+
+[node name="SavePoint" parent="." instance=ExtResource("28_4gm3v")]
+position = Vector2(3892, 1834)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

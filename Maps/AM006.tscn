@@ -14516,6 +14516,7 @@ metadata/_edit_horizontal_guides_ = [3849.0, 352.0, 128.0]
 metadata/_edit_vertical_guides_ = [6224.0, 6705.0, 7203.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0

@@ -1,4 +1,11 @@
+[style name="galstyle"]
+[signal arg="fade_in_cinematic"]
 「喀噠。」
+join 阿尼 (睜眼) left
 阿尼: 打開了！
+join 白貓 right
 白貓: 太好了！
 白貓: 馬上去找爺爺吧！
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="false"]
+[wait time="0.4" hide_text="true"]

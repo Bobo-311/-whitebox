@@ -1,8 +1,10 @@
-[gd_scene load_steps=90 format=4 uid="uid://cxl02fpi83ed4"]
+[gd_scene load_steps=92 format=4 uid="uid://cxl02fpi83ed4"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_s3jti"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_x3h6s"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="2_bgs15"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_s3jti"]
+[ext_resource type="PackedScene" uid="uid://cs8dl4ig6u0ej" path="res://base_enemy/BossLotus/boss_lotus.tscn" id="2_uahs3"]
 [ext_resource type="Texture2D" uid="uid://dvha7dpjfa0dl" path="res://最初之地地圖素材/09.png" id="3_nul3n"]
 [ext_resource type="Texture2D" uid="uid://buyx4fmb42334" path="res://最初之地地圖素材/10.png" id="4_dv2hc"]
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="5_uahs3"]
@@ -5488,6 +5490,22 @@ limit_right = 6500
 limit_bottom = 2670
 metadata/_edit_horizontal_guides_ = [2818.0, 2669.0, -404.0]
 
+[node name="CutsceneDirector" parent="." instance=ExtResource("2_bgs15")]
+target_timeline = "A016"
+actors = {
+"boss": NodePath("../BossLotus"),
+"cat": NodePath("../WhiteCat")
+}
+markers = {
+"boss_pos": NodePath("../Node2D/boss_pos")
+}
+trigger_on_map_enter = true
+
+[node name="BossLotus" parent="." instance=ExtResource("2_uahs3")]
+visible = false
+position = Vector2(4539, 1171)
+scale = Vector2(0.5, 0.5)
+
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 z_index = -20
@@ -5510,8 +5528,7 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("1_x3h6s")]
-visible = false
-position = Vector2(2793, 2424)
+position = Vector2(4618, 2549)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -5529,7 +5546,7 @@ collision_mask = 0
 polygon = PackedVector2Array(3704, 1160, 3707, 1398, 3770, 1396, 3772, 1403, 3773, 1636, 3837, 1637, 3837, 1679, 3901, 1680, 3901, 1744, 3968, 1744, 3968, 1808, 4090, 1808, 4089, 1867, 4220, 1868, 4220, 1931, 4267, 1931, 4267, 2817, 4186, 2819, 4189, 1945, 4068, 1949, 4066, 1863, 3933, 1864, 3932, 1807, 3886, 1807, 3883, 1744, 3813, 1744, 3819, 1680, 3759, 1683, 3753, 1637, 3691, 1639, 3697, 1419, 3620, 1419, 3624, 1128, 3694, 1128, 3697, 937, 3763, 940, 3760, 797, 3826, 798, 3825, 725, 3883, 727, 3880, 668, 4030, 667, 4029, 594, 4143, 600, 4144, 533, 4185, 533, 4186, -4, 4264, -5, 4264, 576, 4225, 576, 4225, 624, 4192, 624, 4191, 678, 4041, 677, 4042, 741, 4042, 746, 3903, 746, 3905, 811, 3840, 812, 3841, 947, 3771, 948, 3770, 1160)
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Bridge"]
-polygon = PackedVector2Array(4812, 1, 4812, 564, 4819, 569, 4852, 569, 4853, 616, 4884, 616, 4884, 668, 5035, 668, 5035, 737, 5172, 736, 5172, 803, 5236, 804, 5236, 939, 5305, 940, 5308, 1151, 5372, 1153, 5373, 1388, 5304, 1388, 5305, 1628, 5240, 1628, 5240, 1671, 5176, 1671, 5176, 1736, 5106, 1736, 5107, 1800, 4988, 1799, 4988, 1859, 4855, 1858, 4855, 1924, 4807, 1923, 4808, 2817, 4888, 2816, 5696, 1126, 4891, 0)
+polygon = PackedVector2Array(4812, 1, 4812, 564, 4819, 569, 4852, 569, 4853, 616, 4884, 616, 4884, 668, 5035, 668, 5035, 737, 5172, 736, 5172, 803, 5236, 804, 5236, 939, 5305, 940, 5308, 1151, 5372, 1153, 5373, 1388, 5304, 1388, 5305, 1628, 5240, 1628, 5240, 1671, 5176, 1671, 5176, 1736, 5106, 1736, 5107, 1800, 4988, 1799, 4988, 1859, 4855, 1858, 4855, 1924, 4807, 1923, 4808, 2817, 4888, 2816, 4891, 2014, 5129, 1904, 5386, 1665, 5500, 1193, 5306, 795, 5240, 699, 4928, 537, 4892, 487, 4891, 0)
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Bridge"]
 polygon = PackedVector2Array(4288, 848, 4809, 849, 4817, 855, 4817, 910, 4848, 912, 4858, 1028, 4851, 1088, 4776, 1088, 4776, 919, 4294, 913, 4292, 1084, 4232, 1084, 4230, 1032, 4214, 1028, 4212, 985, 4217, 979, 4216, 912, 4225, 903, 4282, 904, 4280, 856)
@@ -5559,7 +5576,7 @@ position = Vector2(4539.0005, 2575)
 scale = Vector2(50.320675, 36.263752)
 
 [node name="player" parent="." instance=ExtResource("2_s3jti")]
-position = Vector2(4329, -293)
+position = Vector2(4416, 2580)
 base_max_hp = 100
 max_hp = 100
 
@@ -5613,6 +5630,11 @@ position = Vector2(1625.1469, -5327.6953)
 rotation = 1.5707964
 scale = Vector2(1.1728504, 0.9999997)
 polygon = PackedVector2Array(4722.1753, 2473.9644, 4722.1753, 2889.349, 4695.4365, 2889.349, 4695.4365, 2473.9644)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="boss_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(4540, 1189)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

@@ -1,0 +1,40 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(1, 1, 1, 1),
+&"custom_info": {
+"prefix": "",
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "",
+"suffix": ""
+},
+&"default_portrait": "夢幻多彩顏料瓶",
+&"description": "",
+&"display_name": "各種物件",
+&"mirror": false,
+&"nicknames": [""],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"1": {
+"export_overrides": {
+"image": "\"res://雜/1.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"夢幻多彩顏料瓶": {
+"export_overrides": {
+"image": "\"res://雜/夢幻多彩顏料瓶.png\""
+},
+"mirror": false,
+"offset": Vector2(0, -160),
+"scale": 0.7,
+"scene": ""
+}
+},
+&"scale": 1.0
+}

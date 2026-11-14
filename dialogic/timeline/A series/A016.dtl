@@ -1,5 +1,37 @@
-阿尼: 這裡怎麼...那麼安靜...
-白貓: 等等...
-白貓: 你聽到了嗎？
-阿尼: ？
-白貓: [shake rate=30.0 level=20 connected=1]水裡好像有什麼！！！
+[style name="galstyle"]
+[signal arg="fade_in_cinematic"]
+
+# --- 第一幕：阿尼往上走踏入領域，被震動嚇得往下倒退一步（保持面朝上方） ---
+[signal arg="shake:cam:6:0.25"]
+[signal arg="back:player:self_down:move_up:idle_up:0.25"]
+join 白貓 right
+白貓: ！！！
+[signal arg="walk:cat:player_right:0.4"]
+白貓: 快看！！
+
+# --- 第二幕：收起立繪，鏡頭往上推到蓮花 Boss 並播放 pant 登場動畫 ---
+leave --All-- [animation="Fade Out Down" length="0.2" wait="false"]
+[signal arg="pan:cam:boss_pos:1.2"]
+[signal arg="zoom:cam:1.35:1.2"]
+[wait time="1.2" hide_text="true"]
+
+# 喚醒蓮花（若原本設為隱藏）、播放 pant 動畫並觸發大震屏！
+[signal arg="show:boss:0.2"]
+[signal arg="anim:boss:pant"]
+[signal arg="shake:cam:16:0.45"]
+[wait time="1.2" hide_text="true"]
+
+# --- 第三幕：鏡頭拉回阿尼身上，拔出畫筆迎戰 ---
+[signal arg="reset:cam:0.7"]
+[signal arg="zoom:cam:1.0:0.7"]
+[wait time="0.7" hide_text="true"]
+
+join 阿尼 (饒頭困擾) left
+阿尼: 可惡...這裡是必經之路...
+update 阿尼 (睜眼)
+[signal arg="flash:player:0.35"]
+阿尼: 沒辦法了，上吧！
+
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="false"]
+[wait time="0.4" hide_text="true"]
