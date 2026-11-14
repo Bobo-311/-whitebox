@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=4 uid="uid://cnjndu48dqf3o"]
+[gd_scene load_steps=49 format=4 uid="uid://cnjndu48dqf3o"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_a18nb"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_h8b51"]
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://c8d86o31hcim8" path="res://單獨物件場景/tree_a.tscn" id="6_yf6c4"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="7_cocp8"]
 [ext_resource type="PackedScene" uid="uid://5c0rpiyj3mwn" path="res://單獨物件場景/tree_b.tscn" id="7_dh8np"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="9_cocp8"]
+[ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="10_b0vjx"]
+[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="11_1dykj"]
+[ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="12_1dykj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
@@ -2100,8 +2104,7 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("1_h8b51")]
-visible = false
-position = Vector2(4139, 1858)
+position = Vector2(3083, 1917)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -2166,7 +2169,7 @@ polygon = PackedVector2Array(3067, 2028, 3068, 2306, 5698, 2306, 5698, 2031)
 polygon = PackedVector2Array(2366, 1783, 3770, 1783, 3772, 1733, 3806, 1733, 3818, 1715, 3816, 1651, 3807, 1639, 3809, -2, 3728, 0, 3729, 1736, 3739, 1772, 2367, 1773)
 
 [node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PackedVector2Array(5694, 1783, 4407, 1792, 4396, 1728, 4357, 1727, 4352, 1720, 4352, -2, 4432, -2, 4437, 1729, 5696, 1738)
+polygon = PackedVector2Array(5695, 1779, 4407, 1783, 4396, 1728, 4357, 1727, 4352, 1720, 4352, -2, 4432, -2, 4437, 1729, 5696, 1738)
 
 [node name="PortalArea下門" parent="." instance=ExtResource("7_cocp8")]
 position = Vector2(1795, 1763.0001)
@@ -2215,9 +2218,55 @@ position = Vector2(-4757.6924, -2566.154)
 polygon = PackedVector2Array(4722.308, 2571.5388, 4722.308, 2768.462, 4506.1543, 2767.6929, 4506.1543, 2571.5388)
 
 [node name="player" parent="." instance=ExtResource("2_endjd")]
-position = Vector2(4077, 569)
+position = Vector2(2975, 2050)
 base_max_hp = 100
 max_hp = 100
+
+[node name="a014" parent="." instance=ExtResource("9_cocp8")]
+position = Vector2(3824, 1896)
+scale = Vector2(-15.886267, -15.886267)
+target_timeline = "A014"
+actors = {
+"cat": NodePath("../WhiteCat")
+}
+markers = {
+"1": NodePath("../Node2D/shop_dront2"),
+"2": NodePath("../Node2D/shop_dront3"),
+"shop_dront": NodePath("../Node2D/shop_dront")
+}
+player_dch = ExtResource("10_b0vjx")
+hide_target_npc_after_complete = true
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="shop_dront" type="Marker2D" parent="Node2D"]
+position = Vector2(4637, 1903)
+
+[node name="shop_dront2" type="Marker2D" parent="Node2D"]
+position = Vector2(4578, 1902)
+
+[node name="shop_dront3" type="Marker2D" parent="Node2D"]
+position = Vector2(4697, 1904)
+
+[node name="ShopNPC" parent="." instance=ExtResource("11_1dykj")]
+position = Vector2(4658, 1735)
+talk_timeline = "A014"
+
+[node name="2boxes4" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(4322, 1449)
+scale = Vector2(3, 3)
+
+[node name="2boxes7" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(4322, 1449)
+scale = Vector2(3, 3)
+
+[node name="2boxes5" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(3839.0002, 712)
+scale = Vector2(3, 3)
+
+[node name="2boxes6" parent="." instance=ExtResource("12_1dykj")]
+position = Vector2(3845.0002, 665.00006)
+scale = Vector2(3.5, 3.5)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

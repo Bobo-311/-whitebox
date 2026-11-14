@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://ubeuco4mpahm"]
+
+[ext_resource type="Script" uid="uid://cef0jv8eraq5g" path="res://劇情配件/interactable.gd" id="1_i8mwg"]
+[ext_resource type="Texture2D" uid="uid://c6b4mxvwambh6" path="res://雜/FullKeyboardMouse_Tileset.png" id="2_kgfgl"]
+[ext_resource type="Texture2D" uid="uid://cjfkcwglefq5b" path="res://雜/MediumBoxMid.png" id="2_swcqc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bh4dj"]
+radius = 17.127243
+
+[node name="medium_box" type="Area2D"]
+z_index = 5
+collision_mask = 2
+script = ExtResource("1_i8mwg")
+timeline_name = "A014D"
+hide_after_interact = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(5.960002, 5.960002)
+shape = SubResource("CircleShape2D_bh4dj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -3)
+scale = Vector2(2, 2)
+texture = ExtResource("2_swcqc")
+
+[node name="InteractPrompt" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -97)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_kgfgl")
+region_enabled = true
+region_rect = Rect2(63.950386, 0.918164, 15.1169815, 15.229671)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-24, -37, -30, -35, -40, -21, -40, 27, -36, 33, 36, 33, 40, 27, 40, -21, 30, -35, 23, -37)

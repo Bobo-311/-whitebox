@@ -1,4 +1,4 @@
-extends State
+extends State #野蠻人 berserkTransition
 
 # ==========================================
 # ⚙️ 二階狂暴數值設定 (面板可調)

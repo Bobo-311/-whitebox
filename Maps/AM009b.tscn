@@ -1,0 +1,4945 @@
+[gd_scene load_steps=57 format=4 uid="uid://ccfun1apw4e15"]
+
+[ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_eddww"]
+[ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_xj7ka"]
+[ext_resource type="Texture2D" uid="uid://dvha7dpjfa0dl" path="res://最初之地地圖素材/09.png" id="2_xj7ka"]
+[ext_resource type="Texture2D" uid="uid://byx6hcby20sit" path="res://最初之地地圖素材/only map/水池3.png" id="3_4q2km"]
+[ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="4_6qkpw"]
+[ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="5_dc5a4"]
+[ext_resource type="PackedScene" uid="uid://c8d86o31hcim8" path="res://單獨物件場景/tree_a.tscn" id="7_4q2km"]
+[ext_resource type="PackedScene" uid="uid://bu587snypl02c" path="res://單獨物件場景/big_rock_a.tscn" id="8_kng1a"]
+[ext_resource type="PackedScene" uid="uid://i64wuo4ydny8" path="res://單獨物件場景/mid_rock_a.tscn" id="9_nqmvu"]
+[ext_resource type="PackedScene" uid="uid://5c0rpiyj3mwn" path="res://單獨物件場景/tree_b.tscn" id="10_hiv2a"]
+[ext_resource type="PackedScene" uid="uid://cbc5kubrey2q2" path="res://單獨物件場景/twin_rock_a.tscn" id="11_bg1pq"]
+[ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="12_nqmvu"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="13_hiv2a"]
+[ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="14_bg1pq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw5g3"]
+texture = ExtResource("2_xj7ka")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+16:0/0 = 0
+17:0/0 = 0
+18:0/0 = 0
+19:0/0 = 0
+20:0/0 = 0
+21:0/0 = 0
+22:0/0 = 0
+23:0/0 = 0
+24:0/0 = 0
+25:0/0 = 0
+26:0/0 = 0
+27:0/0 = 0
+28:0/0 = 0
+29:0/0 = 0
+30:0/0 = 0
+31:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+19:1/0 = 0
+20:1/0 = 0
+21:1/0 = 0
+22:1/0 = 0
+23:1/0 = 0
+24:1/0 = 0
+25:1/0 = 0
+26:1/0 = 0
+27:1/0 = 0
+28:1/0 = 0
+29:1/0 = 0
+30:1/0 = 0
+31:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+15:2/0 = 0
+16:2/0 = 0
+17:2/0 = 0
+18:2/0 = 0
+19:2/0 = 0
+20:2/0 = 0
+21:2/0 = 0
+22:2/0 = 0
+23:2/0 = 0
+24:2/0 = 0
+25:2/0 = 0
+26:2/0 = 0
+27:2/0 = 0
+28:2/0 = 0
+29:2/0 = 0
+30:2/0 = 0
+31:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+14:3/0 = 0
+15:3/0 = 0
+16:3/0 = 0
+17:3/0 = 0
+18:3/0 = 0
+19:3/0 = 0
+20:3/0 = 0
+21:3/0 = 0
+22:3/0 = 0
+23:3/0 = 0
+24:3/0 = 0
+25:3/0 = 0
+26:3/0 = 0
+27:3/0 = 0
+28:3/0 = 0
+29:3/0 = 0
+30:3/0 = 0
+31:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+16:4/0 = 0
+17:4/0 = 0
+18:4/0 = 0
+19:4/0 = 0
+20:4/0 = 0
+21:4/0 = 0
+22:4/0 = 0
+23:4/0 = 0
+24:4/0 = 0
+25:4/0 = 0
+26:4/0 = 0
+27:4/0 = 0
+28:4/0 = 0
+29:4/0 = 0
+30:4/0 = 0
+31:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+16:5/0 = 0
+17:5/0 = 0
+18:5/0 = 0
+19:5/0 = 0
+20:5/0 = 0
+21:5/0 = 0
+22:5/0 = 0
+23:5/0 = 0
+24:5/0 = 0
+25:5/0 = 0
+26:5/0 = 0
+27:5/0 = 0
+28:5/0 = 0
+29:5/0 = 0
+30:5/0 = 0
+31:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+20:6/0 = 0
+21:6/0 = 0
+22:6/0 = 0
+23:6/0 = 0
+24:6/0 = 0
+25:6/0 = 0
+26:6/0 = 0
+27:6/0 = 0
+28:6/0 = 0
+29:6/0 = 0
+30:6/0 = 0
+31:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+16:7/0 = 0
+17:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+20:7/0 = 0
+21:7/0 = 0
+22:7/0 = 0
+23:7/0 = 0
+24:7/0 = 0
+25:7/0 = 0
+26:7/0 = 0
+27:7/0 = 0
+28:7/0 = 0
+29:7/0 = 0
+30:7/0 = 0
+31:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+16:8/0 = 0
+17:8/0 = 0
+18:8/0 = 0
+19:8/0 = 0
+20:8/0 = 0
+21:8/0 = 0
+22:8/0 = 0
+23:8/0 = 0
+24:8/0 = 0
+25:8/0 = 0
+26:8/0 = 0
+27:8/0 = 0
+28:8/0 = 0
+29:8/0 = 0
+30:8/0 = 0
+31:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+8:9/0 = 0
+9:9/0 = 0
+10:9/0 = 0
+11:9/0 = 0
+12:9/0 = 0
+13:9/0 = 0
+14:9/0 = 0
+15:9/0 = 0
+16:9/0 = 0
+17:9/0 = 0
+18:9/0 = 0
+19:9/0 = 0
+20:9/0 = 0
+21:9/0 = 0
+22:9/0 = 0
+23:9/0 = 0
+24:9/0 = 0
+25:9/0 = 0
+26:9/0 = 0
+27:9/0 = 0
+28:9/0 = 0
+29:9/0 = 0
+30:9/0 = 0
+31:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+6:10/0 = 0
+7:10/0 = 0
+8:10/0 = 0
+9:10/0 = 0
+10:10/0 = 0
+11:10/0 = 0
+12:10/0 = 0
+13:10/0 = 0
+14:10/0 = 0
+15:10/0 = 0
+16:10/0 = 0
+17:10/0 = 0
+18:10/0 = 0
+19:10/0 = 0
+20:10/0 = 0
+21:10/0 = 0
+22:10/0 = 0
+23:10/0 = 0
+24:10/0 = 0
+25:10/0 = 0
+26:10/0 = 0
+27:10/0 = 0
+28:10/0 = 0
+29:10/0 = 0
+30:10/0 = 0
+31:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+8:11/0 = 0
+9:11/0 = 0
+10:11/0 = 0
+11:11/0 = 0
+12:11/0 = 0
+13:11/0 = 0
+14:11/0 = 0
+15:11/0 = 0
+16:11/0 = 0
+17:11/0 = 0
+18:11/0 = 0
+19:11/0 = 0
+20:11/0 = 0
+21:11/0 = 0
+22:11/0 = 0
+23:11/0 = 0
+24:11/0 = 0
+25:11/0 = 0
+26:11/0 = 0
+27:11/0 = 0
+28:11/0 = 0
+29:11/0 = 0
+30:11/0 = 0
+31:11/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+6:12/0 = 0
+7:12/0 = 0
+8:12/0 = 0
+9:12/0 = 0
+10:12/0 = 0
+11:12/0 = 0
+12:12/0 = 0
+13:12/0 = 0
+14:12/0 = 0
+15:12/0 = 0
+16:12/0 = 0
+17:12/0 = 0
+18:12/0 = 0
+19:12/0 = 0
+20:12/0 = 0
+21:12/0 = 0
+22:12/0 = 0
+23:12/0 = 0
+24:12/0 = 0
+25:12/0 = 0
+26:12/0 = 0
+27:12/0 = 0
+28:12/0 = 0
+29:12/0 = 0
+30:12/0 = 0
+31:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+7:13/0 = 0
+8:13/0 = 0
+9:13/0 = 0
+10:13/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+16:13/0 = 0
+17:13/0 = 0
+18:13/0 = 0
+19:13/0 = 0
+20:13/0 = 0
+21:13/0 = 0
+22:13/0 = 0
+23:13/0 = 0
+24:13/0 = 0
+25:13/0 = 0
+26:13/0 = 0
+27:13/0 = 0
+28:13/0 = 0
+29:13/0 = 0
+30:13/0 = 0
+31:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+3:14/0 = 0
+4:14/0 = 0
+5:14/0 = 0
+6:14/0 = 0
+7:14/0 = 0
+8:14/0 = 0
+9:14/0 = 0
+10:14/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+16:14/0 = 0
+17:14/0 = 0
+18:14/0 = 0
+19:14/0 = 0
+20:14/0 = 0
+21:14/0 = 0
+22:14/0 = 0
+23:14/0 = 0
+24:14/0 = 0
+25:14/0 = 0
+26:14/0 = 0
+27:14/0 = 0
+28:14/0 = 0
+29:14/0 = 0
+30:14/0 = 0
+31:14/0 = 0
+0:15/0 = 0
+1:15/0 = 0
+2:15/0 = 0
+3:15/0 = 0
+4:15/0 = 0
+5:15/0 = 0
+6:15/0 = 0
+7:15/0 = 0
+8:15/0 = 0
+9:15/0 = 0
+10:15/0 = 0
+11:15/0 = 0
+12:15/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
+16:15/0 = 0
+17:15/0 = 0
+18:15/0 = 0
+19:15/0 = 0
+20:15/0 = 0
+21:15/0 = 0
+22:15/0 = 0
+23:15/0 = 0
+24:15/0 = 0
+25:15/0 = 0
+26:15/0 = 0
+27:15/0 = 0
+28:15/0 = 0
+29:15/0 = 0
+30:15/0 = 0
+31:15/0 = 0
+0:16/0 = 0
+1:16/0 = 0
+2:16/0 = 0
+3:16/0 = 0
+4:16/0 = 0
+5:16/0 = 0
+6:16/0 = 0
+7:16/0 = 0
+8:16/0 = 0
+9:16/0 = 0
+10:16/0 = 0
+11:16/0 = 0
+12:16/0 = 0
+13:16/0 = 0
+14:16/0 = 0
+15:16/0 = 0
+16:16/0 = 0
+17:16/0 = 0
+18:16/0 = 0
+19:16/0 = 0
+20:16/0 = 0
+21:16/0 = 0
+22:16/0 = 0
+23:16/0 = 0
+24:16/0 = 0
+25:16/0 = 0
+26:16/0 = 0
+27:16/0 = 0
+28:16/0 = 0
+29:16/0 = 0
+30:16/0 = 0
+31:16/0 = 0
+0:17/0 = 0
+1:17/0 = 0
+2:17/0 = 0
+3:17/0 = 0
+4:17/0 = 0
+5:17/0 = 0
+6:17/0 = 0
+7:17/0 = 0
+8:17/0 = 0
+9:17/0 = 0
+10:17/0 = 0
+11:17/0 = 0
+12:17/0 = 0
+13:17/0 = 0
+14:17/0 = 0
+15:17/0 = 0
+16:17/0 = 0
+17:17/0 = 0
+18:17/0 = 0
+19:17/0 = 0
+20:17/0 = 0
+21:17/0 = 0
+22:17/0 = 0
+23:17/0 = 0
+24:17/0 = 0
+25:17/0 = 0
+26:17/0 = 0
+27:17/0 = 0
+28:17/0 = 0
+29:17/0 = 0
+30:17/0 = 0
+31:17/0 = 0
+0:18/0 = 0
+1:18/0 = 0
+2:18/0 = 0
+3:18/0 = 0
+4:18/0 = 0
+5:18/0 = 0
+6:18/0 = 0
+7:18/0 = 0
+8:18/0 = 0
+9:18/0 = 0
+10:18/0 = 0
+11:18/0 = 0
+12:18/0 = 0
+13:18/0 = 0
+14:18/0 = 0
+15:18/0 = 0
+16:18/0 = 0
+17:18/0 = 0
+18:18/0 = 0
+19:18/0 = 0
+20:18/0 = 0
+21:18/0 = 0
+22:18/0 = 0
+23:18/0 = 0
+24:18/0 = 0
+25:18/0 = 0
+26:18/0 = 0
+27:18/0 = 0
+28:18/0 = 0
+29:18/0 = 0
+30:18/0 = 0
+31:18/0 = 0
+0:19/0 = 0
+1:19/0 = 0
+2:19/0 = 0
+3:19/0 = 0
+4:19/0 = 0
+5:19/0 = 0
+6:19/0 = 0
+7:19/0 = 0
+8:19/0 = 0
+9:19/0 = 0
+10:19/0 = 0
+11:19/0 = 0
+12:19/0 = 0
+13:19/0 = 0
+14:19/0 = 0
+15:19/0 = 0
+16:19/0 = 0
+17:19/0 = 0
+18:19/0 = 0
+19:19/0 = 0
+20:19/0 = 0
+21:19/0 = 0
+22:19/0 = 0
+23:19/0 = 0
+24:19/0 = 0
+25:19/0 = 0
+26:19/0 = 0
+27:19/0 = 0
+28:19/0 = 0
+29:19/0 = 0
+30:19/0 = 0
+31:19/0 = 0
+0:20/0 = 0
+1:20/0 = 0
+2:20/0 = 0
+3:20/0 = 0
+4:20/0 = 0
+5:20/0 = 0
+6:20/0 = 0
+7:20/0 = 0
+8:20/0 = 0
+9:20/0 = 0
+10:20/0 = 0
+11:20/0 = 0
+12:20/0 = 0
+13:20/0 = 0
+14:20/0 = 0
+15:20/0 = 0
+16:20/0 = 0
+17:20/0 = 0
+18:20/0 = 0
+19:20/0 = 0
+20:20/0 = 0
+21:20/0 = 0
+22:20/0 = 0
+23:20/0 = 0
+24:20/0 = 0
+25:20/0 = 0
+26:20/0 = 0
+27:20/0 = 0
+28:20/0 = 0
+29:20/0 = 0
+30:20/0 = 0
+31:20/0 = 0
+0:21/0 = 0
+1:21/0 = 0
+2:21/0 = 0
+3:21/0 = 0
+4:21/0 = 0
+5:21/0 = 0
+6:21/0 = 0
+7:21/0 = 0
+8:21/0 = 0
+9:21/0 = 0
+10:21/0 = 0
+11:21/0 = 0
+12:21/0 = 0
+13:21/0 = 0
+14:21/0 = 0
+15:21/0 = 0
+16:21/0 = 0
+17:21/0 = 0
+18:21/0 = 0
+19:21/0 = 0
+20:21/0 = 0
+21:21/0 = 0
+22:21/0 = 0
+23:21/0 = 0
+24:21/0 = 0
+25:21/0 = 0
+26:21/0 = 0
+27:21/0 = 0
+28:21/0 = 0
+29:21/0 = 0
+30:21/0 = 0
+31:21/0 = 0
+0:22/0 = 0
+1:22/0 = 0
+2:22/0 = 0
+3:22/0 = 0
+4:22/0 = 0
+5:22/0 = 0
+6:22/0 = 0
+7:22/0 = 0
+8:22/0 = 0
+9:22/0 = 0
+10:22/0 = 0
+11:22/0 = 0
+12:22/0 = 0
+13:22/0 = 0
+14:22/0 = 0
+15:22/0 = 0
+16:22/0 = 0
+17:22/0 = 0
+18:22/0 = 0
+19:22/0 = 0
+20:22/0 = 0
+21:22/0 = 0
+22:22/0 = 0
+23:22/0 = 0
+24:22/0 = 0
+25:22/0 = 0
+26:22/0 = 0
+27:22/0 = 0
+28:22/0 = 0
+29:22/0 = 0
+30:22/0 = 0
+31:22/0 = 0
+0:23/0 = 0
+1:23/0 = 0
+2:23/0 = 0
+3:23/0 = 0
+4:23/0 = 0
+5:23/0 = 0
+6:23/0 = 0
+7:23/0 = 0
+8:23/0 = 0
+9:23/0 = 0
+10:23/0 = 0
+11:23/0 = 0
+12:23/0 = 0
+13:23/0 = 0
+14:23/0 = 0
+15:23/0 = 0
+16:23/0 = 0
+17:23/0 = 0
+18:23/0 = 0
+19:23/0 = 0
+20:23/0 = 0
+21:23/0 = 0
+22:23/0 = 0
+23:23/0 = 0
+24:23/0 = 0
+25:23/0 = 0
+26:23/0 = 0
+27:23/0 = 0
+28:23/0 = 0
+29:23/0 = 0
+30:23/0 = 0
+31:23/0 = 0
+0:24/0 = 0
+1:24/0 = 0
+2:24/0 = 0
+3:24/0 = 0
+4:24/0 = 0
+5:24/0 = 0
+6:24/0 = 0
+7:24/0 = 0
+8:24/0 = 0
+9:24/0 = 0
+10:24/0 = 0
+11:24/0 = 0
+12:24/0 = 0
+13:24/0 = 0
+14:24/0 = 0
+15:24/0 = 0
+16:24/0 = 0
+17:24/0 = 0
+18:24/0 = 0
+19:24/0 = 0
+20:24/0 = 0
+21:24/0 = 0
+22:24/0 = 0
+23:24/0 = 0
+24:24/0 = 0
+25:24/0 = 0
+26:24/0 = 0
+27:24/0 = 0
+28:24/0 = 0
+29:24/0 = 0
+30:24/0 = 0
+31:24/0 = 0
+0:25/0 = 0
+1:25/0 = 0
+2:25/0 = 0
+3:25/0 = 0
+4:25/0 = 0
+5:25/0 = 0
+6:25/0 = 0
+7:25/0 = 0
+8:25/0 = 0
+9:25/0 = 0
+10:25/0 = 0
+11:25/0 = 0
+12:25/0 = 0
+13:25/0 = 0
+14:25/0 = 0
+15:25/0 = 0
+16:25/0 = 0
+17:25/0 = 0
+18:25/0 = 0
+19:25/0 = 0
+20:25/0 = 0
+21:25/0 = 0
+22:25/0 = 0
+23:25/0 = 0
+24:25/0 = 0
+25:25/0 = 0
+26:25/0 = 0
+27:25/0 = 0
+28:25/0 = 0
+29:25/0 = 0
+30:25/0 = 0
+31:25/0 = 0
+0:26/0 = 0
+1:26/0 = 0
+2:26/0 = 0
+3:26/0 = 0
+4:26/0 = 0
+5:26/0 = 0
+6:26/0 = 0
+7:26/0 = 0
+8:26/0 = 0
+9:26/0 = 0
+10:26/0 = 0
+11:26/0 = 0
+12:26/0 = 0
+13:26/0 = 0
+14:26/0 = 0
+15:26/0 = 0
+16:26/0 = 0
+17:26/0 = 0
+18:26/0 = 0
+19:26/0 = 0
+20:26/0 = 0
+21:26/0 = 0
+22:26/0 = 0
+23:26/0 = 0
+24:26/0 = 0
+25:26/0 = 0
+26:26/0 = 0
+27:26/0 = 0
+28:26/0 = 0
+29:26/0 = 0
+30:26/0 = 0
+31:26/0 = 0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_hiv2a"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bg1pq"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_palks"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ydrmh"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ea3yo"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kng1a"]
+texture = ExtResource("3_4q2km")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+4:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ydrmh")
+5:0/0 = 0
+5:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+6:0/0 = 0
+6:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+7:0/0 = 0
+7:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+8:0/0 = 0
+8:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+9:0/0 = 0
+9:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+10:0/0 = 0
+10:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+4:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+5:1/0 = 0
+5:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+6:1/0 = 0
+6:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+7:1/0 = 0
+7:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+8:1/0 = 0
+8:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+9:1/0 = 0
+9:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+10:1/0 = 0
+10:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+4:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ydrmh")
+5:2/0 = 0
+5:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+6:2/0 = 0
+6:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+7:2/0 = 0
+7:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+8:2/0 = 0
+8:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+9:2/0 = 0
+9:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+10:2/0 = 0
+10:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+4:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+5:3/0 = 0
+5:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+6:3/0 = 0
+6:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+7:3/0 = 0
+7:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+8:3/0 = 0
+8:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+9:3/0 = 0
+9:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+10:3/0 = 0
+10:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+0:4/0 = 0
+0:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+1:4/0 = 0
+1:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+2:4/0 = 0
+2:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+3:4/0 = 0
+3:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+4:4/0 = 0
+4:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+5:4/0 = 0
+5:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+6:4/0 = 0
+6:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+7:4/0 = 0
+7:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+8:4/0 = 0
+8:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+9:4/0 = 0
+9:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+10:4/0 = 0
+10:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+0:5/0 = 0
+0:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+1:5/0 = 0
+1:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+2:5/0 = 0
+2:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+3:5/0 = 0
+3:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+4:5/0 = 0
+4:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+5:5/0 = 0
+5:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_ea3yo")
+6:5/0 = 0
+6:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+7:5/0 = 0
+7:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+8:5/0 = 0
+8:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bg1pq")
+9:5/0 = 0
+9:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+10:5/0 = 0
+10:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_hiv2a")
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+4:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+5:6/0 = 0
+5:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+6:6/0 = 0
+6:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+7:6/0 = 0
+7:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+8:6/0 = 0
+8:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+9:6/0 = 0
+9:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+10:6/0 = 0
+10:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+4:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+5:7/0 = 0
+5:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+6:7/0 = 0
+6:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+7:7/0 = 0
+7:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+8:7/0 = 0
+8:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+9:7/0 = 0
+9:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+10:7/0 = 0
+10:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+4:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+5:8/0 = 0
+5:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+6:8/0 = 0
+6:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+7:8/0 = 0
+7:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+8:8/0 = 0
+8:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+9:8/0 = 0
+9:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+10:8/0 = 0
+10:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_palks")
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 17.498688, 32, 16.934212, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_endjd"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_a18nb"]
+vertices = PackedVector2Array(32, 10.7265625, -32, 11.8515625, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 10.725006, -32, 11.8539505)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_20a5v"]
+vertices = PackedVector2Array(32, 10.7265625, -32, 11.8515625, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 10.725006, -32, 11.8539505)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_yf6c4"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_dh8np"]
+vertices = PackedVector2Array(32, 16.9375, 32, 32, -32, 32, -32, 17.5, 24.273438, 16.9375, 24.835938, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(0, 4, 5, 6)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 17.498688, 24.272373, 16.934212, 24.83685, -32, 32, -32, 32, 16.934212, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_cocp8"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_dmwva"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_b0vjx"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1dykj"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_waf5r"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_tvx3a"]
+vertices = PackedVector2Array(32, 10.7265625, -32, 11.8515625, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 10.725006, -32, 11.8539505)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_h4wnf"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bjcit"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_o1t0q"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_vrrv3"]
+vertices = PackedVector2Array(32, 10.7265625, -32, 11.8515625, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 10.725006, -32, 11.8539505)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_pje7t"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_h768v"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_0vk2p"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_py42a"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_c2aqj"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 17.498688, 32, 16.934212, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_p3abx"]
+vertices = PackedVector2Array(32, 10.7265625, -32, 11.8515625, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 10.725006, -32, 11.8539505)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5jrbx"]
+vertices = PackedVector2Array(32, 32, 25.398438, 32, 25.96875, 16.367188, 32, -32, -32, -32, -32, 15.2421875)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, 25.401325, 32, 25.965794, 16.369743, -32, 15.240791, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_k2yxh"]
+vertices = PackedVector2Array(32, 32, 25.398438, 32, 25.398438, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(25.401325, -32, 32, -32, 32, 32, 25.401325, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_bm530"]
+vertices = PackedVector2Array(32, 32, 25.398438, 32, 25.398438, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(25.401325, -32, 32, -32, 32, 32, 25.401325, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_323mo"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_87qfl"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, 17.498688, 32, 16.934212, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_tdcqb"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_on0d8"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_fh13q"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_fbiwi"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5vc5w"]
+vertices = PackedVector2Array(32, 10.7265625, -32, 11.8515625, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 10.725006, -32, 11.8539505)])
+agent_radius = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nqmvu"]
+texture = ExtResource("4_6qkpw")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+15:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:0/0 = 0
+16:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+17:0/0 = 0
+17:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+18:0/0 = 0
+18:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+19:0/0 = 0
+19:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+20:0/0 = 0
+20:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+21:0/0 = 0
+21:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+22:0/0 = 0
+22:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+23:0/0 = 0
+23:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+24:0/0 = 0
+24:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_cocp8")
+25:0/0 = 0
+25:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:0/0 = 0
+26:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:0/0 = 0
+28:0/0 = 0
+29:0/0 = 0
+30:0/0 = 0
+31:0/0 = 0
+32:0/0 = 0
+33:0/0 = 0
+34:0/0 = 0
+35:0/0 = 0
+36:0/0 = 0
+37:0/0 = 0
+38:0/0 = 0
+39:0/0 = 0
+40:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+15:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:1/0 = 0
+16:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+17:1/0 = 0
+17:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+18:1/0 = 0
+18:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+19:1/0 = 0
+19:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+20:1/0 = 0
+20:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+21:1/0 = 0
+21:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+22:1/0 = 0
+22:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+23:1/0 = 0
+23:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+24:1/0 = 0
+24:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+25:1/0 = 0
+25:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:1/0 = 0
+26:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:1/0 = 0
+28:1/0 = 0
+29:1/0 = 0
+30:1/0 = 0
+31:1/0 = 0
+32:1/0 = 0
+33:1/0 = 0
+34:1/0 = 0
+35:1/0 = 0
+36:1/0 = 0
+37:1/0 = 0
+38:1/0 = 0
+39:1/0 = 0
+40:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+15:2/0 = 0
+15:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:2/0 = 0
+16:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+17:2/0 = 0
+17:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+18:2/0 = 0
+18:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+19:2/0 = 0
+19:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+20:2/0 = 0
+20:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+21:2/0 = 0
+21:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+22:2/0 = 0
+22:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+23:2/0 = 0
+23:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+24:2/0 = 0
+24:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+25:2/0 = 0
+25:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:2/0 = 0
+26:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:2/0 = 0
+28:2/0 = 0
+29:2/0 = 0
+30:2/0 = 0
+31:2/0 = 0
+32:2/0 = 0
+33:2/0 = 0
+34:2/0 = 0
+35:2/0 = 0
+36:2/0 = 0
+37:2/0 = 0
+38:2/0 = 0
+39:2/0 = 0
+40:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+14:3/0 = 0
+15:3/0 = 0
+15:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:3/0 = 0
+16:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+17:3/0 = 0
+17:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+18:3/0 = 0
+18:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+19:3/0 = 0
+19:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+20:3/0 = 0
+20:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+21:3/0 = 0
+21:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+22:3/0 = 0
+22:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+23:3/0 = 0
+23:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+24:3/0 = 0
+24:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+25:3/0 = 0
+25:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:3/0 = 0
+26:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:3/0 = 0
+28:3/0 = 0
+29:3/0 = 0
+30:3/0 = 0
+31:3/0 = 0
+32:3/0 = 0
+33:3/0 = 0
+34:3/0 = 0
+35:3/0 = 0
+36:3/0 = 0
+37:3/0 = 0
+38:3/0 = 0
+39:3/0 = 0
+40:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+15:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:4/0 = 0
+16:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+17:4/0 = 0
+17:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+18:4/0 = 0
+18:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+19:4/0 = 0
+19:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+20:4/0 = 0
+20:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+21:4/0 = 0
+21:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+22:4/0 = 0
+22:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+23:4/0 = 0
+23:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+24:4/0 = 0
+24:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+25:4/0 = 0
+25:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:4/0 = 0
+26:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:4/0 = 0
+28:4/0 = 0
+29:4/0 = 0
+30:4/0 = 0
+31:4/0 = 0
+32:4/0 = 0
+33:4/0 = 0
+34:4/0 = 0
+35:4/0 = 0
+36:4/0 = 0
+37:4/0 = 0
+38:4/0 = 0
+39:4/0 = 0
+40:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+15:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:5/0 = 0
+16:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+17:5/0 = 0
+17:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+18:5/0 = 0
+18:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+19:5/0 = 0
+19:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+20:5/0 = 0
+20:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+21:5/0 = 0
+21:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+22:5/0 = 0
+22:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+23:5/0 = 0
+23:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+24:5/0 = 0
+24:5/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+25:5/0 = 0
+25:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:5/0 = 0
+26:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:5/0 = 0
+28:5/0 = 0
+29:5/0 = 0
+30:5/0 = 0
+31:5/0 = 0
+32:5/0 = 0
+33:5/0 = 0
+34:5/0 = 0
+35:5/0 = 0
+36:5/0 = 0
+37:5/0 = 0
+38:5/0 = 0
+39:5/0 = 0
+40:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+10:6/0 = 0
+11:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+15:6/0 = 0
+15:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:6/0 = 0
+16:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+17:6/0 = 0
+17:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+18:6/0 = 0
+18:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+19:6/0 = 0
+19:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+20:6/0 = 0
+20:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+21:6/0 = 0
+21:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+22:6/0 = 0
+22:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+23:6/0 = 0
+23:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+24:6/0 = 0
+24:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dmwva")
+25:6/0 = 0
+25:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:6/0 = 0
+26:6/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:6/0 = 0
+28:6/0 = 0
+29:6/0 = 0
+30:6/0 = 0
+31:6/0 = 0
+32:6/0 = 0
+33:6/0 = 0
+34:6/0 = 0
+35:6/0 = 0
+36:6/0 = 0
+37:6/0 = 0
+38:6/0 = 0
+39:6/0 = 0
+40:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+15:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:7/0 = 0
+16:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+17:7/0 = 0
+17:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+18:7/0 = 0
+18:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+19:7/0 = 0
+19:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+20:7/0 = 0
+20:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+21:7/0 = 0
+21:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+22:7/0 = 0
+22:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+23:7/0 = 0
+23:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+24:7/0 = 0
+24:7/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+25:7/0 = 0
+25:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:7/0 = 0
+26:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:7/0 = 0
+28:7/0 = 0
+29:7/0 = 0
+30:7/0 = 0
+31:7/0 = 0
+32:7/0 = 0
+33:7/0 = 0
+34:7/0 = 0
+35:7/0 = 0
+36:7/0 = 0
+37:7/0 = 0
+38:7/0 = 0
+39:7/0 = 0
+40:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+15:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:8/0 = 0
+16:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+17:8/0 = 0
+17:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+18:8/0 = 0
+18:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+19:8/0 = 0
+19:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h4wnf")
+20:8/0 = 0
+20:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:8/0 = 0
+21:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:8/0 = 0
+22:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:8/0 = 0
+23:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:8/0 = 0
+24:8/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:8/0 = 0
+25:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:8/0 = 0
+26:8/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:8/0 = 0
+28:8/0 = 0
+29:8/0 = 0
+30:8/0 = 0
+31:8/0 = 0
+32:8/0 = 0
+33:8/0 = 0
+34:8/0 = 0
+35:8/0 = 0
+36:8/0 = 0
+37:8/0 = 0
+38:8/0 = 0
+39:8/0 = 0
+40:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+8:9/0 = 0
+9:9/0 = 0
+10:9/0 = 0
+11:9/0 = 0
+12:9/0 = 0
+13:9/0 = 0
+14:9/0 = 0
+15:9/0 = 0
+15:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:9/0 = 0
+16:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:9/0 = 0
+17:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:9/0 = 0
+18:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:9/0 = 0
+19:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:9/0 = 0
+20:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:9/0 = 0
+21:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:9/0 = 0
+22:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:9/0 = 0
+23:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:9/0 = 0
+24:9/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:9/0 = 0
+25:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:9/0 = 0
+26:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:9/0 = 0
+28:9/0 = 0
+29:9/0 = 0
+30:9/0 = 0
+31:9/0 = 0
+32:9/0 = 0
+33:9/0 = 0
+34:9/0 = 0
+35:9/0 = 0
+36:9/0 = 0
+37:9/0 = 0
+38:9/0 = 0
+39:9/0 = 0
+40:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+6:10/0 = 0
+7:10/0 = 0
+8:10/0 = 0
+9:10/0 = 0
+10:10/0 = 0
+11:10/0 = 0
+12:10/0 = 0
+13:10/0 = 0
+14:10/0 = 0
+15:10/0 = 0
+15:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:10/0 = 0
+16:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:10/0 = 0
+17:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:10/0 = 0
+18:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:10/0 = 0
+19:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:10/0 = 0
+20:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:10/0 = 0
+21:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:10/0 = 0
+22:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:10/0 = 0
+23:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:10/0 = 0
+24:10/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:10/0 = 0
+25:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:10/0 = 0
+26:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:10/0 = 0
+28:10/0 = 0
+29:10/0 = 0
+30:10/0 = 0
+31:10/0 = 0
+32:10/0 = 0
+33:10/0 = 0
+34:10/0 = 0
+35:10/0 = 0
+36:10/0 = 0
+37:10/0 = 0
+38:10/0 = 0
+39:10/0 = 0
+40:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+8:11/0 = 0
+9:11/0 = 0
+10:11/0 = 0
+11:11/0 = 0
+12:11/0 = 0
+13:11/0 = 0
+14:11/0 = 0
+15:11/0 = 0
+15:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:11/0 = 0
+16:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:11/0 = 0
+17:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:11/0 = 0
+18:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:11/0 = 0
+19:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:11/0 = 0
+20:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:11/0 = 0
+21:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:11/0 = 0
+22:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:11/0 = 0
+23:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:11/0 = 0
+24:11/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:11/0 = 0
+25:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:11/0 = 0
+26:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:11/0 = 0
+28:11/0 = 0
+29:11/0 = 0
+30:11/0 = 0
+31:11/0 = 0
+32:11/0 = 0
+33:11/0 = 0
+34:11/0 = 0
+35:11/0 = 0
+36:11/0 = 0
+37:11/0 = 0
+38:11/0 = 0
+39:11/0 = 0
+40:11/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+6:12/0 = 0
+7:12/0 = 0
+8:12/0 = 0
+9:12/0 = 0
+10:12/0 = 0
+11:12/0 = 0
+12:12/0 = 0
+13:12/0 = 0
+14:12/0 = 0
+15:12/0 = 0
+15:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:12/0 = 0
+16:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:12/0 = 0
+17:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:12/0 = 0
+18:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:12/0 = 0
+19:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:12/0 = 0
+20:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:12/0 = 0
+21:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:12/0 = 0
+22:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:12/0 = 0
+23:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:12/0 = 0
+24:12/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:12/0 = 0
+25:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:12/0 = 0
+26:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:12/0 = 0
+28:12/0 = 0
+29:12/0 = 0
+30:12/0 = 0
+31:12/0 = 0
+32:12/0 = 0
+33:12/0 = 0
+34:12/0 = 0
+35:12/0 = 0
+36:12/0 = 0
+37:12/0 = 0
+38:12/0 = 0
+39:12/0 = 0
+40:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+7:13/0 = 0
+8:13/0 = 0
+9:13/0 = 0
+10:13/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+15:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:13/0 = 0
+16:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:13/0 = 0
+17:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:13/0 = 0
+18:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:13/0 = 0
+19:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:13/0 = 0
+20:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:13/0 = 0
+21:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:13/0 = 0
+22:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:13/0 = 0
+23:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:13/0 = 0
+24:13/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:13/0 = 0
+25:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:13/0 = 0
+26:13/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:13/0 = 0
+28:13/0 = 0
+29:13/0 = 0
+30:13/0 = 0
+31:13/0 = 0
+32:13/0 = 0
+33:13/0 = 0
+34:13/0 = 0
+35:13/0 = 0
+36:13/0 = 0
+37:13/0 = 0
+38:13/0 = 0
+39:13/0 = 0
+40:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+3:14/0 = 0
+4:14/0 = 0
+5:14/0 = 0
+6:14/0 = 0
+7:14/0 = 0
+8:14/0 = 0
+9:14/0 = 0
+10:14/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+15:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:14/0 = 0
+16:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:14/0 = 0
+17:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:14/0 = 0
+18:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:14/0 = 0
+19:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:14/0 = 0
+20:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:14/0 = 0
+21:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:14/0 = 0
+22:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:14/0 = 0
+23:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:14/0 = 0
+24:14/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:14/0 = 0
+25:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:14/0 = 0
+26:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:14/0 = 0
+28:14/0 = 0
+29:14/0 = 0
+30:14/0 = 0
+31:14/0 = 0
+32:14/0 = 0
+33:14/0 = 0
+34:14/0 = 0
+35:14/0 = 0
+36:14/0 = 0
+37:14/0 = 0
+38:14/0 = 0
+39:14/0 = 0
+40:14/0 = 0
+0:15/0 = 0
+1:15/0 = 0
+2:15/0 = 0
+3:15/0 = 0
+4:15/0 = 0
+5:15/0 = 0
+6:15/0 = 0
+7:15/0 = 0
+8:15/0 = 0
+9:15/0 = 0
+10:15/0 = 0
+11:15/0 = 0
+12:15/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
+15:15/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:15/0 = 0
+16:15/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:15/0 = 0
+17:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:15/0 = 0
+18:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:15/0 = 0
+19:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:15/0 = 0
+20:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:15/0 = 0
+21:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:15/0 = 0
+22:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:15/0 = 0
+23:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:15/0 = 0
+24:15/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:15/0 = 0
+25:15/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:15/0 = 0
+26:15/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:15/0 = 0
+28:15/0 = 0
+29:15/0 = 0
+30:15/0 = 0
+31:15/0 = 0
+32:15/0 = 0
+33:15/0 = 0
+34:15/0 = 0
+35:15/0 = 0
+36:15/0 = 0
+37:15/0 = 0
+38:15/0 = 0
+39:15/0 = 0
+40:15/0 = 0
+0:16/0 = 0
+1:16/0 = 0
+2:16/0 = 0
+3:16/0 = 0
+4:16/0 = 0
+5:16/0 = 0
+6:16/0 = 0
+7:16/0 = 0
+8:16/0 = 0
+9:16/0 = 0
+10:16/0 = 0
+11:16/0 = 0
+12:16/0 = 0
+13:16/0 = 0
+14:16/0 = 0
+15:16/0 = 0
+15:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:16/0 = 0
+16:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:16/0 = 0
+17:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:16/0 = 0
+18:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:16/0 = 0
+19:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:16/0 = 0
+20:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:16/0 = 0
+21:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:16/0 = 0
+22:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:16/0 = 0
+23:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:16/0 = 0
+24:16/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:16/0 = 0
+25:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:16/0 = 0
+26:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:16/0 = 0
+28:16/0 = 0
+29:16/0 = 0
+30:16/0 = 0
+31:16/0 = 0
+32:16/0 = 0
+33:16/0 = 0
+34:16/0 = 0
+35:16/0 = 0
+36:16/0 = 0
+37:16/0 = 0
+38:16/0 = 0
+39:16/0 = 0
+40:16/0 = 0
+0:17/0 = 0
+1:17/0 = 0
+2:17/0 = 0
+3:17/0 = 0
+4:17/0 = 0
+5:17/0 = 0
+6:17/0 = 0
+7:17/0 = 0
+8:17/0 = 0
+9:17/0 = 0
+10:17/0 = 0
+11:17/0 = 0
+12:17/0 = 0
+13:17/0 = 0
+14:17/0 = 0
+15:17/0 = 0
+15:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:17/0 = 0
+16:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:17/0 = 0
+17:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:17/0 = 0
+18:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:17/0 = 0
+19:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:17/0 = 0
+20:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:17/0 = 0
+21:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:17/0 = 0
+22:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:17/0 = 0
+23:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:17/0 = 0
+24:17/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+25:17/0 = 0
+25:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:17/0 = 0
+26:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:17/0 = 0
+28:17/0 = 0
+29:17/0 = 0
+30:17/0 = 0
+31:17/0 = 0
+32:17/0 = 0
+33:17/0 = 0
+34:17/0 = 0
+35:17/0 = 0
+36:17/0 = 0
+37:17/0 = 0
+38:17/0 = 0
+39:17/0 = 0
+40:17/0 = 0
+0:18/0 = 0
+1:18/0 = 0
+2:18/0 = 0
+3:18/0 = 0
+4:18/0 = 0
+5:18/0 = 0
+6:18/0 = 0
+7:18/0 = 0
+8:18/0 = 0
+9:18/0 = 0
+10:18/0 = 0
+11:18/0 = 0
+12:18/0 = 0
+13:18/0 = 0
+14:18/0 = 0
+15:18/0 = 0
+15:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:18/0 = 0
+16:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:18/0 = 0
+17:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:18/0 = 0
+18:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:18/0 = 0
+19:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:18/0 = 0
+20:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:18/0 = 0
+21:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:18/0 = 0
+22:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:18/0 = 0
+23:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:18/0 = 0
+24:18/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_pje7t")
+25:18/0 = 0
+25:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:18/0 = 0
+26:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:18/0 = 0
+28:18/0 = 0
+29:18/0 = 0
+30:18/0 = 0
+31:18/0 = 0
+32:18/0 = 0
+33:18/0 = 0
+34:18/0 = 0
+35:18/0 = 0
+36:18/0 = 0
+37:18/0 = 0
+38:18/0 = 0
+39:18/0 = 0
+40:18/0 = 0
+0:19/0 = 0
+1:19/0 = 0
+2:19/0 = 0
+3:19/0 = 0
+4:19/0 = 0
+5:19/0 = 0
+6:19/0 = 0
+7:19/0 = 0
+8:19/0 = 0
+9:19/0 = 0
+10:19/0 = 0
+11:19/0 = 0
+12:19/0 = 0
+13:19/0 = 0
+14:19/0 = 0
+15:19/0 = 0
+15:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:19/0 = 0
+16:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:19/0 = 0
+17:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:19/0 = 0
+18:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:19/0 = 0
+19:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:19/0 = 0
+20:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:19/0 = 0
+21:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:19/0 = 0
+22:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:19/0 = 0
+23:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:19/0 = 0
+24:19/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h768v")
+25:19/0 = 0
+25:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:19/0 = 0
+26:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:19/0 = 0
+28:19/0 = 0
+29:19/0 = 0
+30:19/0 = 0
+31:19/0 = 0
+32:19/0 = 0
+33:19/0 = 0
+34:19/0 = 0
+35:19/0 = 0
+36:19/0 = 0
+37:19/0 = 0
+38:19/0 = 0
+39:19/0 = 0
+40:19/0 = 0
+0:20/0 = 0
+1:20/0 = 0
+2:20/0 = 0
+3:20/0 = 0
+4:20/0 = 0
+5:20/0 = 0
+6:20/0 = 0
+7:20/0 = 0
+8:20/0 = 0
+9:20/0 = 0
+10:20/0 = 0
+11:20/0 = 0
+12:20/0 = 0
+13:20/0 = 0
+14:20/0 = 0
+15:20/0 = 0
+15:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:20/0 = 0
+16:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+17:20/0 = 0
+17:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:20/0 = 0
+18:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:20/0 = 0
+19:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:20/0 = 0
+20:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+21:20/0 = 0
+21:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+22:20/0 = 0
+22:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:20/0 = 0
+23:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:20/0 = 0
+24:20/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h768v")
+25:20/0 = 0
+25:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:20/0 = 0
+26:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:20/0 = 0
+28:20/0 = 0
+29:20/0 = 0
+30:20/0 = 0
+31:20/0 = 0
+32:20/0 = 0
+33:20/0 = 0
+34:20/0 = 0
+35:20/0 = 0
+36:20/0 = 0
+37:20/0 = 0
+38:20/0 = 0
+39:20/0 = 0
+40:20/0 = 0
+0:21/0 = 0
+1:21/0 = 0
+2:21/0 = 0
+3:21/0 = 0
+4:21/0 = 0
+5:21/0 = 0
+6:21/0 = 0
+7:21/0 = 0
+8:21/0 = 0
+9:21/0 = 0
+10:21/0 = 0
+11:21/0 = 0
+12:21/0 = 0
+13:21/0 = 0
+14:21/0 = 0
+15:21/0 = 0
+15:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:21/0 = 0
+16:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+17:21/0 = 0
+17:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+18:21/0 = 0
+18:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+19:21/0 = 0
+19:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:21/0 = 0
+20:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+21:21/0 = 0
+21:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+22:21/0 = 0
+22:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:21/0 = 0
+23:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:21/0 = 0
+24:21/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h768v")
+25:21/0 = 0
+25:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:21/0 = 0
+26:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:21/0 = 0
+28:21/0 = 0
+29:21/0 = 0
+30:21/0 = 0
+31:21/0 = 0
+32:21/0 = 0
+33:21/0 = 0
+34:21/0 = 0
+35:21/0 = 0
+36:21/0 = 0
+37:21/0 = 0
+38:21/0 = 0
+39:21/0 = 0
+40:21/0 = 0
+0:22/0 = 0
+1:22/0 = 0
+2:22/0 = 0
+3:22/0 = 0
+4:22/0 = 0
+5:22/0 = 0
+6:22/0 = 0
+7:22/0 = 0
+8:22/0 = 0
+9:22/0 = 0
+10:22/0 = 0
+11:22/0 = 0
+12:22/0 = 0
+13:22/0 = 0
+14:22/0 = 0
+15:22/0 = 0
+15:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:22/0 = 0
+16:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+17:22/0 = 0
+17:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+18:22/0 = 0
+18:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+19:22/0 = 0
+19:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+20:22/0 = 0
+20:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+21:22/0 = 0
+21:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+22:22/0 = 0
+22:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+23:22/0 = 0
+23:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:22/0 = 0
+24:22/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+25:22/0 = 0
+25:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:22/0 = 0
+26:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:22/0 = 0
+28:22/0 = 0
+29:22/0 = 0
+30:22/0 = 0
+31:22/0 = 0
+32:22/0 = 0
+33:22/0 = 0
+34:22/0 = 0
+35:22/0 = 0
+36:22/0 = 0
+37:22/0 = 0
+38:22/0 = 0
+39:22/0 = 0
+40:22/0 = 0
+0:23/0 = 0
+1:23/0 = 0
+2:23/0 = 0
+3:23/0 = 0
+4:23/0 = 0
+5:23/0 = 0
+6:23/0 = 0
+7:23/0 = 0
+8:23/0 = 0
+9:23/0 = 0
+10:23/0 = 0
+11:23/0 = 0
+12:23/0 = 0
+13:23/0 = 0
+14:23/0 = 0
+15:23/0 = 0
+15:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:23/0 = 0
+16:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+17:23/0 = 0
+17:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+18:23/0 = 0
+18:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+19:23/0 = 0
+19:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+20:23/0 = 0
+20:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+21:23/0 = 0
+21:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+22:23/0 = 0
+22:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+23:23/0 = 0
+23:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_b0vjx")
+24:23/0 = 0
+24:23/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+25:23/0 = 0
+25:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:23/0 = 0
+26:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:23/0 = 0
+28:23/0 = 0
+29:23/0 = 0
+30:23/0 = 0
+31:23/0 = 0
+32:23/0 = 0
+33:23/0 = 0
+34:23/0 = 0
+35:23/0 = 0
+36:23/0 = 0
+37:23/0 = 0
+38:23/0 = 0
+39:23/0 = 0
+40:23/0 = 0
+0:24/0 = 0
+1:24/0 = 0
+2:24/0 = 0
+3:24/0 = 0
+4:24/0 = 0
+5:24/0 = 0
+6:24/0 = 0
+7:24/0 = 0
+8:24/0 = 0
+9:24/0 = 0
+10:24/0 = 0
+11:24/0 = 0
+12:24/0 = 0
+13:24/0 = 0
+14:24/0 = 0
+15:24/0 = 0
+15:24/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:24/0 = 0
+16:24/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -0.564476, 32, -32, 32)
+16:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+17:24/0 = 0
+17:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+18:24/0 = 0
+18:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+19:24/0 = 0
+19:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+20:24/0 = 0
+20:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+21:24/0 = 0
+21:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+22:24/0 = 0
+22:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+23:24/0 = 0
+23:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+24:24/0 = 0
+24:24/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+25:24/0 = 0
+25:24/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:24/0 = 0
+26:24/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:24/0 = 0
+28:24/0 = 0
+29:24/0 = 0
+30:24/0 = 0
+31:24/0 = 0
+32:24/0 = 0
+33:24/0 = 0
+34:24/0 = 0
+35:24/0 = 0
+36:24/0 = 0
+37:24/0 = 0
+38:24/0 = 0
+39:24/0 = 0
+40:24/0 = 0
+0:25/0 = 0
+1:25/0 = 0
+2:25/0 = 0
+3:25/0 = 0
+4:25/0 = 0
+5:25/0 = 0
+6:25/0 = 0
+7:25/0 = 0
+8:25/0 = 0
+9:25/0 = 0
+10:25/0 = 0
+11:25/0 = 0
+12:25/0 = 0
+13:25/0 = 0
+14:25/0 = 0
+15:25/0 = 0
+15:25/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:25/0 = 0
+16:25/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -0.564476, -32, -1.6934242, 14.676323, 5.6447372, 24.272377, 9.031582, 32, -32, 32)
+16:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+17:25/0 = 0
+17:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+18:25/0 = 0
+18:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+19:25/0 = 0
+19:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+20:25/0 = 0
+20:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+21:25/0 = 0
+21:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+22:25/0 = 0
+22:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+23:25/0 = 0
+23:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+24:25/0 = 0
+24:25/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+25:25/0 = 0
+25:25/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:25/0 = 0
+26:25/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:25/0 = 0
+28:25/0 = 0
+29:25/0 = 0
+30:25/0 = 0
+31:25/0 = 0
+32:25/0 = 0
+33:25/0 = 0
+34:25/0 = 0
+35:25/0 = 0
+36:25/0 = 0
+37:25/0 = 0
+38:25/0 = 0
+39:25/0 = 0
+40:25/0 = 0
+0:26/0 = 0
+1:26/0 = 0
+2:26/0 = 0
+3:26/0 = 0
+4:26/0 = 0
+5:26/0 = 0
+6:26/0 = 0
+7:26/0 = 0
+8:26/0 = 0
+9:26/0 = 0
+10:26/0 = 0
+11:26/0 = 0
+12:26/0 = 0
+13:26/0 = 0
+14:26/0 = 0
+15:26/0 = 0
+15:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:26/0 = 0
+16:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 8.467106, -32, 9.031582, 32, -32, 32)
+16:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+17:26/0 = 0
+17:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bjcit")
+18:26/0 = 0
+18:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bjcit")
+19:26/0 = 0
+19:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bjcit")
+20:26/0 = 0
+20:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bjcit")
+21:26/0 = 0
+21:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+22:26/0 = 0
+22:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+23:26/0 = 0
+23:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+24:26/0 = 0
+24:26/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_1dykj")
+25:26/0 = 0
+25:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:26/0 = 0
+26:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, -10.725006, -32, -10.725006, 32, -32, 32)
+27:26/0 = 0
+28:26/0 = 0
+29:26/0 = 0
+30:26/0 = 0
+31:26/0 = 0
+32:26/0 = 0
+33:26/0 = 0
+34:26/0 = 0
+35:26/0 = 0
+36:26/0 = 0
+37:26/0 = 0
+38:26/0 = 0
+39:26/0 = 0
+40:26/0 = 0
+0:27/0 = 0
+0:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+0:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+1:27/0 = 0
+1:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+1:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+2:27/0 = 0
+2:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+2:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+3:27/0 = 0
+3:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+3:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+4:27/0 = 0
+4:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+4:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+5:27/0 = 0
+5:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+5:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+6:27/0 = 0
+6:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+6:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+7:27/0 = 0
+7:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+7:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+8:27/0 = 0
+8:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+8:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+9:27/0 = 0
+9:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+9:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+10:27/0 = 0
+10:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+10:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+11:27/0 = 0
+11:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+11:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+12:27/0 = 0
+12:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+12:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+13:27/0 = 0
+13:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+13:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+14:27/0 = 0
+14:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+14:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h8b51")
+15:27/0 = 0
+15:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+15:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dh8np")
+16:27/0 = 0
+16:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_waf5r")
+17:27/0 = 0
+17:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_waf5r")
+18:27/0 = 0
+18:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_waf5r")
+19:27/0 = 0
+19:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_o1t0q")
+20:27/0 = 0
+20:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_o1t0q")
+21:27/0 = 0
+21:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_o1t0q")
+22:27/0 = 0
+22:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_o1t0q")
+23:27/0 = 0
+23:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_o1t0q")
+24:27/0 = 0
+24:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_0vk2p")
+25:27/0 = 0
+25:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_py42a")
+26:27/0 = 0
+26:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+26:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+27:27/0 = 0
+27:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+27:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+28:27/0 = 0
+28:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+28:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+29:27/0 = 0
+29:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+29:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+30:27/0 = 0
+30:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+30:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+31:27/0 = 0
+31:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+31:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+32:27/0 = 0
+32:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+32:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+33:27/0 = 0
+33:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+33:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+34:27/0 = 0
+34:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+34:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+35:27/0 = 0
+35:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+35:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+36:27/0 = 0
+36:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+36:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+37:27/0 = 0
+37:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+37:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+38:27/0 = 0
+38:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+38:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c2aqj")
+39:27/0 = 0
+39:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+39:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_87qfl")
+40:27/0 = 0
+40:27/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 18.62764, -32, 17.498688)
+40:27/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_87qfl")
+0:28/0 = 0
+0:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+1:28/0 = 0
+1:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+2:28/0 = 0
+2:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+3:28/0 = 0
+3:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+4:28/0 = 0
+4:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+5:28/0 = 0
+5:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+6:28/0 = 0
+6:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+7:28/0 = 0
+7:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+8:28/0 = 0
+8:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+9:28/0 = 0
+9:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+10:28/0 = 0
+10:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+11:28/0 = 0
+11:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+12:28/0 = 0
+12:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+13:28/0 = 0
+13:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+14:28/0 = 0
+14:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+15:28/0 = 0
+15:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+16:28/0 = 0
+16:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+17:28/0 = 0
+17:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+18:28/0 = 0
+18:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+19:28/0 = 0
+19:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+20:28/0 = 0
+20:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+21:28/0 = 0
+21:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+22:28/0 = 0
+22:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+23:28/0 = 0
+23:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+24:28/0 = 0
+24:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+25:28/0 = 0
+25:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+26:28/0 = 0
+26:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+27:28/0 = 0
+27:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+28:28/0 = 0
+28:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+29:28/0 = 0
+29:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+30:28/0 = 0
+30:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+31:28/0 = 0
+31:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+32:28/0 = 0
+32:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+33:28/0 = 0
+33:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+34:28/0 = 0
+34:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+35:28/0 = 0
+35:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+36:28/0 = 0
+36:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+37:28/0 = 0
+37:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+38:28/0 = 0
+38:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+39:28/0 = 0
+39:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+40:28/0 = 0
+40:28/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+0:29/0 = 0
+0:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+1:29/0 = 0
+1:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+2:29/0 = 0
+2:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+3:29/0 = 0
+3:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+4:29/0 = 0
+4:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+5:29/0 = 0
+5:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+6:29/0 = 0
+6:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+7:29/0 = 0
+7:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+8:29/0 = 0
+8:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+9:29/0 = 0
+9:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+10:29/0 = 0
+10:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+11:29/0 = 0
+11:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+12:29/0 = 0
+12:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+13:29/0 = 0
+13:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+14:29/0 = 0
+14:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+15:29/0 = 0
+15:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+16:29/0 = 0
+16:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+17:29/0 = 0
+17:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+18:29/0 = 0
+18:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+19:29/0 = 0
+19:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+20:29/0 = 0
+20:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+21:29/0 = 0
+21:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+22:29/0 = 0
+22:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+23:29/0 = 0
+23:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+24:29/0 = 0
+24:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+25:29/0 = 0
+25:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+26:29/0 = 0
+26:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+27:29/0 = 0
+27:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+28:29/0 = 0
+28:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+29:29/0 = 0
+29:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+30:29/0 = 0
+30:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+31:29/0 = 0
+31:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+32:29/0 = 0
+32:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+33:29/0 = 0
+33:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+34:29/0 = 0
+34:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+35:29/0 = 0
+35:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+36:29/0 = 0
+36:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+37:29/0 = 0
+37:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+38:29/0 = 0
+38:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+39:29/0 = 0
+39:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+40:29/0 = 0
+40:29/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+0:30/0 = 0
+0:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+1:30/0 = 0
+1:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+2:30/0 = 0
+2:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+3:30/0 = 0
+3:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+4:30/0 = 0
+4:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+5:30/0 = 0
+5:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+6:30/0 = 0
+6:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+7:30/0 = 0
+7:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+8:30/0 = 0
+8:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+9:30/0 = 0
+9:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+10:30/0 = 0
+10:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_endjd")
+11:30/0 = 0
+11:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+12:30/0 = 0
+12:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+13:30/0 = 0
+13:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+14:30/0 = 0
+14:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+15:30/0 = 0
+15:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+16:30/0 = 0
+16:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+17:30/0 = 0
+17:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+18:30/0 = 0
+18:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+19:30/0 = 0
+19:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+20:30/0 = 0
+20:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+21:30/0 = 0
+21:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+22:30/0 = 0
+22:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+23:30/0 = 0
+23:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+24:30/0 = 0
+24:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+25:30/0 = 0
+25:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+26:30/0 = 0
+26:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+27:30/0 = 0
+27:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+28:30/0 = 0
+28:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+29:30/0 = 0
+29:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+30:30/0 = 0
+30:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+31:30/0 = 0
+31:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_yf6c4")
+32:30/0 = 0
+32:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+33:30/0 = 0
+33:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+34:30/0 = 0
+34:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+35:30/0 = 0
+35:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+36:30/0 = 0
+36:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+37:30/0 = 0
+37:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+38:30/0 = 0
+38:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+39:30/0 = 0
+39:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+40:30/0 = 0
+40:30/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_323mo")
+0:31/0 = 0
+0:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+0:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_a18nb")
+1:31/0 = 0
+1:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+1:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_vrrv3")
+2:31/0 = 0
+2:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(22.014477, 16.934212, 22.014477, 32, -32, 32, -32, 15.805267)
+2:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5jrbx")
+3:31/0 = 0
+3:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tdcqb")
+4:31/0 = 0
+4:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, 19.192108, 32, 32, 23.143429, 32, 22.014477, 19.192108)
+4:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_fbiwi")
+5:31/0 = 0
+5:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+5:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5vc5w")
+6:31/0 = 0
+6:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+6:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5vc5w")
+7:31/0 = 0
+7:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+7:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5vc5w")
+8:31/0 = 0
+8:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+8:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+9:31/0 = 0
+9:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+9:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+10:31/0 = 0
+10:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+10:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+11:31/0 = 0
+11:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+11:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+12:31/0 = 0
+12:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+12:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+13:31/0 = 0
+13:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+13:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+14:31/0 = 0
+14:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+14:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+15:31/0 = 0
+15:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+15:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_20a5v")
+16:31/0 = 0
+16:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+16:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+17:31/0 = 0
+17:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+17:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+18:31/0 = 0
+18:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+18:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+19:31/0 = 0
+19:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+19:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+20:31/0 = 0
+20:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+20:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+21:31/0 = 0
+21:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+21:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+22:31/0 = 0
+22:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+22:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+23:31/0 = 0
+23:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+23:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+24:31/0 = 0
+24:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+24:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+25:31/0 = 0
+25:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+25:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+26:31/0 = 0
+26:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+26:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+27:31/0 = 0
+27:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+27:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_tvx3a")
+28:31/0 = 0
+28:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+28:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+29:31/0 = 0
+29:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+29:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+30:31/0 = 0
+30:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+30:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+31:31/0 = 0
+31:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+31:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+32:31/0 = 0
+32:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+32:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+33:31/0 = 0
+33:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+33:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+34:31/0 = 0
+34:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+34:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+35:31/0 = 0
+35:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+35:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+36:31/0 = 0
+36:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+36:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+37:31/0 = 0
+37:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+37:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+38:31/0 = 0
+38:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+38:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+39:31/0 = 0
+39:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+39:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+40:31/0 = 0
+40:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 15.805267, 32, 16.369743, 32, 32, -32, 32)
+40:31/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_p3abx")
+0:32/0 = 0
+0:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:32/0 = 0
+1:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:32/0 = 0
+2:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 23.707905, -32, 23.707905, 32, -32, 32)
+2:32/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_k2yxh")
+3:32/0 = 0
+3:32/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_on0d8")
+4:32/0 = 0
+4:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, -32, 32, 32, 23.143429, 32, 23.143429, -32)
+4:32/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_fbiwi")
+5:32/0 = 0
+5:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:32/0 = 0
+6:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:32/0 = 0
+7:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:32/0 = 0
+8:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+9:32/0 = 0
+9:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+10:32/0 = 0
+10:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+11:32/0 = 0
+11:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+12:32/0 = 0
+12:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+13:32/0 = 0
+13:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+14:32/0 = 0
+14:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+15:32/0 = 0
+15:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:32/0 = 0
+16:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+17:32/0 = 0
+17:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+18:32/0 = 0
+18:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+19:32/0 = 0
+19:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+20:32/0 = 0
+20:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+21:32/0 = 0
+21:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+22:32/0 = 0
+22:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+23:32/0 = 0
+23:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+24:32/0 = 0
+24:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+25:32/0 = 0
+25:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:32/0 = 0
+26:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+27:32/0 = 0
+27:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+28:32/0 = 0
+28:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+29:32/0 = 0
+29:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+30:32/0 = 0
+30:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+31:32/0 = 0
+31:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+32:32/0 = 0
+32:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+33:32/0 = 0
+33:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+34:32/0 = 0
+34:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+35:32/0 = 0
+35:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+36:32/0 = 0
+36:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+37:32/0 = 0
+37:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+38:32/0 = 0
+38:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+39:32/0 = 0
+39:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+40:32/0 = 0
+40:32/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:33/0 = 0
+0:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+1:33/0 = 0
+1:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:33/0 = 0
+2:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 23.707905, -32, 23.707905, 32, -32, 32)
+2:33/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_bm530")
+3:33/0 = 0
+3:33/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_fh13q")
+4:33/0 = 0
+4:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, -32, 32, 32, 23.143429, 32, 23.143429, -32)
+4:33/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_fbiwi")
+5:33/0 = 0
+5:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+6:33/0 = 0
+6:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+7:33/0 = 0
+7:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+8:33/0 = 0
+8:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+9:33/0 = 0
+9:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+10:33/0 = 0
+10:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+11:33/0 = 0
+11:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+12:33/0 = 0
+12:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+13:33/0 = 0
+13:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+14:33/0 = 0
+14:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+15:33/0 = 0
+15:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+16:33/0 = 0
+16:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+17:33/0 = 0
+17:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+18:33/0 = 0
+18:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+19:33/0 = 0
+19:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+20:33/0 = 0
+20:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+21:33/0 = 0
+21:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+22:33/0 = 0
+22:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+23:33/0 = 0
+23:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+24:33/0 = 0
+24:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+25:33/0 = 0
+25:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+26:33/0 = 0
+26:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+27:33/0 = 0
+27:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+28:33/0 = 0
+28:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+29:33/0 = 0
+29:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+30:33/0 = 0
+30:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+31:33/0 = 0
+31:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+32:33/0 = 0
+32:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+33:33/0 = 0
+33:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+34:33/0 = 0
+34:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+35:33/0 = 0
+35:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+36:33/0 = 0
+36:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+37:33/0 = 0
+37:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+38:33/0 = 0
+38:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+39:33/0 = 0
+39:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+40:33/0 = 0
+40:33/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_hiv2a"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+navigation_layer_0/layers = 1
+sources/2 = SubResource("TileSetAtlasSource_nqmvu")
+sources/0 = SubResource("TileSetAtlasSource_cw5g3")
+sources/1 = SubResource("TileSetAtlasSource_kng1a")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bg1pq"]
+resource_local_to_scene = true
+size = Vector2(193.84607, 207.69229)
+
+[node name="AM009B" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_xj7ka")
+limit_left = 3900
+limit_top = -930
+limit_right = 9600
+limit_bottom = 3100
+metadata/_edit_vertical_guides_ = [3908.0, 9666.0]
+metadata/_edit_horizontal_guides_ = [-928.0, 3123.0, 3099.0]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+z_index = -20
+y_sort_enabled = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13909.0
+offset_top = -5974.0
+offset_right = 19683.832
+offset_bottom = 17356.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
+y_sort_enabled = true
+color = Color(0.07058824, 0.07058824, 0.12156863, 1)
+
+[node name="PortalSpawnPoint" type="Marker2D" parent="."]
+y_sort_enabled = true
+position = Vector2(1370, 1857)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+z_index = -20
+y_sort_enabled = true
+scale = Vector2(4, 4)
+tile_map_data = PackedByteArray("AAAPAAAAAQAAAAAAAAAPAAEAAQAAAAEAAAAPAAIAAQAAAAIAAAAPAAMAAQAAAAMAAAAPAAQAAQAAAAQAAAAPAAUAAQAAAAUAAAAPAAYAAQAAAAYAAAAPAAcAAQAAAAcAAAAPAAgAAQAAAAcAAAAQAAAAAQABAAAAAAAQAAEAAQABAAEAAAAQAAIAAQABAAIAAAAQAAMAAQABAAMAAAAQAAQAAQABAAQAAAAQAAUAAQABAAUAAAAQAAYAAQABAAYAAAAQAAcAAQABAAcAAAAQAAgAAQABAAcAAAARAAAAAQACAAAAAAARAAEAAQACAAEAAAARAAIAAQACAAIAAAARAAMAAQACAAMAAAARAAQAAQACAAQAAAARAAUAAQACAAUAAAARAAYAAQACAAYAAAARAAcAAQACAAcAAAARAAgAAQACAAcAAAASAAAAAQADAAAAAAASAAEAAQADAAEAAAASAAIAAQADAAIAAAASAAMAAQADAAMAAAASAAQAAQADAAQAAAASAAUAAQADAAUAAAASAAYAAQADAAYAAAASAAcAAQADAAcAAAASAAgAAQADAAcAAAATAAAAAQAEAAAAAAATAAEAAQAEAAEAAAATAAIAAQAEAAIAAAATAAMAAQAEAAMAAAATAAQAAQAEAAQAAAATAAUAAQAEAAUAAAATAAYAAQAEAAYAAAATAAcAAQAEAAcAAAATAAgAAQAEAAcAAAAUAAAAAQAFAAAAAAAUAAEAAQAFAAEAAAAUAAIAAQAFAAIAAAAUAAMAAQAFAAMAAAAUAAQAAQAFAAQAAAAUAAUAAQAFAAUAAAAUAAYAAQAFAAYAAAAUAAcAAQAFAAcAAAAUAAgAAQAFAAgAAAAVAAAAAQAGAAAAAAAVAAEAAQAGAAEAAAAVAAIAAQAGAAIAAAAVAAMAAQAGAAMAAAAVAAQAAQAGAAQAAAAVAAUAAQAGAAUAAAAVAAYAAQAGAAYAAAAVAAcAAQAGAAcAAAAVAAgAAQAGAAgAAAAWAAAAAQAHAAAAAAAWAAEAAQAHAAEAAAAWAAIAAQAHAAIAAAAWAAMAAQAHAAMAAAAWAAQAAQAHAAQAAAAWAAUAAQAHAAUAAAAWAAYAAQAHAAYAAAAWAAcAAQAHAAcAAAAWAAgAAQAHAAgAAAAXAAAAAQAIAAAAAAAXAAEAAQAIAAEAAAAXAAIAAQAIAAIAAAAXAAMAAQAIAAMAAAAXAAQAAQAIAAQAAAAXAAUAAQAIAAUAAAAXAAYAAQAIAAYAAAAXAAcAAQAIAAcAAAAXAAgAAQAIAAgAAAAYAAAAAQAJAAAAAAAYAAEAAQAJAAEAAAAYAAIAAQAJAAIAAAAYAAMAAQAJAAMAAAAYAAQAAQAJAAQAAAAYAAUAAQAJAAUAAAAYAAYAAQAJAAYAAAAYAAcAAQAJAAcAAAAYAAgAAQAJAAgAAAAZAAAAAQAKAAAAAAAZAAEAAQAKAAEAAAAZAAIAAQAKAAIAAAAZAAMAAQAKAAMAAAAZAAQAAQAKAAQAAAAZAAUAAQAKAAUAAAAZAAYAAQAKAAYAAAAZAAcAAQAKAAcAAAAZAAgAAQAKAAgAAAAaAAAAAQAGAAIAAAAaAAEAAQAGAAMAAAAaAAIAAQAGAAQAAAAaAAMAAQAGAAIAAAAaAAQAAQAGAAMAAAAaAAUAAQAGAAQAAAAbAAAAAQAHAAIAAAAbAAEAAQAHAAMAAAAbAAIAAQAHAAQAAAAbAAMAAQAHAAIAAAAbAAQAAQAHAAMAAAAbAAUAAQAHAAQAAAAcAAAAAQAIAAIAAAAcAAEAAQAIAAMAAAAcAAIAAQAIAAQAAAAcAAMAAQAIAAIAAAAcAAQAAQAIAAMAAAAcAAUAAQAIAAQAAAAdAAAAAQAJAAIAAAAdAAEAAQAJAAMAAAAdAAIAAQAJAAQAAAAdAAMAAQAJAAIAAAAdAAQAAQAJAAMAAAAdAAUAAQAJAAQAAAAeAAAAAQAKAAIAAAAeAAEAAQAKAAMAAAAeAAIAAQAKAAQAAAAeAAMAAQAKAAIAAAAeAAQAAQAKAAMAAAAeAAUAAQAKAAQAAAAaAAYAAQAGAAUAAAAaAAcAAQAGAAYAAAAaAAgAAQAGAAcAAAAbAAYAAQAHAAUAAAAbAAcAAQAHAAYAAAAbAAgAAQAHAAcAAAAcAAYAAQAIAAUAAAAcAAcAAQAIAAYAAAAcAAgAAQAIAAcAAAAdAAYAAQAJAAUAAAAdAAcAAQAJAAYAAAAdAAgAAQAJAAcAAAAeAAYAAQAKAAUAAAAeAAcAAQAKAAYAAAAeAAgAAQAKAAcAAAAPAAkAAQAAAAcAAAAQAAkAAQABAAcAAAARAAkAAQACAAcAAAASAAkAAQADAAcAAAATAAkAAQAEAAcAAAAPAAoAAQAAAAcAAAAQAAoAAQABAAcAAAARAAoAAQACAAcAAAASAAoAAQADAAcAAAATAAoAAQAEAAcAAAAPAAsAAQAAAAcAAAAQAAsAAQABAAcAAAARAAsAAQACAAcAAAASAAsAAQADAAcAAAATAAsAAQAEAAcAAAAPAAwAAQAAAAcAAAAQAAwAAQABAAcAAAARAAwAAQACAAcAAAASAAwAAQADAAcAAAATAAwAAQAEAAcAAAAPAP//AQAAAAcAAAAQAP//AQABAAcAAAARAP//AQACAAcAAAASAP//AQADAAcAAAATAP//AQAEAAcAAAAPAP7/AQAAAAcAAAAQAP7/AQABAAcAAAARAP7/AQACAAcAAAASAP7/AQADAAcAAAATAP7/AQAEAAcAAAAPAP3/AQAAAAcAAAAQAP3/AQABAAcAAAARAP3/AQACAAcAAAASAP3/AQADAAcAAAATAP3/AQAEAAcAAAAPAPz/AQAAAAcAAAAQAPz/AQABAAcAAAARAPz/AQACAAcAAAASAPz/AQADAAcAAAATAPz/AQAEAAcAAAAUAP7/AQAGAAYAAAAUAP//AQAGAAcAAAAVAP7/AQAHAAYAAAAVAP//AQAHAAcAAAAWAP7/AQAIAAYAAAAWAP//AQAIAAcAAAAXAP7/AQAJAAYAAAAXAP//AQAJAAcAAAAYAP7/AQAKAAYAAAAYAP//AQAKAAcAAAAZAP7/AQAGAAYAAAAZAP//AQAGAAcAAAAaAP7/AQAGAAYAAAAaAP//AQAGAAcAAAAbAP7/AQAHAAYAAAAbAP//AQAHAAcAAAAcAP7/AQAIAAYAAAAcAP//AQAIAAcAAAAdAP7/AQAJAAYAAAAdAP//AQAJAAcAAAAeAP7/AQAKAAYAAAAeAP//AQAKAAcAAAAbAP3/AQAHAAUAAAAcAP3/AQAIAAUAAAAdAP3/AQAJAAUAAAAeAP3/AQAKAAUAAAAbAPz/AQAHAAUAAAAcAPz/AQAIAAUAAAAdAPz/AQAJAAUAAAAeAPz/AQAKAAUAAAAXAPz/AQAKAAcAAAAYAPz/AQAIAAUAAAAZAPz/AQAJAAUAAAAaAPz/AQAKAAUAAAAXAP3/AQAKAAUAAAAYAP3/AQAIAAUAAAAZAP3/AQAJAAUAAAAaAP3/AQAKAAUAAAAUAPz/AQAHAAcAAAAVAPz/AQAIAAcAAAAWAPz/AQAJAAcAAAAUAP3/AQAHAAUAAAAVAP3/AQAIAAUAAAAWAP3/AQAJAAUAAAAUAAkAAQAIAAQAAAAUAAoAAQAIAAUAAAAUAAsAAQAIAAYAAAAVAAkAAQAJAAQAAAAVAAoAAQAJAAUAAAAVAAsAAQAJAAYAAAAWAAkAAQAKAAQAAAAWAAoAAQAKAAUAAAAWAAsAAQAKAAYAAAAXAAkAAQAIAAQAAAAXAAoAAQAIAAUAAAAXAAsAAQAIAAYAAAAYAAkAAQAJAAQAAAAYAAoAAQAJAAUAAAAYAAsAAQAJAAYAAAAZAAkAAQAKAAQAAAAZAAoAAQAKAAUAAAAZAAsAAQAKAAYAAAAaAAkAAQAIAAQAAAAaAAoAAQAIAAUAAAAaAAsAAQAIAAYAAAAbAAkAAQAJAAQAAAAbAAoAAQAJAAUAAAAbAAsAAQAJAAYAAAAcAAkAAQAIAAQAAAAcAAoAAQAIAAUAAAAcAAsAAQAIAAYAAAAdAAkAAQAJAAQAAAAdAAoAAQAJAAUAAAAdAAsAAQAJAAYAAAAeAAkAAQAKAAQAAAAeAAoAAQAKAAUAAAAeAAsAAQAKAAYAAAAUAAwAAQAGAAcAAAAVAAwAAQAHAAcAAAAWAAwAAQAIAAcAAAAXAAwAAQAJAAcAAAAYAAwAAQAFAAcAAAAZAAwAAQAHAAQAAAAaAAwAAQAIAAQAAAAbAAwAAQAJAAQAAAAcAAwAAQAKAAQAAAAdAAwAAQAHAAQAAAAeAAwAAQAIAAQAAAAfAAwAAQAHAAUAAAAgAAwAAQAIAAUAAAAfAAgAAQAHAAEAAAAfAAkAAQAHAAIAAAAfAAoAAQAHAAMAAAAfAAsAAQAHAAQAAAAgAAgAAQAIAAEAAAAgAAkAAQAIAAIAAAAgAAoAAQAIAAMAAAAgAAsAAQAIAAQAAAAhAAgAAQAJAAEAAAAhAAkAAQAJAAIAAAAhAAoAAQAJAAMAAAAhAAsAAQAJAAQAAAAhAAwAAQAJAAUAAAAiAAgAAQAKAAEAAAAiAAkAAQAKAAIAAAAiAAoAAQAKAAMAAAAiAAsAAQAKAAQAAAAiAAwAAQAKAAUAAAAfAAMAAQAHAAEAAAAfAAQAAQAHAAIAAAAfAAUAAQAHAAMAAAAfAAYAAQAHAAQAAAAfAAcAAQAHAAUAAAAgAAMAAQAIAAEAAAAgAAQAAQAIAAIAAAAgAAUAAQAIAAMAAAAgAAYAAQAIAAQAAAAgAAcAAQAIAAUAAAAhAAMAAQAJAAEAAAAhAAQAAQAJAAIAAAAhAAUAAQAJAAMAAAAhAAYAAQAJAAQAAAAhAAcAAQAJAAUAAAAiAAMAAQAKAAEAAAAiAAQAAQAKAAIAAAAiAAUAAQAKAAMAAAAiAAYAAQAKAAQAAAAiAAcAAQAKAAUAAAAfAP7/AQAHAAMAAAAfAP//AQAHAAQAAAAfAAAAAQAHAAUAAAAfAAEAAQAHAAQAAAAfAAIAAQAHAAUAAAAgAP7/AQAIAAMAAAAgAP//AQAIAAQAAAAgAAAAAQAIAAUAAAAgAAEAAQAIAAQAAAAgAAIAAQAIAAUAAAAhAP7/AQAJAAMAAAAhAP//AQAJAAQAAAAhAAAAAQAJAAUAAAAhAAEAAQAJAAQAAAAhAAIAAQAJAAUAAAAiAP7/AQAKAAMAAAAiAP//AQAKAAQAAAAiAAAAAQAKAAUAAAAiAAEAAQAKAAQAAAAiAAIAAQAKAAUAAAAfAPz/AQAHAAEAAAAfAP3/AQAHAAIAAAAgAPz/AQAIAAEAAAAgAP3/AQAIAAIAAAAhAPz/AQAJAAEAAAAhAP3/AQAJAAIAAAAiAPz/AQAKAAEAAAAiAP3/AQAKAAIAAAAjAPz/AQAHAAEAAAAjAP3/AQAHAAIAAAAjAP7/AQAHAAMAAAAjAP//AQAHAAQAAAAjAAAAAQAHAAUAAAAkAPz/AQAIAAEAAAAkAP3/AQAIAAIAAAAkAP7/AQAIAAMAAAAkAP//AQAIAAQAAAAkAAAAAQAIAAUAAAAlAPz/AQAJAAEAAAAlAP3/AQAJAAIAAAAlAP7/AQAJAAMAAAAlAP//AQAJAAQAAAAlAAAAAQAJAAUAAAAmAPz/AQAKAAEAAAAmAP3/AQAKAAIAAAAmAP7/AQAKAAMAAAAmAP//AQAKAAQAAAAmAAAAAQAKAAUAAAAjAAEAAQAHAAEAAAAjAAIAAQAHAAIAAAAjAAMAAQAHAAMAAAAjAAQAAQAHAAQAAAAjAAUAAQAHAAUAAAAkAAEAAQAIAAEAAAAkAAIAAQAIAAIAAAAkAAMAAQAIAAMAAAAkAAQAAQAIAAQAAAAkAAUAAQAIAAUAAAAlAAEAAQAJAAEAAAAlAAIAAQAJAAIAAAAlAAMAAQAJAAMAAAAlAAQAAQAJAAQAAAAlAAUAAQAJAAUAAAAmAAEAAQAKAAEAAAAmAAIAAQAKAAIAAAAmAAMAAQAKAAMAAAAmAAQAAQAKAAQAAAAmAAUAAQAKAAUAAAAjAAYAAQAHAAEAAAAjAAcAAQAHAAIAAAAjAAgAAQAHAAEAAAAjAAkAAQAHAAIAAAAjAAoAAQAHAAMAAAAkAAYAAQAIAAEAAAAkAAcAAQAIAAIAAAAkAAgAAQAIAAEAAAAkAAkAAQAIAAIAAAAkAAoAAQAIAAMAAAAlAAYAAQAJAAEAAAAlAAcAAQAJAAIAAAAlAAgAAQAJAAEAAAAlAAkAAQAJAAIAAAAlAAoAAQAJAAMAAAAmAAYAAQAKAAEAAAAmAAcAAQAKAAIAAAAmAAgAAQAKAAEAAAAmAAkAAQAKAAIAAAAmAAoAAQAKAAMAAAAjAAsAAQAHAAQAAAAjAAwAAQAHAAUAAAAkAAsAAQAIAAQAAAAkAAwAAQAIAAUAAAAlAAsAAQAJAAQAAAAlAAwAAQAJAAUAAAAmAAsAAQAKAAQAAAAmAAwAAQAKAAUAAAA=")
+tile_set = SubResource("TileSet_hiv2a")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 8192
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(3838, 1352, 5104, 1354, 5105, 1467, 3840, 1468)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(3838, 1014, 5109, 1013, 5107, 1089, 3838, 1084)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(5096, -1025, 5097, 1012, 5093, 1012, 5079, -1024)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(5096, 1465, 5096, 3329, 5088, 3329, 5082, 1461)
+
+[node name="TreeA5" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7168, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA6" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7276, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA2" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7063, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA7" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5379, -944)
+scale = Vector2(4, 4)
+
+[node name="TreeA85" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6957, -938)
+scale = Vector2(4, 4)
+
+[node name="TreeA86" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6749, -937)
+scale = Vector2(4, 4)
+
+[node name="TreeA87" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6647, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA88" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6540, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA89" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6433, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA90" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6857, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA91" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6326, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA92" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6221, -938)
+scale = Vector2(4, 4)
+
+[node name="TreeA93" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6013, -937)
+scale = Vector2(4, 4)
+
+[node name="TreeA94" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5911, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA95" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5804, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA96" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5697, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA97" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6121, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA98" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5590, -935)
+scale = Vector2(4, 4)
+
+[node name="TreeA99" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5484, -937)
+scale = Vector2(4, 4)
+
+[node name="TreeA100" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5276, -936)
+scale = Vector2(4, 4)
+
+[node name="TreeA101" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5174, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA8" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9380, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA9" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9488, -929)
+scale = Vector2(4, 4)
+
+[node name="TreeA3" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9275, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA10" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7591, -940)
+scale = Vector2(4, 4)
+
+[node name="TreeA102" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9169, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA103" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8961, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA104" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8859, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA105" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8752, -927)
+scale = Vector2(4, 4)
+
+[node name="TreeA106" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8645, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA107" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9069, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA108" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8538, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA109" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8433, -934)
+scale = Vector2(4, 4)
+
+[node name="TreeA110" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8225, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA111" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8123, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA112" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8016, -927)
+scale = Vector2(4, 4)
+
+[node name="TreeA113" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7909, -930)
+scale = Vector2(4, 4)
+
+[node name="TreeA114" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8333, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA115" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7802, -931)
+scale = Vector2(4, 4)
+
+[node name="TreeA116" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7696, -933)
+scale = Vector2(4, 4)
+
+[node name="TreeA117" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7488, -932)
+scale = Vector2(4, 4)
+
+[node name="TreeA118" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7386, -929)
+scale = Vector2(4, 4)
+
+[node name="TreeA11" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7220, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA12" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7328, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA4" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7115, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA13" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5431, -879)
+scale = Vector2(4, 4)
+
+[node name="TreeA119" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7009, -873)
+scale = Vector2(4, 4)
+
+[node name="TreeA120" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6801, -872)
+scale = Vector2(4, 4)
+
+[node name="TreeA121" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6699, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA122" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6592, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA123" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6485, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA124" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6909, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA125" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6378, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA126" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6273, -873)
+scale = Vector2(4, 4)
+
+[node name="TreeA127" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6065, -872)
+scale = Vector2(4, 4)
+
+[node name="TreeA128" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5963, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA129" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5856, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA130" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5749, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA131" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6173, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA132" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5642, -870)
+scale = Vector2(4, 4)
+
+[node name="TreeA133" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5536, -872)
+scale = Vector2(4, 4)
+
+[node name="TreeA134" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5328, -871)
+scale = Vector2(4, 4)
+
+[node name="TreeA135" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5226, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA14" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9436, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA15" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9544, -864)
+scale = Vector2(4, 4)
+
+[node name="TreeA16" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9331, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA17" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7647, -875)
+scale = Vector2(4, 4)
+
+[node name="TreeA136" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9225, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA137" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9017, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA138" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8915, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA139" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8808, -862)
+scale = Vector2(4, 4)
+
+[node name="TreeA140" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8701, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA141" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9125, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA142" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8594, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA143" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8489, -869)
+scale = Vector2(4, 4)
+
+[node name="TreeA144" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8281, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA145" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8179, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA146" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8072, -862)
+scale = Vector2(4, 4)
+
+[node name="TreeA147" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7965, -865)
+scale = Vector2(4, 4)
+
+[node name="TreeA148" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8389, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA149" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7858, -866)
+scale = Vector2(4, 4)
+
+[node name="TreeA150" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7752, -868)
+scale = Vector2(4, 4)
+
+[node name="TreeA151" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7544, -867)
+scale = Vector2(4, 4)
+
+[node name="TreeA152" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7442, -864)
+scale = Vector2(4, 4)
+
+[node name="TreeA18" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7153, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA19" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7261, -784)
+scale = Vector2(4, 4)
+
+[node name="TreeA20" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7048, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA21" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5364, -795)
+scale = Vector2(4, 4)
+
+[node name="TreeA153" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6942, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA154" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6734, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA155" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6632, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA156" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6525, -782)
+scale = Vector2(4, 4)
+
+[node name="TreeA157" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6418, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA158" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6842, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA159" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6311, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA160" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6206, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA161" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5998, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA162" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5896, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA163" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5789, -782)
+scale = Vector2(4, 4)
+
+[node name="TreeA164" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5682, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA165" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6106, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA166" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5575, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA167" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5469, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA168" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5261, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA169" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5159, -784)
+scale = Vector2(4, 4)
+
+[node name="TreeA22" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9371, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA23" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9479, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA24" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9266, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA25" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7582, -796)
+scale = Vector2(4, 4)
+
+[node name="TreeA170" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9160, -790)
+scale = Vector2(4, 4)
+
+[node name="TreeA171" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8952, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA172" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8850, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA173" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8743, -783)
+scale = Vector2(4, 4)
+
+[node name="TreeA174" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8636, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA175" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9060, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA176" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8529, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA177" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8424, -790)
+scale = Vector2(4, 4)
+
+[node name="TreeA178" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8216, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA179" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8114, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA180" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8007, -783)
+scale = Vector2(4, 4)
+
+[node name="TreeA181" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7900, -786)
+scale = Vector2(4, 4)
+
+[node name="TreeA182" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8324, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA183" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7793, -787)
+scale = Vector2(4, 4)
+
+[node name="TreeA184" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7687, -789)
+scale = Vector2(4, 4)
+
+[node name="TreeA185" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7479, -788)
+scale = Vector2(4, 4)
+
+[node name="TreeA186" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7377, -785)
+scale = Vector2(4, 4)
+
+[node name="TreeA26" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7148, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA27" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7256, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA28" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7043, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA29" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5359, 3296)
+scale = Vector2(4, 4)
+
+[node name="TreeA187" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6937, 3302)
+scale = Vector2(4, 4)
+
+[node name="TreeA188" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6729, 3303)
+scale = Vector2(4, 4)
+
+[node name="TreeA189" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6627, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA190" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6520, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA191" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6413, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA192" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6837, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA193" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6306, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA194" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6201, 3302)
+scale = Vector2(4, 4)
+
+[node name="TreeA195" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5993, 3303)
+scale = Vector2(4, 4)
+
+[node name="TreeA196" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5891, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA197" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5784, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA198" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5677, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA199" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6101, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA200" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5570, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA201" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5464, 3303)
+scale = Vector2(4, 4)
+
+[node name="TreeA202" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5256, 3304)
+scale = Vector2(4, 4)
+
+[node name="TreeA203" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5154, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA30" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9367, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA31" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9475, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA32" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9262, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA33" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7578, 3298)
+scale = Vector2(4, 4)
+
+[node name="TreeA204" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9156, 3304)
+scale = Vector2(4, 4)
+
+[node name="TreeA205" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8948, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA206" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8846, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA207" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8739, 3311)
+scale = Vector2(4, 4)
+
+[node name="TreeA208" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8632, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA209" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9056, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA210" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8525, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA211" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8420, 3304)
+scale = Vector2(4, 4)
+
+[node name="TreeA212" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8212, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA213" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8110, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA214" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8003, 3311)
+scale = Vector2(4, 4)
+
+[node name="TreeA215" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7896, 3308)
+scale = Vector2(4, 4)
+
+[node name="TreeA216" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8320, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA217" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7789, 3307)
+scale = Vector2(4, 4)
+
+[node name="TreeA218" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7683, 3305)
+scale = Vector2(4, 4)
+
+[node name="TreeA219" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7475, 3306)
+scale = Vector2(4, 4)
+
+[node name="TreeA220" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7373, 3309)
+scale = Vector2(4, 4)
+
+[node name="TreeA34" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7193, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA35" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7301, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA36" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7088, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA37" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5404, 3226)
+scale = Vector2(4, 4)
+
+[node name="TreeA221" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6982, 3232)
+scale = Vector2(4, 4)
+
+[node name="TreeA222" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6774, 3233)
+scale = Vector2(4, 4)
+
+[node name="TreeA223" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6672, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA224" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6565, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA225" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6458, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA226" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6882, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA227" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6351, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA228" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6246, 3232)
+scale = Vector2(4, 4)
+
+[node name="TreeA229" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6038, 3233)
+scale = Vector2(4, 4)
+
+[node name="TreeA230" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5936, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA231" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5829, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA232" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5722, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA233" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6146, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA234" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5615, 3235)
+scale = Vector2(4, 4)
+
+[node name="TreeA235" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5509, 3233)
+scale = Vector2(4, 4)
+
+[node name="TreeA236" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5301, 3234)
+scale = Vector2(4, 4)
+
+[node name="TreeA237" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5199, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA38" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9409, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA39" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9517, 3241)
+scale = Vector2(4, 4)
+
+[node name="TreeA40" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9304, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA41" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7620, 3230)
+scale = Vector2(4, 4)
+
+[node name="TreeA238" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9198, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA239" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8990, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA240" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8888, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA241" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8781, 3243)
+scale = Vector2(4, 4)
+
+[node name="TreeA242" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8674, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA243" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9098, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA244" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8567, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA245" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8462, 3236)
+scale = Vector2(4, 4)
+
+[node name="TreeA246" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8254, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA247" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8152, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA248" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8045, 3243)
+scale = Vector2(4, 4)
+
+[node name="TreeA249" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7938, 3240)
+scale = Vector2(4, 4)
+
+[node name="TreeA250" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8362, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA251" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7831, 3239)
+scale = Vector2(4, 4)
+
+[node name="TreeA252" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7725, 3237)
+scale = Vector2(4, 4)
+
+[node name="TreeA253" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7517, 3238)
+scale = Vector2(4, 4)
+
+[node name="TreeA254" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7415, 3241)
+scale = Vector2(4, 4)
+
+[node name="TreeA255" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2517)
+scale = Vector2(4, 4)
+
+[node name="TreeA256" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2713)
+scale = Vector2(4, 4)
+
+[node name="TreeA257" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2811)
+scale = Vector2(4, 4)
+
+[node name="TreeA258" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9519, 2617)
+scale = Vector2(4, 4)
+
+[node name="TreeA259" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 2898)
+scale = Vector2(4, 4)
+
+[node name="TreeA260" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9517, 2982)
+scale = Vector2(4, 4)
+
+[node name="TreeA261" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 2299)
+scale = Vector2(4, 4)
+
+[node name="TreeA262" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9517, 2405)
+scale = Vector2(4, 4)
+
+[node name="TreeA263" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1682)
+scale = Vector2(4, 4)
+
+[node name="TreeA264" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1878)
+scale = Vector2(4, 4)
+
+[node name="TreeA265" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1976)
+scale = Vector2(4, 4)
+
+[node name="TreeA266" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9516, 1782)
+scale = Vector2(4, 4)
+
+[node name="TreeA267" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 2063)
+scale = Vector2(4, 4)
+
+[node name="TreeA268" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 2147)
+scale = Vector2(4, 4)
+
+[node name="TreeA269" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 1464)
+scale = Vector2(4, 4)
+
+[node name="TreeA270" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9514, 1570)
+scale = Vector2(4, 4)
+
+[node name="TreeA271" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 895)
+scale = Vector2(4, 4)
+
+[node name="TreeA272" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 1091)
+scale = Vector2(4, 4)
+
+[node name="TreeA273" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 1189)
+scale = Vector2(4, 4)
+
+[node name="TreeA274" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 995)
+scale = Vector2(4, 4)
+
+[node name="TreeA275" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, 1276)
+scale = Vector2(4, 4)
+
+[node name="TreeA276" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 1360)
+scale = Vector2(4, 4)
+
+[node name="TreeA277" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, 677)
+scale = Vector2(4, 4)
+
+[node name="TreeA278" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 783)
+scale = Vector2(4, 4)
+
+[node name="TreeA279" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 93)
+scale = Vector2(4, 4)
+
+[node name="TreeA280" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 289)
+scale = Vector2(4, 4)
+
+[node name="TreeA281" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 387)
+scale = Vector2(4, 4)
+
+[node name="TreeA282" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, 193)
+scale = Vector2(4, 4)
+
+[node name="TreeA283" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, 474)
+scale = Vector2(4, 4)
+
+[node name="TreeA284" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, 558)
+scale = Vector2(4, 4)
+
+[node name="TreeA285" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, -125)
+scale = Vector2(4, 4)
+
+[node name="TreeA286" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, -19)
+scale = Vector2(4, 4)
+
+[node name="TreeA287" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -729)
+scale = Vector2(4, 4)
+
+[node name="TreeA288" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -533)
+scale = Vector2(4, 4)
+
+[node name="TreeA289" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -435)
+scale = Vector2(4, 4)
+
+[node name="TreeA290" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9513, -629)
+scale = Vector2(4, 4)
+
+[node name="TreeA291" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9508, -348)
+scale = Vector2(4, 4)
+
+[node name="TreeA292" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9511, -264)
+scale = Vector2(4, 4)
+
+[node name="TreeA293" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2560)
+scale = Vector2(4, 4)
+
+[node name="TreeA294" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2756)
+scale = Vector2(4, 4)
+
+[node name="TreeA295" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2854)
+scale = Vector2(4, 4)
+
+[node name="TreeA296" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9425, 2660)
+scale = Vector2(4, 4)
+
+[node name="TreeA297" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 2941)
+scale = Vector2(4, 4)
+
+[node name="TreeA298" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9423, 3025)
+scale = Vector2(4, 4)
+
+[node name="TreeA299" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 2342)
+scale = Vector2(4, 4)
+
+[node name="TreeA300" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9423, 2448)
+scale = Vector2(4, 4)
+
+[node name="TreeA301" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 1725)
+scale = Vector2(4, 4)
+
+[node name="TreeA302" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 1921)
+scale = Vector2(4, 4)
+
+[node name="TreeA303" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 2019)
+scale = Vector2(4, 4)
+
+[node name="TreeA304" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9422, 1825)
+scale = Vector2(4, 4)
+
+[node name="TreeA305" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 2106)
+scale = Vector2(4, 4)
+
+[node name="TreeA306" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 2190)
+scale = Vector2(4, 4)
+
+[node name="TreeA307" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 1507)
+scale = Vector2(4, 4)
+
+[node name="TreeA308" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9420, 1613)
+scale = Vector2(4, 4)
+
+[node name="TreeA309" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 938)
+scale = Vector2(4, 4)
+
+[node name="TreeA310" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 1134)
+scale = Vector2(4, 4)
+
+[node name="TreeA311" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 1232)
+scale = Vector2(4, 4)
+
+[node name="TreeA312" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 1038)
+scale = Vector2(4, 4)
+
+[node name="TreeA313" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, 1319)
+scale = Vector2(4, 4)
+
+[node name="TreeA314" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 1403)
+scale = Vector2(4, 4)
+
+[node name="TreeA315" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, 720)
+scale = Vector2(4, 4)
+
+[node name="TreeA316" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 826)
+scale = Vector2(4, 4)
+
+[node name="TreeA317" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 136)
+scale = Vector2(4, 4)
+
+[node name="TreeA318" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 332)
+scale = Vector2(4, 4)
+
+[node name="TreeA319" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 430)
+scale = Vector2(4, 4)
+
+[node name="TreeA320" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, 236)
+scale = Vector2(4, 4)
+
+[node name="TreeA321" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, 517)
+scale = Vector2(4, 4)
+
+[node name="TreeA322" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 601)
+scale = Vector2(4, 4)
+
+[node name="TreeA323" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, -82)
+scale = Vector2(4, 4)
+
+[node name="TreeA324" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, 24)
+scale = Vector2(4, 4)
+
+[node name="TreeA325" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -686)
+scale = Vector2(4, 4)
+
+[node name="TreeA326" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -490)
+scale = Vector2(4, 4)
+
+[node name="TreeA327" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -392)
+scale = Vector2(4, 4)
+
+[node name="TreeA328" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9419, -586)
+scale = Vector2(4, 4)
+
+[node name="TreeA329" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9414, -305)
+scale = Vector2(4, 4)
+
+[node name="TreeA330" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9417, -221)
+scale = Vector2(4, 4)
+
+[node name="TreeA331" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2659)
+scale = Vector2(4, 4)
+
+[node name="TreeA332" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2855)
+scale = Vector2(4, 4)
+
+[node name="TreeA333" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2953)
+scale = Vector2(4, 4)
+
+[node name="TreeA334" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9604, 2759)
+scale = Vector2(4, 4)
+
+[node name="TreeA335" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 3040)
+scale = Vector2(4, 4)
+
+[node name="TreeA336" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9602, 3124)
+scale = Vector2(4, 4)
+
+[node name="TreeA337" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 2441)
+scale = Vector2(4, 4)
+
+[node name="TreeA338" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9602, 2547)
+scale = Vector2(4, 4)
+
+[node name="TreeA339" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 1824)
+scale = Vector2(4, 4)
+
+[node name="TreeA340" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 2020)
+scale = Vector2(4, 4)
+
+[node name="TreeA341" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 2118)
+scale = Vector2(4, 4)
+
+[node name="TreeA342" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9601, 1924)
+scale = Vector2(4, 4)
+
+[node name="TreeA343" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 2205)
+scale = Vector2(4, 4)
+
+[node name="TreeA344" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 2289)
+scale = Vector2(4, 4)
+
+[node name="TreeA345" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 1606)
+scale = Vector2(4, 4)
+
+[node name="TreeA346" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9599, 1712)
+scale = Vector2(4, 4)
+
+[node name="TreeA347" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1037)
+scale = Vector2(4, 4)
+
+[node name="TreeA348" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1233)
+scale = Vector2(4, 4)
+
+[node name="TreeA349" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1331)
+scale = Vector2(4, 4)
+
+[node name="TreeA350" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 1137)
+scale = Vector2(4, 4)
+
+[node name="TreeA351" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 1418)
+scale = Vector2(4, 4)
+
+[node name="TreeA352" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 1502)
+scale = Vector2(4, 4)
+
+[node name="TreeA353" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 819)
+scale = Vector2(4, 4)
+
+[node name="TreeA354" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 925)
+scale = Vector2(4, 4)
+
+[node name="TreeA355" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 235)
+scale = Vector2(4, 4)
+
+[node name="TreeA356" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 431)
+scale = Vector2(4, 4)
+
+[node name="TreeA357" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 529)
+scale = Vector2(4, 4)
+
+[node name="TreeA358" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, 335)
+scale = Vector2(4, 4)
+
+[node name="TreeA359" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 616)
+scale = Vector2(4, 4)
+
+[node name="TreeA360" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 700)
+scale = Vector2(4, 4)
+
+[node name="TreeA361" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, 17)
+scale = Vector2(4, 4)
+
+[node name="TreeA362" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, 123)
+scale = Vector2(4, 4)
+
+[node name="TreeA363" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -587)
+scale = Vector2(4, 4)
+
+[node name="TreeA369" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9626, -776)
+scale = Vector2(4, 4)
+
+[node name="TreeA370" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9626, -920)
+scale = Vector2(4, 4)
+
+[node name="TreeA371" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9632, -697)
+scale = Vector2(4, 4)
+
+[node name="TreeA372" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9605, 3229)
+scale = Vector2(4, 4)
+
+[node name="TreeA373" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9588, 3315)
+scale = Vector2(4, 4)
+
+[node name="TreeA374" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9680, 3285)
+scale = Vector2(4, 4)
+
+[node name="TreeA364" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -391)
+scale = Vector2(4, 4)
+
+[node name="TreeA365" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -293)
+scale = Vector2(4, 4)
+
+[node name="TreeA366" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9598, -487)
+scale = Vector2(4, 4)
+
+[node name="TreeA375" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6305, 460)
+scale = Vector2(4, 4)
+
+[node name="TreeA380" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(5554, -202)
+scale = Vector2(4, 4)
+
+[node name="TreeA377" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8439, -58)
+scale = Vector2(4, 4)
+
+[node name="TreeA378" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8646, 2596)
+scale = Vector2(4, 4)
+
+[node name="TreeA376" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(8798, 1745)
+scale = Vector2(4, 4)
+
+[node name="TreeA382" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7491, -323)
+scale = Vector2(4, 4)
+
+[node name="TreeA383" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6668, -178)
+scale = Vector2(4, 4)
+
+[node name="TreeA379" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(6183, 2137)
+scale = Vector2(4, 4)
+
+[node name="TreeA381" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(7506, 2615)
+scale = Vector2(4, 4)
+
+[node name="TreeA367" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9593, -206)
+scale = Vector2(4, 4)
+
+[node name="TreeA368" parent="." instance=ExtResource("7_4q2km")]
+position = Vector2(9596, -122)
+scale = Vector2(4, 4)
+
+[node name="big rock A" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(6013, 1697)
+scale = Vector2(4, 4)
+
+[node name="big rock A4" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(5485, 2731)
+scale = Vector2(4, 4)
+
+[node name="big rock A2" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(8729, 1083)
+scale = Vector2(4.5, 4.5)
+
+[node name="big rock A5" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(9018, 2607)
+scale = Vector2(4.5, 4.5)
+
+[node name="big rock A3" parent="." instance=ExtResource("8_kng1a")]
+position = Vector2(8792, -226)
+scale = Vector2(4.5, 4.5)
+
+[node name="mid_rock_a" parent="." instance=ExtResource("9_nqmvu")]
+position = Vector2(6101, 695)
+scale = Vector2(4, 4)
+
+[node name="TreeB" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(6196, 1402)
+scale = Vector2(4, 4)
+
+[node name="TreeB3" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(5380, 814)
+scale = Vector2(4, 4)
+
+[node name="TreeB2" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(5757, 551)
+scale = Vector2(4, 4)
+
+[node name="TreeB4" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(5713, -122)
+scale = Vector2(4, 4)
+
+[node name="TreeB5" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(8070, 112)
+scale = Vector2(4, 4)
+
+[node name="TreeB6" parent="." instance=ExtResource("10_hiv2a")]
+position = Vector2(8215, 2203)
+scale = Vector2(4, 4)
+
+[node name="twin_rock_a" parent="." instance=ExtResource("11_bg1pq")]
+position = Vector2(5946, -69)
+scale = Vector2(4, 4)
+
+[node name="Big_Colorless_Dango" parent="." instance=ExtResource("12_nqmvu")]
+visible = false
+position = Vector2(7359.0005, 1184.0001)
+scale = Vector2(3, 3)
+minion_scene = null
+coin_drop_count = 5
+use_diagonal_anim = false
+
+[node name="whitecat" parent="." instance=ExtResource("1_eddww")]
+position = Vector2(4487, 1198)
+scale = Vector2(0.6, 0.6)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="cam_bos_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(7359, 1178)
+
+[node name="walk_to_here" type="Marker2D" parent="Node2D"]
+position = Vector2(5742, 1224)
+
+[node name="boss_land_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(7359, 1244)
+
+[node name="A014C" parent="." instance=ExtResource("13_hiv2a")]
+target_timeline = "A014C"
+actors = {
+"boss": NodePath("../Big_Colorless_Dango"),
+"w_cat": NodePath("../whitecat")
+}
+markers = {
+"boss_land_pos": NodePath("../Node2D/boss_land_pos"),
+"cam_bos_pos": NodePath("../Node2D/cam_bos_pos"),
+"walk_to_here": NodePath("../Node2D/walk_to_here")
+}
+trigger_on_map_enter = true
+
+[node name="player" parent="." instance=ExtResource("5_dc5a4")]
+position = Vector2(4388, 1235)
+base_max_hp = 100
+max_hp = 100
+
+[node name="PortalArea左側門" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(3454.0002, 120.00001)
+scale = Vector2(1.3, 1.3)
+target_scene_path = "uid://dfa7qn8iuye7n"
+target_spawn_name = "From_Map9b"
+
+[node name="CollisionShape2D" parent="PortalArea左側門" index="0"]
+position = Vector2(216.92294, 843.8463)
+shape = SubResource("RectangleShape2D_bg1pq")
+
+[node name="From_Map9" type="Marker2D" parent="."]
+position = Vector2(4110, 1234.0001)
+scale = Vector2(1.3, 1.3)
+
+[node name="空氣牆上方" type="StaticBody2D" parent="."]
+position = Vector2(6322.5005, 2514.9001)
+scale = Vector2(1.6899998, 1.6899998)
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆上方"]
+position = Vector2(-328446.4, -4592.7393)
+scale = Vector2(69.79725, 0.9535496)
+polygon = PackedVector2Array(4734.032, 2482.8418, 4734.0493, 2768.6401, 4695.2666, 2768.6392, 4695.2637, 2484.617)
+
+[node name="空氣牆下方" type="StaticBody2D" parent="."]
+position = Vector2(6322.5005, 6950)
+scale = Vector2(1.6899998, 1.6899998)
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆下方"]
+position = Vector2(-328444.28, -4640.96)
+scale = Vector2(69.79681, 0.9504856)
+polygon = PackedVector2Array(4734.067, 2485.885, 4734.0493, 2768.6401, 4695.2666, 2768.6392, 4695.2637, 2484.617)
+
+[editable path="PortalArea左側門"]

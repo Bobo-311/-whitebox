@@ -16,8 +16,13 @@ func state_physics_update(_delta: float):
 	if character.input_direction != Vector2.ZERO: # 偵測到移動輸入
 		state_machine.change_state("PlayerMove") 
 		return
+			
+	if Input.is_action_just_pressed("attack"): # (或是你確認好的左鍵名稱)
+		print("【除錯】按下了攻擊鍵！目前的 DataManager.can_combat() 是：", DataManager.can_combat())
 		
-	if Input.is_action_just_pressed("attack"):    # 偵測攻擊
-		state_machine.change_state("PlayerAttack") 
-		return
+		if not DataManager.can_combat():
+			return
+			
+		print("【除錯】戰鬥已解鎖，準備進入攻擊狀態！")
+		state_machine.change_state("PlayerAttack") # (記得換成你真正的節點名稱)
 		

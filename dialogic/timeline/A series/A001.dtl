@@ -1,9 +1,21 @@
-？？？: ......
-？？？: 這裡......是哪裡？
-[signal arg="ani_stand_up"]
-？？？: 現在......是晚上嗎……
-[signal arg="ani_search"]
-？？？: (一陣頭痛)
-？？？: 奇怪……？
-？？？: 這是哪....我是誰...
-？？？: 我怎麼...什麼都想不起來...
+[style name="galstyle"]
+[background arg="#000000ff" fade="0.0"]
+join ？？？ (閉眼) left
+[wait_input hide_text="false"]
+[background fade="0.0"]
+？？？ (睜眼): ......
+[signal arg="anim:player:idle_left"]
+[wait time="0.2" hide_text="false"]
+[signal arg="anim:player:idle_right"]
+[wait time="0.2" hide_text="false"]
+[signal arg="anim:player:idle_left"]
+[wait time="0.2" hide_text="false"]
+？？？ (不安): 這裡......是哪裡？？
+[signal arg="anim:player:idle_down"]
+[wait time="0.2" hide_text="false"]
+[signal arg="shake:cam"]
+？？？ (恐慌): (一陣頭痛)
+？？？: 奇怪......？
+？？？: 這是哪...我是誰...
+？？？: [shake rate=20.0 level=5 connected=1]我怎麼...[n+]什麼都想不起來...
+[signal arg="fade_out_cinematic"]

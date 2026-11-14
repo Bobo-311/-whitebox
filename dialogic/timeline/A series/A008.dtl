@@ -1,8 +1,15 @@
+[style name="galstyle"]
+join 阿尼 (眺望) left
 草叢的聲音
-阿尼: [shake rate=30.0 level=20 connected=1]！！！[/shake]
+阿尼 (恐慌): [shake rate=30.0 level=20 connected=1]！！！[/shake]
+[signal arg="pan:cam:camgo1:3.0"]
+[wait time="3.0"]
 阿尼: [shake rate=30.0 level=20 connected=1]什麼聲音？！！[/shake]
 阿尼: ......
 阿尼: [shake rate=5.0 level=5 connected=1]該......該不會......[/shake]
 阿尼: [shake rate=5.0 level=5 connected=1]不不不...應該是剛才的小女孩吧？[/shake]
-阿尼: [shake rate=5.0 level=5 connected=1]......[/shake]
+[signal arg="reset:cam:player:3.0"]
+[wait time="3.0"]
+阿尼 (超級不安): [shake rate=5.0 level=5 connected=1]......[/shake]
 阿尼: [shake rate=5.0 level=5 connected=1]去看看好了...[/shake]
+[signal arg="fade_out_cinematic"]

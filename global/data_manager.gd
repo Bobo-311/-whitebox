@@ -239,3 +239,49 @@ func trigger_execution_hitstop(duration: float = 0.2, slow_scale: float = 0.2) -
 	
 	Engine.time_scale = 1.0
 		
+# ==========================================
+# 📖 劇情觸發紀錄 (跨地圖永久保存)
+# ==========================================
+var completed_cutscenes: Array[String] = []
+
+# 檢查某段劇本是否已經看過
+func is_cutscene_completed(timeline_id: String) -> bool:
+	if timeline_id == "": return false
+	return completed_cutscenes.has(timeline_id)
+
+# 將劇本標記為已看過
+func mark_cutscene_completed(timeline_id: String) -> void:
+	if timeline_id != "" and not completed_cutscenes.has(timeline_id):
+		completed_cutscenes.append(timeline_id)
+		
+# 🌟 戰鬥能力總開關：只要看過 "A012" 劇本，或是手動設為 true，就會永久解鎖戰鬥！
+var combat_unlocked: bool = false
+
+func can_combat() -> bool:
+	if combat_unlocked:
+		return true
+	# 如果已經完成 A012 劇情，自動視為已解鎖戰鬥！
+	if has_method("is_cutscene_completed") and is_cutscene_completed("A012"):
+		return true
+	return false
+
+# ==========================================
+# 🎯 全域劇本暗號接收器 (在任何劇本發 signal 都能改寫大腦資料！)
+# ==========================================
+func _ready() -> void:
+	if not Dialogic.signal_event.is_connected(_on_global_dialogic_signal):
+		Dialogic.signal_event.connect(_on_global_dialogic_signal)
+
+func _on_global_dialogic_signal(arg: String) -> void:
+	# 1. 支援手動標記任務完成：例如在 A014D 劇本寫 [signal arg="complete:got_cargo"]
+	if arg.begins_with("complete:"):
+		var flag_name = arg.split(":")[1].strip_edges()
+		mark_cutscene_completed(flag_name)
+		print("【大腦】收到劇本暗號，已登記任務進度：", flag_name)
+		
+	# 2. 支援在劇本中直接贈送貼紙：例如在 A014E 寫 [signal arg="give_sticker:001"]
+	elif arg.begins_with("give_sticker:"):
+		var sticker_id = arg.split(":")[1].strip_edges()
+		if not owned_stickers.has(sticker_id):
+			owned_stickers.append(sticker_id)
+			print("【大腦】從劇情獲得新貼紙：", sticker_id)

@@ -1,18 +1,49 @@
-四周草叢同時晃動起來
-白貓: 糟了......
-阿尼: [shake rate=5.0 level=5 connected=1]該不會是......
-阿尼與白貓被失色怪物包圍
-白貓: 阿尼。
-白貓: 等等我數到三，我們就一起衝出去。
-白貓: 一......
-白貓: 二......
-白貓: [shake rate=30.0 level=20 connected=1]！！！！
-白貓: [shake rate=30.0 level=20 connected=1]小心！！！
-△ 阿尼下意識舉起畫筆\
-△ 畫筆突然發光\
-△ 光芒覆蓋整支筆\
-△ 一道光束直接射出去\
-△ 一隻怪物被擊敗
-白貓: 哇......
-白貓: [shake rate=30.0 level=20 connected=1]真的是畫筆！！！
-白貓: [shake rate=30.0 level=20 connected=1]我來照明你快攻擊！！！
+[style name="galstyle"]
+[signal arg="walk:player:walk_to_here:move_right:4.0"]
+[signal arg="walk:w_cat:walk_to_here:move_right:idle_right:4.0"]
+[wait time="4.0"]
+路克斯: 等等！！
+[signal arg="ambush:m1:surround_pos1:move_right_down:idle_right_down:1.5"]
+[signal arg="ambush:m2:surround_pos2:move_left_down:idle_left_down:1.5"]
+[signal arg="ambush:m3:surround_pos3:move_right_up:idle_right_up:1.5"]
+[wait time="1.5"]
+join 路克斯 (驚嚇) right
+路克斯: 糟了......
+join 阿尼 (驚嚇) left
+阿尼: [shake rate=5.0 level=5 connected=1]被包圍了......[/shake]
+路克斯 (數到三): 阿尼，聽好......
+路克斯: 我們只能放手一搏了。
+路克斯: 等等我數到三，我們就全力往前衝出去。
+路克斯: 一......
+路克斯: 二......
+leave --All--
+[signal arg="ambush:m1:pounce_pos:move_right_down:2.0"]
+[signal arg="ambush:m2:pounce_pos2:move_left_down:2.0"]
+[signal arg="ambush:m3:pounce_pos3:move_right_up:2.0"]
+[signal arg="zoom:cam:1.35:2.0"]
+[wait time="0.4"]
+路克斯: [shake rate=30.0 level=20 connected=1]！！！！[/shake]
+路克斯: [shake rate=30.0 level=20 connected=1]小心！！！[/shake]
+[signal arg="unlock_combat"]
+阿尼: [shake rate=30.0 level=20 connected=1]啊啊啊啊！！！[/shake]
+
+[signal arg="anim:player:attack_down"]
+[wait time="0.1"]
+[signal arg="flash:player:0.35"]
+[signal arg="shake:cam:14:0.25"]
+[signal arg="knockback:m1:surround_pos1:hurt_right_down:idle_right_down:0.3"]
+[signal arg="knockback:m2:surround_pos2:hurt_left_down:idle_left_down:0.3"]
+[signal arg="knockback:m3:surround_pos3:hurt_right_up:idle_right_up:0.3"]
+[wait time="0.35"]
+[signal arg="anim:player:idle_down"]
+[wait time="0.5"]
+join 阿尼 (戰鬥) left
+
+阿尼: [shake rate=10.0 level=10 connected=1]誒？？[/shake]
+join 路克斯 (誒？) right
+路克斯: 哇......
+路克斯 (提議（冒汗）): [shake rate=30.0 level=20 connected=1]真的是畫筆！！！[/shake]
+路克斯: [shake rate=30.0 level=20 connected=1]我來照明，你快把他們打趴！！！[/shake]
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4"]
+[wait time="0.4"]

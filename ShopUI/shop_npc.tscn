@@ -1,9 +1,115 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyjyrhflnxusp"]
+[gd_scene load_steps=22 format=3 uid="uid://dyjyrhflnxusp"]
 
 [ext_resource type="Script" uid="uid://bmwutle5bexps" path="res://ShopUI/shop_npc.gd" id="1_4ks1w"]
 [ext_resource type="PackedScene" uid="uid://v4f6gx7t7lh4" path="res://ShopUI/shop_ui.tscn" id="2_udjyi"]
-[ext_resource type="Texture2D" uid="uid://dhwjkan4psf82" path="res://大家不為人知的祕密/我是gay.png" id="3_udjyi"]
-[ext_resource type="Texture2D" uid="uid://bdcxrxctxnanf" path="res://UI美術素材圖/按鍵/Tilesets/FullKeyboardMouse_Tileset.png" id="4_udjyi"]
+[ext_resource type="Texture2D" uid="uid://dyobcbih4qpbq" path="res://雜/商人待機.png" id="3_udjyi"]
+[ext_resource type="Texture2D" uid="uid://c6b4mxvwambh6" path="res://雜/FullKeyboardMouse_Tileset.png" id="4_2qngp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlw7s"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tllf"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0f3mk"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ld8de"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpnne"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6773"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6cli"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b47q2"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(480, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v50vm"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(0, 320, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olqtp"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(160, 320, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sr7el"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(320, 320, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2uwi"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(480, 320, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yn7bm"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(0, 480, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6jhn"]
+atlas = ExtResource("3_udjyi")
+region = Rect2(160, 480, 160, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ywp0e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wlw7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2tllf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0f3mk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ld8de")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpnne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6773")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u6cli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b47q2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v50vm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olqtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sr7el")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2uwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yn7bm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6jhn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fk1ft"]
 radius = 192.02344
@@ -17,21 +123,24 @@ collision_mask = 2
 script = ExtResource("1_4ks1w")
 shop_ui_scene = ExtResource("2_udjyi")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1295238, 0.137255)
-texture = ExtResource("3_udjyi")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, -9)
+scale = Vector2(1.5862502, 1.5862502)
+sprite_frames = SubResource("SpriteFrames_ywp0e")
+frame_progress = 0.8015486
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fk1ft")
 
 [node name="InteractPrompt" type="Sprite2D" parent="."]
-position = Vector2(-11, -110.00001)
-scale = Vector2(3.5, 3.5)
-texture = ExtResource("4_udjyi")
+position = Vector2(0, -117.00001)
+scale = Vector2(3, 3)
+texture = ExtResource("4_2qngp")
 region_enabled = true
-region_rect = Rect2(79.98912, 0.9910455, 15.020897, 14.97533)
+region_rect = Rect2(63.977303, 0.8417462, 15.061256, 15.2033415)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(10, -23)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(-12, 27)

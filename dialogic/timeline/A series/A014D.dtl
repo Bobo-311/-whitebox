@@ -1,4 +1,10 @@
-阿尼: 看來就是他把貨物吃掉了...
-白貓: 好噁心
-白貓: 先把貨物帶回去給商人看看吧。
-阿尼: 那我們趕快回去吧。
+[style name="galstyle"]
+join 阿尼 (正常說話) left
+阿尼 (正常說話): 看來就是他把貨物吃掉了...
+join 路克斯 (無言) right
+路克斯 (無言): 好噁心。
+路克斯 (無言): 先把貨物帶回去給商人看看吧。
+[signal arg="fade_out_cinematic"]
+[signal arg="complete:got_cargo"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="false"]
+[wait time="0.4" hide_text="true"]

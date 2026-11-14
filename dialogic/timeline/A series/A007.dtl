@@ -1,5 +1,9 @@
-阿尼: 這裡是出去的路嗎？
+[style name="galstyle"]
+[signal arg="walk:player:1:idle_down:1.0"]
+[wait time="1.0"]
+join 阿尼 (睜眼) left
 嘗試推門的聲音
-阿尼: .......
-阿尼: 門推不開。
-阿尼: 好吧，只好去找其他的路了。
+阿尼 (饒頭困擾): .......
+阿尼: 門推不開...
+阿尼: 看來只能去找其他的路了。
+[signal arg="fade_out_cinematic"]

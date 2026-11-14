@@ -1,4 +1,4 @@
-extends State
+extends State #野蠻人berserkChange
 
 @export_category("狂暴衝刺設定")
 @export var hit_cooldown: float = 2.0 # 撞到玩家後，原地停頓 2 秒

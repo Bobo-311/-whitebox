@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=4 uid="uid://dqfni11j7apy5"]
+[gd_scene load_steps=143 format=4 uid="uid://dqfni11j7apy5"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_0byee"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_42a2b"]
@@ -16,6 +16,10 @@
 [ext_resource type="PackedScene" uid="uid://dv2e5dncjva81" path="res://單獨物件場景/blue_flower_3.tscn" id="14_i3hsg"]
 [ext_resource type="PackedScene" uid="uid://24vi44auck7k" path="res://單獨物件場景/blue_flower_2.tscn" id="15_halet"]
 [ext_resource type="PackedScene" uid="uid://bed1w2j41swih" path="res://單獨物件場景/blue_flower_1.tscn" id="16_7kvl5"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="17_7kvl5"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="18_mwcdo"]
+[ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="19_37wv2"]
+[ext_resource type="Texture2D" uid="uid://dntvwhahx7oo" path="res://外在素材/復古像素風岩石圖示.png" id="20_mwcdo"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -22219,6 +22223,7 @@ limit_bottom = 1900
 metadata/_edit_vertical_guides_ = [811.0]
 
 [node name="CameraLockArea" parent="." instance=ExtResource("12_fq0it")]
+visible = false
 position = Vector2(3901.9998, 1323.9999)
 scale = Vector2(540.5673, 86.845726)
 
@@ -22250,7 +22255,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_dyx30")]
-position = Vector2(7445, 1471)
+position = Vector2(2173, 1421)
 max_hp = 100
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="."]
@@ -22309,11 +22314,11 @@ position = Vector2(3365, 1704)
 scale = Vector2(4, 4)
 
 [node name="TreeA10" parent="." instance=ExtResource("10_1efrx")]
-position = Vector2(3760, 1806)
+position = Vector2(3787, 1701)
 scale = Vector2(4, 4)
 
 [node name="TreeA11" parent="." instance=ExtResource("10_1efrx")]
-position = Vector2(5272, 1821)
+position = Vector2(3777, 1897)
 scale = Vector2(4, 4)
 
 [node name="TreeA12" parent="." instance=ExtResource("10_1efrx")]
@@ -22361,7 +22366,7 @@ position = Vector2(2519, 1649)
 scale = Vector2(3.5, 3.5)
 
 [node name="TreeB11" parent="." instance=ExtResource("11_0byee")]
-position = Vector2(4311, 1801)
+position = Vector2(3822, 1795)
 scale = Vector2(4, 4)
 
 [node name="TreeB7" parent="." instance=ExtResource("11_0byee")]
@@ -22373,7 +22378,7 @@ position = Vector2(6105, 1745.0002)
 scale = Vector2(3.5, 3.5)
 
 [node name="Log" parent="." instance=ExtResource("13_4ejkw")]
-position = Vector2(3595, 1697)
+position = Vector2(3735, 1598)
 scale = Vector2(4, 4)
 
 [node name="Sprite2D" parent="." instance=ExtResource("14_i3hsg")]
@@ -22436,6 +22441,49 @@ position = Vector2(-7297, -12)
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="空氣牆左側"]
 position = Vector2(-1862, 3697)
 polygon = PackedVector2Array(9852, -1765, 9447, -1765, 9446, -2138, 9852, -2138)
+
+[node name="Colorless_Dango" parent="." instance=ExtResource("17_7kvl5")]
+visible = false
+position = Vector2(3237, 1432)
+
+[node name="Colorless_Dango2" parent="." instance=ExtResource("17_7kvl5")]
+visible = false
+position = Vector2(5910, 1415)
+
+[node name="CutsceneDirector" parent="." instance=ExtResource("18_mwcdo")]
+position = Vector2(3970, 1480)
+scale = Vector2(5.6530285, 28.33303)
+target_timeline = "A009"
+actors = {
+"m1": NodePath("../Colorless_Dango"),
+"m2": NodePath("../Colorless_Dango2"),
+"rock": NodePath("../tinyrock")
+}
+markers = {
+"block_back_pos": NodePath("block_back_pos"),
+"block_back_pos2": NodePath("block_back_pos2"),
+"block_front_pos": NodePath("block_front_pos"),
+"escape_front_pos": NodePath("escape_front_pos")
+}
+player_dch = ExtResource("19_37wv2")
+
+[node name="block_back_pos" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(-62.444405, -1.800019)
+
+[node name="block_back_pos2" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(99.94643, -2.223553)
+
+[node name="block_front_pos" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(235.80278, -1.8353136)
+
+[node name="escape_front_pos" type="Marker2D" parent="CutsceneDirector"]
+position = Vector2(162.74461, -2.082375)
+
+[node name="tinyrock" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(6064.7144, 1306.2858)
+scale = Vector2(0.05946705, 0.05946705)
+texture = ExtResource("20_mwcdo")
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

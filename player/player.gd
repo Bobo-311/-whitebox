@@ -77,7 +77,7 @@ var current_elevation: int = 0 # 0=平地, 1=二樓, 2=三樓
 # ==========================================
 func _ready(): 
 	super._ready() # 執行父類別 (BaseCharacter) 的初始化邏輯
-	print("以防大家沒看到 只有菜心楊是傻逼") # 合併雙方隊友的幽默宣告 ps使用方式只是check github有沒有抓到
+	print("以防大家沒看到 菜心楊是傻逼") # 合併雙方隊友的幽默宣告 ps使用方式只是check github有沒有抓到
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale # 鎖定原始比例防跑版
@@ -175,10 +175,23 @@ func _input(event):
 		state_machine.process_mode = Node.PROCESS_MODE_DISABLED # 凍結大腦
 		if notebook_ui: notebook_ui.toggle_notebook(false)
 
-	# 開發者外掛
+	# 🛠️ 開發者外掛 1：原本的 cheater 按鍵（印鈔 + 解鎖戰鬥 + 補滿墨水）
 	if event.is_action_pressed("cheater") and DataManager: 
 		DataManager.total_gold += 100
-		print("【開發者外掛】印鈔 100 元！總金額：", DataManager.total_gold)
+		DataManager.combat_unlocked = true
+		refill_full_ink()
+		if magic_brush:
+			magic_brush.visible = true
+		print("【開發者外掛】印鈔 100 元 + 強制解鎖戰鬥與補滿墨水！總金額：", DataManager.total_gold)
+
+	# 🛠️ 開發者外掛 2：按下鍵盤 F1 隨時「切換（開/關）」戰鬥鎖定狀態（免去專案設定綁按鍵）
+	if event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_F1:
+		if DataManager:
+			DataManager.combat_unlocked = not DataManager.combat_unlocked
+			refill_full_ink()
+			if magic_brush:
+				magic_brush.visible = DataManager.can_combat()
+			print("【開發者測試】F1 切換戰鬥狀態！目前是否可戰鬥：", DataManager.can_combat())
 
 # ==========================================
 # 數值重算 (裝備系統對接)
@@ -212,14 +225,20 @@ func _physics_process(delta: float) -> void:
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
 			move_and_slide()       
-			return                
+			return                 
 		else:
 			# 解除狀態鎖定，恢復大腦運作
 			if state_machine.process_mode == Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_INHERIT
 		
-		# 獲取玩家移動向量
-		input_direction = Input.get_vector("left", "right", "up", "down") 
+		var current_state_name = ""
+		if state_machine and state_machine.current_state:
+			current_state_name = state_machine.current_state.name.to_lower()
+			
+		if "attack" in current_state_name or "hurt" in current_state_name:
+			input_direction = Vector2.ZERO
+		else:
+			input_direction = Input.get_vector("left", "right", "up", "down") 
 
 		# 狙擊槍蓄力罰站系統：蓄力時強制清空輸入向量，讓玩家定格
 		if magic_brush and magic_brush.is_charging:
@@ -237,7 +256,8 @@ func _physics_process(delta: float) -> void:
 		# ==========================================
 		# 發射與蓄力邏輯 (墨水消耗系統)
 		# ==========================================
-		if state_machine.current_state.name != "PlayerHeal": 
+		# 🌟【關鍵修正】：外層多加 DataManager.can_combat() 攔截，未解鎖前完全禁用 skill_01！
+		if DataManager.can_combat() and state_machine.current_state.name != "PlayerHeal": 
 			var cost = get_weapon_cost()
 			
 			# 按下射擊

@@ -1,7 +1,17 @@
-△ 下一秒腳尖勾到地上的石塊\
-△ 整個人重重摔倒在地
-阿尼: [shake rate=40.0 level=30 connected=1]不要過來！！！[/shake]
-一顆石頭突然砸中怪物腦袋
-？？？: [shake rate=30.0 level=20 connected=1]笨蛋！
-？？？: [shake rate=30.0 level=20 connected=1]還坐著幹嘛！
-？？？: [shake rate=30.0 level=20 connected=1]快跑啊！
+[style name="galstyle"]
+join 阿尼 left
+「啪。」
+[signal arg="anim:player:idle_left"]
+阿尼: [shake rate=30.0 level=20 connected=1]誰？！！[/shake]
+[signal arg="ambush:m1:block_back_pos:0.35"]
+[signal arg="back:player:player_back_pos:move_left:idle_left:0.25"]
+[wait time="0.5"]
+阿尼: [shake rate=5.0 level=5 connected=1]這...這是什麼？退路被擋住了……[/shake]
+嘎啊……
+[signal arg="run:player:escape_front_pos:move_right:idle_right:0.8"]
+[wait time="0.5"]
+[signal arg="ambush:m2:block_front_pos:0.3"]
+[wait time="0.3"]
+阿尼: [shake rate=30.0 level=20 connected=1]前面也有？！！[/shake]
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]

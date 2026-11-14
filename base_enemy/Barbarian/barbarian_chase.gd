@@ -1,4 +1,4 @@
-extends State
+extends State #野蠻人chase
 
 # 攻擊距離：距離小於這個數值，就煞車揮刀 (可以在屬性面板微調)
 @export var attack_range: float = 150.0 

@@ -1,21 +1,53 @@
-阿尼: 哇...
-[signal arg="walk:player:watch the tree"]
+[style name="galstyle"]
+join 阿尼 (驚訝（...咦？）) left
+[signal arg="pan:cam:cam_tree_pos,cam_tree_pos2:4.5"]
+[wait time="0.8"]
+阿尼 (驚訝（...咦？）): 哇...
 阿尼: 好漂亮的櫻花樹……
 阿尼: 這裡......
 阿尼: 怎麼跟其他地方不一樣？
-阿尼發現櫻花樹下坐著一名小女孩
-阿尼: ！！！
-阿尼: 那個……你好！！
+阿尼 (驚訝（哇！）): [shake rate=20.0 level=5 connected=1]！！！[/shake]
+[wait time="0.5"]
+[signal arg="pan:cam:cam_tree_pos2:1.5"]
+[signal arg="walk:player:girl_side_pos:move_right:idle_right:4.0"]
+[wait time="4.0"]
+阿尼 (搭話): 那個……你好！！
 阿尼: 請問一下......
 ？？？: ......
 阿尼: 小妹妹！
+[signal arg="anim:king:idle_left"]
+[wait time="0.2"]
 阿尼: 不好意思有聽到嗎？
-△ 阿尼快步走像小女孩，伸手想叫她\
-△ 小女孩突然站起\
-△ 小女孩往樹後跑去
-阿尼: ！！！
-△ 阿尼愣住幾秒後急忙追上去\
-△ 樹後卻空無一人
-阿尼: 咦？
+
+[signal arg="walk:king:run1:move_right:1.6"]
+[wait time="0.5" hide_text="false"]
+阿尼 (驚訝（...咦？）): ！！！
+阿尼: 等等！
+leave --All--
+[signal arg="reset:cam:player:0.6"]
+[wait time="0.6"]
+
+[signal arg="run:player:run1:move_right:1.8"]
+[wait time="0.8"]
+[signal arg="walk:king:run2:move_up:1.4"]
+[wait time="1.0"]
+
+[signal arg="run:player:run2:move_up:1.8"]
+[wait time="0.4"]
+[signal arg="walk:king:behind_tree_pos:move_left:1.0"]
+[wait time="0.6"]
+[signal arg="hide:king:0.25"]
+[wait time="0.8"]
+
+[signal arg="run:player:behind_tree_pos:move_left:idle_left:1.6"]
+[wait time="1.6"]
+
+[signal arg="anim:player:idle_right"]
+[wait time="0.4"]
+[signal arg="anim:player:idle_left"]
+join 阿尼 (驚訝（...咦？）) left
+阿尼 (驚訝（...咦？）): 咦？
 阿尼: 人呢？
-阿尼: [shake rate=40.0 level=30 connected=1]不見了？！！！[/shake]
+阿尼 (驚嚇): [shake rate=40.0 level=30 connected=1]不見了？！！！[/shake]
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]
