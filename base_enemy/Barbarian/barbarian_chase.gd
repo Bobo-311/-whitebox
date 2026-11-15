@@ -1,30 +1,50 @@
-extends State #野蠻人chase
+extends State
 
-# 攻擊距離：距離小於這個數值，就煞車揮刀 (可以在屬性面板微調)
-@export var attack_range: float = 150.0 
+# =====================================================
+# 野蠻人第一階段追擊狀態
+# 一階依然遵守偵測範圍與視野限制
+# =====================================================
 
-func enter():
-	# 進入追擊時，播放run (走路) 動畫
-	character.play_animation("move", character.last_facing_vec)
+@export_group("一階追擊設定")
+@export var attack_range: float = 150.0     # 進入揮刀狀態的距離
 
-func state_physics_update(_delta: float):
-	# 防呆：如果玩家不見了，退回待機
-	if not character.player_node or not character.can_see_player:
-		state_machine.change_state("move")
+var enemy: Barbarian
+
+func enter() -> void:
+	enemy = character as Barbarian
+	if not enemy:
+		return
+	enemy.play_animation("move", enemy.last_facing_vec)
+
+func state_physics_update(_delta: float) -> void:
+	if not enemy or enemy.is_dead:
 		return
 
-	# 計算野蠻人與玩家的直線距離
-	var distance_to_player = character.global_position.distance_to(character.player_node.global_position)
-	
-	# 如果進入揮砍範圍
-	if distance_to_player <= attack_range:
-		# 走到面前了！煞車，並切換到 Attack 狀態
-		character.velocity = Vector2.ZERO
+	# 防止狂暴型態意外進入普通追擊
+	if enemy.is_berserk:
+		state_machine.change_state("BerserkCharge")
+		return
+
+	var player: Player = enemy.get_combat_target()
+
+	# 一階找不到玩家或被地形遮擋時，恢復漫遊
+	if not player or not enemy.can_see_player:
+		enemy.velocity = Vector2.ZERO
+		state_machine.change_state("Move")
+		return
+
+	var distance: float = enemy.global_position.distance_to(player.global_position)
+	var move_dir: Vector2 = enemy.global_position.direction_to(player.global_position)
+
+	# 先更新面向，再判斷是否攻擊
+	if move_dir != Vector2.ZERO:
+		enemy.last_facing_vec = move_dir
+
+	if distance <= attack_range and enemy.can_attack:
+		enemy.velocity = Vector2.ZERO
 		state_machine.change_state("Attack")
 		return
 
-	# 還沒到，繼續走向玩家 (並且更新面朝方向)
-	var move_dir = (character.player_node.global_position - character.global_position).normalized()
-	character.velocity = move_dir * character.walk_speed
-	character.last_facing_vec = move_dir
-	character.play_animation("move", move_dir)
+	# 一階使用慢速行走動畫
+	enemy.velocity = move_dir * enemy.walk_speed
+	enemy.play_animation("move", move_dir)

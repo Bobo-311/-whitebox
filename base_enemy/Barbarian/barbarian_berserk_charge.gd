@@ -1,66 +1,78 @@
-extends State #野蠻人berserkChange
 
-@export_category("狂暴衝刺設定")
-@export var hit_cooldown: float = 2.0 # 撞到玩家後，原地停頓 2 秒
+extends State
 
-var charge_cooldown: float = 0.0
+# =====================================================
+# 二階狂暴追擊
+#
+# 不依賴 DetectPlayer
+# 不依賴 VisionRay
+# 不受普通敵人的偵測範圍限制
+#
+# 直到玩家死亡、離開場景或野蠻人死亡
+# 才停止追擊
+# =====================================================
 
-func enter():
-	charge_cooldown = 0.0
-	
-	# 1. 關閉原本揮刀用的 Hitbox，解決「手太長」的問題
-	var sword_hitbox = character.get_node_or_null("Hitbox")
-	if sword_hitbox:
-		sword_hitbox.monitoring = false
-		for child in sword_hitbox.get_children():
-			if child is CollisionShape2D:
-				child.set_deferred("disabled", true)
-	
-	# 2. 開啟我們剛剛新增的專屬肉身碰撞框 BodyHitbox
-	var body_hitbox = character.get_node_or_null("BodyHitbox")
-	if body_hitbox:
-		body_hitbox.monitoring = true
-		for child in body_hitbox.get_children():
-			if child is CollisionShape2D:
-				child.set_deferred("disabled", false)
+@export_group("狂暴追擊設定")
+@export var attack_range: float = 130.0      # 二階進入揮刀狀態的距離
 
-func state_physics_update(delta: float):
-	# 🆕【最高優先級】：玩家死亡判定
-	# 如果玩家死掉了，就直接鎖死在原地發呆，不切換狀態，保持二階的壓迫感
-	if not character.player_node or (character.player_node.has_method("is_dead") and character.player_node.is_dead):
-		character.velocity = Vector2.ZERO
-		character.play_animation("idle", character.last_facing_vec)
-		return # 直接 Return，永遠卡在這裡發呆！
+@export var use_berserk_sword_attack: bool = true
+# 若二階攻擊素材尚未調整完成，可暫時取消勾選
+# 關閉後只進行高速追擊與肉身碰撞傷害
 
-	# 1. 視覺/視野判定
-	# 狂暴狀態下，如果因為牆壁擋住而暫時看不到玩家，讓他原地發呆喘氣，不要切回 Idle
-	if not character.can_see_player:
-		character.velocity = Vector2.ZERO
-		character.play_animation("idle", character.last_facing_vec)
+var enemy: Barbarian
+
+# =====================================================
+# 進入二階追擊
+# =====================================================
+func enter() -> void:
+	enemy = character as Barbarian
+	if not enemy:
 		return
 
-	# 2. 撞擊後的停頓冷卻時間處理
-	if charge_cooldown > 0:
-		charge_cooldown -= delta
-		character.velocity = Vector2.ZERO
-		character.play_animation("idle", character.last_facing_vec)
-		
-		# 【確保只衝撞不揮刀】：休息 2 秒結束後，強迫重啟衝刺狀態
-		if charge_cooldown <= 0:
-			enter() 
+	enemy.can_attack = true
+	enemy.end_sword_attack()
+	enemy.set_contact_enabled(true)         # 跑動期間具有肉身碰撞傷害
+
+# =====================================================
+# 狂暴追擊物理更新
+# =====================================================
+func state_physics_update(_delta: float) -> void:
+	if not enemy or enemy.is_dead:
 		return
 
-	# 3. 瘋狗模式：衝刺
-	var move_dir = (character.player_node.global_position - character.global_position).normalized()
-	character.velocity = move_dir * character.walk_speed
-	character.last_facing_vec = move_dir
-	character.play_animation("run", move_dir)
+	# 直接取得 DataManager 記錄的玩家
+	# 無須依靠原本 DetectPlayer 的範圍與視野
+	var player: Player = enemy.get_combat_target()
 
-	# 4. 【改用 BodyHitbox 並且偵測 Body】
-	var body_hitbox = character.get_node_or_null("BodyHitbox")
-	if body_hitbox and body_hitbox.has_overlapping_bodies():
-		for body in body_hitbox.get_overlapping_bodies():
-			# 只要重疊的 body 是玩家，就扣血！
-			if body == character.player_node or body.is_in_group("player") or body.name == "player":
-				character._apply_damage_and_knockback(body, null)
-				charge_cooldown = hit_cooldown
+	# 只有玩家不存在或已經死亡時才停止追擊
+	if not player:
+		enemy.velocity = Vector2.ZERO
+		enemy.play_animation("idle", enemy.last_facing_vec)
+		return
+
+	var distance: float = enemy.global_position.distance_to(player.global_position)
+	var move_dir: Vector2 = enemy.global_position.direction_to(player.global_position)
+
+	if move_dir != Vector2.ZERO:
+		enemy.last_facing_vec = move_dir
+
+	# 二階近距離揮刀
+	# 若該方向的攻擊動畫還沒準備好，繼續衝撞而不中斷追擊
+	if use_berserk_sword_attack and enemy.can_attack:
+		if distance <= attack_range:
+			if enemy.has_one_shot_animation("attack", enemy.last_facing_vec):
+				enemy.velocity = Vector2.ZERO
+				state_machine.change_state("Attack")
+				return
+
+	# 無視普通偵測距離，持續高速追向玩家
+	enemy.velocity = move_dir * enemy.walk_speed
+	enemy.play_animation("run", enemy.last_facing_vec)
+
+# =====================================================
+# 離開狂暴追擊
+# 下一個狀態接管攻擊碰撞的開關
+# =====================================================
+func exit() -> void:
+	if is_instance_valid(enemy):
+		enemy.velocity = Vector2.ZERO
