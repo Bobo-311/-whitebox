@@ -3345,9 +3345,8 @@ tile_map_data = PackedByteArray("AAAXAAAAAwAAAAAAAAAXAAEAAwAAAAEAAAAXAAIAAwAAAAI
 tile_set = SubResource("TileSet_i05st")
 
 [node name="WhiteCat" parent="." instance=ExtResource("3_e6uax")]
-visible = false
-position = Vector2(1697, 1763)
-scale = Vector2(0.3, 0.3)
+position = Vector2(2455.8, 1377)
+scale = Vector2(0.15, 0.15)
 max_follow_distance = 700.0
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -3381,7 +3380,7 @@ position = Vector2(2718, -368.00003)
 scale = Vector2(25.836145, 23.047226)
 
 [node name="player" parent="." instance=ExtResource("4_caut0")]
-position = Vector2(2442.8, 1387.6)
+position = Vector2(2725.6, 65.400055)
 scale = Vector2(0.25, 0.25)
 base_max_hp = 100
 max_hp = 100

@@ -5490,6 +5490,13 @@ limit_right = 6500
 limit_bottom = 2670
 metadata/_edit_horizontal_guides_ = [2818.0, 2669.0, -404.0]
 
+[node name="CutsceneDirector2" parent="." node_paths=PackedStringArray("target_enemies") instance=ExtResource("2_bgs15")]
+position = Vector2(6324.5005, -1124)
+scale = Vector2(1.6899998, 1.6899998)
+target_timeline = "A016B"
+trigger_on_enemies_cleared = true
+target_enemies = [NodePath("../BossLotus")]
+
 [node name="CutsceneDirector" parent="." instance=ExtResource("2_bgs15")]
 target_timeline = "A016"
 actors = {
@@ -5528,7 +5535,7 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("1_x3h6s")]
-position = Vector2(4618, 2549)
+position = Vector2(4649, 2154)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
@@ -5576,7 +5583,7 @@ position = Vector2(4539.0005, 2575)
 scale = Vector2(50.320675, 36.263752)
 
 [node name="player" parent="." instance=ExtResource("2_s3jti")]
-position = Vector2(4416, 2580)
+position = Vector2(4432, 2199)
 base_max_hp = 100
 max_hp = 100
 
@@ -5635,6 +5642,9 @@ polygon = PackedVector2Array(4722.1753, 2473.9644, 4722.1753, 2889.349, 4695.436
 
 [node name="boss_pos" type="Marker2D" parent="Node2D"]
 position = Vector2(4540, 1189)
+
+[node name="walk_to_here" type="Marker2D" parent="Node2D"]
+position = Vector2(4536, 2358)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

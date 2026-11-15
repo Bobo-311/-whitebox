@@ -11,6 +11,17 @@ class_name CutsceneDirector
 @export var player_dch: Resource
 @export var npc_dch: Resource
 
+@export_group("📖 故事書幻燈片設定 (Undertale 風格黑底插圖)")
+@export var storybook_images: Array[Texture2D] = []        # 🌟 按順序把 01.png ~ 08.png 拖進來！
+@export var storybook_image_size: Vector2 = Vector2(960, 540) # 🌟 插圖顯示大小 (16:9，放在畫面正中偏上)
+@export var storybook_offset_y: float = -90.0              # 🌟 插圖往上偏移量 (留出下方空間給對話框)
+
+@export_group("🚪 劇本結束後自動跨地圖傳送 (選填)")
+@export_file("*.tscn") var next_scene_after_cutscene: String = "" # 🌟 選取演完後要直接飛去的地圖 (如 AM002.tscn)
+@export var next_spawn_marker_name: String = "From_Cabin"         # 🌟 去對面地圖時要站在哪根 Marker2D 定位針上
+@export_enum("面向下 (Down):0", "面向上 (Up):1", "面向右 (Right):2", "面向左 (Left):3") 
+var next_spawn_facing: int = 0                                    # 🌟 抵達新地圖時的初始面向
+
 @export_group("📖 跨地圖記憶與角色去留設定")
 @export var trigger_on_map_enter: bool = false             # 勾選後，一進入這張地圖就會自動開拍
 @export var hide_target_npc_after_complete: bool = false   # 🌟 勾選後，演完重回地圖時 target_npc 會永遠消失
@@ -45,10 +56,35 @@ var _actor_tweens: Dictionary = {}         # 🌟 記錄每個角色正在跑的
 var _actor_target_pos: Dictionary = {}     # 🌟 記錄每個角色這一步原本要走到的終點座標 (被跳過時瞬間補位！)
 var _actor_target_idle: Dictionary = {}    # 🌟 記錄每個角色走完這一步後應該播放的待機動畫
 
+# 📖 故事書動態 UI 節點紀錄
+var _book_layer: CanvasLayer = null
+var _book_bg: ColorRect = null
+var _book_tex_rect: TextureRect = null
+var _book_tween: Tween = null
+
 @export var click_cooldown: float = 0.18   # 🌟 防連點冷卻秒數 (避免狂按空白鍵/滑鼠導致 Dialogic 與 Tween 崩潰)
 var _last_advance_time: float = 0.0
 
 func _ready() -> void:
+	# 🌟 保險機制：進入新地圖時，確保阿尼不會因為上一張圖的 hide:player 而維持隱形！
+	var init_p = _get_player()
+	if is_instance_valid(init_p) and not init_p.visible:
+		init_p.visible = true
+		init_p.modulate.a = 1.0
+
+	# ==========================================
+	# 🌟 0. 地道出口第 0 幀預先佈景：
+	# 如果這個導演有綁定 "door_at_floor"，且玩家已經在小木屋拿到鑰匙 ("got_key")，
+	# 在轉場黑幕退去前的「第 0 幀」就立刻把地板門與白貓現形，解決先看到阿尼才看到門的問題！
+	# ==========================================
+	if actors.has("door_at_floor") and DataManager.has_method("is_cutscene_completed") and DataManager.is_cutscene_completed("got_key"):
+		var door_node = get_node_or_null(actors["door_at_floor"]) as Node2D
+		if is_instance_valid(door_node):
+			door_node.visible = true
+			door_node.modulate.a = 1.0
+		# 等 1 幀確保 SceneTransition 已經把阿尼放到 From_Cabin 上，立刻在黑幕下把白貓抓過來並現形！
+		call_deferred("_pre_stage_cabin_exit_cat")
+
 	# ==========================================
 	# 🌟 1. 跨地圖記憶檢查：如果這段劇情已經在 DataManager 登記看過了
 	# ==========================================
@@ -70,6 +106,13 @@ func _ready() -> void:
 					actor_node.visible = false
 					actor_node.process_mode = Node.PROCESS_MODE_DISABLED
 					
+		# (B-2) 🌟 如果是像「地道門 (door_at_floor)」這種演完應該留在場上的物件，重回地圖時自動保持顯示！
+		if actors.has("door_at_floor") and not permanent_hide_actors.has("door_at_floor"):
+			var door_node = get_node_or_null(actors["door_at_floor"]) as Node2D
+			if door_node:
+				door_node.visible = true
+				door_node.modulate.a = 1.0
+					
 		# (C) 防呆：把場上其他原本就關眼睛隱形的埋伏怪也凍結 AI
 		_freeze_hidden_actor(target_npc)
 		for key in actors.keys():
@@ -80,7 +123,6 @@ func _ready() -> void:
 	# ==========================================
 	# 🌟 2. 尚未看過此劇情的正常初始化
 	# ==========================================
-	# 讓導演監聽 Dialogic 的暗號、開始與結束通知
 	if not Dialogic.signal_event.is_connected(_on_dialogic_signal):
 		Dialogic.signal_event.connect(_on_dialogic_signal)
 	if not Dialogic.timeline_started.is_connected(_on_external_timeline_started):
@@ -88,7 +130,6 @@ func _ready() -> void:
 	if not Dialogic.timeline_ended.is_connected(_on_timeline_ended):
 		Dialogic.timeline_ended.connect(_on_timeline_ended)
 		
-	# 防呆：把 target_npc 以及 actors 字典裡所有「一開始關眼睛隱形」的怪物都先凍結 AI
 	_freeze_hidden_actor(target_npc)
 	for key in actors.keys():
 		var actor_node = get_node_or_null(actors[key]) as Node2D
@@ -99,20 +140,17 @@ func _ready() -> void:
 		monitoring = false
 		set_process(false)
 	elif trigger_on_enemies_cleared:
-		monitoring = false # 關閉腳下碰撞，改由怪物全滅觸發！
+		monitoring = false
 		set_process(false)
-		# 🌟 等待 2 幀，確保場景樹排在下面的 m1, m2, m3 都已經載入完成後，再抓進追蹤清單！
 		await get_tree().process_frame
 		await get_tree().process_frame
 		_setup_enemy_clear_trigger()
 	else:
-		# 🌟 關鍵修正：過圖剛載入時先強制關閉 Area2D 感應，防止阿尼還沒瞬移到定位點前誤觸發！
 		set_process(false)
 		monitoring = false
 		if not body_entered.is_connected(_on_body_entered):
 			body_entered.connect(_on_body_entered)
 			
-		# 等待物理幀與 0.2 秒過圖保護時間，確保 SceneTransition 已經把阿尼移到 From_Map 定位點！
 		await get_tree().physics_frame
 		await get_tree().physics_frame
 		await get_tree().create_timer(0.2).timeout
@@ -121,18 +159,53 @@ func _ready() -> void:
 		_map_ready_for_trigger = true
 		monitoring = true
 		
-		# 再等一幀讓物理引擎刷新重疊名單，如果阿尼真的站在感應區內才觸發
 		await get_tree().physics_frame
 		if not is_inside_tree() or has_triggered:
 			return
 		for body in get_overlapping_bodies():
 			if body == _get_player():
+				_auto_sync_cat_to_player(body, true)
 				_on_body_entered(body)
 				break
+
+# 🌟 在轉場黑幕退去前，預先把地板門與白貓在 From_Cabin 旁擺好並解除隱藏！
+func _pre_stage_cabin_exit_cat() -> void:
+	await get_tree().process_frame
+	var p = _get_player()
+	if is_instance_valid(p) and global_position.distance_to(p.global_position) < 200.0:
+		_auto_sync_cat_to_player(p, true)
+
+# 🌟 輔助函數：自動尋找場上的白貓（不管有沒有綁進 Actors 字典都能抓到！），並強制解除 hide 狀態移到阿尼身旁
+func _find_cat_node() -> Node2D:
+	var cat_node: Node2D = _get_actor_node("cat")
+	if not cat_node and get_tree() and get_tree().current_scene:
+		for candidate_name in ["white_cat", "WhiteCat", "White_cat", "Cat"]:
+			cat_node = get_tree().current_scene.find_child(candidate_name, true, false) as Node2D
+			if cat_node:
+				break
+	return cat_node
+
+func _auto_sync_cat_to_player(player_body: Node2D, force_show: bool = false) -> void:
+	if not is_instance_valid(player_body): return
+	var cat_node: Node2D = _find_cat_node()
+	if is_instance_valid(cat_node):
+		if force_show or cat_node.global_position.distance_to(player_body.global_position) > 120.0 or not cat_node.visible:
+			cat_node.global_position = player_body.global_position + Vector2(side_offset, 0)
+			cat_node.visible = true
+			cat_node.modulate.a = 1.0
+			cat_node.process_mode = Node.PROCESS_MODE_INHERIT
+			var sp = _get_actor_sprite(cat_node)
+			if sp:
+				sp.visible = true
+				sp.modulate.a = 1.0
+				sp.process_mode = Node.PROCESS_MODE_ALWAYS
+				if sp.sprite_frames and sp.sprite_frames.has_animation("idle_left"):
+					sp.play("idle_left")
 
 # 🌟 離開場景樹時安全清理所有 Tween 與訊號連線，防止換地圖時閃退
 func _exit_tree() -> void:
 	_clear_all_cutscene_tweens(false)
+	_destroy_storybook_ui()
 	if Dialogic.signal_event.is_connected(_on_dialogic_signal):
 		Dialogic.signal_event.disconnect(_on_dialogic_signal)
 	if Dialogic.timeline_started.is_connected(_on_external_timeline_started):
@@ -140,7 +213,6 @@ func _exit_tree() -> void:
 	if Dialogic.timeline_ended.is_connected(_on_timeline_ended):
 		Dialogic.timeline_ended.disconnect(_on_timeline_ended)
 
-# 🌟 支援外部物件（如 door_a.gd 按 E 推門）啟動劇本時，若劇本名稱相符，導演自動接管走位演出！
 func _on_external_timeline_started() -> void:
 	if is_active or target_timeline == "":
 		return
@@ -149,11 +221,107 @@ func _on_external_timeline_started() -> void:
 		has_triggered = true
 		_last_advance_time = Time.get_ticks_msec() / 1000.0
 
+# ==========================================
+# 📖 Undertale 風格故事書幻燈片 UI 系統 (100% 隔離光線版)
+# ==========================================
+func _ensure_storybook_ui() -> void:
+	if is_instance_valid(_book_layer):
+		return
+	_book_layer = CanvasLayer.new()
+	_book_layer.layer = 1
+	add_child(_book_layer)
+	
+	for node in get_tree().root.find_children("*", "CanvasLayer", true, false):
+		if node != _book_layer and ("Dialogic" in node.name or "Layout" in node.name or node.layer == 1):
+			if node.layer <= _book_layer.layer:
+				node.layer = _book_layer.layer + 1
+	
+	var unshaded_mat := CanvasItemMaterial.new()
+	unshaded_mat.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+	
+	_book_bg = ColorRect.new()
+	_book_bg.color = Color.BLACK
+	_book_bg.material = unshaded_mat
+	_book_bg.light_mask = 0
+	_book_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_book_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_book_bg.modulate.a = 0.0
+	_book_layer.add_child(_book_bg)
+	
+	_book_tex_rect = TextureRect.new()
+	_book_tex_rect.material = unshaded_mat
+	_book_tex_rect.light_mask = 0
+	_book_tex_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_book_tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_book_tex_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_book_tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_book_tex_rect.set_anchors_preset(Control.PRESET_CENTER)
+	_book_tex_rect.size = storybook_image_size
+	_book_tex_rect.position = -storybook_image_size * 0.5 + Vector2(0, storybook_offset_y)
+	_book_tex_rect.modulate.a = 0.0
+	_book_layer.add_child(_book_tex_rect)
+
+func _show_storybook_page(page_str: String, fade_time: float = 0.5) -> void:
+	if _book_tween and _book_tween.is_valid():
+		_book_tween.kill()
+		
+	if page_str == "hide" or page_str == "off" or page_str == "0":
+		if not is_instance_valid(_book_layer):
+			return
+		var dur = fade_time if fade_time > 0.0 else 0.5
+		_book_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+		_book_tween.tween_property(_book_tex_rect, "modulate:a", 0.0, dur)
+		_book_tween.parallel().tween_property(_book_bg, "modulate:a", 0.0, dur)
+		_book_tween.tween_callback(func():
+			if is_instance_valid(_book_layer):
+				_book_layer.visible = false
+		)
+		return
+		
+	var tex: Texture2D = null
+	if page_str.is_valid_int():
+		var idx = page_str.to_int() - 1
+		if idx >= 0 and idx < storybook_images.size():
+			tex = storybook_images[idx]
+	elif ResourceLoader.exists(page_str):
+		tex = load(page_str) as Texture2D
+		
+	if not tex:
+		push_warning("【CutsceneDirector】找不到故事書圖片頁碼：" + page_str + "，請確認右侧 Inspector 的 Storybook Images 陣列已放入圖片！")
+		return
+		
+	_ensure_storybook_ui()
+	_book_layer.visible = true
+	var dur = fade_time if fade_time > 0.0 else 0.45
+	_book_tween = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	
+	if _book_bg.modulate.a < 0.95:
+		_book_tex_rect.texture = tex
+		_book_tex_rect.modulate.a = 0.0
+		_book_tween.tween_property(_book_bg, "modulate:a", 1.0, dur)
+		_book_tween.tween_property(_book_tex_rect, "modulate:a", 1.0, dur)
+	else:
+		_book_tween.tween_property(_book_tex_rect, "modulate:a", 0.0, dur * 0.45)
+		_book_tween.tween_callback(func():
+			if is_instance_valid(_book_tex_rect):
+				_book_tex_rect.texture = tex
+		)
+		_book_tween.tween_property(_book_tex_rect, "modulate:a", 1.0, dur * 0.55)
+
+func _destroy_storybook_ui() -> void:
+	if _book_tween and _book_tween.is_valid():
+		_book_tween.kill()
+	_book_tween = null
+	if is_instance_valid(_book_layer):
+		_book_layer.queue_free()
+	_book_layer = null
+	_book_bg = null
+	_book_tex_rect = null
+
 # 🛡️ 防禦 1：過場演戲期間的「防狂按節流閥」
 func _input(event: InputEvent) -> void:
 	if not is_active: return
 	
-	# 偵測滑鼠左鍵按下、空白鍵、Enter 或互動鍵 (連按不放 is_echo 也會直接擋掉)
 	var is_click = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	var is_key = event is InputEventKey and event.pressed and (event.keycode == KEY_SPACE or event.keycode == KEY_ENTER)
 	var is_act = event.is_action_pressed("ui_accept") or event.is_action_pressed("interact")
@@ -164,7 +332,6 @@ func _input(event: InputEvent) -> void:
 			return
 		var now = Time.get_ticks_msec() / 1000.0
 		if now - _last_advance_time < click_cooldown:
-			# 點太快了！直接吃掉這次按鍵，不讓它傳給 Dialogic 造成當機
 			get_viewport().set_input_as_handled()
 			return
 		_last_advance_time = now
@@ -182,7 +349,7 @@ func _snap_and_kill_actor_tween(actor_key: String, actor_node: Node2D) -> void:
 					if sp: sp.play(_actor_target_idle[actor_key])
 		_actor_tweens.erase(actor_key)
 
-# 🛡️ 防禦 2B：安全建立角色移動 Tween (修正綁定在 PROCESS_MODE_DISABLED 怪物身上會導致 Tween 凍結不動的問題！)
+# 🛡️ 防禦 2B：安全建立角色移動 Tween
 func _create_safe_actor_tween(actor_key: String, actor_node: Node2D, new_target_pos: Vector2, idle_anim: String = "") -> Tween:
 	_snap_and_kill_actor_tween(actor_key, actor_node)
 	_actor_target_pos[actor_key] = new_target_pos
@@ -192,7 +359,7 @@ func _create_safe_actor_tween(actor_key: String, actor_node: Node2D, new_target_
 	_actor_tweens[actor_key] = new_tween
 	return new_tween
 
-# 🛡️ 防禦 3：劇本結束或離開場景時，清理所有殘留的 Tween（並將未走完的角色補位到終點）
+# 🛡️ 防禦 3：劇本結束或離開場景時，清理所有殘留的 Tween
 func _clear_all_cutscene_tweens(snap_to_end: bool = true) -> void:
 	if _cam_tween and _cam_tween.is_valid():
 		_cam_tween.kill()
@@ -221,7 +388,6 @@ func _clear_all_cutscene_tweens(snap_to_end: bool = true) -> void:
 	_actor_target_pos.clear()
 	_actor_target_idle.clear()
 	
-# 🌟 自動收集要追蹤的目標小怪
 func _setup_enemy_clear_trigger() -> void:
 	_tracked_enemies.clear()
 	
@@ -247,7 +413,6 @@ func _setup_enemy_clear_trigger() -> void:
 	if _tracked_enemies.size() > 0:
 		set_process(true)
 
-# 🌟 每幀自動檢查怪物是否全滅
 func _process(_delta: float) -> void:
 	if not trigger_on_enemies_cleared or has_triggered:
 		set_process(false)
@@ -279,7 +444,6 @@ func _process(_delta: float) -> void:
 		if is_inside_tree() and not has_triggered:
 			start_cutscene()
 
-# 🌟 輔助函數：凍結隱形怪物的 AI，但保留 AnimatedSprite2D 動畫播放能力
 func _freeze_hidden_actor(actor_node: Node2D) -> void:
 	if actor_node and not actor_node.visible:
 		actor_node.process_mode = Node.PROCESS_MODE_DISABLED
@@ -287,7 +451,6 @@ func _freeze_hidden_actor(actor_node: Node2D) -> void:
 		if sprite:
 			sprite.process_mode = Node.PROCESS_MODE_ALWAYS
 
-# 🌟 輔助函數：安全取得玩家節點
 func _get_player() -> Node2D:
 	if is_instance_valid(DataManager.player_node):
 		return DataManager.player_node
@@ -298,15 +461,19 @@ func _get_player() -> Node2D:
 		return p as Node2D
 	return null
 
-# 🌟 輔助函數：根據暗號裡的名稱抓出對應的角色節點
+# 🌟 強化版：就算忘記在 Actors 字典綁定 "cat"，寫 [signal arg="snap:cat:..."] 也會自動抓到場上的白貓！
 func _get_actor_node(actor_key: String) -> Node2D:
 	if actor_key == "npc":
 		return target_npc
 	elif actors.has(actor_key):
-		return get_node_or_null(actors[actor_key]) as Node2D
+		var n = get_node_or_null(actors[actor_key]) as Node2D
+		if n: return n
+	if actor_key == "cat" and get_tree() and get_tree().current_scene:
+		for candidate_name in ["white_cat", "WhiteCat", "White_cat", "Cat"]:
+			var c = get_tree().current_scene.find_child(candidate_name, true, false) as Node2D
+			if c: return c
 	return null
 
-# 🌟 輔助函數：自動從角色身上抓出 AnimatedSprite2D
 func _get_actor_sprite(actor_node: Node2D) -> AnimatedSprite2D:
 	if not is_instance_valid(actor_node): return null
 	if "animated_sprite_2d" in actor_node and actor_node.animated_sprite_2d is AnimatedSprite2D:
@@ -316,7 +483,6 @@ func _get_actor_sprite(actor_node: Node2D) -> AnimatedSprite2D:
 		sprite = actor_node.find_child("*Sprite*", true, false) as AnimatedSprite2D
 	return sprite
 
-# 🌟 輔助函數：演戲期間暫時關閉白貓/NPC 自身的腳本與狀態機
 func _set_actor_ai_active(actor_node: Node2D, active: bool) -> void:
 	if not actor_node or not is_instance_valid(actor_node): return
 	if not actor_node.visible: return
@@ -338,13 +504,11 @@ func _set_actor_ai_active(actor_node: Node2D, active: bool) -> void:
 # 🎬 玩家踩進觸發區 ➡️ 開拍！
 # ==========================================
 func _on_body_entered(body: Node2D) -> void:
-	# 🌟 關鍵攔截：如果地圖還沒完成過圖定位、正在轉場中、或已經在對話中，絕對不觸發！
 	if not _map_ready_for_trigger or DataManager.is_teleporting or Dialogic.current_timeline != null:
 		return
 	if body == _get_player() and not has_triggered:
 		start_cutscene(body)
 			
-# 🌟 統一開拍函數（踩進區域、BaseMap 開場、怪物全滅 皆由此進入）
 func start_cutscene(player_body: Node2D = null) -> void:
 	if has_triggered: 
 		return
@@ -358,14 +522,12 @@ func start_cutscene(player_body: Node2D = null) -> void:
 		return
 		
 	has_triggered = true
-	is_active = true # 🌟 標記這場戲正式開拍！
+	is_active = true
 	_last_advance_time = Time.get_ticks_msec() / 1000.0
 	
-	# 🌟 向 DataManager 永久登記這段劇情已觸發過，下次離開再重進地圖就不會再播！
 	if DataManager.has_method("mark_cutscene_completed"):
 		DataManager.mark_cutscene_completed(target_timeline)
 	
-	# 1. 徹底鎖住阿尼大腦與移動速度
 	player_body.is_in_dialogue = true
 	if "velocity" in player_body:
 		player_body.velocity = Vector2.ZERO
@@ -374,31 +536,23 @@ func start_cutscene(player_body: Node2D = null) -> void:
 	if player_body.animated_sprite_2d:
 		player_body.animated_sprite_2d.play("idle_down")
 	
-	# 🌟 同時暫停白貓/NPC 自身的移動腳本，讓導演能 100% 控制白貓的走路與轉頭動畫！
 	_set_actor_ai_active(target_npc, false)
 	for key in actors.keys():
 		_set_actor_ai_active(get_node_or_null(actors[key]) as Node2D, false)
 		
-	# 2. 🌟 啟動劇本並存下 layout
 	var layout = Dialogic.start(target_timeline)
-	
-	# 🌟 保險機制：確保開場時 player_hud 的電影黑邊一定會收到啟動通知！
 	Dialogic.timeline_started.emit()
 	
-	# 3. 🌟 動態綁定玩家氣泡 (如果有在面板拖入阿尼.dch)
 	if player_dch and player_body.has_node("BubbleMaker") and layout and layout.has_method("register_character"):
 		layout.register_character(player_dch, player_body.get_node("BubbleMaker"))
 		
-	# 4. 🌟 動態綁定 NPC 氣泡 (如果有在面板拖入小女孩.dch)
 	if npc_dch and target_npc and target_npc.has_node("BubbleMaker") and layout and layout.has_method("register_character"):
 		layout.register_character(npc_dch, target_npc.get_node("BubbleMaker"))
 		
-# 🏃‍♂️ 2. 接收劇本暗號 ➡️ 指揮走位與運鏡
-# 暗號格式： 動作:對象(player/cam/npc/m1/m2...):[目標點或秒數]:[移動動畫]:[停下動畫]:[秒數]
+# 🏃‍♂️ 2. 接收劇本暗號 ➡️ 指揮走位、運鏡與故事書翻頁
 func _on_dialogic_signal(argument: String) -> void:
-	if not is_active: return # 🌟 只有當前正在演出的導演才處理暗號！
+	if not is_active: return
 	
-	# 🌟 1. 處理「不需要冒號」的單字暗號 (一定要放在 split 之前！)
 	if argument == "fade_out_cinematic" or argument == "fade_in_cinematic":
 		return
 		
@@ -411,18 +565,22 @@ func _on_dialogic_signal(argument: String) -> void:
 			p.get_node("MagicBrush").visible = true
 		return
 		
-	# 🌟 2. 處理「需要冒號」的複雜暗號 (走位、震動等)
 	var parts = argument.split(":")
-	if parts.size() < 2: return # 這裡會把沒有冒號的暗號擋掉
+	if parts.size() < 2: return
 	
-	var action = parts[0].strip_edges()     # "walk"、"run"、"back"、"ambush"、"throw"、"glow"、"flash"、"beam"、"show"、"hide"、"pan"、"reset"、"zoom"、"shake"、"anim"
-	var actor = parts[1].strip_edges()      # "player"、"cam"、"npc" 或 actors 字典裡的 "m1"、"m2"、"rock"
+	var action = parts[0].strip_edges()
+	var actor = parts[1].strip_edges()
 	var target_key = parts[2].strip_edges() if parts.size() >= 3 else ""
 	
-	# 🌟 智慧解析第 4 格以後的參數：數字當「秒數」，文字依序當「移動動畫」與「停下動畫」
+	# 📖 🌟 處理故事書幻燈片暗號
+	if action == "book":
+		var fade_dur: float = target_key.to_float() if target_key.is_valid_float() else 0.45
+		_show_storybook_page(actor, fade_dur)
+		return
+	
 	var custom_move_anim: String = ""
 	var custom_idle_anim: String = ""
-	var custom_duration: float = -1.0 # -1 代表未指定，將使用預設秒數
+	var custom_duration: float = -1.0
 	
 	for i in range(3, parts.size()):
 		var param = parts[i].strip_edges()
@@ -436,7 +594,7 @@ func _on_dialogic_signal(argument: String) -> void:
 		elif custom_idle_anim == "":
 			custom_idle_anim = param
 
-	# 👻 🌟 專門用來隱藏與顯示角色的暗號 (支援 hide:npc、hide:m1 或帶淡出秒數 hide:m1:0.5)
+	# 👻 專門用來隱藏與顯示角色的暗號
 	if action == "hide":
 		var target_node = _get_player() if actor == "player" else _get_actor_node(actor)
 		if is_instance_valid(target_node):
@@ -462,6 +620,8 @@ func _on_dialogic_signal(argument: String) -> void:
 			target_node.visible = true
 			var sprite = _get_actor_sprite(target_node)
 			if sprite:
+				sprite.visible = true
+				sprite.modulate.a = 1.0
 				sprite.process_mode = Node.PROCESS_MODE_ALWAYS
 			if fade_time > 0.0:
 				target_node.modulate.a = 0.0
@@ -692,6 +852,24 @@ func _on_dialogic_signal(argument: String) -> void:
 
 	if not has_valid_target: return
 
+	# ⚡ 🌟 強化版 snap 瞬間定位指令：連被 DISABLED 或隱藏的白貓都會強制解鎖現形！
+	if action == "snap":
+		current_actor_node.global_position = target_pos
+		current_actor_node.visible = true
+		current_actor_node.modulate.a = 1.0
+		current_actor_node.process_mode = Node.PROCESS_MODE_INHERIT
+		_set_actor_ai_active(current_actor_node, false) # 演戲期間先暫停自主亂跑
+		var sp = _get_actor_sprite(current_actor_node)
+		if sp:
+			sp.visible = true
+			sp.modulate.a = 1.0
+			sp.process_mode = Node.PROCESS_MODE_ALWAYS
+			if custom_idle_anim != "" and sp.sprite_frames and sp.sprite_frames.has_animation(custom_idle_anim):
+				sp.play(custom_idle_anim)
+			elif custom_move_anim != "" and sp.sprite_frames and sp.sprite_frames.has_animation(custom_move_anim):
+				sp.play(custom_move_anim)
+		return
+
 	# 🌟 阿尼移動邏輯
 	if actor == "player":
 		var player = player_node
@@ -834,14 +1012,26 @@ func _on_dialogic_signal(argument: String) -> void:
 					npc_sprite.play(idle_anim)
 			)
 
-# 🔓 3. 劇本結束 ➡️ 解鎖阿尼，並清理殘留動畫、恢復場上角色 AI！
+# 🔓 3. 劇本結束 ➡️ 解鎖阿尼，並清理殘留動畫、故事書 UI 與恢復場上角色 AI！
 func _on_timeline_ended() -> void:
 	if not is_active: return
 	is_active = false
 	_clear_all_cutscene_tweens(true)
+	_destroy_storybook_ui()
 	
 	var player = _get_player()
-	if is_instance_valid(player) and player.is_in_dialogue:
+	if is_instance_valid(player):
+		if next_scene_after_cutscene != "":
+			var facing_vec := Vector2.DOWN
+			match next_spawn_facing:
+				1: facing_vec = Vector2.UP
+				2: facing_vec = Vector2.RIGHT
+				3: facing_vec = Vector2.LEFT
+				
+			print("【CutsceneDirector】劇情結束！維持隱形並透過密道傳送至：", next_scene_after_cutscene, " 定位點：", next_spawn_marker_name)
+			SceneTransition.change_map(next_scene_after_cutscene, next_spawn_marker_name, facing_vec)
+			return
+			
 		player.is_in_dialogue = false
 		if player.state_machine:
 			player.state_machine.process_mode = Node.PROCESS_MODE_INHERIT
@@ -854,6 +1044,11 @@ func _on_timeline_ended() -> void:
 			if actor_node and is_instance_valid(actor_node) and actor_node.visible:
 				actor_node.process_mode = Node.PROCESS_MODE_INHERIT
 				_set_actor_ai_active(actor_node, true)
+		# 🌟 確保自動抓過來的白貓在演完後也會恢復跟隨 AI！
+		var auto_cat = _find_cat_node()
+		if is_instance_valid(auto_cat) and auto_cat.visible:
+			auto_cat.process_mode = Node.PROCESS_MODE_INHERIT
+			_set_actor_ai_active(auto_cat, true)
 			
 		var cam = get_viewport().get_camera_2d()
 		if is_instance_valid(cam):

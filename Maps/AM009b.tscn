@@ -4876,7 +4876,7 @@ coin_drop_count = 5
 use_diagonal_anim = false
 
 [node name="whitecat" parent="." instance=ExtResource("1_eddww")]
-position = Vector2(4487, 1198)
+position = Vector2(4504, 1200)
 scale = Vector2(0.6, 0.6)
 
 [node name="Node2D" type="Node2D" parent="."]

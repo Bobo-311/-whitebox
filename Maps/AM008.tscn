@@ -2104,8 +2104,8 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("1_h8b51")]
-position = Vector2(3083, 1917)
-scale = Vector2(0.3, 0.3)
+position = Vector2(3075, 1912.0001)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

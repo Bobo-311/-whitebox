@@ -1,3 +1,14 @@
-阿尼: [wave amp=50.0 freq=5.0 connected=1]回來了......
-阿尼: [wave amp=50.0 freq=5.0 connected=1]好暈...快吐了...
-白貓: 嘿嘿！原來終點真的是這裡啊！
+[style name="galstyle"]
+[signal arg="fade_in_cinematic"]
+[signal arg="show:door_at_floor"]
+[signal arg="snap:cat:player_right:idle_left"]
+
+join 阿尼 (饒頭困擾) left
+阿尼: [wave amp=50.0 freq=5.0 connected=1]回來了......[/wave]
+阿尼: [wave amp=50.0 freq=5.0 connected=1]好暈...快吐了...[/wave]
+
+join 路克斯 (笑容) right
+路克斯: 嘿嘿！原來終點真的是這裡啊！
+
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]

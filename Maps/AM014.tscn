@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=4 uid="uid://cka71yxrarl35"]
+[gd_scene load_steps=146 format=4 uid="uid://cka71yxrarl35"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_efa07"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_j8m1d"]
@@ -16,6 +16,14 @@
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="13_20yyl"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="15_1ixav"]
 [ext_resource type="PackedScene" uid="uid://2yj4wq8nsmac" path="res://單獨物件場景/door_at_the_floor.tscn" id="16_1ixav"]
+[ext_resource type="Texture2D" uid="uid://b3bcvma53kios" path="res://眠境-角色立繪/故事書/01.png" id="16_i2i81"]
+[ext_resource type="Texture2D" uid="uid://cymtmiie3rnih" path="res://眠境-角色立繪/故事書/02.png" id="17_yyfqe"]
+[ext_resource type="Texture2D" uid="uid://c34ogg0fyfq2g" path="res://眠境-角色立繪/故事書/03.png" id="18_qdhui"]
+[ext_resource type="Texture2D" uid="uid://by2svjq2208qy" path="res://眠境-角色立繪/故事書/04.png" id="19_ukw1h"]
+[ext_resource type="Texture2D" uid="uid://bv8tcsh5sulnf" path="res://眠境-角色立繪/故事書/05.png" id="20_cmvnx"]
+[ext_resource type="Texture2D" uid="uid://2leoq5bxsene" path="res://眠境-角色立繪/故事書/06.png" id="21_si4jr"]
+[ext_resource type="Texture2D" uid="uid://d705x670hu2h" path="res://眠境-角色立繪/故事書/07.png" id="22_7ptef"]
+[ext_resource type="Texture2D" uid="uid://bhy7jmhxfl6f2" path="res://眠境-角色立繪/故事書/08.png" id="23_u80d2"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -16158,8 +16166,8 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(2445, 1659)
 
 [node name="WhiteCat" parent="." instance=ExtResource("5_44toe")]
-position = Vector2(2076, 841)
-scale = Vector2(0.3, 0.3)
+position = Vector2(2072, 823)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="cabinet" parent="." instance=ExtResource("7_1ixav")]
@@ -16251,6 +16259,8 @@ markers = {
 "chair_pos": NodePath("../Node2D/chair_pos")
 }
 player_dch = ExtResource("15_1ixav")
+storybook_images = Array[Texture2D]([ExtResource("16_i2i81"), ExtResource("17_yyfqe"), ExtResource("18_qdhui"), ExtResource("19_ukw1h"), ExtResource("20_cmvnx"), ExtResource("21_si4jr"), ExtResource("22_7ptef"), ExtResource("23_u80d2")])
+next_scene_after_cutscene = "uid://n5el11gnhx3y"
 trigger_on_map_enter = true
 
 [node name="Node2D" type="Node2D" parent="."]
@@ -16259,10 +16269,10 @@ trigger_on_map_enter = true
 position = Vector2(1849, 425)
 
 [node name="cabin_center_pos" type="Marker2D" parent="Node2D"]
-position = Vector2(1986, 604)
+position = Vector2(1978, 599)
 
 [node name="cabin_center_pos2" type="Marker2D" parent="Node2D"]
-position = Vector2(2099, 604)
+position = Vector2(2105, 637)
 
 [node name="book_pos" type="Marker2D" parent="Node2D"]
 position = Vector2(2226, 431)

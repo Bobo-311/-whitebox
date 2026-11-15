@@ -1,3 +1,9 @@
-白貓: 成功了！
+[style name="galstyle"]
+join 路克斯 (鬆一口氣) right
+路克斯: 成功了！
+join 阿尼 (大喘氣) left
 阿尼: 終於把它打倒了...
-白貓: 趁其他怪物還沒聚過來，我們快走！
+路克斯 (數到三): 趁其他怪物還沒聚過來，我們快走！
+
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4"]

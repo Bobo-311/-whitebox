@@ -34,7 +34,7 @@ scene = ExtResource("6_pacis")
 overrides = {
 "box_animation_out": "0",
 "box_size": "Vector2(1000, 200)",
-"name_label_box_offset": "Vector2(0, -20)",
+"name_label_box_offset": "Vector2(0, -10)",
 "name_label_custom_font_size": "25.0",
 "name_label_font": "\"res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf\"",
 "name_label_use_global_color": "false",
