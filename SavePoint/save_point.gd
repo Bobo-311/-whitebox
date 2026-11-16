@@ -65,7 +65,7 @@ func _trigger_first_time_cutscene() -> void:
 	
 	# 解鎖藍色顏料並自動裝進快捷欄補滿 3 次！
 	if DataManager.has_method("unlock_auto_refill_item"):
-		DataManager.unlock_auto_refill_item("blue_paint")
+		DataManager.unlock_auto_refill_item("hp_paint")
 		
 	var player = DataManager.player_node
 	if player:

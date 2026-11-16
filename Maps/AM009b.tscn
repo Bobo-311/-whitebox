@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://ccfun1apw4e15"]
+[gd_scene load_steps=56 format=4 uid="uid://ccfun1apw4e15"]
 
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_eddww"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_xj7ka"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cbc5kubrey2q2" path="res://單獨物件場景/twin_rock_a.tscn" id="11_bg1pq"]
 [ext_resource type="PackedScene" uid="uid://dufj7xit8pgpx" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango.tscn" id="12_nqmvu"]
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="13_hiv2a"]
+[ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="14_bg1pq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw5g3"]
 texture = ExtResource("2_xj7ka")
@@ -3408,7 +3409,6 @@ metadata/_edit_vertical_guides_ = [3908.0, 9666.0]
 metadata/_edit_horizontal_guides_ = [-806.0, 3123.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 y_sort_enabled = true
 anchors_preset = 15
@@ -3423,7 +3423,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 y_sort_enabled = true
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
@@ -4902,3 +4901,31 @@ markers = {
 "walk_to_here": NodePath("../Node2D/walk_to_here")
 }
 trigger_on_map_enter = true
+
+[node name="lightFlower" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(6160, 972)
+scale = Vector2(3, 3)
+
+[node name="lightFlower2" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(7096.0005, -190)
+scale = Vector2(3, 3)
+
+[node name="lightFlower3" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(8613, -190)
+scale = Vector2(3, 3)
+
+[node name="lightFlower4" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(8894, 1400)
+scale = Vector2(3, 3)
+
+[node name="lightFlower5" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(8081, 2489)
+scale = Vector2(3, 3)
+
+[node name="lightFlower6" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(6479, 2483)
+scale = Vector2(3, 3)
+
+[node name="lightFlower7" parent="." instance=ExtResource("14_bg1pq")]
+position = Vector2(7356, 1198)
+scale = Vector2(3, 3)

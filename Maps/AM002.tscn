@@ -19778,7 +19778,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(3973, 2476)
+position = Vector2(4046, -455)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -21413,6 +21413,7 @@ actors = {
 "cat": NodePath("../WhiteCat"),
 "door_at_floor": NodePath("../door at the floor")
 }
+required_prerequisite = "got_key"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CutsceneDirector_CabinExit"]
 position = Vector2(4001, -1029)

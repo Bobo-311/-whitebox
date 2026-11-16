@@ -31,7 +31,7 @@ var soul_map_path: String = "" # 記錄玩家死掉、噴裝的那張地圖是�
 # 📔 貼紙系統核心資料庫
 # ==========================================
 var equipped_stickers: Array[String] = ["", "", "", ""]
-var owned_stickers: Array[String] = ["001", "004", "006", "008"]
+var owned_stickers: Array[String] = []
 
 const STICKER_DB = {
 	"001": {

@@ -59,6 +59,10 @@ var current_ink: float = 60.0               # 當前剩餘墨水
 
 var is_in_dialogue: bool = false            # 🌟 新增這行：記錄阿尼是不是正在看劇情
 
+# 📸 劇照拍照模式專用變數
+var _photo_mode_Active: bool = false
+var _photo_mode_hidden_nodes: Array[Node] = []
+
 # ==========================================
 # 武器墨水消耗表
 # ==========================================
@@ -175,23 +179,78 @@ func _input(event):
 		state_machine.process_mode = Node.PROCESS_MODE_DISABLED # 凍結大腦
 		if notebook_ui: notebook_ui.toggle_notebook(false)
 
-	# 🛠️ 開發者外掛 1：原本的 cheater 按鍵（印鈔 + 解鎖戰鬥 + 補滿墨水）
+	# 🛠️ 開發者外掛 1：原本的 cheater 按鍵（印鈔 + 解鎖戰鬥 + 補滿墨水 + 獲得貨物與鑰匙）
 	if event.is_action_pressed("cheater") and DataManager: 
 		DataManager.total_gold += 100
 		DataManager.combat_unlocked = true
+		DataManager.mark_cutscene_completed("got_cargo") # 📦 獲得商人貨物
+		DataManager.mark_cutscene_completed("got_key")   # 🔑 獲得小木屋鑰匙
+		DataManager.unlock_auto_refill_item("hp_paint")  # 🧪 解鎖並補滿藍色顏料
 		refill_full_ink()
 		if magic_brush:
 			magic_brush.visible = true
-		print("【開發者外掛】印鈔 100 元 + 強制解鎖戰鬥與補滿墨水！總金額：", DataManager.total_gold)
+		print("【開發者外掛】印鈔 100 元 + 解鎖戰鬥/顏料 + 獲得貨物(got_cargo)與鑰匙(got_key)！總金額：", DataManager.total_gold)
 
-	# 🛠️ 開發者外掛 2：按下鍵盤 F1 隨時「切換（開/關）」戰鬥鎖定狀態（免去專案設定綁按鍵）
-	if event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_F1:
-		if DataManager:
-			DataManager.combat_unlocked = not DataManager.combat_unlocked
-			refill_full_ink()
-			if magic_brush:
-				magic_brush.visible = DataManager.can_combat()
-			print("【開發者測試】F1 切換戰鬥狀態！目前是否可戰鬥：", DataManager.can_combat())
+	# 🛠️ 開發者外掛 2：按下鍵盤 F1 ~ F5 隨時「切換（開/關）」測試狀態
+	if event is InputEventKey and event.pressed and not event.is_echo() and DataManager:
+		match event.keycode:
+			KEY_F1:
+				# ⚔️ F1：切換戰鬥鎖定狀態
+				DataManager.combat_unlocked = not DataManager.combat_unlocked
+				refill_full_ink()
+				if magic_brush:
+					magic_brush.visible = DataManager.can_combat()
+				print("【開發者測試】F1 切換戰鬥狀態！目前是否可戰鬥：", DataManager.can_combat())
+				
+			KEY_F2:
+				# 📦 F2：切換「是否已獲得商人貨物 (got_cargo)」
+				if DataManager.is_cutscene_completed("got_cargo"):
+					DataManager.completed_cutscenes.erase("got_cargo")
+					print("【開發者測試】F2 已移除貨物 (got_cargo = false)")
+				else:
+					DataManager.mark_cutscene_completed("got_cargo")
+					print("【開發者測試】F2 已獲得商人貨物 (got_cargo = true)！")
+					
+			KEY_F3:
+				# 🔑 F3：切換「是否已獲得小木屋鑰匙 (got_key)」
+				if DataManager.is_cutscene_completed("got_key"):
+					DataManager.completed_cutscenes.erase("got_key")
+					print("【開發者測試】F3 已移除小木屋鑰匙 (got_key = false)")
+				else:
+					DataManager.mark_cutscene_completed("got_key")
+					print("【開發者測試】F3 已獲得小木屋鑰匙 (got_key = true)！")
+					
+			KEY_F4:
+				# 📸 F4：切換「劇照拍照模式」（一鍵隱藏/恢復所有戰鬥 UI 與提示圖示）
+				_photo_mode_Active = not _photo_mode_Active
+				if _photo_mode_Active:
+					_photo_mode_hidden_nodes.clear()
+					# 自動抓取場上所有 CanvasLayer (包含 PlayerHUD、血條、快捷欄等)
+					for node in get_tree().root.find_children("*", "CanvasLayer", true, false):
+						if node.visible and not ("Transition" in node.name):
+							node.visible = false
+							_photo_mode_hidden_nodes.append(node)
+					# 順便藏起畫筆讓畫面乾淨
+					if magic_brush and magic_brush.visible:
+						magic_brush.visible = false
+						_photo_mode_hidden_nodes.append(magic_brush)
+					print("【📸 劇照模式開啟】已隱藏所有戰鬥 UI！再按一次 F4 即可恢復。")
+				else:
+					# 恢復剛剛被隱藏的所有 UI 節點
+					for node in _photo_mode_hidden_nodes:
+						if is_instance_valid(node):
+							node.visible = true
+					_photo_mode_hidden_nodes.clear()
+					print("【📸 劇照模式關閉】已恢復所有 UI 顯示！")
+					
+			KEY_F5:
+				# ⏸️ F5：時間暫停 / 定格畫面 (方便抓截圖)
+				if Engine.time_scale > 0.0:
+					Engine.time_scale = 0.0
+					print("【📸 畫面已定格】遊戲時間停止！按 F5 恢復。")
+				else:
+					Engine.time_scale = 1.0
+					print("【📸 畫面恢復】遊戲時間繼續。")
 
 # ==========================================
 # 數值重算 (裝備系統對接)
@@ -224,7 +283,7 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-			move_and_slide()       
+			move_and_slide()        
 			return                 
 		else:
 			# 解除狀態鎖定，恢復大腦運作
@@ -246,7 +305,7 @@ func _physics_process(delta: float) -> void:
 			var is_in_knockback: bool = knockback_component and knockback_component.knockback_force.length() > 0.0
 			# 如果沒有在翻滾，也沒有被打飛，才強制煞車
 			if not is_dashing and not is_in_knockback:
-				velocity = Vector2.ZERO    
+				velocity = Vector2.ZERO   
 
 		# 快捷鍵與武器切換監聽
 		if Input.is_action_just_pressed("slot_left"): DataManager.rotate_quick_slot(-1)
@@ -500,13 +559,6 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 
 	# 🌟【正規修改】
 	# 只有在播放 Move 動畫時，才允許 WASD 更新角色面向。
-	#
-	# 為什麼？
-	# Attack 的方向由滑鼠決定。
-	# Shoot 的方向由滑鼠決定。
-	# Hurt 則應保留原本面向。
-	#
-	# 避免其他動畫播放時，被 WASD 覆蓋面向。
 	if prefix == "move" and not is_dashing and input_direction != Vector2.ZERO:
 		# 1. 計算 8 方位字串 (給 8 方向移動用)
 		var y_str = ""
@@ -538,12 +590,9 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	var animation_name = prefix + "_" + target_suffix
 
 	# 4. 【自動降級防呆機制】
-	# 如果算出來是 8 方位，但在你的 SpriteFrames 裡找不到這個動畫
-	# 就會自動退回到核心記憶的 4 方位
 	if not anim.sprite_frames.has_animation(animation_name):
 		animation_name = prefix + "_" + facing_direction
 
-	# 如果連 4 方位的動畫都沒有，為了避免報錯，直接放棄播放
 	if not anim.sprite_frames.has_animation(animation_name): return
 
 	anim.play(animation_name)

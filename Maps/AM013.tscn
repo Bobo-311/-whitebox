@@ -1,4 +1,4 @@
-[gd_scene load_steps=177 format=4 uid="uid://hsot31p0hdgv"]
+[gd_scene load_steps=178 format=4 uid="uid://hsot31p0hdgv"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_wppda"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_h6h8j"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bed1w2j41swih" path="res://單獨物件場景/blue_flower_1.tscn" id="14_8uf40"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="15_briul"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="16_5hdk8"]
+[ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="17_8cmns"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -17533,7 +17534,6 @@ tile_map_data = PackedByteArray("AAAdAAAAAgABAB8AAAAdAAEAAgABACAAAAAdAAIAAgABACE
 tile_set = SubResource("TileSet_briul")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -17547,16 +17547,14 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(2445, 1659)
 
 [node name="WhiteCat" parent="." instance=ExtResource("5_18uua")]
-visible = false
-position = Vector2(1697, 1763)
-scale = Vector2(0.3, 0.3)
+position = Vector2(3148, 2119)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="小木屋" parent="." instance=ExtResource("7_3s1r7")]
@@ -17798,6 +17796,30 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(1967, 404, 1967, 625, 2036, 625, 2033, 686, 2050, 692, 2499, 691, 2521, 682, 2521, 626, 2564, 629, 2586, 619, 2586, 400, 2560, 394, 2519, 395, 2520, 337, 2496, 329, 2049, 330, 2030, 339, 2031, 394, 1988, 391)
+
+[node name="lightFlower" parent="." instance=ExtResource("17_8cmns")]
+position = Vector2(2492, 1287)
+scale = Vector2(3, 3)
+
+[node name="lightFlower2" parent="." instance=ExtResource("17_8cmns")]
+position = Vector2(1924, 1383)
+scale = Vector2(3, 3)
+
+[node name="lightFlower3" parent="." instance=ExtResource("17_8cmns")]
+position = Vector2(3864, 1692)
+scale = Vector2(3, 3)
+
+[node name="lightFlower4" parent="." instance=ExtResource("17_8cmns")]
+position = Vector2(2659, 1840)
+scale = Vector2(3, 3)
+
+[node name="lightFlower5" parent="." instance=ExtResource("17_8cmns")]
+position = Vector2(3677, 798.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower6" parent="." instance=ExtResource("17_8cmns")]
+position = Vector2(2224.0002, 753.00006)
+scale = Vector2(3, 3)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea木屋門"]

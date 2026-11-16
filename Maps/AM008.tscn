@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://cnjndu48dqf3o"]
+[gd_scene load_steps=50 format=4 uid="uid://cnjndu48dqf3o"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_a18nb"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_h8b51"]
@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="10_b0vjx"]
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="11_1dykj"]
 [ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="12_1dykj"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="13_waf5r"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
@@ -2083,7 +2084,6 @@ metadata/_edit_vertical_guides_ = [2649.0]
 metadata/_edit_horizontal_guides_ = [2032.0, 460.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -2218,7 +2218,7 @@ position = Vector2(-4757.6924, -2566.154)
 polygon = PackedVector2Array(4722.308, 2571.5388, 4722.308, 2768.462, 4506.1543, 2767.6929, 4506.1543, 2571.5388)
 
 [node name="player" parent="." instance=ExtResource("2_endjd")]
-position = Vector2(2975, 2050)
+position = Vector2(2967, 1912)
 base_max_hp = 100
 max_hp = 100
 
@@ -2243,10 +2243,10 @@ hide_target_npc_after_complete = true
 position = Vector2(4637, 1903)
 
 [node name="shop_dront2" type="Marker2D" parent="Node2D"]
-position = Vector2(4578, 1902)
+position = Vector2(4594, 1903)
 
 [node name="shop_dront3" type="Marker2D" parent="Node2D"]
-position = Vector2(4697, 1904)
+position = Vector2(4696, 1862)
 
 [node name="ShopNPC" parent="." instance=ExtResource("11_1dykj")]
 position = Vector2(4658, 1735)
@@ -2267,6 +2267,9 @@ scale = Vector2(3, 3)
 [node name="2boxes6" parent="." instance=ExtResource("12_1dykj")]
 position = Vector2(3845.0002, 665.00006)
 scale = Vector2(3.5, 3.5)
+
+[node name="SavePoint" parent="." instance=ExtResource("13_waf5r")]
+position = Vector2(3410, 1792)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

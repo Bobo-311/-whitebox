@@ -23,6 +23,7 @@ class_name CutsceneDirector
 var next_spawn_facing: int = 0                                    # 🌟 抵達新地圖時的初始面向
 
 @export_group("📖 跨地圖記憶與角色去留設定")
+@export var required_prerequisite: String = ""             # 🌟 必須先完成哪個劇本或旗標才能觸發？(如填 "got_key")
 @export var trigger_on_map_enter: bool = false             # 勾選後，一進入這張地圖就會自動開拍
 @export var hide_target_npc_after_complete: bool = false   # 🌟 勾選後，演完重回地圖時 target_npc 會永遠消失
 @export var permanent_hide_actors: Array[String] = []      # 🌟 填入演完後要「永遠消失」的 actors 代號 (如 "m1")，沒填的會保留！
@@ -65,6 +66,13 @@ var _book_tween: Tween = null
 @export var click_cooldown: float = 0.18   # 🌟 防連點冷卻秒數 (避免狂按空白鍵/滑鼠導致 Dialogic 與 Tween 崩潰)
 var _last_advance_time: float = 0.0
 
+# 🌟 輔助檢查：是否已滿足前置劇情條件？
+func _is_prerequisite_met() -> bool:
+	var req_flag: String = required_prerequisite.strip_edges()
+	if req_flag != "" and DataManager.has_method("is_cutscene_completed"):
+		return DataManager.is_cutscene_completed(req_flag)
+	return true
+
 func _ready() -> void:
 	# 🌟 保險機制：進入新地圖時，確保阿尼不會因為上一張圖的 hide:player 而維持隱形！
 	var init_p = _get_player()
@@ -72,17 +80,25 @@ func _ready() -> void:
 		init_p.visible = true
 		init_p.modulate.a = 1.0
 
+	# 🌟 0. 前置條件檢查：如果還沒滿足前置條件（例如還沒去過小木屋拿鑰匙），直接關閉此導演的感應器！
+	if not _is_prerequisite_met():
+		monitoring = false
+		set_process(false)
+		# 確保地道門在還沒去過小木屋前是隱藏的
+		if actors.has("door_at_floor"):
+			var door_node = get_node_or_null(actors["door_at_floor"]) as Node2D
+			if is_instance_valid(door_node):
+				door_node.visible = false
+		return
+
 	# ==========================================
-	# 🌟 0. 地道出口第 0 幀預先佈景：
-	# 如果這個導演有綁定 "door_at_floor"，且玩家已經在小木屋拿到鑰匙 ("got_key")，
-	# 在轉場黑幕退去前的「第 0 幀」就立刻把地板門與白貓現形，解決先看到阿尼才看到門的問題！
+	# 🌟 0-B. 地道出口第 0 幀預先佈景：
 	# ==========================================
 	if actors.has("door_at_floor") and DataManager.has_method("is_cutscene_completed") and DataManager.is_cutscene_completed("got_key"):
 		var door_node = get_node_or_null(actors["door_at_floor"]) as Node2D
 		if is_instance_valid(door_node):
 			door_node.visible = true
 			door_node.modulate.a = 1.0
-		# 等 1 幀確保 SceneTransition 已經把阿尼放到 From_Cabin 上，立刻在黑幕下把白貓抓過來並現形！
 		call_deferred("_pre_stage_cabin_exit_cat")
 
 	# ==========================================
@@ -154,7 +170,7 @@ func _ready() -> void:
 		await get_tree().physics_frame
 		await get_tree().physics_frame
 		await get_tree().create_timer(0.2).timeout
-		if not is_inside_tree() or has_triggered:
+		if not is_inside_tree() or has_triggered or not _is_prerequisite_met():
 			return
 		_map_ready_for_trigger = true
 		monitoring = true
@@ -175,7 +191,7 @@ func _pre_stage_cabin_exit_cat() -> void:
 	if is_instance_valid(p) and global_position.distance_to(p.global_position) < 200.0:
 		_auto_sync_cat_to_player(p, true)
 
-# 🌟 輔助函數：自動尋找場上的白貓（不管有沒有綁進 Actors 字典都能抓到！），並強制解除 hide 狀態移到阿尼身旁
+# 🌟 輔助函數：自動尋找場上的白貓
 func _find_cat_node() -> Node2D:
 	var cat_node: Node2D = _get_actor_node("cat")
 	if not cat_node and get_tree() and get_tree().current_scene:
@@ -202,7 +218,6 @@ func _auto_sync_cat_to_player(player_body: Node2D, force_show: bool = false) -> 
 				if sp.sprite_frames and sp.sprite_frames.has_animation("idle_left"):
 					sp.play("idle_left")
 
-# 🌟 離開場景樹時安全清理所有 Tween 與訊號連線，防止換地圖時閃退
 func _exit_tree() -> void:
 	_clear_all_cutscene_tweens(false)
 	_destroy_storybook_ui()
@@ -318,7 +333,6 @@ func _destroy_storybook_ui() -> void:
 	_book_bg = null
 	_book_tex_rect = null
 
-# 🛡️ 防禦 1：過場演戲期間的「防狂按節流閥」
 func _input(event: InputEvent) -> void:
 	if not is_active: return
 	
@@ -336,7 +350,6 @@ func _input(event: InputEvent) -> void:
 			return
 		_last_advance_time = now
 
-# 🛡️ 防禦 2A：在計算下一步方向與座標「之前」，先切斷角色身上未完成的 Tween 並瞬間補位到上一步終點！
 func _snap_and_kill_actor_tween(actor_key: String, actor_node: Node2D) -> void:
 	if _actor_tweens.has(actor_key):
 		var old_tween = _actor_tweens[actor_key] as Tween
@@ -349,7 +362,6 @@ func _snap_and_kill_actor_tween(actor_key: String, actor_node: Node2D) -> void:
 					if sp: sp.play(_actor_target_idle[actor_key])
 		_actor_tweens.erase(actor_key)
 
-# 🛡️ 防禦 2B：安全建立角色移動 Tween
 func _create_safe_actor_tween(actor_key: String, actor_node: Node2D, new_target_pos: Vector2, idle_anim: String = "") -> Tween:
 	_snap_and_kill_actor_tween(actor_key, actor_node)
 	_actor_target_pos[actor_key] = new_target_pos
@@ -359,7 +371,6 @@ func _create_safe_actor_tween(actor_key: String, actor_node: Node2D, new_target_
 	_actor_tweens[actor_key] = new_tween
 	return new_tween
 
-# 🛡️ 防禦 3：劇本結束或離開場景時，清理所有殘留的 Tween
 func _clear_all_cutscene_tweens(snap_to_end: bool = true) -> void:
 	if _cam_tween and _cam_tween.is_valid():
 		_cam_tween.kill()
@@ -461,7 +472,6 @@ func _get_player() -> Node2D:
 		return p as Node2D
 	return null
 
-# 🌟 強化版：就算忘記在 Actors 字典綁定 "cat"，寫 [signal arg="snap:cat:..."] 也會自動抓到場上的白貓！
 func _get_actor_node(actor_key: String) -> Node2D:
 	if actor_key == "npc":
 		return target_npc
@@ -506,11 +516,16 @@ func _set_actor_ai_active(actor_node: Node2D, active: bool) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if not _map_ready_for_trigger or DataManager.is_teleporting or Dialogic.current_timeline != null:
 		return
+	# 🌟 前置條件鎖：沒完成小木屋劇情前，絕對不觸發！
+	if not _is_prerequisite_met():
+		return
 	if body == _get_player() and not has_triggered:
 		start_cutscene(body)
 			
 func start_cutscene(player_body: Node2D = null) -> void:
 	if has_triggered: 
+		return
+	if not _is_prerequisite_met():
 		return
 	if DataManager.has_method("is_cutscene_completed") and DataManager.is_cutscene_completed(target_timeline):
 		return
@@ -1044,7 +1059,6 @@ func _on_timeline_ended() -> void:
 			if actor_node and is_instance_valid(actor_node) and actor_node.visible:
 				actor_node.process_mode = Node.PROCESS_MODE_INHERIT
 				_set_actor_ai_active(actor_node, true)
-		# 🌟 確保自動抓過來的白貓在演完後也會恢復跟隨 AI！
 		var auto_cat = _find_cat_node()
 		if is_instance_valid(auto_cat) and auto_cat.visible:
 			auto_cat.process_mode = Node.PROCESS_MODE_INHERIT

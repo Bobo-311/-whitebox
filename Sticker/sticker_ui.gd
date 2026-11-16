@@ -157,24 +157,27 @@ func show_sticker_info(sticker_id: String) -> void:
 	if sticker_id == "" or not DataManager.STICKER_DB.has(sticker_id):
 		return
 		
-	# 從大腦撈出這張貼紙的資料
 	var data = DataManager.STICKER_DB[sticker_id]
-	
-	# 1. 更新標題
 	info_title.text = data["name"]
-	
-	# 2. 更新大圖預覽
 	preview_img.texture = load(data["texture_path"])
 	
-	# 3. 更新文案說明 (如果你的 DB 之後加了 "description" 欄位，可以直接替換)
-	# 目前先用 type 和 value 拼湊出效果說明
-	var effect_text = "功能類型：" + data["type"] + "\n數值影響：" + str(data["value"])
-	if data.has("threshold"):
-		effect_text += "\n發動條件：HP低於 " + str(data["threshold"] * 100) + "%"
-		
+	# 🌟 將英文 type 自動翻譯成直覺的中文效果描述！
+	var effect_text: String = ""
+	match data["type"]:
+		"max_hp_boost":
+			effect_text = "最大生命值提升 +" + str(data["value"]) + " HP"
+		"skill_dmg_multiplier":
+			effect_text = "魔法畫筆技能傷害提升至 " + str(int(data["value"] * 100)) + "%"
+		"heal_on_kill":
+			effect_text = "擊敗敵人時，恢復 " + str(int(data["value"] * 100)) + "% 生命值"
+		"low_hp_atk_boost":
+			effect_text = "生命值低於 " + str(int(data.get("threshold", 0.35) * 100)) + "% 時，\n攻擊力提升至 " + str(int(data["value"] * 100)) + "%"
+		"heal_item_boost":
+			effect_text = "使用回復道具時，額外恢復 +" + str(data["value"]) + " HP"
+		_:
+			effect_text = "功能類型：" + data["type"] + "\n數值影響：" + str(data["value"])
+			
 	info_desc.text = effect_text
-
-
 
 
 # ==========================================

@@ -16145,7 +16145,6 @@ tile_map_data = PackedByteArray("AAAfAAIAAwAFAAIAAAAaAAAAAwAAAAAAAAAaAAEAAwAAAAE
 tile_set = SubResource("TileSet_2t8ig")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -16159,7 +16158,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -16204,7 +16202,7 @@ rotation = 1.5707964
 shape = SubResource("RectangleShape2D_pro6m")
 
 [node name="From_Map13" type="Marker2D" parent="."]
-position = Vector2(2240.0002, 837)
+position = Vector2(2018.0002, 849)
 scale = Vector2(1.3, 1.3)
 
 [node name="PortalArea轉地圖二" parent="." instance=ExtResource("11_1jqui")]
@@ -16246,7 +16244,7 @@ position = Vector2(2030, 499)
 scale = Vector2(39.839996, 61.12959)
 
 [node name="CutsceneDirector" parent="." instance=ExtResource("13_20yyl")]
-position = Vector2(2334, 672)
+position = Vector2(2237, 702)
 target_timeline = "A017"
 actors = {
 "cat": NodePath("../WhiteCat"),

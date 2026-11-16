@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://nlff3ygrmq5v"]
+[gd_scene load_steps=50 format=4 uid="uid://nlff3ygrmq5v"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_64k2n"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="2_8l3il"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="19_k4yd4"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="20_60i82"]
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="21_w1fo3"]
+[ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="22_w1fo3"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x148i"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -1.4375, 8, -1.4375)
@@ -7285,7 +7286,6 @@ metadata/_edit_vertical_guides_ = [1998.0, 5454.0]
 metadata/_edit_horizontal_guides_ = [2160.0, 310.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -7299,7 +7299,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -7312,7 +7311,6 @@ tile_map_data = PackedByteArray("AACXAE4AAQAXAAAAAACXAE8AAQAXAAEAAACXAFAAAQAXAAI
 tile_set = SubResource("TileSet_r4s3s")
 
 [node name="WhiteCat" parent="." instance=ExtResource("3_loot5")]
-visible = false
 position = Vector2(2048, 1265.0001)
 scale = Vector2(0.73, 0.73)
 max_follow_distance = 700.0
@@ -7649,6 +7647,26 @@ position = Vector2(3549, 1314)
 
 [node name="walk_to_here" type="Marker2D" parent="Node2D"]
 position = Vector2(3546, 1233)
+
+[node name="lightFlower" parent="." instance=ExtResource("22_w1fo3")]
+position = Vector2(3342, 1575.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower2" parent="." instance=ExtResource("22_w1fo3")]
+position = Vector2(4177, 1497.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower3" parent="." instance=ExtResource("22_w1fo3")]
+position = Vector2(2720, 1016.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower4" parent="." instance=ExtResource("22_w1fo3")]
+position = Vector2(2520, 1886)
+scale = Vector2(3, 3)
+
+[node name="lightFlower5" parent="." instance=ExtResource("22_w1fo3")]
+position = Vector2(4972, 1176)
+scale = Vector2(3, 3)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea上門"]

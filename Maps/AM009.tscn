@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://dfa7qn8iuye7n"]
+[gd_scene load_steps=62 format=4 uid="uid://dfa7qn8iuye7n"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_chhuo"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="2_7ujck"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="7_qij2i"]
 [ext_resource type="PackedScene" uid="uid://biit4lp10kksr" path="res://單獨物件場景/2_boxes.tscn" id="8_nuqpg"]
 [ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="9_abugf"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="10_xnt0s"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_kaapp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_nuqpg"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
@@ -3707,7 +3709,6 @@ limit_bottom = 2450
 metadata/_edit_horizontal_guides_ = [2449.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 y_sort_enabled = true
 anchors_preset = 15
@@ -3722,7 +3723,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 y_sort_enabled = true
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
@@ -3769,8 +3769,6 @@ polygon = PackedVector2Array(4240, -1, 4241, 1089, 6336, 1088, 6335, 1015, 4319,
 
 [node name="player" parent="." instance=ExtResource("3_qij2i")]
 position = Vector2(3971, 308)
-base_max_hp = 100
-max_hp = 100
 
 [node name="PortalArea上門" parent="." instance=ExtResource("7_qij2i")]
 position = Vector2(1795, 1763.0001)
@@ -3850,6 +3848,24 @@ scale = Vector2(3, 3)
 [node name="2boxes7" parent="." instance=ExtResource("9_abugf")]
 position = Vector2(5463, 1428)
 scale = Vector2(3, 3)
+
+[node name="ColorlessZombie" parent="." instance=ExtResource("10_xnt0s")]
+position = Vector2(4135, 1186)
+
+[node name="ColorlessZombie2" parent="." instance=ExtResource("10_xnt0s")]
+position = Vector2(4931, 1339)
+
+[node name="ColorlessZombie3" parent="." instance=ExtResource("10_xnt0s")]
+position = Vector2(3898, 624)
+
+[node name="Colorless_Dango" parent="." instance=ExtResource("11_kaapp")]
+position = Vector2(4012, 1559)
+
+[node name="Colorless_Dango2" parent="." instance=ExtResource("11_kaapp")]
+position = Vector2(4725, 1349)
+
+[node name="Colorless_Dango3" parent="." instance=ExtResource("11_kaapp")]
+position = Vector2(3844, 750)
 
 [editable path="PortalArea上門"]
 [editable path="PortalArea下門"]
