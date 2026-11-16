@@ -1952,7 +1952,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_left_down",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1990,7 +1990,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_left_up",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2031,7 +2031,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_right_down",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2069,7 +2069,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_right_up",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2204,7 +2204,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"berserk_attack_right_down",
-"speed": 5.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2814,7 +2814,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"berserk_transform_left_down",
-"speed": 12.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2891,7 +2891,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"berserk_transform_left_up",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2968,7 +2968,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"berserk_transform_right_down",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -3045,7 +3045,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"berserk_transform_right_up",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -3511,32 +3511,32 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gu13w"]
-radius = 40.0
-height = 150.0
+radius = 23.0
+height = 68.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e4vpj"]
-radius = 89.0
-height = 212.0
+radius = 63.0
+height = 146.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cu41e"]
-radius = 44.315582
-height = 219.45557
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2pk4u"]
-radius = 41.027283
-height = 209.66553
+radius = 32.268867
+height = 121.19391
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_78bna"]
-radius = 44.315582
-height = 220.44366
+radius = 32.092407
+height = 128.54916
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2pk4u"]
+radius = 34.13362
+height = 125.285614
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3he7"]
-radius = 49.321983
-height = 208.10495
+radius = 33.131916
+height = 122.8035
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lyheo"]
-radius = 88.0
-height = 212.0
+radius = 63.0
+height = 148.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rh1c1"]
 radius = 793.0006
@@ -3545,55 +3545,61 @@ radius = 793.0006
 collision_mask = 16129
 script = ExtResource("2_2pk4u")
 stage1_max_hp = 100
-stage1_walk_speed = 80
-stage1_damage = 50.0
-stage1_contact_damage = 15.0
-stage2_walk_speed = 300
-stage2_damage = 75.0
-stage2_contact_damage = 25.0
+stage1_walk_speed = 150
+stage1_damage = 30.0
+stage1_attack_range = 95.0
+stage2_walk_speed = 500
+stage2_damage = 50.0
+stage2_attack_range = 80.0
 berserk_trigger_percent = 1.0
-contact_hit_cooldown = 0.8
-contact_knockback = 1.0
+enemy_aim_anchor_path = NodePath("CollisionShape2D")
+player_aim_anchor_path = NodePath("CollisionShape2D")
+enemy_aim_offset = Vector2(0, 0)
+player_aim_offset = Vector2(0, 0)
 sword_knockback = 1.5
+debug_attack_geometry = false
 coin_drop_count = 30
 use_diagonal_anim = true
 max_hp = 60
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ahywi")
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1, 1)
 sprite_frames = SubResource("SpriteFrames_ni38p")
-animation = &"idle_left_down"
+animation = &"berserk_transform_right_up"
 autoplay = "idle_left_down"
+frame = 23
+frame_progress = 1.0
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-7, 39)
+position = Vector2(4, 22)
 shape = SubResource("CapsuleShape2D_gu13w")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(-7, -1)
+position = Vector2(-3, -7)
 shape = SubResource("CapsuleShape2D_e4vpj")
 
-[node name="CollisionShape_down" type="CollisionShape2D" parent="Hitbox" index="0"]
-position = Vector2(109.66375, -85.57194)
-rotation = -0.90532964
+[node name="CollisionShape_right_up" type="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(54.215797, -53.92204)
+rotation = -0.81283224
 shape = SubResource("CapsuleShape2D_cu41e")
 disabled = true
 
-[node name="CollisionShape_right_up" type="CollisionShape2D" parent="Hitbox" index="1"]
-position = Vector2(-109.66376, -85.57193)
-rotation = -2.2092018
-shape = SubResource("CapsuleShape2D_2pk4u")
-disabled = true
-
-[node name="CollisionShape_right_down" type="CollisionShape2D" parent="Hitbox" index="2"]
-position = Vector2(93.64545, 93.77746)
-rotation = 0.8551114
+[node name="CollisionShape_right_down" type="CollisionShape2D" parent="Hitbox" index="1"]
+position = Vector2(59.1445, 53.92204)
+rotation = 0.8551115
+scale = Vector2(0.99999994, 1)
 shape = SubResource("CapsuleShape2D_78bna")
 disabled = true
 
+[node name="CollisionShape_left_up" type="CollisionShape2D" parent="Hitbox" index="2"]
+position = Vector2(-57.91233, -52.749825)
+rotation = -2.2556872
+shape = SubResource("CapsuleShape2D_2pk4u")
+disabled = true
+
 [node name="CollisionShape_left_down" type="CollisionShape2D" parent="Hitbox" index="3"]
-position = Vector2(-104.73506, 90.2608)
+position = Vector2(-54.21579, 52.749825)
 rotation = -0.7885872
 scale = Vector2(0.99999994, 0.99999994)
 shape = SubResource("CapsuleShape2D_a3he7")
@@ -3602,11 +3608,13 @@ disabled = true
 [node name="BodyHitbox" type="Area2D" parent="." index="4"]
 collision_layer = 4
 collision_mask = 2
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyHitbox" index="0"]
-position = Vector2(-8, -1)
+position = Vector2(-3, -7)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_lyheo")
+disabled = true
 
 [node name="Die" parent="StateMachine" index="3"]
 script = ExtResource("39_qwqeq")
@@ -3623,6 +3631,10 @@ script = ExtResource("10_cnc3a")
 
 [node name="Attack" type="Node" parent="StateMachine" index="5"]
 script = ExtResource("11_ghnye")
+stage1_left_up_frames = Vector2i(5, 6)
+stage1_right_up_frames = Vector2i(5, 6)
+stage1_left_down_frames = Vector2i(5, 6)
+stage1_right_down_frames = Vector2i(5, 6)
 
 [node name="BerserkTransition" type="Node" parent="StateMachine" index="6"]
 script = ExtResource("10_78bna")

@@ -1553,9 +1553,9 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i505y"]
-radius = 25.0
-height = 74.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s6wb8"]
+radius = 13.0
+height = 64.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tn8bs"]
 radius = 25.0
@@ -1583,8 +1583,8 @@ animation = &"hurt_right_up"
 autoplay = "idle_left_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-1, 1)
-shape = SubResource("CapsuleShape2D_i505y")
+position = Vector2(0, 13)
+shape = SubResource("CapsuleShape2D_s6wb8")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(-1, 1)

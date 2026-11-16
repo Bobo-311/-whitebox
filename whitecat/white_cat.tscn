@@ -930,7 +930,7 @@ radius = 77.8257
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["white_cat"]]
 position = Vector2(-2.000001, -344)
-scale = Vector2(5, 5)
+scale = Vector2(0.3, 0.3)
 collision_layer = 256
 collision_mask = 15877
 script = ExtResource("1_jdbxt")

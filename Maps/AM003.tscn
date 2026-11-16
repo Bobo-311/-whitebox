@@ -22251,7 +22251,6 @@ position = Vector2(1370, 1857)
 [node name="WhiteCat" parent="." instance=ExtResource("3_42a2b")]
 visible = false
 position = Vector2(3261, 1414)
-scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_dyx30")]

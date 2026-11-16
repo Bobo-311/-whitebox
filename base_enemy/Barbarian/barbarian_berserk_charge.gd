@@ -1,78 +1,41 @@
-
 extends State
 
-# =====================================================
-# 二階狂暴追擊
-#
-# 不依賴 DetectPlayer
-# 不依賴 VisionRay
-# 不受普通敵人的偵測範圍限制
-#
-# 直到玩家死亡、離開場景或野蠻人死亡
-# 才停止追擊
-# =====================================================
-
-@export_group("狂暴追擊設定")
-@export var attack_range: float = 130.0      # 二階進入揮刀狀態的距離
-
-@export var use_berserk_sword_attack: bool = true
-# 若二階攻擊素材尚未調整完成，可暫時取消勾選
-# 關閉後只進行高速追擊與肉身碰撞傷害
-
-var enemy: Barbarian
+var enemy: Barbarian # 野蠻人角色引用
 
 # =====================================================
-# 進入二階追擊
+# 進入第二階段永久追擊
 # =====================================================
 func enter() -> void:
 	enemy = character as Barbarian
-	if not enemy:
-		return
-
+	enemy.end_sword_attack() # 清除上一輪攻擊的殘留判定
+	enemy.set_contact_enabled(false) # 二階同樣不具有肉身碰撞傷害
 	enemy.can_attack = true
-	enemy.end_sword_attack()
-	enemy.set_contact_enabled(true)         # 跑動期間具有肉身碰撞傷害
 
 # =====================================================
-# 狂暴追擊物理更新
+# 二階永久追擊與狂暴攻擊
 # =====================================================
 func state_physics_update(_delta: float) -> void:
-	if not enemy or enemy.is_dead:
+	if enemy.is_dead or enemy.is_transforming:
 		return
-
-	# 直接取得 DataManager 記錄的玩家
-	# 無須依靠原本 DetectPlayer 的範圍與視野
-	var player: Player = enemy.get_combat_target()
-
-	# 只有玩家不存在或已經死亡時才停止追擊
+	var player: Player = enemy.get_combat_target() # 直接從 DataManager 取得玩家
 	if not player:
 		enemy.velocity = Vector2.ZERO
-		enemy.play_animation("idle", enemy.last_facing_vec)
+		enemy.play_animation("idle") # 玩家死亡或不存在時才停止追擊
 		return
-
-	var distance: float = enemy.global_position.distance_to(player.global_position)
-	var move_dir: Vector2 = enemy.global_position.direction_to(player.global_position)
-
+	var target_vector: Vector2 = enemy.get_combat_vector(player)
+	var move_dir: Vector2 = target_vector.normalized()
 	if move_dir != Vector2.ZERO:
-		enemy.last_facing_vec = move_dir
-
-	# 二階近距離揮刀
-	# 若該方向的攻擊動畫還沒準備好，繼續衝撞而不中斷追擊
-	if use_berserk_sword_attack and enemy.can_attack:
-		if distance <= attack_range:
-			if enemy.has_one_shot_animation("attack", enemy.last_facing_vec):
-				enemy.velocity = Vector2.ZERO
-				state_machine.change_state("Attack")
-				return
-
-	# 無視普通偵測距離，持續高速追向玩家
-	enemy.velocity = move_dir * enemy.walk_speed
-	enemy.play_animation("run", enemy.last_facing_vec)
+		enemy.last_facing_vec = move_dir # 在攻擊開始前更新正確的四方向面向
+	if enemy.can_start_sword() and enemy.can_reach_with_sword(player, enemy.last_facing_vec):
+		enemy.velocity = Vector2.ZERO
+		state_machine.change_state("Attack") # 根據二階攻擊距離發動狂暴揮刀
+		return
+	enemy.velocity = move_dir * enemy.walk_speed # 不受偵測距離及視線限制
+	enemy.play_animation("run", move_dir) # 自動播放 berserk_run 對應方向動畫
 
 # =====================================================
-# 離開狂暴追擊
-# 下一個狀態接管攻擊碰撞的開關
+# 離開二階追擊狀態
 # =====================================================
 func exit() -> void:
-	if is_instance_valid(enemy):
-		enemy.velocity = Vector2.ZERO
+	enemy.velocity = Vector2.ZERO
+	enemy.set_contact_enabled(false)

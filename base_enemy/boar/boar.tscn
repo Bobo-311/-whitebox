@@ -906,7 +906,7 @@ radius = 59.190945
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_evh06")
 sprite_frames = SubResource("SpriteFrames_8o6hk")
-animation = &"run_down"
+animation = &"attack_left"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" parent="." index="1"]

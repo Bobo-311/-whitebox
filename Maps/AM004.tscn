@@ -7312,7 +7312,6 @@ tile_set = SubResource("TileSet_4n4jk")
 
 [node name="WhiteCat" parent="." instance=ExtResource("2_a22ou")]
 position = Vector2(2896, 2091)
-scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="TreeA" parent="." instance=ExtResource("4_ujntt")]
