@@ -7310,7 +7310,7 @@ tile_map_data = PackedByteArray("AAAbAAAAAQAXAAAAAAAbAAEAAQAXAAEAAAAbAAIAAQAXAAI
 tile_set = SubResource("TileSet_4n4jk")
 
 [node name="WhiteCat" parent="." instance=ExtResource("2_a22ou")]
-position = Vector2(2890, 2057)
+position = Vector2(2892, 2095)
 scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 

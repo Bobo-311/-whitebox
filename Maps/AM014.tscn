@@ -16267,7 +16267,7 @@ trigger_on_map_enter = true
 position = Vector2(1849, 425)
 
 [node name="cabin_center_pos" type="Marker2D" parent="Node2D"]
-position = Vector2(1978, 599)
+position = Vector2(1978, 636)
 
 [node name="cabin_center_pos2" type="Marker2D" parent="Node2D"]
 position = Vector2(2105, 637)

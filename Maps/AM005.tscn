@@ -7503,12 +7503,12 @@ position = Vector2(4645, 153)
 scale = Vector2(29.638844, 54.46978)
 
 [node name="player" parent="." instance=ExtResource("4_jssex")]
-position = Vector2(2057.0002, 1212)
+position = Vector2(2060, 1167.0001)
 scale = Vector2(1.3, 1.3)
 max_hp = 100
 
 [node name="right_mark" type="Marker2D" parent="player"]
-position = Vector2(101.538284, -50.000004)
+position = Vector2(101.538475, -0.76932335)
 
 [node name="空氣牆左方" type="StaticBody2D" parent="."]
 position = Vector2(2044.0001, 1763.0001)
@@ -7591,7 +7591,8 @@ markers = {
 "surround_pos1": NodePath("../Node2D/surround_pos1"),
 "surround_pos2": NodePath("../Node2D/surround_pos2"),
 "surround_pos3": NodePath("../Node2D/surround_pos3"),
-"walk_to_here": NodePath("../Node2D/walk_to_here")
+"walk_to_here": NodePath("../Node2D/walk_to_here"),
+"walk_to_here2": NodePath("../Node2D/walk_to_here2")
 }
 player_dch = ExtResource("20_60i82")
 trigger_on_map_enter = true
@@ -7647,6 +7648,9 @@ position = Vector2(3549, 1314)
 
 [node name="walk_to_here" type="Marker2D" parent="Node2D"]
 position = Vector2(3546, 1233)
+
+[node name="walk_to_here2" type="Marker2D" parent="Node2D"]
+position = Vector2(3547, 1267)
 
 [node name="lightFlower" parent="." instance=ExtResource("22_w1fo3")]
 position = Vector2(3342, 1575.0001)

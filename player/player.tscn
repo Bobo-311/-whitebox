@@ -1,4 +1,4 @@
-[gd_scene load_steps=338 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=361 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://bxx7yqfwk2ch4" path="res://阿尼動畫/阿尼動畫改版/攻擊下.png" id="2_art4l"]
@@ -7,12 +7,16 @@
 [ext_resource type="Script" uid="uid://dtv1jytooehf1" path="res://camera/camera_2d.gd" id="5_tnfn2"]
 [ext_resource type="Texture2D" uid="uid://dwbomat222f7q" path="res://阿尼動畫/阿尼動畫改版/新攻擊上.png" id="5_xcnuv"]
 [ext_resource type="AudioStream" uid="uid://bn4gy1h1qjiml" path="res://audio/玩家_攻擊_3.wav" id="6_boad6"]
+[ext_resource type="Texture2D" uid="uid://dd1dbi67b4hg5" path="res://阿尼動畫/阿尼動畫改版/正面dash.png" id="6_j55il"]
 [ext_resource type="Script" uid="uid://b62eph5co61o2" path="res://player/player_hurt.gd" id="7_32hag"]
 [ext_resource type="Texture2D" uid="uid://dn46sqohyrft0" path="res://阿尼動畫/ani_getup.png" id="7_55jnj"]
 [ext_resource type="PackedScene" uid="uid://bkatu3uq16087" path="res://Weapon/magic_brush.tscn" id="7_e7oew"]
+[ext_resource type="Texture2D" uid="uid://dqtiielq623au" path="res://阿尼動畫/阿尼動畫改版/左邊dash(1).png" id="7_hjies"]
 [ext_resource type="Script" uid="uid://ct4xhpe6n0y17" path="res://StateMachine/StateMachine.gd" id="8_hg6s5"]
 [ext_resource type="Texture2D" uid="uid://t34c3y3lcsv5" path="res://阿尼動畫/阿尼動畫改版/阿尼受傷_正面.png" id="8_j55il"]
+[ext_resource type="Texture2D" uid="uid://kdopqral052o" path="res://阿尼動畫/阿尼動畫改版/右邊dash.png" id="8_mmwog"]
 [ext_resource type="Texture2D" uid="uid://chfnojldf7nvp" path="res://Asset/Animations/Player_Die.png" id="8_yllr7"]
+[ext_resource type="Texture2D" uid="uid://bol730cqkasq8" path="res://阿尼動畫/阿尼動畫改版/背面dash.png" id="9_8pxes"]
 [ext_resource type="Script" uid="uid://b6x886sdt3a6j" path="res://player/player_idle.gd" id="9_8t03j"]
 [ext_resource type="Script" uid="uid://bh23c76ar5wg4" path="res://player/player_dash.gd" id="9_ebec5"]
 [ext_resource type="Texture2D" uid="uid://c6jyb7vka1qhs" path="res://阿尼動畫/阿尼動畫改版/左邊受傷(1).png" id="9_hjies"]
@@ -174,6 +178,82 @@ region = Rect2(320, 320, 160, 160)
 [sub_resource type="AtlasTexture" id="AtlasTexture_pgo6y"]
 atlas = ExtResource("5_xcnuv")
 region = Rect2(480, 320, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n82x"]
+atlas = ExtResource("6_j55il")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4lww"]
+atlas = ExtResource("6_j55il")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85f75"]
+atlas = ExtResource("6_j55il")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx70p"]
+atlas = ExtResource("6_j55il")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yj1om"]
+atlas = ExtResource("6_j55il")
+region = Rect2(480, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8xbay"]
+atlas = ExtResource("7_hjies")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_me5to"]
+atlas = ExtResource("7_hjies")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnmg2"]
+atlas = ExtResource("7_hjies")
+region = Rect2(480, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yo8hn"]
+atlas = ExtResource("7_hjies")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u30jy"]
+atlas = ExtResource("7_hjies")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2swv"]
+atlas = ExtResource("8_mmwog")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tca2h"]
+atlas = ExtResource("8_mmwog")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb5up"]
+atlas = ExtResource("8_mmwog")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yphoa"]
+atlas = ExtResource("8_mmwog")
+region = Rect2(320, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5r057"]
+atlas = ExtResource("9_8pxes")
+region = Rect2(320, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_147al"]
+atlas = ExtResource("9_8pxes")
+region = Rect2(480, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsef7"]
+atlas = ExtResource("9_8pxes")
+region = Rect2(0, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo8bn"]
+atlas = ExtResource("9_8pxes")
+region = Rect2(160, 160, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sbed"]
+atlas = ExtResource("9_8pxes")
+region = Rect2(320, 160, 160, 160)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bjvpn"]
 atlas = ExtResource("8_yllr7")
@@ -1304,6 +1384,83 @@ animations = [{
 "name": &"attack_up",
 "speed": 15.0
 }, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1n82x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4lww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85f75")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx70p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yj1om")
+}],
+"loop": false,
+"name": &"dash_down",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8xbay")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_me5to")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnmg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yo8hn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u30jy")
+}],
+"loop": false,
+"name": &"dash_left",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2swv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tca2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yb5up")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yphoa")
+}],
+"loop": false,
+"name": &"dash_right",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5r057")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_147al")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsef7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo8bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6sbed")
+}],
+"loop": false,
+"name": &"dash_up",
+"speed": 20.0
+}, {
 "frames": [],
 "loop": false,
 "name": &"dead_down",
@@ -2270,9 +2427,9 @@ metadata/_edit_vertical_guides_ = [-129.0]
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -57)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
-animation = &"shoot_up"
+animation = &"dash_right"
 autoplay = "idle_down"
-frame = 5
+frame = 1
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

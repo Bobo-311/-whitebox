@@ -114,7 +114,7 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 	is_stunned = true
 	is_recalling = false # 受傷時解除召回狀態
 	velocity = Vector2.ZERO # 立刻停在原地
-	play_animation("idle") # 停下時切回待機動畫
+	play_animation("stun") # 🌟 受傷瞬間切換播放擊暈動畫
 	
 	# 🌟 關鍵修正：徹底把白貓本體與 Hurtbox 的 Layer 和 Mask 全部歸零，並強制怪物放棄鎖定白貓！
 	_set_cat_collision_enabled(false)
@@ -323,7 +323,7 @@ func _physics_process(_delta: float) -> void:
 	# 🌟 虛弱期間停在原地：不呼叫 move_and_slide()，並且持續清除怪物對白貓的鎖定！
 	if is_stunned:
 		velocity = Vector2.ZERO
-		play_animation("idle")
+		play_animation("stun") # 🌟 持續播放擊暈動畫
 		_clear_cat_from_enemy_targets()
 		return
 

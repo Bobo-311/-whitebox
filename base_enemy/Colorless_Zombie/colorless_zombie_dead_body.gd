@@ -4,10 +4,10 @@ extends CharacterBody2D
 # 💣 死後自爆蝌蚪設定 (可在右側 Inspector 面板微調)
 # ==========================================
 @export_category("💣 自爆蝌蚪炸彈設定")
-@export var chase_speed: float = 750.0       # 追擊玩家的速度
+@export var chase_speed: float = 700.0       # 追擊玩家的速度
 @export var explosion_damage: float = 40.0   # 自爆傷害
 @export var trigger_distance: float = 40.0   # 距離玩家多近時直接引爆？
-@export var fuse_time: float = 3.0           # 🌟【修改設定】：限定 3 秒內沒追到也會強制自爆！
+@export var fuse_time: float = 1.5           # 🌟【修改設定】：限定 3 秒內沒追到也會強制自爆！
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hitbox: Area2D = $Hitbox

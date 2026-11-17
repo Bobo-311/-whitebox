@@ -6,6 +6,9 @@ extends StaticBody2D
 @export var unlock_timeline: String = "door_unlocked"   # 🌟 有鑰匙時按 E 播的劇本（成功開門）
 @export var opened_flag: String = "door_a_opened"       # 🌟 記錄這扇門已經開過，跨地圖回來不用重開
 
+# 🌟 新增：開門後的替換圖片，從 Inspector 拖入 "門打開素材.png"
+@export var open_door_texture: Texture2D
+
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var interact_prompt: Sprite2D = $InteractPrompt
@@ -29,7 +32,7 @@ func _ready() -> void:
 		if not interact_area.body_exited.is_connected(_on_body_exited):
 			interact_area.body_exited.connect(_on_body_exited)
 			
-	# 🌟 如果玩家之前已經開過這扇門，一進地圖直接保持敞開（不擋路）！
+	# 🌟 如果玩家之前已經開過這扇門，一進地圖直接保持敞開（換上開門圖 + 不擋路）！
 	if opened_flag != "" and DataManager.is_cutscene_completed(opened_flag):
 		_set_door_open_immediately()
 
@@ -92,7 +95,7 @@ func _start_door_dialogue(tl_name: String, will_open_door: bool) -> void:
 	Dialogic.start(tl_name)
 	Dialogic.timeline_started.emit()
 
-# 🚪 開門演出：大門漸漸淡出消失，並移除擋路碰撞箱！
+# 🚪 開門演出：換上打開的圖片，並徹底移除擋路碰撞箱！
 func _open_door_effect() -> void:
 	if is_opened:
 		return
@@ -101,17 +104,28 @@ func _open_door_effect() -> void:
 		DataManager.mark_cutscene_completed(opened_flag)
 		
 	hide_prompt()
+	
+	# 1. 解除碰撞，讓玩家可以直接穿過去
 	if collision_polygon_2d:
 		collision_polygon_2d.set_deferred("disabled", true)
 	if interact_area:
 		interact_area.monitoring = false
 		
+	# 2. 🌟 換上打開的門圖片 (若沒有放圖片，則維持淡出消失的邏輯)
 	if sprite_2d:
-		var open_tween = create_tween()
-		open_tween.tween_property(sprite_2d, "modulate:a", 0.0, 0.5)
-		open_tween.tween_callback(func(): sprite_2d.hide())
+		if open_door_texture:
+			sprite_2d.texture = open_door_texture
+			# 若需要開門的彈動/放大特效，也可以寫在這：
+			# var open_tween = create_tween()
+			# open_tween.tween_property(sprite_2d, "scale", Vector2(1.1, 1.1), 0.1)
+			# open_tween.tween_property(sprite_2d, "scale", Vector2.1, 1.0, 0.1)
+		else:
+			# 相容舊設定：如果沒綁定圖片，就漸漸隱形
+			var open_tween = create_tween()
+			open_tween.tween_property(sprite_2d, "modulate:a", 0.0, 0.5)
+			open_tween.tween_callback(func(): sprite_2d.hide())
 
-# 載入地圖時若已開過門，直接隱藏並解除碰撞
+# 載入地圖時若已開過門，直接換圖並解除碰撞
 func _set_door_open_immediately() -> void:
 	is_opened = true
 	hide_prompt()
@@ -119,8 +133,13 @@ func _set_door_open_immediately() -> void:
 		collision_polygon_2d.set_deferred("disabled", true)
 	if interact_area:
 		interact_area.monitoring = false
+		
+	# 🌟 若有開門圖片則換上，否則隱藏
 	if sprite_2d:
-		sprite_2d.hide()
+		if open_door_texture:
+			sprite_2d.texture = open_door_texture
+		else:
+			sprite_2d.hide()
 
 func show_prompt() -> void:
 	if not interact_prompt or is_opened: return

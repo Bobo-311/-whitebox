@@ -251,6 +251,16 @@ func _input(event):
 				else:
 					Engine.time_scale = 1.0
 					print("【📸 畫面恢復】遊戲時間繼續。")
+					
+			KEY_F11:
+				# 🖥️ F11：隨時切換「全螢幕 / 視窗化」模式
+				var current_mode = DisplayServer.window_get_mode()
+				if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN or current_mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+					print("【系統】已切換為視窗模式")
+				else:
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+					print("【系統】已切換為全螢幕模式")
 
 # ==========================================
 # 數值重算 (裝備系統對接)

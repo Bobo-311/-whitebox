@@ -5,22 +5,37 @@ class_name BigDango
 # ⚙️ Boss 專屬配置與鎖血設定
 # ==========================================
 @export_category("💣 Boss 鎖血與召喚設定")
+@export var boss_display_name: String = "糰子王" # 🌟 顯示在血條上的 Boss 名字 (可在右側面板修改)
 @export var minion_scene: PackedScene # 從 Inspector 放入要吐出來的小怪(藍色團子)場景
 
 var hp_thresholds: Array[float] = [0.8, 0.6, 0.4, 0.2] # 企劃設定：四次鎖血反擊的血量百分比
 var current_phase_index: int = 0 # 記錄目前打到第幾個階段了
 var is_invincible: bool = false  # Boss 專屬無敵開關 (紫光時會被開啟)
 
+# 🌟 自動抓取掛在身上的 BossUI_dango (或 BossUI) 節點
+@onready var boss_ui: CanvasLayer = get_node_or_null("BossUI_dango")
+
 
 # ==========================================
 # 🚀 開局初始化 (強制喚醒與霸體)
 # ==========================================
 func _ready() -> void:
-	super._ready() # 讓老爸先跑完基礎的變數綁定
+	super._ready() # 讓老爸先跑完基礎的變數綁定 (含 current_hp = max_hp)
+	
+	# 防呆：如果節點名字叫 BossUI 或其他名字，自動尋找底下的 CanvasLayer
+	if not boss_ui:
+		boss_ui = get_node_or_null("BossUI")
+	if not boss_ui:
+		for child in get_children():
+			if child is CanvasLayer and child.has_method("init_boss"):
+				boss_ui = child
+				break
+				
+	# 🌟 初始化糰子王的血量 UI 連動！
+	if boss_ui and boss_ui.has_method("init_boss"):
+		boss_ui.init_boss(boss_display_name, int(max_hp))
 	
 	# 🌟【根除滑行 (絕對霸體)】
-	# 利用你寫好的 KnockbackComponent，把「抗性(resistance)」設為 0。
-	# 這樣底層收到擊退力道時會自動 return，再也不會往後滑行！
 	if knockback_component:
 		knockback_component.resistance = 0.0
 		
@@ -28,6 +43,11 @@ func _ready() -> void:
 	call_deferred("_wake_up_boss")
 
 func _physics_process(delta: float) -> void:
+	# 🌟 防呆：如果玩家正在看過場劇情，讓糰子王暫停移動與出招，乖乖等劇情演完再開打！
+	if Dialogic.current_timeline != null or (DataManager and is_instance_valid(DataManager.player_node) and DataManager.player_node.get("is_in_dialogue")):
+		velocity = Vector2.ZERO
+		return
+		
 	super._physics_process(delta)
 	
 	# 🌟【大腦偵錯器】：每秒印出牠現在到底在想什麼？速度是多少？
@@ -56,61 +76,55 @@ func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vecto
 		return 
 		
 	# 2. 讓老爸去處理正常的扣血與閃白光
-	# (額外擊退力 extra_knockback 強制傳 0.0，配合霸體)
 	super.take_damage(amount, attacker_pos, dir, is_melee, 0.0)
 	
-	# 3. 扣完血後，檢查有沒有低於鎖血門檻
+	# 🌟 3. 同步更新糰子王血條 UI (觸發閃白光、黃條衰減與震動)！
+	if boss_ui and boss_ui.has_method("update_health"):
+		boss_ui.update_health(int(current_hp))
+	
+	# 4. 扣完血後，檢查有沒有低於鎖血門檻
 	_check_hp_threshold()
 
 # -------------------------------------------------------------------------
-# 🩸 技能階段轉換與血量監控 (覆寫或更新 BigDango.gd 中的這段邏輯)
+# 🩸 技能階段轉換與血量監控
 # -------------------------------------------------------------------------
 func _check_hp_threshold() -> void:
-	# [防呆機制]：如果所有階段都已經放完，或者王已經死亡，直接中斷不處理
 	if current_phase_index >= hp_thresholds.size() or is_dead: 
 		return 
 		
-	# 計算目前的血量百分比 (例如 0.75)
 	var hp_ratio = float(current_hp) / float(max_hp)
 	
-	# 如果當前血量低於等於目前門檻陣列裡的數值
 	if hp_ratio <= hp_thresholds[current_phase_index]:
-		current_phase_index += 1 # 推進階段索引，確保下一次檢查下一個門檻
-		
-		# 強制大腦中斷目前的行動，進入鎖血爆開與縮水狀態
+		current_phase_index += 1
 		if state_machine:
 			state_machine.change_state("LockHpSpawn")
 
 # ==========================================
-# 🎭 單面 Boss 動畫轉接器 (加在 BigDango.gd 最下方)
+# 🎭 單面 Boss 動畫轉接器
 # ==========================================
-# 【正規作法】：覆寫底層的四向動畫邏輯，將大團子轉接為單面動畫與左右移動
 func play_animation(anim_name: String, dir: Vector2 = Vector2.ZERO) -> void:
-	# 防呆檢查：確保動畫節點與圖庫已經載入
 	if not animated_sprite_2d or not animated_sprite_2d.sprite_frames:
 		return
 		
 	var target_anim = anim_name
 	
-	# 1. 移動方向判定：大團子移動只分左右，根據實際物理速度或目標方向的 X 軸切換
 	if anim_name == "move":
 		var check_x = velocity.x if abs(velocity.x) > 1.0 else dir.x
 		target_anim = "move_left" if check_x < 0 else "move_right"
 		
-	# 2. 播放單面動畫：只要圖庫中有對應名稱 (如 idle, attack, roar, bomb)，直接播放
 	if animated_sprite_2d.sprite_frames.has_animation(target_anim):
-		# 避免在同一狀態下每幀重複重播第 0 幀，只有切換動作或動畫停下時才執行 play
 		if animated_sprite_2d.animation != target_anim or not animated_sprite_2d.is_playing():
 			animated_sprite_2d.play(target_anim)
 	else:
-		# 防呆降級：若找不到單面動畫名稱，才退回底層預設的四向邏輯
 		super.play_animation(anim_name, dir)
-
-
 
 func die() -> void:
 	if is_dead: return
 	is_dead = true
+	
+	# 🌟 確保死掉時血條歸零並隱藏
+	if boss_ui and boss_ui.has_method("update_health"):
+		boss_ui.update_health(0)
 	
 	# 攔截老爸的普通死法，改為切換到 Boss 專屬的「自爆預警」狀態
 	if state_machine:

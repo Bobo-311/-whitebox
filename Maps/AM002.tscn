@@ -19778,7 +19778,7 @@ scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(4046, -455)
+position = Vector2(4016, 2244)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -21238,7 +21238,7 @@ position = Vector2(3820.9998, 1675.0001)
 scale = Vector2(5, 5)
 
 [node name="doorA" parent="." instance=ExtResource("15_qgvtp")]
-position = Vector2(3967, 3056)
+position = Vector2(3974, 3054)
 locked_timeline = "A007"
 unlock_timeline = "A019"
 
@@ -21389,7 +21389,7 @@ markers = {
 }
 
 [node name="1" type="Marker2D" parent="CutsceneDirector"]
-position = Vector2(0, 1.7516658)
+position = Vector2(0.13661864, -8.257853)
 scale = Vector2(1, 1.0500476)
 
 [node name="SavePoint" parent="." instance=ExtResource("28_4gm3v")]

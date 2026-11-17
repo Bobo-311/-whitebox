@@ -5643,7 +5643,7 @@ polygon = PackedVector2Array(4722.1753, 2473.9644, 4722.1753, 2889.349, 4695.436
 position = Vector2(4540, 1189)
 
 [node name="walk_to_here" type="Marker2D" parent="Node2D"]
-position = Vector2(4536, 2358)
+position = Vector2(4543, 2292)
 
 [node name="oil_lamp" parent="." instance=ExtResource("11_6cx8c")]
 position = Vector2(4196, 1208)

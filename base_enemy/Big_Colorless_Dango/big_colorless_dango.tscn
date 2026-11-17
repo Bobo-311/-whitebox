@@ -1,4 +1,4 @@
-[gd_scene load_steps=173 format=3 uid="uid://dufj7xit8pgpx"]
+[gd_scene load_steps=174 format=3 uid="uid://dufj7xit8pgpx"]
 
 [ext_resource type="PackedScene" uid="uid://7konynseeonc" path="res://base_enemy/base_enemy.tscn" id="1_l2fed"]
 [ext_resource type="Shader" uid="uid://bxdai7eyxty44" path="res://hit_flash.gdshader" id="2_0nvv6"]
@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://1ashhk0iywj4" path="res://base_enemy/Big_Colorless_Dango/big_colorless_dango_boss_jump_strike.gd" id="15_p4tta"]
 [ext_resource type="PackedScene" uid="uid://clisdccjnasgi" path="res://base_enemy/Big_Colorless_Dango/JumpStrikeExplosionHitbox/jump_strike_explosion_hitbox.tscn" id="16_jgy3n"]
 [ext_resource type="PackedScene" uid="uid://ubeuco4mpahm" path="res://單獨物件場景/medium_box.tscn" id="18_4lib2"]
+[ext_resource type="PackedScene" uid="uid://ds16l45w2gnoe" path="res://Boss_hud/boss_ui_dango.tscn" id="25_6a1w2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ynskx"]
 resource_local_to_scene = true
@@ -31,6 +32,10 @@ shader = ExtResource("2_0nvv6")
 shader_parameter/flash_modifier = 0.0
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/state_color = Color(1, 1, 1, 1)
+shader_parameter/grayscale_modifier = 0.0
+shader_parameter/dissolve_progress = 0.0
+shader_parameter/dissolve_edge_width = 0.06
+shader_parameter/dissolve_edge_color = Color(0.78, 0.84, 0.9, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ffyn3"]
 atlas = ExtResource("5_5ldoh")
@@ -1090,6 +1095,7 @@ radius = 772.6921
 [node name="Big_Colorless_Dango" instance=ExtResource("1_l2fed")]
 collision_mask = 16129
 script = ExtResource("2_woe7r")
+boss_display_name = "糰子王"
 minion_scene = ExtResource("3_vsfu5")
 coin_drop_count = 0
 use_diagonal_anim = true
@@ -1187,3 +1193,5 @@ offset_bottom = -221.0
 
 [node name="VisionRay" parent="." index="8"]
 enabled = false
+
+[node name="BossUI_dango" parent="." index="10" instance=ExtResource("25_6a1w2")]

@@ -6,7 +6,7 @@
 [signal arg="back:player:self_down:move_up:idle_up:0.25"]
 join 路克斯 (快看！) right
 路克斯: ！！！
-[signal arg="walk:cat:player_right:0.4"]
+[signal arg="walk:cat:player_right:idle_up:0.4"]
 路克斯: 快看！！
 
 # --- 第二幕：收起立繪，鏡頭往上推到蓮花 Boss 並播放 pant 登場動畫 ---
