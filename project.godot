@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="recolor mouse"
+config/version="0.9.0"
 run/main_scene="uid://dc6xujthm4cy4"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://雜/icon.svg"
@@ -21,6 +22,8 @@ DataManager="*res://global/data_manager.gd"
 TransitionManager="*res://portal/transition_manager.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 SceneTransition="*res://Maps/轉場/scene_transition.tscn"
+SettingsManager="*res://主選單MainMenu/管理按鈕/全域/settings_manager.gd"
+InputSettingsManager="*res://主選單MainMenu/管理按鈕/全域/input_settings_manager.gd"
 
 [dialogic]
 
@@ -126,6 +129,10 @@ project/assembly_name="眠境whitebox"
 
 enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
+[global]
+
+version=false
+
 [input]
 
 left={
@@ -171,11 +178,6 @@ skill_01={
 interact={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":69,"location":0,"echo":false,"script":null)
-]
-}
-portal_interact={
-"deadzone": 0.2,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":70,"key_label":0,"unicode":102,"location":0,"echo":false,"script":null)
 ]
 }
 cheater={

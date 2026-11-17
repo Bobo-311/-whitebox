@@ -1,45 +1,66 @@
-[gd_scene load_steps=10 format=3 uid="uid://diu5iou3xd7fd"]
+[gd_scene load_steps=13 format=3 uid="uid://diu5iou3xd7fd"]
 
 [ext_resource type="Script" uid="uid://b0dibnmui5jrr" path="res://base_enemy/BossLotus/BossBullet/boss_bullet.gd" id="1_7ylyc"]
-[ext_resource type="Texture2D" uid="uid://clgmd00rq7vpr" path="res://Asset/VFX/All_Fire_Bullet_Pixel_16x16_00.png" id="1_10jmx"]
+[ext_resource type="Texture2D" uid="uid://bd8wd0u4knr31" path="res://base_enemy/BossLotus/蓮花素材/子彈雷射/彈目動畫.png" id="2_xdb1l"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7ylyc"]
-atlas = ExtResource("1_10jmx")
-region = Rect2(0, 32, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_406yr"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rcbj7"]
-atlas = ExtResource("1_10jmx")
-region = Rect2(16, 32, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7k6jv"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ddrlk"]
-atlas = ExtResource("1_10jmx")
-region = Rect2(32, 32, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rqa5"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1wm6t"]
-atlas = ExtResource("1_10jmx")
-region = Rect2(48, 32, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_12eft"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kxqiy"]
-atlas = ExtResource("1_10jmx")
-region = Rect2(64, 32, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_bogf6"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d463n"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4a6he"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mulc"]
+atlas = ExtResource("2_xdb1l")
+region = Rect2(192, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hq4wy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7ylyc")
+"texture": SubResource("AtlasTexture_406yr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rcbj7")
+"texture": SubResource("AtlasTexture_7k6jv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ddrlk")
+"texture": SubResource("AtlasTexture_6rqa5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1wm6t")
+"texture": SubResource("AtlasTexture_12eft")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kxqiy")
+"texture": SubResource("AtlasTexture_bogf6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d463n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4a6he")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mulc")
 }],
 "loop": true,
 "name": &"fly",
@@ -47,7 +68,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6nc5o"]
-radius = 64.12488
+radius = 58.034473
 
 [node name="BossBullet" type="Area2D" groups=["boss_bullets"]]
 collision_layer = 0
@@ -55,11 +76,11 @@ collision_mask = 8
 script = ExtResource("1_7ylyc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(9.25, 9.25)
+scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_hq4wy")
 animation = &"fly"
-frame_progress = 0.35211572
+frame_progress = 0.8823223
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(5, 14)
+position = Vector2(-1, -1)
 shape = SubResource("CircleShape2D_6nc5o")

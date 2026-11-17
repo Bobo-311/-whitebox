@@ -1,4 +1,4 @@
-[gd_scene load_steps=182 format=3 uid="uid://cs8dl4ig6u0ej"]
+[gd_scene load_steps=187 format=3 uid="uid://cs8dl4ig6u0ej"]
 
 [ext_resource type="Script" uid="uid://cmtbo80v7j7gi" path="res://base_enemy/BossLotus/boss_lotus.gd" id="1_6oy8r"]
 [ext_resource type="Script" uid="uid://df0ngmtxd4m4j" path="res://hurtbox/hurtbox.gd" id="1_iun5m"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://co7v5oj8vhoj0" path="res://base_enemy/BossLotus/BossBullet/laser_weapon.gd" id="13_b8ol4"]
 [ext_resource type="PackedScene" uid="uid://dtr8vcr5h66i" path="res://Boss_hud/boss_ui.tscn" id="13_mr3u7"]
 [ext_resource type="Texture2D" uid="uid://dxhrlyteg1krn" path="res://base_enemy/BossLotus/蓮花素材/本體/喘氣_processed.png" id="13_s73et"]
+[ext_resource type="Texture2D" uid="uid://c2hps7wdtk0o7" path="res://base_enemy/BossLotus/蓮花素材/子彈雷射/雷射動畫.png" id="18_vgf1y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bmohh"]
 atlas = ExtResource("6_behg0")
@@ -1186,7 +1187,36 @@ animations = [{
 radius = 510.11862
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_35oyh"]
-size = Vector2(1500, 40)
+size = Vector2(1602, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5300j"]
+atlas = ExtResource("18_vgf1y")
+region = Rect2(0, 0, 512, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkxsi"]
+atlas = ExtResource("18_vgf1y")
+region = Rect2(0, 128, 512, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k25sx"]
+atlas = ExtResource("18_vgf1y")
+region = Rect2(0, 256, 512, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x4h1f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5300j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkxsi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k25sx")
+}],
+"loop": true,
+"name": &"beam",
+"speed": 12.0
+}]
 
 [node name="BossLotus" type="Node2D"]
 script = ExtResource("1_6oy8r")
@@ -1213,7 +1243,6 @@ shape = SubResource("CircleShape2D_ugsmv")
 [node name="Spawners" type="Node2D" parent="."]
 script = ExtResource("11_ot11u")
 bullet_scene = ExtResource("12_35oyh")
-fire_rate = 0.08
 
 [node name="Pivot_Clockwise" type="Marker2D" parent="Spawners"]
 position = Vector2(100, 0)
@@ -1229,21 +1258,22 @@ position = Vector2(100, 0)
 
 [node name="LaserWeapon" type="Node2D" parent="."]
 script = ExtResource("13_b8ol4")
+beam_length = 1808.0
 
 [node name="LaserHitbox" type="Area2D" parent="LaserWeapon"]
 collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LaserWeapon/LaserHitbox"]
-position = Vector2(750, 0)
+position = Vector2(800, 0)
 shape = SubResource("RectangleShape2D_35oyh")
 disabled = true
 
-[node name="Line2D" type="Line2D" parent="LaserWeapon/LaserHitbox"]
-visible = false
-points = PackedVector2Array(0, 0, 1500, 0)
-width = 40.0
-default_color = Color(1, 0, 0, 1)
+[node name="LaserSprite" type="AnimatedSprite2D" parent="LaserWeapon/LaserHitbox"]
+position = Vector2(800, 0)
+sprite_frames = SubResource("SpriteFrames_x4h1f")
+animation = &"beam"
+frame_progress = 0.46103144
 
 [node name="TentacleAnchors" type="Node2D" parent="."]
 

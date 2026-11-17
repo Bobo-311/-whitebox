@@ -1,78 +1,175 @@
+
 extends Node2D
 
-# ==========================================
-# 📊 [武器運作參數]
-# ==========================================
-# ⚠️ 必須在 Inspector 中將 BossBullet.tscn 拖入此欄位，建立依賴注入
-@export var bullet_scene: PackedScene 
+# ============================================================
+# 淵獄蓮華 - 彈幕生成控制器
+#
+# 負責：
+# 1. 順時針槍管旋轉
+# 2. 逆時針槍管旋轉
+# 3. 按照固定射速生成 BossBullet
+# 4. 將子彈獨立掛載至目前遊戲場景
+#
+# 保留原本 BossLotus 呼叫的公共 API
+# ============================================================
 
-@export var rotation_speed: float = 120.0 # 槍管旋轉角速度 (度/秒)
-@export var fire_rate: float = 0.15      # 射擊間隔 (秒/發)
 
-# ==========================================
-# ⚙️ [系統狀態與節點綁定]
-# ==========================================
+# ============================================================
+# 1. 彈幕運作參數
+# ============================================================
+
+@export_group("彈幕 - 運作參數")
+
+@export var bullet_scene: PackedScene
+
+@export_range(0.0, 720.0, 1.0)
+var rotation_speed: float = 120.0
+
+@export_range(0.01, 2.0, 0.01)
+var fire_rate: float = 0.08
+
+
+# ============================================================
+# 2. 系統狀態
+# ============================================================
+
 var is_firing_clockwise: bool = false
 var is_firing_counter: bool = false
-var fire_timer: float = 0.0 # 射速累計器
 
-# 綁定場景樹中的旋轉軸心與槍口
-@onready var pivot_cw = $Pivot_Clockwise
-@onready var pivot_ccw = $Pivot_Counter
-@onready var muzzle_cw = $Pivot_Clockwise/Muzzle
-@onready var muzzle_ccw = $Pivot_Counter/Muzzle
+var fire_timer: float = 0.0
 
-# ==========================================
-# 🔄 [核心運作迴圈] (每幀更新)
-# ==========================================
+
+# ============================================================
+# 3. 節點參照
+# ============================================================
+
+@onready var pivot_cw: Node2D = $Pivot_Clockwise
+@onready var pivot_ccw: Node2D = $Pivot_Counter
+
+@onready var muzzle_cw: Node2D = $Pivot_Clockwise/Muzzle
+@onready var muzzle_ccw: Node2D = $Pivot_Counter/Muzzle
+
+
+# ============================================================
+# 4. 每幀更新
+# ============================================================
+
 func _process(delta: float) -> void:
-	# 1. 執行槍管旋轉 (帶動子節點 Muzzle 進行圓周運動)
+
+	# -----------------------------
+	# 槍管旋轉
+	# -----------------------------
+
 	if is_firing_clockwise:
-		pivot_cw.rotation_degrees += rotation_speed * delta
+
+		pivot_cw.rotation_degrees += (
+			rotation_speed * delta
+		)
+
 	if is_firing_counter:
-		pivot_ccw.rotation_degrees -= rotation_speed * delta
-		
-	# 2. 射速計時與實體生成
-	if is_firing_clockwise or is_firing_counter:
-		fire_timer += delta
-		if fire_timer >= fire_rate:
-			fire_timer = 0.0 # 幀重置
-			
-			if is_firing_clockwise: 
-				_spawn_bullet_at(muzzle_cw)
-			if is_firing_counter: 
-				_spawn_bullet_at(muzzle_ccw)
 
-# ==========================================
-# 📦 [工廠模式：實體生成]
-# ==========================================
+		pivot_ccw.rotation_degrees -= (
+			rotation_speed * delta
+		)
+
+	# -----------------------------
+	# 沒有射擊時不計時
+	# -----------------------------
+
+	if not is_firing_clockwise and not is_firing_counter:
+		return
+
+	# -----------------------------
+	# 射速計時
+	# -----------------------------
+
+	fire_timer += delta
+
+	var interval: float = maxf(fire_rate, 0.01)
+
+	while fire_timer >= interval:
+
+		fire_timer -= interval
+
+		if is_firing_clockwise:
+			_spawn_bullet_at(muzzle_cw)
+
+		if is_firing_counter:
+			_spawn_bullet_at(muzzle_ccw)
+
+
+# ============================================================
+# 5. 生成子彈
+#
+# 子彈獨立存在於目前遊戲場景
+# 不會受到 Boss 移動或死亡影響
+# ============================================================
+
 func _spawn_bullet_at(muzzle: Node2D) -> void:
-	if not bullet_scene: return
-	
-	var bullet = bullet_scene.instantiate()
-	
-	# 對齊 Transform 矩陣 (繼承槍口的位置與角度)
+
+	if bullet_scene == null:
+		return
+
+	var instance: Node = bullet_scene.instantiate()
+
+	var bullet := instance as Node2D
+
+	if bullet == null:
+
+		instance.free()
+
+		push_error("BossBullet 必須繼承 Node2D！")
+
+		return
+
+	var scene_root: Node = get_tree().current_scene
+
+	if scene_root == null:
+
+		bullet.free()
+
+		push_error("目前沒有有效的遊戲場景！")
+
+		return
+
+	# 先加入場景樹
+	scene_root.add_child(bullet)
+
+	# 再設定全域位置與方向
 	bullet.global_position = muzzle.global_position
+
 	bullet.global_rotation = muzzle.global_rotation
-	
-	# 【強制解耦 (Decoupling)】
-	# 將子彈掛載至全域場景 (current_scene)，使其脫離 Boss 的父子節點樹。
-	# 避免 Boss 的位移或死亡連帶影響已發射的彈幕軌跡。
-	get_tree().current_scene.add_child(bullet)
 
-# ==========================================
-# 📡 [公共 API (Public Methods)] 供外部大腦呼叫
-# ==========================================
+
+# ============================================================
+# 6. 公共 API
+# ============================================================
+
+# 順時針發射
 func start_clockwise() -> void:
-	is_firing_counter = false # 先強制關閉逆時針
-	is_firing_clockwise = true
-	fire_timer = 0.0 
 
-func start_counter_clockwise() -> void:
-	is_firing_clockwise = false # 先強制關閉順時針
-	is_firing_counter = true
+	is_firing_counter = false
+
+	is_firing_clockwise = true
+
 	fire_timer = 0.0
 
-func stop_all() -> void:
+
+# 逆時針發射
+func start_counter_clockwise() -> void:
+
 	is_firing_clockwise = false
+
+	is_firing_counter = true
+
+	fire_timer = 0.0
+
+
+# 停止所有發射
+func stop_all() -> void:
+
+	is_firing_clockwise = false
+
 	is_firing_counter = false
+
+	fire_timer = 0.0

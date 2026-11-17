@@ -1399,7 +1399,6 @@ position = Vector2(5, -62)
 
 [node name="WhiteCat" parent="." instance=ExtResource("9_167qa")]
 position = Vector2(2397, 564)
-scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -1420,7 +1419,7 @@ texture_scale = 10.0
 position = Vector2(3485, 1914)
 
 [node name="Boar" parent="." instance=ExtResource("10_877dg")]
-position = Vector2(2884, 1869)
+position = Vector2(369, 1763)
 
 [node name="colorless_dango" parent="." instance=ExtResource("11_q0gaw")]
 position = Vector2(4365, 376)
@@ -1429,7 +1428,7 @@ position = Vector2(4365, 376)
 position = Vector2(4480, 494)
 
 [node name="barbarian" parent="." instance=ExtResource("13_vetra")]
-position = Vector2(4290, 450)
+position = Vector2(2939, 1769)
 stage1_attack_range = 100.0
 stage2_attack_range = 90.0
 
