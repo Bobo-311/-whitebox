@@ -21303,6 +21303,7 @@ markers = {
 "watch the tree": NodePath("")
 }
 player_dch = ExtResource("20_gvfi4")
+trigger_on_map_enter = true
 hide_target_npc_after_complete = true
 permanent_hide_actors = Array[String](["king"])
 

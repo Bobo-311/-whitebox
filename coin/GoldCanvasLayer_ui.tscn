@@ -71,10 +71,14 @@ animations = [{
 [sub_resource type="LabelSettings" id="LabelSettings_pvjy0"]
 font = ExtResource("2_0vu20")
 font_size = 29
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_7cbnw"]
 font = ExtResource("2_0vu20")
 font_size = 29
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="GoldCanvasLayer_ui" type="CanvasLayer"]
 process_mode = 3

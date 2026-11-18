@@ -1,6 +1,15 @@
 extends Node
 
 # ==========================================
+# 🖱️ 全域滑鼠設定 (軟體游標 + 物理打擊感)
+# ==========================================
+var cursor_normal = preload("res://雜/cursor_normal.png")
+var cursor_click = preload("res://雜/cursor_click.png")
+
+var cursor_layer: CanvasLayer
+var cursor_rect: TextureRect
+
+# ==========================================
 # 📻 廣播電台系統 (事件驅動)
 # ==========================================
 signal map_changed(new_map_name: String) # 廣播：玩家跨地圖了！UI 快更新地圖名字！
@@ -77,7 +86,7 @@ const ITEM_DB = {
 		"heal_amount": 35, # 🌟 每次回血量 (可依平衡調整)
 		"is_auto_refill": true, # 🌟 標記為「元素瓶機制」：在畫架休息時無條件免費補滿！
 		"description": "散發微光的顏料。\n恢復 35 HP（於畫架處自動補滿）",
-		"story": "在畫架上發現的神秘顏料，飲用後能修補受損的色彩與生命力，每次在畫架前休息都會重新凝結填滿。",
+		"story": "在畫架上发现的神秘颜料，饮用后能修补受损的色彩与生命力，每次在画架前休息都会重新凝结填满。",
 		"texture_path": "res://雜/color_bottle.png" # ⚠️ 請換成藍色顏料的圖片路徑！
 	},
 	"potion_gugu": {
@@ -136,6 +145,61 @@ var quick_slots: Array[String] = ["", "", "", "", ""]
 var current_slot_index: int = 0
 
 # ==========================================
+# 🎯 全域初始化 (開局設定預設滑鼠與劇本接收器)
+# ==========================================
+func _ready() -> void:
+	# 🌟 1. 隱藏系統預設的硬體滑鼠
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	
+	# 🌟 2. 建立一個永遠在最上層 (Layer 128) 的畫布，專門用來畫我們的假滑鼠
+	cursor_layer = CanvasLayer.new()
+	cursor_layer.layer = 128 
+	add_child(cursor_layer)
+	
+	# 🌟 3. 建立假滑鼠圖片
+	cursor_rect = TextureRect.new()
+	cursor_rect.texture = cursor_normal
+	# ⚠️ 極度重要：設定為 IGNORE，假滑鼠才不會變成一面物理盾牌擋住你的 UI 按鈕！
+	cursor_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE 
+	
+	# 如果箭頭不在圖片最左上角，可以在這裡設定偏移 (通常設 Vector2.ZERO 即可)
+	# cursor_rect.position = Vector2(-5, -5) 
+	
+	cursor_layer.add_child(cursor_rect)
+	
+	if not Dialogic.signal_event.is_connected(_on_global_dialogic_signal):
+		Dialogic.signal_event.connect(_on_global_dialogic_signal)
+
+# ==========================================
+# 🌟 全域硬體輸入攔截 (控制滑鼠點擊切換與特效)
+# ==========================================
+# 每幀更新：讓假滑鼠緊緊貼著真實的游標座標
+func _process(_delta: float) -> void:
+	if is_instance_valid(cursor_rect):
+		cursor_rect.global_position = get_viewport().get_mouse_position()
+
+func _input(event: InputEvent) -> void:
+	# 監聽滑鼠左鍵的點擊與放開
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			# 按下左鍵：換成點擊帶火花的游標
+			if is_instance_valid(cursor_rect):
+				cursor_rect.texture = cursor_click
+				
+				# 💥 打擊感核心：瞬間縮小，然後 Q 彈回彈！
+				var tween = create_tween()
+				cursor_rect.pivot_offset = Vector2.ZERO # 確保從左上角縮放
+				cursor_rect.scale = Vector2(0.75, 0.75) 
+				tween.tween_property(cursor_rect, "scale", Vector2.ONE, 0.15)\
+					 .set_trans(Tween.TRANS_BACK)\
+					 .set_ease(Tween.EASE_OUT)
+		else:
+			# 鬆開左鍵：換回原本的待機游標
+			if is_instance_valid(cursor_rect):
+				cursor_rect.texture = cursor_normal
+
+
+# ==========================================
 # ⚙️ 系統與工具函數
 # ==========================================
 func update_map_name(new_name: String) -> void:
@@ -155,7 +219,6 @@ func add_item_to_reserve(item_id: String, amount: int) -> void:
 		}
 	print("【大腦】獲得道具：", item_id, "，目前庫存總數：", inventory_items[item_id]["reserve_amount"])
 
-# 🌟 新增：解鎖「藍色顏料（元素瓶）」並自動裝進快捷欄！
 func unlock_auto_refill_item(item_id: String) -> void:
 	if not ITEM_DB.has(item_id):
 		return
@@ -166,7 +229,6 @@ func unlock_auto_refill_item(item_id: String) -> void:
 		inventory_items[item_id]["unlocked"] = true
 		inventory_items[item_id]["current_carry"] = max_c
 		
-	# 如果快捷欄裡還沒有這個顏料，自動幫玩家放進第一個空格並切換過去！
 	if not quick_slots.has(item_id):
 		for i in range(quick_slots.size()):
 			if quick_slots[i] == "":
@@ -194,29 +256,23 @@ func rotate_quick_slot(direction: int) -> void:
 func use_current_item() -> void:
 	var item_id = quick_slots[current_slot_index]
 	
-	# 防呆 1：格子是空的
 	if item_id == "": 
 		return
 		
-	# 防呆 2：數量已經是 0，發出喀喀聲，不執行補血
 	if get_item_count(item_id) <= 0: 
 		print("【系統】道具數量不足 (喀喀聲)")
 		return
 		
-	# 執行消耗邏輯：數量扣 1
 	inventory_items[item_id]["current_carry"] -= 1
 	print("【系統】使用了 ", item_id, "，身上剩餘：", inventory_items[item_id]["current_carry"])
 	
-	# 執行補血邏輯
 	if player_node and ITEM_DB[item_id].has("heal_amount"):
 		var heal_value = ITEM_DB[item_id]["heal_amount"]
 		player_node.heal(heal_value)
 		
-	# 數量歸零時的判定
 	if inventory_items[item_id]["current_carry"] <= 0:
 		print("【系統】道具用盡！留在快捷欄上顯示 0 數量並變灰。")
 			
-	# 大喊一聲，叫 UI 更新畫面
 	quick_slot_updated.emit() 
 
 # 🌟 升級版畫架補給：同時支援「元素瓶免費自動回滿 (hp_paint)」與「一般道具從倉庫調貨」！
@@ -224,7 +280,6 @@ func replenish_quick_slots() -> void:
 	print("【系統】抵達畫架存檔點！開始補充顏料與調用倉庫物資...")
 	var has_replenished = false
 	
-	# 1. 先把所有「已解鎖的自動補充道具 (如藍色顏料 hp_paint)」不論有沒有放快捷欄，全部免費補滿至上限！
 	for item_id in inventory_items.keys():
 		if ITEM_DB.has(item_id) and ITEM_DB[item_id].get("is_auto_refill", false):
 			if inventory_items[item_id].get("unlocked", false):
@@ -234,11 +289,10 @@ func replenish_quick_slots() -> void:
 					has_replenished = true
 					print("【畫架共鳴】", ITEM_DB[item_id]["name"], " 已自動補滿至 ", max_carry, " 次！")
 	
-	# 2. 一般消耗品從倉庫 (reserve_amount) 調貨補進快捷欄
 	for item_id in quick_slots:
 		if item_id != "" and inventory_items.has(item_id) and ITEM_DB.has(item_id):
 			if ITEM_DB[item_id].get("is_auto_refill", false):
-				continue # 元素瓶剛剛已經免費補滿了，跳過倉庫扣除邏輯
+				continue 
 				
 			var max_carry = ITEM_DB[item_id]["max_carry"]
 			var current = inventory_items[item_id]["current_carry"]
@@ -305,25 +359,18 @@ func can_combat() -> bool:
 # ==========================================
 # 🎯 全域劇本暗號接收器 (在任何劇本發 signal 都能改寫大腦資料！)
 # ==========================================
-func _ready() -> void:
-	if not Dialogic.signal_event.is_connected(_on_global_dialogic_signal):
-		Dialogic.signal_event.connect(_on_global_dialogic_signal)
-
 func _on_global_dialogic_signal(arg: String) -> void:
-	# 1. 支援手動標記任務完成：例如 [signal arg="complete:got_cargo"]
 	if arg.begins_with("complete:"):
 		var flag_name = arg.split(":")[1].strip_edges()
 		mark_cutscene_completed(flag_name)
 		print("【大腦】收到劇本暗號，已登記任務進度：", flag_name)
 		
-	# 2. 支援在劇本中直接贈送貼紙：例如 [signal arg="give_sticker:001"]
 	elif arg.begins_with("give_sticker:"):
 		var sticker_id = arg.split(":")[1].strip_edges()
 		if not owned_stickers.has(sticker_id):
 			owned_stickers.append(sticker_id)
 			print("【大腦】從劇情獲得新貼紙：", sticker_id)
 			
-	# 3. 🌟 支援在劇本中解鎖元素瓶道具：例如 [signal arg="unlock_item:blue_paint"]
 	elif arg.begins_with("unlock_item:"):
 		var item_id = arg.split(":")[1].strip_edges()
 		unlock_auto_refill_item(item_id)
