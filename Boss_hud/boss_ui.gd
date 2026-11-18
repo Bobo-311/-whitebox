@@ -3,14 +3,12 @@ extends CanvasLayer
 @onready var boss_name_label = $VBoxContainer/BossName
 @onready var delay_bar = $VBoxContainer/HealthBars/DelayBar_Yellow
 @onready var main_bar = $VBoxContainer/HealthBars/MainBar_Red
-@onready var health_bars_container = $VBoxContainer/HealthBars # 用來做震動特效
+@onready var health_bars_container = $VBoxContainer/HealthBars 
 
 @export var wake_up_distance: float = 950.0 # 🌟 玩家距離 Boss 多近以內才顯示血條 (設 0 代表全圖顯示)
 
 var _health_tween: Tween
 var _flash_tween: Tween # 專門處理白光閃爍的 Tween
-var _original_bar_pos: Vector2 = Vector2.ZERO
-var _pos_recorded: bool = false
 var _is_boss_active: bool = false # 記錄 Boss 血條是否已經初始化啟用
 var _is_boss_dead: bool = false   # 記錄 Boss 是否已死亡
 var _has_damaged: bool = false    # 記錄 Boss 是否已經被打過 (被打過就常駐顯示)
@@ -18,9 +16,7 @@ var _has_damaged: bool = false    # 記錄 Boss 是否已經被打過 (被打過
 func _ready() -> void:
 	# 開局先把血條徹底藏起來
 	self.visible = false
-	if health_bars_container:
-		_original_bar_pos = health_bars_container.position
-		_pos_recorded = true
+	# 🌟 已經不需要紀錄 position 了，刪除相關變數，保持程式碼乾淨
 
 func _process(_delta: float) -> void:
 	if not _is_boss_active or _is_boss_dead:
@@ -81,8 +77,11 @@ func init_boss(boss_name: String, max_hp: int) -> void:
 func update_health(new_hp: int) -> void:
 	_has_damaged = true # 一旦扣血就標記已開戰
 	
+	# 確保新血量不會小於 0，也不會大於血條的上限！
+	var safe_hp = clamp(new_hp, 0, main_bar.max_value)
+	
 	# 🎬 1. 瞬間物理反饋 (真實血量)
-	main_bar.value = max(new_hp, 0)
+	main_bar.value = safe_hp
 	
 	# 🎬 2. 打擊閃爍特效 (Hit Flash)
 	if _flash_tween and _flash_tween.is_running():
@@ -91,13 +90,13 @@ func update_health(new_hp: int) -> void:
 	main_bar.modulate = Color(3.0, 3.0, 3.0, 1.0)
 	_flash_tween.tween_property(main_bar, "modulate", Color.WHITE, 0.15).set_trans(Tween.TRANS_CUBIC)
 
-	# 🎬 3. 黃血殘影衰減 (Delay Trail)
+	# 🎬 3. 黃血殘影衰減 (Delay Trail) - 這裡也改吃 safe_hp
 	if _health_tween and _health_tween.is_running():
 		_health_tween.kill()
 		
 	_health_tween = create_tween()
 	_health_tween.tween_interval(0.6) 
-	_health_tween.tween_property(delay_bar, "value", max(new_hp, 0), 0.45)\
+	_health_tween.tween_property(delay_bar, "value", safe_hp, 0.45)\
 		 .set_trans(Tween.TRANS_EXPO)\
 		 .set_ease(Tween.EASE_OUT)
 		 
@@ -105,16 +104,13 @@ func update_health(new_hp: int) -> void:
 	_shake_ui()
 	
 	# 如果血量歸零，直接標記死亡關閉血條
-	if new_hp <= 0:
+	if safe_hp <= 0:
 		_is_boss_dead = true
 
 func _shake_ui() -> void:
-	if not health_bars_container: return
-	if not _pos_recorded:
-		_original_bar_pos = health_bars_container.position
-		_pos_recorded = true
-		
+	# 🌟 關鍵修正：絕對不要去 tween 排版容器(VBoxContainer)裡面的子節點座標！
+	# 改為直接震動 CanvasLayer 原生的 offset 屬性，完全不干擾排版引擎！
 	var shake_tween = create_tween()
-	shake_tween.tween_property(health_bars_container, "position", _original_bar_pos + Vector2(2, 2), 0.05)
-	shake_tween.tween_property(health_bars_container, "position", _original_bar_pos + Vector2(-2, -1), 0.05)
-	shake_tween.tween_property(health_bars_container, "position", _original_bar_pos, 0.05)
+	shake_tween.tween_property(self, "offset", Vector2(4, 4), 0.05)
+	shake_tween.tween_property(self, "offset", Vector2(-4, -2), 0.05)
+	shake_tween.tween_property(self, "offset", Vector2.ZERO, 0.05)

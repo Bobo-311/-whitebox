@@ -1,6 +1,6 @@
 [style name="galstyle"]
 [signal arg="walk:player:walk_to_here:move_right:4.0"]
-[signal arg="walk:w_cat:walk_to_here:move_right:idle_right:4.0"]
+[signal arg="walk:w_cat:walk_to_here2:move_right:idle_right:4.0"]
 [wait time="4.0"]
 join 阿尼 (疑惑) left
 阿尼 (疑惑): 奇怪？

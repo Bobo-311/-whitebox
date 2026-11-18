@@ -29,7 +29,7 @@ var max_hp: int = 500
 @export_range(1, 10000, 1)
 var phase_2_threshold: int = 250
 
-@export var boss_display_name: String = "淵獄蓮華"
+@export var boss_display_name: String = "紙蓮"
 
 var current_hp: int = 0
 

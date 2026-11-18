@@ -7193,7 +7193,6 @@ limit_bottom = 2000
 metadata/_edit_vertical_guides_ = [1798.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -7207,7 +7206,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -7807,6 +7805,22 @@ scale = Vector2(44.498825, 65.62287)
 position = Vector2(4053, 1337)
 scale = Vector2(3, 3)
 
+[node name="lightFlower3" parent="." instance=ExtResource("19_ltiju")]
+position = Vector2(4947, 905)
+scale = Vector2(3, 3)
+
+[node name="lightFlower4" parent="." instance=ExtResource("19_ltiju")]
+position = Vector2(5925, 865.00006)
+scale = Vector2(3, 3)
+
+[node name="lightFlower6" parent="." instance=ExtResource("19_ltiju")]
+position = Vector2(6386, 1624.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower7" parent="." instance=ExtResource("19_ltiju")]
+position = Vector2(3875.0002, 558)
+scale = Vector2(3, 3)
+
 [node name="lightFlower2" parent="." instance=ExtResource("19_ltiju")]
 position = Vector2(3440, 1561)
 scale = Vector2(3, 3)
@@ -7843,7 +7857,7 @@ position = Vector2(3415, 1502)
 max_hp = 100
 
 [node name="MagicBrushItem" parent="." instance=ExtResource("23_5favj")]
-z_index = -10
+z_index = -2
 position = Vector2(4948, 766)
 
 [editable path="PortalArea右側門"]

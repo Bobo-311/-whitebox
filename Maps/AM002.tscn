@@ -19774,7 +19774,7 @@ tile_set = SubResource("TileSet_1ia5g")
 [node name="WhiteCat" parent="." instance=ExtResource("2_56r8a")]
 visible = false
 position = Vector2(3261, 1414)
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
@@ -21303,7 +21303,6 @@ markers = {
 "watch the tree": NodePath("")
 }
 player_dch = ExtResource("20_gvfi4")
-trigger_on_map_enter = true
 hide_target_npc_after_complete = true
 permanent_hide_actors = Array[String](["king"])
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=4 uid="uid://dfa7qn8iuye7n"]
+[gd_scene load_steps=63 format=4 uid="uid://dfa7qn8iuye7n"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_chhuo"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="2_7ujck"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="9_abugf"]
 [ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="10_xnt0s"]
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_kaapp"]
+[ext_resource type="PackedScene" uid="uid://gy3n015gas33" path="res://單獨物件場景/oil_lamp.tscn" id="12_kaapp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_nuqpg"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
@@ -3732,7 +3733,7 @@ position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("2_7ujck")]
 y_sort_enabled = true
-position = Vector2(4018, 984)
+position = Vector2(4051.0002, 1987)
 scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
@@ -3768,7 +3769,7 @@ polygon = PackedVector2Array(4228, 2625, 4230, 1427, 6337, 1422, 6337, 1516, 430
 polygon = PackedVector2Array(4240, -1, 4241, 1089, 6336, 1088, 6335, 1015, 4319, 1012, 4320, -1)
 
 [node name="player" parent="." instance=ExtResource("3_qij2i")]
-position = Vector2(3971, 308)
+position = Vector2(3905, 2003)
 
 [node name="PortalArea上門" parent="." instance=ExtResource("7_qij2i")]
 position = Vector2(1795, 1763.0001)
@@ -3849,9 +3850,6 @@ scale = Vector2(3, 3)
 position = Vector2(5463, 1428)
 scale = Vector2(3, 3)
 
-[node name="ColorlessZombie" parent="." instance=ExtResource("10_xnt0s")]
-position = Vector2(4135, 1186)
-
 [node name="ColorlessZombie2" parent="." instance=ExtResource("10_xnt0s")]
 position = Vector2(4931, 1339)
 
@@ -3864,8 +3862,13 @@ position = Vector2(4012, 1559)
 [node name="Colorless_Dango2" parent="." instance=ExtResource("11_kaapp")]
 position = Vector2(4725, 1349)
 
-[node name="Colorless_Dango3" parent="." instance=ExtResource("11_kaapp")]
-position = Vector2(3844, 750)
+[node name="oil_lamp" parent="." instance=ExtResource("12_kaapp")]
+position = Vector2(4369, 1369)
+scale = Vector2(1.5, 1.5)
+
+[node name="oil_lamp2" parent="." instance=ExtResource("12_kaapp")]
+position = Vector2(3725, 861)
+scale = Vector2(1.5, 1.5)
 
 [editable path="PortalArea上門"]
 [editable path="PortalArea下門"]

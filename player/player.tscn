@@ -1,4 +1,4 @@
-[gd_scene load_steps=361 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=351 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://bxx7yqfwk2ch4" path="res://阿尼動畫/阿尼動畫改版/攻擊下.png" id="2_art4l"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://lw7dfl87qh2l" path="res://阿尼動畫/阿尼動畫改版/右攻擊新版.png" id="4_gswnw"]
 [ext_resource type="Script" uid="uid://dtv1jytooehf1" path="res://camera/camera_2d.gd" id="5_tnfn2"]
 [ext_resource type="Texture2D" uid="uid://dwbomat222f7q" path="res://阿尼動畫/阿尼動畫改版/新攻擊上.png" id="5_xcnuv"]
-[ext_resource type="AudioStream" uid="uid://bn4gy1h1qjiml" path="res://audio/玩家_攻擊_3.wav" id="6_boad6"]
 [ext_resource type="Texture2D" uid="uid://dd1dbi67b4hg5" path="res://阿尼動畫/阿尼動畫改版/正面dash.png" id="6_j55il"]
 [ext_resource type="Script" uid="uid://b62eph5co61o2" path="res://player/player_hurt.gd" id="7_32hag"]
 [ext_resource type="Texture2D" uid="uid://dn46sqohyrft0" path="res://阿尼動畫/ani_getup.png" id="7_55jnj"]
@@ -46,6 +45,7 @@
 [ext_resource type="Texture2D" uid="uid://c8n3c347a4wr2" path="res://阿尼動畫/阿尼動畫改版/ani_ranged_left.png" id="25_fjxoa"]
 [ext_resource type="Texture2D" uid="uid://cml4e8sta2lhb" path="res://阿尼動畫/阿尼動畫改版/ani_ranged_right.png" id="26_gswnw"]
 [ext_resource type="Texture2D" uid="uid://dlsseo2mni2gr" path="res://阿尼動畫/阿尼動畫改版/ani_ranged_up.png" id="27_xcnuv"]
+[ext_resource type="AudioStream" uid="uid://bbmpix8ary06g" path="res://sfx folder/ani sfx/ani_brush_swing.wav" id="43_j55il"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jbx34"]
 atlas = ExtResource("2_art4l")
@@ -590,50 +590,6 @@ region = Rect2(320, 320, 160, 160)
 [sub_resource type="AtlasTexture" id="AtlasTexture_pdnyr"]
 atlas = ExtResource("12_fmu53")
 region = Rect2(480, 320, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_26ehw"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(0, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4vegf"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(160, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rvnmh"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(320, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8v6lc"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(480, 0, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ws1b"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(0, 160, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ua2f6"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(160, 160, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mikk3"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(320, 160, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_glkag"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(480, 160, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pgwk2"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(0, 320, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k8h4n"]
-atlas = ExtResource("13_w7j2h")
-region = Rect2(160, 320, 160, 160)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ygob4"]
-atlas = ExtResource("7_55jnj")
-region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qvxeb"]
 atlas = ExtResource("13_w7j2h")
@@ -1769,44 +1725,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_26ehw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4vegf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rvnmh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8v6lc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6ws1b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ua2f6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mikk3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_glkag")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pgwk2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k8h4n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ygob4")
-}],
-"loop": true,
-"name": &"lay_down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_qvxeb")
 }, {
 "duration": 1.0,
@@ -2426,12 +2344,11 @@ scale_max = 3.0
 [node name="player" type="CharacterBody2D" groups=["Player", "player"]]
 y_sort_enabled = true
 collision_layer = 2
-collision_mask = 15877
+collision_mask = 16133
 motion_mode = 1
 script = ExtResource("1_boqn2")
 walk_speed = 600
-basic_attack_damage = 50.0
-base_max_hp = 10000
+basic_attack_damage = 15.0
 max_hp = 10000
 metadata/_edit_horizontal_guides_ = [-170.0, 85.0]
 metadata/_edit_vertical_guides_ = [-129.0]
@@ -2439,10 +2356,8 @@ metadata/_edit_vertical_guides_ = [-129.0]
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -57)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
-animation = &"dash_right"
+animation = &"idle_down"
 autoplay = "idle_down"
-frame = 1
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, -10)
@@ -2528,7 +2443,7 @@ max_shake_offset = Vector2(50, 40)
 max_roll = 0.1
 
 [node name="SFXSword" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_boad6")
+stream = ExtResource("43_j55il")
 volume_db = -14.195
 
 [node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]

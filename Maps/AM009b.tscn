@@ -3439,7 +3439,6 @@ tile_set = SubResource("TileSet_hiv2a")
 
 [node name="player" parent="." instance=ExtResource("5_dc5a4")]
 position = Vector2(4304, 1235)
-base_max_hp = 100
 max_hp = 100
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -4873,6 +4872,7 @@ scale = Vector2(3, 3)
 minion_scene = null
 coin_drop_count = 5
 use_diagonal_anim = false
+max_hp = 500
 
 [node name="whitecat" parent="." instance=ExtResource("1_eddww")]
 position = Vector2(4504, 1200)
@@ -4886,6 +4886,9 @@ position = Vector2(7359, 1178)
 [node name="walk_to_here" type="Marker2D" parent="Node2D"]
 position = Vector2(5742, 1224)
 
+[node name="walk_to_here2" type="Marker2D" parent="Node2D"]
+position = Vector2(5744, 1304)
+
 [node name="boss_land_pos" type="Marker2D" parent="Node2D"]
 position = Vector2(7359, 1244)
 
@@ -4898,7 +4901,8 @@ actors = {
 markers = {
 "boss_land_pos": NodePath("../Node2D/boss_land_pos"),
 "cam_bos_pos": NodePath("../Node2D/cam_bos_pos"),
-"walk_to_here": NodePath("../Node2D/walk_to_here")
+"walk_to_here": NodePath("../Node2D/walk_to_here"),
+"walk_to_here2": NodePath("../Node2D/walk_to_here2")
 }
 trigger_on_map_enter = true
 

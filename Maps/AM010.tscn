@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=4 uid="uid://ctrp2sfkprsj2"]
+[gd_scene load_steps=90 format=4 uid="uid://ctrp2sfkprsj2"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_caut0"]
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="1_krbdi"]
@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="4_caut0"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="5_83phv"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="6_e6uax"]
+[ext_resource type="PackedScene" uid="uid://gy3n015gas33" path="res://單獨物件場景/oil_lamp.tscn" id="8_7oqhj"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="9_i05st"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="10_kpw2i"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="11_kpw2i"]
+[ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="12_0pes5"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
@@ -3319,7 +3324,6 @@ metadata/_edit_horizontal_guides_ = [-2055.0, 826.0, -1307.0, 8262.0, 8201.0]
 metadata/_edit_vertical_guides_ = [-550.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -3333,7 +3337,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -3345,7 +3348,7 @@ tile_map_data = PackedByteArray("AAAXAAAAAwAAAAAAAAAXAAEAAwAAAAEAAAAXAAIAAwAAAAI
 tile_set = SubResource("TileSet_i05st")
 
 [node name="WhiteCat" parent="." instance=ExtResource("3_e6uax")]
-position = Vector2(2455.8, 1377)
+position = Vector2(2452, 1387.2)
 scale = Vector2(0.15, 0.15)
 max_follow_distance = 700.0
 
@@ -3380,9 +3383,8 @@ position = Vector2(2718, -368.00003)
 scale = Vector2(25.836145, 23.047226)
 
 [node name="player" parent="." instance=ExtResource("4_caut0")]
-position = Vector2(2725.6, 65.400055)
+position = Vector2(2434, 1387.7999)
 scale = Vector2(0.25, 0.25)
-base_max_hp = 100
 max_hp = 100
 
 [node name="PortalArea下門" parent="." instance=ExtResource("6_e6uax")]
@@ -3434,6 +3436,110 @@ collision_mask = 0
 position = Vector2(383.25418, -5145.622)
 rotation = 1.5707964
 polygon = PackedVector2Array(4722.545, 2717.337, 4679.9414, 2717.337, 4679.9414, 2705.5027, 4695.9175, 2705.5027, 4695.9175, 2659.9404, 4679.9414, 2659.9404, 4679.9414, 2648.1062, 4695.9175, 2648.2246, 4722.427, 2648.2246)
+
+[node name="oil_lamp" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(2382.2, 1154.7999)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp3" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(2309.4, 856.2)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp4" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(1937.2, 841.8)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp5" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(1654.2, 622.4)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp6" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(2304, 249.60004)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp7" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(2558.8, 495.19995)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp8" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(3070.2, 313)
+scale = Vector2(0.5, 0.5)
+
+[node name="oil_lamp9" parent="." instance=ExtResource("8_7oqhj")]
+position = Vector2(2898.2, 935.80005)
+scale = Vector2(0.5, 0.5)
+
+[node name="ColorlessZombie" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(2217.2, 926.1999)
+scale = Vector2(0.18, 0.18)
+
+[node name="ColorlessZombie2" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(1631.7999, 899)
+scale = Vector2(0.18, 0.18)
+
+[node name="ColorlessZombie3" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(1851.2001, 582.8)
+scale = Vector2(0.18, 0.18)
+
+[node name="ColorlessZombie4" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(2195.6, 420)
+scale = Vector2(0.18, 0.18)
+
+[node name="ColorlessZombie5" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(2969.9998, 1192.2001)
+scale = Vector2(0.18, 0.18)
+
+[node name="ColorlessZombie6" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(2723.4001, 1181.2)
+scale = Vector2(0.18, 0.18)
+
+[node name="ColorlessZombie7" parent="." instance=ExtResource("9_i05st")]
+position = Vector2(3160.4001, 246.00002)
+scale = Vector2(0.18, 0.18)
+
+[node name="SavePoint" parent="." instance=ExtResource("10_kpw2i")]
+position = Vector2(2438.6, 827.60004)
+scale = Vector2(0.25, 0.25)
+
+[node name="SavePoint2" parent="." instance=ExtResource("10_kpw2i")]
+position = Vector2(2645.4001, 209.2)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(2980.7998, 906.19995)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango2" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(2206.4001, 1119.6)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango3" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(1996.2, 910.4)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango4" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(1871.7999, 900.2)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango5" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(1602.6, 210.00002)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango6" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(2772.5999, 674.8)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango7" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(3168.6, 559)
+scale = Vector2(0.25, 0.25)
+
+[node name="Colorless_Dango8" parent="." instance=ExtResource("11_kpw2i")]
+position = Vector2(2809, 549.2)
+scale = Vector2(0.25, 0.25)
+
+[node name="Barbarian" parent="." instance=ExtResource("12_0pes5")]
+position = Vector2(2513.4, 588.8)
+scale = Vector2(0.25, 0.25)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

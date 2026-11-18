@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_jw6xd"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_nao00"]
-[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="2_tdm34"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="3_bgl0c"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="4_032fq"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="5_5p81a"]
@@ -26,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="25_lo5nj"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="25_xs68e"]
 [ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="26_kembs"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="26_lo5nj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -15993,15 +15993,9 @@ polygon = PackedVector2Array(7203, 4, 7203, 693, 7386, 693, 7386, 3)
 [node name="左" type="CollisionPolygon2D" parent="空氣牆壁四周"]
 polygon = PackedVector2Array(1536, -512, 1698, -512, 1698, 4032, 1536, 4032)
 
-[node name="ShopNPC" parent="." instance=ExtResource("2_tdm34")]
-position = Vector2(6662, 3466)
-
 [node name="player" parent="." instance=ExtResource("5_5p81a")]
 position = Vector2(6157, 3621.0002)
 scale = Vector2(1.25, 1.25)
-basic_attack_damage = 1000.0
-base_max_hp = 100000
-max_hp = 100000
 
 [node name="PortalArea下門" parent="." instance=ExtResource("25_xs68e")]
 position = Vector2(1795, 1763.0001)
@@ -16049,8 +16043,17 @@ position = Vector2(3646, 952)
 [node name="ColorlessZombie" parent="." instance=ExtResource("26_kembs")]
 position = Vector2(4175, 989)
 
-[node name="ColorlessZombie2" parent="." instance=ExtResource("26_kembs")]
-position = Vector2(4331, 2040)
+[node name="Barbarian2" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(4191, 2415)
+
+[node name="Barbarian3" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(5044, 926)
+
+[node name="Barbarian4" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(5708, 2435)
+
+[node name="SavePoint" parent="." instance=ExtResource("26_lo5nj")]
+position = Vector2(6426, 3396)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上右門"]

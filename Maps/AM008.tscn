@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://cnjndu48dqf3o"]
+[gd_scene load_steps=51 format=4 uid="uid://cnjndu48dqf3o"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_a18nb"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_h8b51"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="11_1dykj"]
 [ext_resource type="PackedScene" uid="uid://6hc04g8v6yp5" path="res://單獨物件場景/box.tscn" id="12_1dykj"]
 [ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="13_waf5r"]
+[ext_resource type="PackedScene" uid="uid://gy3n015gas33" path="res://單獨物件場景/oil_lamp.tscn" id="14_tvx3a"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h8b51"]
 vertices = PackedVector2Array(32, 32, -32, 32, -32, 17.5, 32, 16.9375)
@@ -2218,7 +2219,6 @@ polygon = PackedVector2Array(4722.308, 2571.5388, 4722.308, 2768.462, 4506.1543,
 
 [node name="player" parent="." instance=ExtResource("2_endjd")]
 position = Vector2(2967, 1912)
-base_max_hp = 100
 max_hp = 100
 
 [node name="a014" parent="." instance=ExtResource("9_cocp8")]
@@ -2269,6 +2269,14 @@ scale = Vector2(3.5, 3.5)
 
 [node name="SavePoint" parent="." instance=ExtResource("13_waf5r")]
 position = Vector2(3410, 1792)
+
+[node name="oil_lamp" parent="." instance=ExtResource("14_tvx3a")]
+position = Vector2(4322, 1402)
+scale = Vector2(1.5, 1.5)
+
+[node name="oil_lamp2" parent="." instance=ExtResource("14_tvx3a")]
+position = Vector2(3844.0002, 604)
+scale = Vector2(1.5, 1.5)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

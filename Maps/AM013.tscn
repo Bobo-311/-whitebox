@@ -1,4 +1,4 @@
-[gd_scene load_steps=178 format=4 uid="uid://hsot31p0hdgv"]
+[gd_scene load_steps=179 format=4 uid="uid://hsot31p0hdgv"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_wppda"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_h6h8j"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="15_briul"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="16_5hdk8"]
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="17_8cmns"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="18_ths8u"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -17553,6 +17554,7 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(2445, 1659)
 
 [node name="WhiteCat" parent="." instance=ExtResource("5_18uua")]
+y_sort_enabled = true
 position = Vector2(3148, 2119)
 scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
@@ -17701,7 +17703,6 @@ position = Vector2(3090, 1457)
 
 [node name="player" parent="." instance=ExtResource("6_nr7xe")]
 position = Vector2(2949, 2376)
-base_max_hp = 100
 max_hp = 100
 
 [node name="空氣牆左方" type="StaticBody2D" parent="."]
@@ -17820,6 +17821,9 @@ scale = Vector2(3, 3)
 [node name="lightFlower6" parent="." instance=ExtResource("17_8cmns")]
 position = Vector2(2224.0002, 753.00006)
 scale = Vector2(3, 3)
+
+[node name="SavePoint" parent="." instance=ExtResource("18_ths8u")]
+position = Vector2(2945, 1555)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea木屋門"]

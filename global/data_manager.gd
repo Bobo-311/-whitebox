@@ -4,7 +4,7 @@ extends Node
 # 🖱️ 全域滑鼠設定 (軟體游標 + 物理打擊感)
 # ==========================================
 var cursor_normal = preload("res://雜/cursor_normal.png")
-var cursor_click = preload("res://雜/cursor_click.png")
+var cursor_click = preload("res://雜/cursor_click_no_cross.png")
 
 var cursor_layer: CanvasLayer
 var cursor_rect: TextureRect
@@ -22,7 +22,7 @@ signal quick_slot_updated                # 廣播：道具數量變了！左下�
 var current_map_name: String = "鐘塔" # 記錄玩家現在在哪張地圖，預設是鐘塔
 var is_teleporting: bool = false # 記錄玩家是不是正在使用傳送門 (防呆用)
 
-var total_gold: int = 500 # 玩家口袋裡的總財產
+var total_gold: int = 0 # 玩家口袋裡的總財產
 var player_node: Node2D = null # 一個變數用來「抓住」玩家實體，讓所有 UI 都能透過大腦找到玩家
 
 # --- 存檔點 (篝火) 系統 ---
@@ -179,25 +179,28 @@ func _process(_delta: float) -> void:
 		cursor_rect.global_position = get_viewport().get_mouse_position()
 
 func _input(event: InputEvent) -> void:
-	# 監聽滑鼠左鍵的點擊與放開
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			# 按下左鍵：換成點擊帶火花的游標
-			if is_instance_valid(cursor_rect):
-				cursor_rect.texture = cursor_click
-				
-				# 💥 打擊感核心：瞬間縮小，然後 Q 彈回彈！
-				var tween = create_tween()
-				cursor_rect.pivot_offset = Vector2.ZERO # 確保從左上角縮放
-				cursor_rect.scale = Vector2(0.75, 0.75) 
-				tween.tween_property(cursor_rect, "scale", Vector2.ONE, 0.15)\
-					 .set_trans(Tween.TRANS_BACK)\
-					 .set_ease(Tween.EASE_OUT)
-		else:
-			# 鬆開左鍵：換回原本的待機游標
-			if is_instance_valid(cursor_rect):
-				cursor_rect.texture = cursor_normal
+	# 監聽滑鼠的點擊與放開
+	if event is InputEventMouseButton:
+		
+		# ================== 左鍵與右鍵共用邏輯 ==================
+		if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				if is_instance_valid(cursor_rect):
+					cursor_rect.texture = cursor_click
+					_play_cursor_bounce_effect()
+			else:
+				# 當按鍵放開時，必須確認另一邊也沒有被按著，才切回普通游標
+				if is_instance_valid(cursor_rect) and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
+					cursor_rect.texture = cursor_normal
 
+# 🌟 抽出來共用的游標 Q 彈特效
+func _play_cursor_bounce_effect() -> void:
+	var tween = create_tween()
+	cursor_rect.pivot_offset = Vector2.ZERO # 確保從左上角縮放
+	cursor_rect.scale = Vector2(0.75, 0.75) 
+	tween.tween_property(cursor_rect, "scale", Vector2.ONE, 0.15)\
+		 .set_trans(Tween.TRANS_BACK)\
+		 .set_ease(Tween.EASE_OUT)
 
 # ==========================================
 # ⚙️ 系統與工具函數

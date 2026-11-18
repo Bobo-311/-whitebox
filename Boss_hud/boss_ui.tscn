@@ -50,7 +50,8 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 19
-text = "紙蓮"
+text = "紙蓮
+"
 label_settings = SubResource("LabelSettings_ctl2w")
 horizontal_alignment = 1
 vertical_alignment = 1

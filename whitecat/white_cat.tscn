@@ -1276,7 +1276,7 @@ animations = [{
 size = Vector2(48.543068, 67.871254)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t65i5"]
-radius = 9341.261
+radius = 654.78436
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bcxv7"]
 radius = 77.8257
@@ -1284,12 +1284,14 @@ radius = 77.8257
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["white_cat"]]
 scale = Vector2(5, 5)
 collision_layer = 256
-collision_mask = 15877
+collision_mask = 15879
 script = ExtResource("1_jdbxt")
+move_speed = 700.0
 max_follow_distance = 600.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-2.3326173, -58.33261)
+y_sort_enabled = true
+position = Vector2(0, -58.333)
 sprite_frames = SubResource("SpriteFrames_jdbxt")
 animation = &"stun_down"
 frame_progress = 0.8589354

@@ -1566,7 +1566,7 @@ radius = 29.361715
 height = 91.16592
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s8a4f"]
-radius = 239.8708
+radius = 571.47266
 
 [node name="Colorless_Dango" instance=ExtResource("1_xmo1u")]
 collision_mask = 16129

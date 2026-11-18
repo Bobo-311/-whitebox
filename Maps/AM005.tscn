@@ -7505,6 +7505,7 @@ scale = Vector2(29.638844, 54.46978)
 [node name="player" parent="." instance=ExtResource("4_jssex")]
 position = Vector2(2060, 1167.0001)
 scale = Vector2(1.3, 1.3)
+basic_attack_damage = 25.0
 max_hp = 100
 
 [node name="right_mark" type="Marker2D" parent="player"]

@@ -1099,7 +1099,7 @@ boss_display_name = "糰子王"
 minion_scene = ExtResource("3_vsfu5")
 coin_drop_count = 0
 use_diagonal_anim = true
-max_hp = 100
+max_hp = 400
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 material = SubResource("ShaderMaterial_ynskx")
