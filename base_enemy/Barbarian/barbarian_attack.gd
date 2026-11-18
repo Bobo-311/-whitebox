@@ -1,89 +1,173 @@
-extends State # 繼承自狀態模板，代表這是大腦裡的一個狀態節點
+extends State
 
-# ==========================================
-# ⚙️ 揮刀節奏設定 (可在屬性面板自由調整，調出手感)
-# ==========================================
-@export_category("揮刀節奏設定")
-@export var windup_time: float = 0.4    # 【前搖】舉刀時間：數字越大，怪物舉刀越久，給玩家反應的時間越多
-@export var active_time: float = 0.3    # 【判定】刀光時間：碰撞框(Hitbox)開啟並產生傷害的持續時間
-@export var recovery_time: float = 0.4  # 【後搖】收刀時間：砍完後原地發呆喘息的時間，給玩家反擊的機會
+# =====================================================
+# 第一階段武器攻擊影格
+# X：傷害開始影格
+# Y：傷害結束影格（包含該格）
+# =====================================================
+@export_group("一階・攻擊影格")
+@export var stage1_left_up_frames: Vector2i = Vector2i(4, 6)
+@export var stage1_right_up_frames: Vector2i = Vector2i(4, 6)
+@export var stage1_left_down_frames: Vector2i = Vector2i(4, 6)
+@export var stage1_right_down_frames: Vector2i = Vector2i(4, 6)
 
-var is_attacking: bool = false # 攻擊鎖定開關：防止在攻擊中途又重複觸發攻擊
+@export_group("一階・攻擊節奏")
+@export var stage1_playback_speed: float = 1.0 # 動畫播放倍率
+@export var stage1_recovery_time: float = 0.4 # 攻擊動畫播完後的休息時間
 
-# ==========================================
-# 🚀 狀態進入時執行 (Enter)
-# ==========================================
-func enter():
-	is_attacking = true # 鎖定狀態：告訴系統「我正在攻擊中，不要吵我」
-	character.velocity = Vector2.ZERO # 物理煞車：揮刀時強制原地站死，避免滑步
-	_perform_attack() # 呼叫並開始執行完整的揮刀流程
+# =====================================================
+# 第二階段武器攻擊影格
+# =====================================================
+@export_group("二階・攻擊影格")
+@export var stage2_left_up_frames: Vector2i = Vector2i(3, 5)
+@export var stage2_right_up_frames: Vector2i = Vector2i(3, 5)
+@export var stage2_left_down_frames: Vector2i = Vector2i(3, 5)
+@export var stage2_right_down_frames: Vector2i = Vector2i(3, 5)
 
-# ==========================================
-# 🗡️ 核心攻擊流程 (前搖 -> 判定 -> 後搖)
-# ==========================================
-func _perform_attack():
-	# 1️⃣ 【計算面朝方向】
-	var dir_str = "down" # 預設字串為往下
-	var dir_vec = character.last_facing_vec # 取得老爸記憶中的最後面朝方向 (Vector2)
-	
-	# 判斷 X 軸與 Y 軸哪個分量比較大，來決定是上下還是左右
-	if abs(dir_vec.x) > abs(dir_vec.y):
-		dir_str = "right" if dir_vec.x > 0 else "left"
-	else:
-		dir_str = "down" if dir_vec.y > 0 else "up"
+@export_group("二階・攻擊節奏")
+@export var stage2_playback_speed: float = 1.0 # 狂暴攻擊動畫播放倍率
+@export var stage2_recovery_time: float = 0.3 # 狂暴攻擊後的休息時間
 
-	# 2️⃣ 【播放動畫】
-	# 呼叫老爸的播放動畫功能，它會自動把 "attack" 跟算出來的方向 (例如 "_right") 組合起來
-	character.play_animation("attack", dir_vec)
-	
-	# 3️⃣ 【抓取對應方向的 Hitbox 節點】
-	# 用字串組合出精準的名稱 (例如 "Hitbox/CollisionShape_down") 並抓取那個膠囊框
-	var target_hitbox = character.get_node_or_null("Hitbox/CollisionShape_" + dir_str)
-	var hitbox_area = character.get_node_or_null("Hitbox")
-	
-	# ⏳ === 【階段一：前搖 (Wind-up)】 === ⏳
-	# 怪物高舉武器，此時 Hitbox 是關閉的，不會有傷害。等待設定的前搖時間。
-	await character.get_tree().create_timer(windup_time).timeout
-	if character.is_dead or state_machine.current_state != self: return
-	
-	# 💥 === 【階段二：傷害判定 (Active)】 === 💥
-	if target_hitbox and hitbox_area:
-		hitbox_area.monitoring = true      # 打開 Area2D 的雷達感應
-		target_hitbox.disabled = false     # 瞬間取消 Disabled 勾選，膠囊框實體化！(碰到玩家就扣血)
-		
-		# 維持這個具有傷害的刀光判定一段時間
-		await character.get_tree().create_timer(active_time).timeout
-		# 🚨【關鍵防呆】：判定結束後也要檢查
-		if state_machine.current_state != self: return
-		
-		# 💨 === 【階段三：後搖 (Recovery)】 === 💨
-		target_hitbox.disabled = true      # 傷害時間結束，趕快把膠囊框關閉 (打勾 Disabled)
-		hitbox_area.monitoring = false     # 關閉 Area2D 感應雷達，避免誤判
-		
-	# ⏳ 等待收刀動作做完、喘息一下 (後搖時間)
-	await character.get_tree().create_timer(recovery_time).timeout
-	
-	# 🔄 === 【攻擊結束，交還大腦控制權】 === 🔄
-	is_attacking = false # 解除攻擊鎖定
-	
-	# 如果揮完刀怪物還活著，就切換回「追擊(Chase)」狀態，準備下一波走位或攻擊
-	if not character.is_dead:
-		state_machine.change_state("Chase")
+@export_group("開發測試")
+@export var debug_attack_frames: bool = false # 是否印出有效傷害影格
 
-# ==========================================
-# ⏱️ 每一幀的物理更新 (Physics Update)
-# ==========================================
-func state_physics_update(_delta: float):
-	# 刻意留空 (pass)
-	# 因為在攻擊期間，我們不希望怪物可以移動或做其他思考
-	# 所有動作都交給 _perform_attack() 裡的 await (等待) 來掌控節奏
-	pass
-# 🚨【新增】：如果狀態被外力強制中斷 (例如被打進二階)，安全關閉所有雷達與碰撞框
-func exit():
-	is_attacking = false
-	var hitbox_area = character.get_node_or_null("Hitbox")
-	if hitbox_area:
-		hitbox_area.monitoring = false
-		for child in hitbox_area.get_children():
-			if child is CollisionShape2D:
-				child.set_deferred("disabled", true)
+# =====================================================
+# 內部狀態
+# =====================================================
+var enemy: Barbarian
+var sprite: AnimatedSprite2D
+var _attack_dir: Vector2 = Vector2.ZERO # 本次攻擊鎖定方向
+var _direction_suffix: String = ""
+var _animation_name: String = ""
+var _hit_start: int = 0
+var _hit_end: int = 0
+var _attack_running: bool = false
+var _damage_window_open: bool = false
+var _is_recovering: bool = false
+var _recovery_timer: float = 0.0
+
+# =====================================================
+# 進入攻擊狀態
+# =====================================================
+func enter() -> void:
+	enemy = character as Barbarian
+	sprite = enemy.animated_sprite_2d
+	enemy.velocity = Vector2.ZERO
+	enemy.knockback_force = Vector2.ZERO
+	if enemy.knockback_component:
+		enemy.knockback_component.knockback_force = Vector2.ZERO
+	enemy.can_attack = false
+	enemy.begin_sword_attack() # 關閉肉身傷害並清空前一次命中紀錄
+	_attack_dir = enemy.last_facing_vec
+	_direction_suffix = enemy.get_direction_suffix(_attack_dir)
+	_animation_name = enemy.get_action_animation("attack", _attack_dir)
+	_attack_running = false
+	_damage_window_open = false
+	_is_recovering = false
+	if not enemy.has_one_shot_animation("attack", _attack_dir):
+		push_warning("攻擊動畫不存在或未關閉 Loop：" + _animation_name)
+		_begin_recovery() # 素材不完整時安全取消攻擊
+		return
+	var frame_range: Vector2i = _get_attack_frame_range()
+	var frame_count: int = sprite.sprite_frames.get_frame_count(_animation_name)
+	_hit_start = clampi(frame_range.x, 0, frame_count - 1)
+	_hit_end = clampi(frame_range.y, _hit_start, frame_count - 1)
+	if not sprite.frame_changed.is_connected(_on_frame_changed):
+		sprite.frame_changed.connect(_on_frame_changed)
+	if not sprite.animation_finished.is_connected(_on_animation_finished):
+		sprite.animation_finished.connect(_on_animation_finished)
+	var playback_speed: float = stage2_playback_speed if enemy.is_berserk else stage1_playback_speed
+	_attack_running = true
+	enemy.play_action("attack", _attack_dir, true, maxf(playback_speed, 0.01))
+	_on_frame_changed() # 檢查第 0 格是否已位於有效傷害範圍
+
+# =====================================================
+# 取得對應階段與方向的攻擊影格
+# =====================================================
+func _get_attack_frame_range() -> Vector2i:
+	if enemy.is_berserk:
+		match _direction_suffix:
+			"left_up":
+				return stage2_left_up_frames
+			"right_up":
+				return stage2_right_up_frames
+			"left_down":
+				return stage2_left_down_frames
+			_:
+				return stage2_right_down_frames
+	match _direction_suffix:
+		"left_up":
+			return stage1_left_up_frames
+		"right_up":
+			return stage1_right_up_frames
+		"left_down":
+			return stage1_left_down_frames
+		_:
+			return stage1_right_down_frames
+
+# =====================================================
+# 動畫影格驅動傷害判定
+# =====================================================
+func _on_frame_changed() -> void:
+	if not _attack_running or enemy.is_dead:
+		return
+	if state_machine.current_state != self:
+		return
+	if sprite.animation != _animation_name:
+		return
+	var should_open: bool = sprite.frame >= _hit_start and sprite.frame <= _hit_end
+	if should_open == _damage_window_open:
+		return
+	_damage_window_open = should_open
+	enemy.set_sword_window(_direction_suffix, should_open)
+	if debug_attack_frames:
+		print("野蠻人攻擊：", _animation_name, " | Frame：", sprite.frame, " | Hitbox：", should_open)
+
+# =====================================================
+# 攻擊動畫播放完成
+# =====================================================
+func _on_animation_finished() -> void:
+	if not _attack_running or state_machine.current_state != self:
+		return
+	if sprite.animation != _animation_name:
+		return
+	_begin_recovery()
+
+func _begin_recovery() -> void:
+	_attack_running = false
+	_damage_window_open = false
+	_is_recovering = true
+	enemy.set_sword_window("", false) # 動畫播完立即停止武器傷害
+	enemy.set_contact_enabled(false) # 後搖期間也不能造成肉身傷害
+	enemy.velocity = Vector2.ZERO
+	_recovery_timer = stage2_recovery_time if enemy.is_berserk else stage1_recovery_time
+	enemy.play_animation("idle", _attack_dir)
+
+# =====================================================
+# 攻擊恢復計時
+# =====================================================
+func state_physics_update(delta: float) -> void:
+	if not _is_recovering:
+		return
+	_recovery_timer -= delta
+	if _recovery_timer <= 0.0:
+		if enemy.is_berserk:
+			state_machine.change_state("BerserkCharge")
+		else:
+			state_machine.change_state("Chase")
+
+# =====================================================
+# 安全退場
+# =====================================================
+func exit() -> void:
+	_attack_running = false
+	_damage_window_open = false
+	_is_recovering = false
+	if is_instance_valid(sprite):
+		if sprite.frame_changed.is_connected(_on_frame_changed):
+			sprite.frame_changed.disconnect(_on_frame_changed)
+		if sprite.animation_finished.is_connected(_on_animation_finished):
+			sprite.animation_finished.disconnect(_on_animation_finished)
+	enemy.end_sword_attack()
+	enemy.set_contact_enabled(false) # 攻擊結束後禁止自動恢復肉身傷害
+	enemy.can_attack = not enemy.is_dead and not enemy.is_transforming

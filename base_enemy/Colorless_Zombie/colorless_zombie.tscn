@@ -2221,8 +2221,9 @@ animations = [{
 "speed": 17.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnn8e"]
-size = Vector2(99, 116)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvltp"]
+radius = 22.666666
+height = 120.000015
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ixrl2"]
 size = Vector2(99, 116)
@@ -2252,8 +2253,8 @@ animation = &"move_left_down"
 autoplay = "idle_left_down"
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-7.333332, -24.5)
-shape = SubResource("RectangleShape2D_lnn8e")
+position = Vector2(-9.333334, 5.333334)
+shape = SubResource("CapsuleShape2D_cvltp")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 position = Vector2(-7.333332, -24.5)

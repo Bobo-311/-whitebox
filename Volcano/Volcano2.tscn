@@ -1802,7 +1802,6 @@ position = Vector2(1930, 4631)
 [node name="WhiteCat" parent="." instance=ExtResource("6_723fl")]
 visible = false
 position = Vector2(1501, 2257)
-scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]

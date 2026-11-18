@@ -81,7 +81,7 @@ var current_elevation: int = 0 # 0=平地, 1=二樓, 2=三樓
 # ==========================================
 func _ready(): 
 	super._ready() # 執行父類別 (BaseCharacter) 的初始化邏輯
-	print("以防大家沒看到 只有菜心楊是傻逼") # 合併雙方隊友的幽默宣告 ps使用方式只是check github有沒有抓到
+	print("以防大家沒看到 菜心楊是傻逼") # 合併雙方隊友的幽默宣告 ps使用方式只是check github有沒有抓到
 	
 	if animated_sprite_2d:
 		original_sprite_scale = animated_sprite_2d.scale # 鎖定原始比例防跑版
@@ -552,7 +552,7 @@ func update_hp_bar():
 		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) 
 
 # ==========================================
-# 🌟 動畫播放封裝系統 (支援 8 方向與 4 方向自動降級)
+# 🌟 動動畫播放封裝系統 (支援 8 方向與 4 方向自動降級)
 # ==========================================
 func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	var anim = get_node_or_null("AnimatedSprite2D")

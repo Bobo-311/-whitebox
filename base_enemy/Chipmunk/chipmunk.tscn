@@ -1455,8 +1455,9 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_5mnod"]
-radius = 52.337845
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5mnod"]
+radius = 15.0
+height = 54.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7udeu"]
 radius = 52.009613
@@ -1480,15 +1481,15 @@ material = SubResource("ShaderMaterial_2t0or")
 position = Vector2(-4, -47)
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_ac88p")
-animation = &"idle_left_up"
+animation = &"idle_left_down"
 autoplay = "idle_left_down"
-frame_progress = 0.13028981
 
 [node name="CollisionShape2D" parent="." index="1"]
-position = Vector2(-5, -18)
-shape = SubResource("CircleShape2D_5mnod")
+position = Vector2(-10, 15)
+shape = SubResource("CapsuleShape2D_5mnod")
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
+visible = false
 position = Vector2(-5, -18)
 shape = SubResource("CircleShape2D_7udeu")
 
