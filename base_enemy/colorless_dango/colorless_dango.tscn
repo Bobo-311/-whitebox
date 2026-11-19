@@ -1571,8 +1571,7 @@ radius = 571.47266
 [node name="Colorless_Dango" instance=ExtResource("1_xmo1u")]
 y_sort_enabled = false
 collision_mask = 16129
-walk_speed = 120
-coin_drop_count = 0
+coin_drop_count = 10
 use_diagonal_anim = true
 
 [node name="AnimatedSprite2D" parent="." index="0"]

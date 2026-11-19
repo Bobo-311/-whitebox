@@ -16028,7 +16028,13 @@ scale = Vector2(1.3, 1.3)
 position = Vector2(2851, 3234)
 
 [node name="Colorless_Dango2" parent="." instance=ExtResource("25_lo5nj")]
-position = Vector2(2330, 2690)
+position = Vector2(3068, 3237)
+
+[node name="Colorless_Dango6" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(2965, 3375)
+
+[node name="Colorless_Dango7" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(2910, 3511)
 
 [node name="Colorless_Dango3" parent="." instance=ExtResource("25_lo5nj")]
 position = Vector2(6370, 1048)

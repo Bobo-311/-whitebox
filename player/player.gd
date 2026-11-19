@@ -257,6 +257,9 @@ func _input(event):
 					Engine.time_scale = 1.0
 					print("【📸 畫面恢復】遊戲時間繼續。")
 					
+			KEY_F7:
+				DataManager.grant_combat_items()
+				print("【開發者測試】獲得藍色橡皮擦、紅色蠟筆、黃色的尺各 1 個。")
 			KEY_F11:
 				# 🖥️ F11：隨時切換「全螢幕 / 視窗化」模式
 				var current_mode = DisplayServer.window_get_mode()
@@ -337,7 +340,7 @@ func _physics_process(delta: float) -> void:
 			# 按下射擊
 			if Input.is_action_just_pressed("skill_01"): 
 				if current_ink >= cost:
-					var current_buff: float = 1.0
+					var current_buff: float = DataManager.combat_item_multiplier("ruler")
 					if DataManager.has_sticker("004"): current_buff *= DataManager.STICKER_DB["004"].value
 					
 					# 紅槍：開始蓄力
@@ -367,7 +370,7 @@ func _physics_process(delta: float) -> void:
 				if current_weapon == WeaponMode.RED and magic_brush and magic_brush.is_charging:
 					var stage = magic_brush.get_current_stage()
 					if stage > 0:
-						var current_buff = 1.0
+						var current_buff: float = DataManager.combat_item_multiplier("ruler")
 						if DataManager.has_sticker("004"): current_buff *= DataManager.STICKER_DB["004"].value
 						magic_brush.release_shoot(current_buff)
 						play_shoot_animation() # 🌟【新增：甩魔法】紅槍蓄力放開射擊時播放上下左右甩手動畫
@@ -458,7 +461,7 @@ func refill_full_ammo() -> void: refill_full_ink()
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_dead or is_invincible: return # 死亡或無敵期間不收受傷害
 	
-	current_hp = max(current_hp - amount, 0)
+	current_hp = max(current_hp - amount * DataManager.combat_item_multiplier("eraser"), 0)
 	update_hp_bar()
 	
 	# 觸發 Hitstop (打擊頓幀) 增加重量感
@@ -508,7 +511,7 @@ func get_current_basic_attack_damage() -> float:
 		var threshold: float = DataManager.STICKER_DB["008"].threshold 
 		if float(current_hp) / float(max_hp) <= threshold:
 			final_base_damage *= DataManager.STICKER_DB["008"].value 
-	return final_base_damage
+	return final_base_damage * DataManager.combat_item_multiplier("calyon")
 
 # 護符系統對接：擊殺回血
 func on_enemy_killed():
