@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_prdl6"]
 
 [node name="thin_rock_b" type="StaticBody2D"]
-y_sort_enabled = true
 position = Vector2(0, 3)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -2235,6 +2235,7 @@ size = Vector2(144.57544, 115.65887)
 radius = 606.78534
 
 [node name="ColorlessZombie" instance=ExtResource("1_58mlq")]
+y_sort_enabled = false
 scale = Vector2(0.75, 0.75)
 collision_mask = 16129
 walk_speed = 100

@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bfkx0e17riauo" path="res://最初之地地圖素材/素材.png" id="1_lhfj6"]
 
 [node name="TreeA" type="StaticBody2D"]
-y_sort_enabled = true
 script = ExtResource("1_7577u")
 
 [node name="FadeArea" type="Area2D" parent="."]

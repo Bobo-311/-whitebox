@@ -15,7 +15,6 @@ outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 
 [node name="column" type="StaticBody2D"]
-y_sort_enabled = true
 script = ExtResource("1_mfjvo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

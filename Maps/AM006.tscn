@@ -15995,7 +15995,6 @@ polygon = PackedVector2Array(1536, -512, 1698, -512, 1698, 4032, 1536, 4032)
 
 [node name="player" parent="." instance=ExtResource("5_5p81a")]
 position = Vector2(6157, 3621.0002)
-scale = Vector2(1.25, 1.25)
 
 [node name="PortalArea下門" parent="." instance=ExtResource("25_xs68e")]
 position = Vector2(1795, 1763.0001)

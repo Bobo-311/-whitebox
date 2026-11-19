@@ -44,6 +44,9 @@ var is_shopping: bool = false               # 狀態鎖：是否正在購物 (�
 enum WeaponMode { BLUE, RED, YELLOW }       # 列舉三種武器模式，增加程式碼可讀性
 var current_weapon: WeaponMode = WeaponMode.BLUE # 當前裝備的武器
 
+@export var ink_switch_badge_offset := Vector2(0, -36)
+var _ink_switch_effect: InkSwitchEffect
+
 var max_ink: float = 60.0                   # 墨水 (彈藥) 上限
 var current_ink: float = 60.0               # 當前剩餘墨水
 
@@ -225,6 +228,8 @@ func _input(event):
 				_photo_mode_Active = not _photo_mode_Active
 				if _photo_mode_Active:
 					_photo_mode_hidden_nodes.clear()
+					if is_instance_valid(_ink_switch_effect):
+						_ink_switch_effect.hide()
 					# 自動抓取場上所有 CanvasLayer (包含 PlayerHUD、血條、快捷欄等)
 					for node in get_tree().root.find_children("*", "CanvasLayer", true, false):
 						if node.visible and not ("Transition" in node.name):
@@ -421,6 +426,13 @@ func switch_next_weapon() -> void:
 	current_weapon = (current_weapon + 1) % 3 as WeaponMode
 	if magic_brush and magic_brush.has_method("set_mode"): magic_brush.set_mode(current_weapon)
 	if player_hud and player_hud.has_method("set_ink_mode"): player_hud.set_ink_mode(current_weapon)
+
+	if not _photo_mode_Active:
+		if not is_instance_valid(_ink_switch_effect):
+			_ink_switch_effect = InkSwitchEffect.new()
+			_ink_switch_effect.z_index = 8
+			add_child(_ink_switch_effect)
+		_ink_switch_effect.replay(current_weapon, ink_switch_badge_offset)
 
 func add_ink(amount: float = 10.0) -> void:
 	if current_ink < max_ink:
@@ -683,3 +695,59 @@ func set_facing_direction(dir: Vector2) -> void:
 		
 	# 2. 立刻刷新一次待機動畫，把開局預設的 idle_down 洗成正確的面向 (如 idle_right / idle_left)！
 	play_animation("idle")
+
+# 切換瞬間的腳邊墨環與頭頂色印，共用一個節點，連按時從最新模式重播。
+class InkSwitchEffect extends Node2D:
+	const COLORS := [Color("#58caff"), Color("#ff697f"), Color("#ffd453")]
+	const EDGE := Color("#251c38")
+	const DURATION := 0.78
+	var mode: int
+	var elapsed := DURATION
+	var badge_offset := Vector2(0, -36)
+
+	func replay(new_mode: int, offset: Vector2) -> void:
+		mode = new_mode
+		badge_offset = offset
+		elapsed = 0.0
+		show()
+		set_process(true)
+		queue_redraw()
+
+	func _process(delta: float) -> void:
+		elapsed += delta
+		if elapsed >= DURATION:
+			hide()
+			set_process(false)
+		else:
+			queue_redraw()
+
+	func _draw() -> void:
+		var ink: Color = COLORS[mode]
+		var burst := clampf(elapsed / 0.36, 0.0, 1.0)
+		if burst < 1.0:
+			var radius := lerpf(7.0, 36.0, ease(burst, 0.45))
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2(1.0, 0.48))
+			for i in range(6):
+				var angle := TAU * i / 6.0 + burst * 0.35
+				draw_arc(Vector2.ZERO, radius, angle, angle + 0.78, 7, Color(ink, 1.0 - burst), 2.0)
+				var drop := Vector2.from_angle(angle) * (radius + 4.0)
+				draw_circle(drop, 2.2 - burst, Color(ink, 1.0 - burst))
+
+		var enter := clampf(elapsed / 0.12, 0.0, 1.0)
+		var fade := clampf((DURATION - elapsed) / 0.20, 0.0, 1.0)
+		var center := badge_offset + Vector2.DOWN * (4.0 * (1.0 - enter) - 3.0 * (1.0 - fade))
+		draw_set_transform(center.round(), 0.0, Vector2.ONE * (1.0 + 0.22 * sin(PI * enter)))
+		var outline := PackedVector2Array([Vector2(0,-10),Vector2(12,0),Vector2(0,10),Vector2(-12,0)])
+		draw_colored_polygon(outline, Color(EDGE, fade))
+		outline.append(outline[0])
+		draw_polyline(outline, Color(ink, fade), 1.5)
+		var mark := Color(ink.lightened(0.35), fade)
+		match mode:
+			0: # 藍色墨滴
+				draw_colored_polygon(PackedVector2Array([Vector2(0,-6),Vector2(4,1),Vector2(3,4),Vector2(0,5),Vector2(-3,4),Vector2(-4,1)]), mark)
+			1: # 紅色光束
+				draw_line(Vector2(-4,4), Vector2(4,-4), mark, 3.0)
+				draw_line(Vector2(0,-4), Vector2(4,-4), mark, 2.0)
+			2: # 黃色三向散射
+				for i in range(-1, 2):
+					draw_line(Vector2(i,3), Vector2(i * 5,-3), mark, 2.0)

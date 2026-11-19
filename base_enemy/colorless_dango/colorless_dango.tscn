@@ -1569,6 +1569,7 @@ height = 91.16592
 radius = 571.47266
 
 [node name="Colorless_Dango" instance=ExtResource("1_xmo1u")]
+y_sort_enabled = false
 collision_mask = 16129
 walk_speed = 120
 coin_drop_count = 0

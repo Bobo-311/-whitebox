@@ -9,7 +9,6 @@ radius = 71.25307
 
 [node name="oil_lamp" type="StaticBody2D"]
 z_index = 1
-y_sort_enabled = true
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("1_mnlfr")
