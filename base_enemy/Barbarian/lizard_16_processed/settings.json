@@ -1,0 +1,130 @@
+[
+  {
+    "name": "一皆正面新走路",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "一皆背面新走路_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "一皆正面新走路_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "二皆被面新走路(1)",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "二皆新背面攻擊",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "一皆背面新走路(1)",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "一皆新待機_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "一皆背面新待機_反轉",
+    "frames": 15,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "一皆背面新待機(1)",
+    "frames": 15,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "二皆新走路(1)",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "二皆新正面攻擊(1)",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "一皆新待機(1)",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": false
+  },
+  {
+    "name": "二皆新正面攻擊_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "二皆新走路_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.2528735632183907,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "二皆被面新走路_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  },
+  {
+    "name": "二皆新背面攻擊_反轉",
+    "frames": 16,
+    "cell": 256,
+    "scale": 1.184782608695652,
+    "foot_y": 199,
+    "mirror_frame_order_corrected": true
+  }
+]
