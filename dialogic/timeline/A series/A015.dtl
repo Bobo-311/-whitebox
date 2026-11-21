@@ -1,10 +1,29 @@
-路克斯: 貼紙？
+[style name="galstyle"]
+[signal arg="fade_in_cinematic"]
+
+join 阿尼 (疑惑) left
+join 各種物件 (夢幻多彩顏料瓶) center
+[wait_input]
+阿尼: 貼紙？
+
+join 商人 (提議) right
 商人: 千萬別小看它！
 商人: 這可不是普通的裝飾品。
 商人: 只要貼在身上，它就會和你的身體產生共鳴。
 商人: 不同的貼紙都有不同的能力。
 商人: 有些能提升攻擊，有些能增加防禦，也有些能讓你的動作變得更靈活。
 商人: 以後如果找到更多貼紙，記得依照自己的戰鬥方式搭配。
-商人: 當然我也有賣貼紙就是了！
+
+# --- 🌟 商人現場贈送貼紙，觸發 DataManager 的 give_sticker 暗號 ---
+商人: 來，這張【愛心貼紙】就當作我們初次見面的禮物，收下吧！
+[signal arg="give_sticker:001"]
+（獲得了貼紙【愛心】！）
+
+update 阿尼 (微笑)
+阿尼: 謝謝你！
+商人: 當然我也有賣其他貼紙就是了！
 商人: 作為一個冒險家，靈活運用這些貼紙是很重要的。
 商人: 你可以在畫架那邊貼上貼紙，快去試試看吧！
+
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]

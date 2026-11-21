@@ -29,6 +29,7 @@ InputSettingsManager="*res://主選單MainMenu/管理按鈕/全域/input_setting
 
 directories/dch_directory={
 "unit_test_character": "res://Tests/Resources/unit_test_character.dch",
+"各種物件": "res://dialogic/character/各種物件.dch",
 "商人": "res://dialogic/character/商人.dch",
 "白國王": "res://dialogic/character/白國王.dch",
 "路克斯": "res://dialogic/character/路克斯.dch",
@@ -118,8 +119,10 @@ animations/leave_default="Fade Out Down"
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+mouse_cursor/custom_image="uid://cocjbjeydssxs"
 
 [dotnet]
 

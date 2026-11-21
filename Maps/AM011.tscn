@@ -1,13 +1,16 @@
-[gd_scene load_steps=90 format=4 uid="uid://cxl02fpi83ed4"]
+[gd_scene load_steps=93 format=4 uid="uid://cxl02fpi83ed4"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_s3jti"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="1_x3h6s"]
+[ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="2_bgs15"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="2_s3jti"]
+[ext_resource type="PackedScene" uid="uid://cs8dl4ig6u0ej" path="res://base_enemy/BossLotus/boss_lotus.tscn" id="2_uahs3"]
 [ext_resource type="Texture2D" uid="uid://dvha7dpjfa0dl" path="res://最初之地地圖素材/09.png" id="3_nul3n"]
 [ext_resource type="Texture2D" uid="uid://buyx4fmb42334" path="res://最初之地地圖素材/10.png" id="4_dv2hc"]
 [ext_resource type="Texture2D" uid="uid://cc2mbyiu1jq5y" path="res://最初之地地圖素材/08.png" id="5_uahs3"]
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="7_nul3n"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="8_dv2hc"]
+[ext_resource type="PackedScene" uid="uid://gy3n015gas33" path="res://單獨物件場景/oil_lamp.tscn" id="11_6cx8c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nul3n"]
 texture = ExtResource("3_nul3n")
@@ -5488,8 +5491,78 @@ limit_right = 6500
 limit_bottom = 2670
 metadata/_edit_horizontal_guides_ = [2818.0, 2669.0, -404.0]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="CutsceneDirector2" parent="." node_paths=PackedStringArray("target_enemies") instance=ExtResource("2_bgs15")]
+position = Vector2(6324.5005, -1124)
+scale = Vector2(1.6899998, 1.6899998)
+target_timeline = "A016B"
+trigger_on_enemies_cleared = true
+target_enemies = [NodePath("../BossLotus")]
+
+[node name="CutsceneDirector" parent="." instance=ExtResource("2_bgs15")]
+target_timeline = "A016"
+actors = {
+"boss": NodePath("../BossLotus"),
+"cat": NodePath("../WhiteCat")
+}
+markers = {
+"boss_pos": NodePath("../Node2D/boss_pos")
+}
+trigger_on_map_enter = true
+
+[node name="BossLotus" parent="." instance=ExtResource("2_uahs3")]
 visible = false
+position = Vector2(4539, 1171)
+scale = Vector2(0.5, 0.5)
+max_hp = 500
+phase_2_threshold = 250
+boss_display_name = "紙蓮"
+phase1_tentacle_hp = 30
+phase1_smash_damage = 20
+phase1_ink_reward = 30.0
+phase1_telegraph_time = 1.0
+retract_time_1 = 4.0
+retract_time_2 = 7.0
+retract_time_3 = 9.0
+retract_time_4 = 11.0
+phase1_start_delay = 1.0
+phase1_first_spiral = 4.0
+phase1_middle_rest = 2.0
+phase1_second_spiral = 4.0
+phase1_retract_wait = 1.0
+phase1_safe_rest = 3.0
+phase2_tentacle_hp = 45
+phase2_smash_damage = 20
+phase2_ink_reward = 30.0
+phase2_round_duration = 12.0
+phase2_final_retract_at = 11.5
+phase2_first_round_force_a = true
+phase2_prevent_consecutive_b = true
+phase2_pattern_b_chance = 0.4
+phase2_a_telegraph = 0.7
+phase2_a_short1_min = 2.0
+phase2_a_short1_max = 3.0
+phase2_a_short2_min = 4.0
+phase2_a_short2_max = 5.0
+phase2_a_laser1_at = 0.5
+phase2_a_laser2_at = 5.0
+phase2_a_laser_damage_duration = 2.5
+phase2_b_fake_warning = 0.5
+phase2_b_fake_shout = 0.2
+phase2_b_gap_after_fake = 0.3
+phase2_b_real_warning = 0.75
+phase2_b_laser_at = 2.5
+phase2_b_laser_damage_duration = 2.5
+phase2_laser_warning_duration = 0.5
+laser_end_visual_duration = 0.35
+transition_duration = 3.0
+transition_burst_time = 2.5
+phase_2_color = Color(1, 0.2, 0.2, 1)
+phase2_scale_multiplier = 1.1
+transition_camera_shake = 30.0
+transition_sprite_shake = 10.0
+transition_shake_step = 0.05
+
+[node name="ColorRect" type="ColorRect" parent="."]
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -5503,16 +5576,15 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("1_x3h6s")]
-visible = false
-position = Vector2(2793, 2424)
-scale = Vector2(0.3, 0.3)
+y_sort_enabled = true
+position = Vector2(4654, 2390)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
@@ -5529,7 +5601,7 @@ collision_mask = 0
 polygon = PackedVector2Array(3704, 1160, 3707, 1398, 3770, 1396, 3772, 1403, 3773, 1636, 3837, 1637, 3837, 1679, 3901, 1680, 3901, 1744, 3968, 1744, 3968, 1808, 4090, 1808, 4089, 1867, 4220, 1868, 4220, 1931, 4267, 1931, 4267, 2817, 4186, 2819, 4189, 1945, 4068, 1949, 4066, 1863, 3933, 1864, 3932, 1807, 3886, 1807, 3883, 1744, 3813, 1744, 3819, 1680, 3759, 1683, 3753, 1637, 3691, 1639, 3697, 1419, 3620, 1419, 3624, 1128, 3694, 1128, 3697, 937, 3763, 940, 3760, 797, 3826, 798, 3825, 725, 3883, 727, 3880, 668, 4030, 667, 4029, 594, 4143, 600, 4144, 533, 4185, 533, 4186, -4, 4264, -5, 4264, 576, 4225, 576, 4225, 624, 4192, 624, 4191, 678, 4041, 677, 4042, 741, 4042, 746, 3903, 746, 3905, 811, 3840, 812, 3841, 947, 3771, 948, 3770, 1160)
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Bridge"]
-polygon = PackedVector2Array(4812, 1, 4812, 564, 4819, 569, 4852, 569, 4853, 616, 4884, 616, 4884, 668, 5035, 668, 5035, 737, 5172, 736, 5172, 803, 5236, 804, 5236, 939, 5305, 940, 5308, 1151, 5372, 1153, 5373, 1388, 5304, 1388, 5305, 1628, 5240, 1628, 5240, 1671, 5176, 1671, 5176, 1736, 5106, 1736, 5107, 1800, 4988, 1799, 4988, 1859, 4855, 1858, 4855, 1924, 4807, 1923, 4808, 2817, 4888, 2816, 5696, 1126, 4891, 0)
+polygon = PackedVector2Array(4812, 1, 4812, 564, 4819, 569, 4852, 569, 4853, 616, 4884, 616, 4884, 668, 5035, 668, 5035, 737, 5172, 736, 5172, 803, 5236, 804, 5236, 939, 5305, 940, 5308, 1151, 5372, 1153, 5373, 1388, 5304, 1388, 5305, 1628, 5240, 1628, 5240, 1671, 5176, 1671, 5176, 1736, 5106, 1736, 5107, 1800, 4988, 1799, 4988, 1859, 4855, 1858, 4855, 1924, 4807, 1923, 4808, 2817, 4888, 2816, 4891, 2014, 5129, 1904, 5386, 1665, 5500, 1193, 5306, 795, 5240, 699, 4928, 537, 4892, 487, 4891, 0)
 
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Bridge"]
 polygon = PackedVector2Array(4288, 848, 4809, 849, 4817, 855, 4817, 910, 4848, 912, 4858, 1028, 4851, 1088, 4776, 1088, 4776, 919, 4294, 913, 4292, 1084, 4232, 1084, 4230, 1032, 4214, 1028, 4212, 985, 4217, 979, 4216, 912, 4225, 903, 4282, 904, 4280, 856)
@@ -5559,8 +5631,7 @@ position = Vector2(4539.0005, 2575)
 scale = Vector2(50.320675, 36.263752)
 
 [node name="player" parent="." instance=ExtResource("2_s3jti")]
-position = Vector2(4329, -293)
-base_max_hp = 100
+position = Vector2(4425, 2404)
 max_hp = 100
 
 [node name="PortalArea下門" parent="." instance=ExtResource("8_dv2hc")]
@@ -5613,6 +5684,26 @@ position = Vector2(1625.1469, -5327.6953)
 rotation = 1.5707964
 scale = Vector2(1.1728504, 0.9999997)
 polygon = PackedVector2Array(4722.1753, 2473.9644, 4722.1753, 2889.349, 4695.4365, 2889.349, 4695.4365, 2473.9644)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="boss_pos" type="Marker2D" parent="Node2D"]
+position = Vector2(4540, 1189)
+
+[node name="walk_to_here" type="Marker2D" parent="Node2D"]
+position = Vector2(4543, 2292)
+
+[node name="oil_lamp" parent="." instance=ExtResource("11_6cx8c")]
+position = Vector2(4196, 1208)
+scale = Vector2(2, 2)
+
+[node name="oil_lamp2" parent="." instance=ExtResource("11_6cx8c")]
+position = Vector2(4778, 888)
+scale = Vector2(2, 2)
+
+[node name="oil_lamp3" parent="." instance=ExtResource("11_6cx8c")]
+position = Vector2(5152, 1776)
+scale = Vector2(2, 2)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上門"]

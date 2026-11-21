@@ -25,6 +25,7 @@ red_laser_scene = ExtResource("3_lr5jh")
 yellow_shotgun_scene = ExtResource("4_kqvyw")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(1, 1)
 scale = Vector2(2.125, 2.125)
 texture = ExtResource("3_0renh")

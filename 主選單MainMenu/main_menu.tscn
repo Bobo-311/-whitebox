@@ -168,6 +168,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("8_ks1a1")
+black_hold_time = 0.5
 
 [node name="MenuAudio" type="Node" parent="."]
 script = ExtResource("10_mq3qk")

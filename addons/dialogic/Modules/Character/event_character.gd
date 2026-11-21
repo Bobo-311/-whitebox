@@ -136,14 +136,23 @@ func _execute() -> void:
 	# LEAVE -------------------------------------
 	elif action == Actions.LEAVE:
 		if character_identifier == '--All--':
-			if dialogic.has_subsystem('History') and len(dialogic.Portraits.get_joined_characters()):
-				dialogic.History.store_simple_history_entry("Everyone left", event_name, {'character': "All", 'mode':'Leave'})
+			var joined_chars: Array = dialogic.Portraits.get_joined_characters()
+			if joined_chars.size() > 0:
+				if dialogic.has_subsystem('History'):
+					dialogic.History.store_simple_history_entry("Everyone left", event_name, {'character': "All", 'mode':'Leave'})
 
-			await dialogic.Portraits.leave_all_characters(
-				animation_name,
-				final_animation_length,
-				animation_wait
-			)
+				# 🌟 關鍵修改：強制傳入 false，讓所有立繪同一瞬間同步退場！
+				dialogic.Portraits.leave_all_characters(
+					animation_name,
+					final_animation_length,
+					false
+				)
+				
+				# 🌟 若有勾選 wait="true"，統一等待一次動畫秒數即可！
+				if animation_wait and final_animation_length > 0.0:
+					dialogic.current_state = DialogicGameHandler.States.ANIMATING
+					await dialogic.get_tree().create_timer(final_animation_length).timeout
+					dialogic.current_state = DialogicGameHandler.States.IDLE
 
 		elif character:
 			if dialogic.has_subsystem('History') and dialogic.Portraits.is_character_joined(character):
@@ -389,7 +398,7 @@ func build_event_editor() -> void:
 			'autofocus'			: true})
 
 	add_header_edit('set_portrait', ValueType.BOOL_BUTTON,
-			{'icon':load("res://addons/dialogic/Modules/Character/update_portrait.svg"),
+			{'icon':load("res://addons/dialogic/Editor/Images/Resources/portrait.svg"),
 			 'tooltip':'Change Portrait'}, "should_show_portrait_selector() and action == Actions.UPDATE")
 	add_header_edit('portrait', ValueType.DYNAMIC_OPTIONS,
 			{'placeholder'		: 'Default',

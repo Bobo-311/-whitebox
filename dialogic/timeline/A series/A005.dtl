@@ -7,17 +7,21 @@ join 阿尼 (驚訝（...咦？）) left
 阿尼: 這裡......
 阿尼: 怎麼跟其他地方不一樣？
 阿尼 (驚訝（哇！）): [shake rate=20.0 level=5 connected=1]！！！[/shake]
+leave --All--
 [wait time="0.5"]
 [signal arg="pan:cam:cam_tree_pos2:1.5"]
 [signal arg="walk:player:girl_side_pos:move_right:idle_right:4.0"]
 [wait time="4.0"]
+join 阿尼 (搭話) left
 阿尼 (搭話): 那個……你好！！
 阿尼: 請問一下......
+join 白國王 (微笑) right
 ？？？: ......
 阿尼: 小妹妹！
 [signal arg="anim:king:idle_left"]
-[wait time="0.2"]
+[wait time="0.2" hide_text="false"]
 阿尼: 不好意思有聽到嗎？
+update 白國王 (離開)
 
 [signal arg="walk:king:run1:move_right:1.6"]
 [wait time="0.5" hide_text="false"]

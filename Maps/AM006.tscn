@@ -1,8 +1,7 @@
-[gd_scene load_steps=145 format=4 uid="uid://db1prwo40wbqw"]
+[gd_scene load_steps=146 format=4 uid="uid://db1prwo40wbqw"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_jw6xd"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="2_nao00"]
-[ext_resource type="PackedScene" uid="uid://dyjyrhflnxusp" path="res://ShopUI/shop_npc.tscn" id="2_tdm34"]
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="3_bgl0c"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="4_032fq"]
 [ext_resource type="PackedScene" uid="uid://cgw1ytdb8huh6" path="res://player/player.tscn" id="5_5p81a"]
@@ -21,10 +20,12 @@
 [ext_resource type="PackedScene" uid="uid://fhsakyii1w1v" path="res://單獨物件場景/camera_lock_area.tscn" id="18_04go0"]
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="19_nao00"]
 [ext_resource type="PackedScene" uid="uid://dotstjks5o26m" path="res://Maps/elevation_zone.tscn" id="20_bgl0c"]
-[ext_resource type="PackedScene" uid="uid://dficxwu1kbuv" path="res://base_enemy/colorless_dango/colorless_dango_basic.tscn" id="21_032fq"]
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="22_nn2f5"]
 [ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="23_tdm34"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="25_lo5nj"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="25_xs68e"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="26_kembs"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="26_lo5nj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -14529,7 +14530,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -14542,9 +14542,8 @@ tile_map_data = PackedByteArray("AAAbAAAAAAAFABkAAAAbAAEAAAAFABoAAAAbAAIAAAAFABs
 tile_set = SubResource("TileSet_p78gd")
 
 [node name="WhiteCat" parent="." instance=ExtResource("4_032fq")]
-visible = false
 position = Vector2(6440.9995, 3674)
-scale = Vector2(0.73, 0.73)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="TreeA" parent="." instance=ExtResource("6_nn2f5")]
@@ -15949,33 +15948,17 @@ collision_mask = 0
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cliff_L2_Walls"]
 polygon = PackedVector2Array(1535, 1950, 2368, 1947, 2367, 1881, 2625, 1885, 2625, 2098, 2560, 2096, 2560, 2160, 2497, 2160, 2498, 2224, 2433, 2224, 2433, 2289, 2369, 2289, 2369, 2354, 2240, 2354, 2241, 2418, 2113, 2418, 2113, 2481, 1984, 2481, 1984, 2544, 1856, 2545, 1856, 2609, 1535, 2609)
 
-[node name="Colorless_Dango_basic" parent="." instance=ExtResource("21_032fq")]
-position = Vector2(2750, 3252)
-
-[node name="Colorless_Dango_basic2" parent="." instance=ExtResource("21_032fq")]
-position = Vector2(2333, 2781)
-
 [node name="Chipmunk" parent="." instance=ExtResource("22_nn2f5")]
 position = Vector2(3046, 2247)
 
 [node name="Chipmunk2" parent="." instance=ExtResource("22_nn2f5")]
 position = Vector2(5760, 1087)
 
-[node name="Colorless_Dango_basic3" parent="." instance=ExtResource("21_032fq")]
-position = Vector2(5779, 2155)
-
-[node name="Colorless_Dango_basic4" parent="." instance=ExtResource("21_032fq")]
-position = Vector2(6316, 1077)
-collision_mask = 7937
-
 [node name="Barbarian" parent="." instance=ExtResource("23_tdm34")]
 position = Vector2(2859, 1217)
 
 [node name="Chipmunk3" parent="." instance=ExtResource("22_nn2f5")]
 position = Vector2(3040, 364)
-
-[node name="Colorless_Dango_basic5" parent="." instance=ExtResource("21_032fq")]
-position = Vector2(3572, 269)
 
 [node name="Cliff_L1_Walls" type="StaticBody2D" parent="."]
 collision_layer = 1024
@@ -16010,15 +15993,8 @@ polygon = PackedVector2Array(7203, 4, 7203, 693, 7386, 693, 7386, 3)
 [node name="左" type="CollisionPolygon2D" parent="空氣牆壁四周"]
 polygon = PackedVector2Array(1536, -512, 1698, -512, 1698, 4032, 1536, 4032)
 
-[node name="ShopNPC" parent="." instance=ExtResource("2_tdm34")]
-position = Vector2(6662, 3466)
-
 [node name="player" parent="." instance=ExtResource("5_5p81a")]
 position = Vector2(6157, 3621.0002)
-scale = Vector2(1.25, 1.25)
-basic_attack_damage = 1000.0
-base_max_hp = 100000
-max_hp = 100000
 
 [node name="PortalArea下門" parent="." instance=ExtResource("25_xs68e")]
 position = Vector2(1795, 1763.0001)
@@ -16047,6 +16023,42 @@ shape = SubResource("RectangleShape2D_kembs")
 [node name="From_Map7" type="Marker2D" parent="."]
 position = Vector2(7050.0005, 237.00002)
 scale = Vector2(1.3, 1.3)
+
+[node name="Colorless_Dango" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(2851, 3234)
+
+[node name="Colorless_Dango2" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(3068, 3237)
+
+[node name="Colorless_Dango6" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(2965, 3375)
+
+[node name="Colorless_Dango7" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(2910, 3511)
+
+[node name="Colorless_Dango3" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(6370, 1048)
+
+[node name="Colorless_Dango4" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(5748, 2084)
+
+[node name="Colorless_Dango5" parent="." instance=ExtResource("25_lo5nj")]
+position = Vector2(3646, 952)
+
+[node name="ColorlessZombie" parent="." instance=ExtResource("26_kembs")]
+position = Vector2(4175, 989)
+
+[node name="Barbarian2" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(4191, 2415)
+
+[node name="Barbarian3" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(5044, 926)
+
+[node name="Barbarian4" parent="." instance=ExtResource("23_tdm34")]
+position = Vector2(5708, 2435)
+
+[node name="SavePoint" parent="." instance=ExtResource("26_lo5nj")]
+position = Vector2(6426, 3396)
 
 [editable path="PortalArea下門"]
 [editable path="PortalArea上右門"]

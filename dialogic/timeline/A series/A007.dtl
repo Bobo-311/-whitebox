@@ -1,9 +1,13 @@
 [style name="galstyle"]
-[signal arg="walk:player:1:idle_down:1.0"]
+[signal arg="fade_in_cinematic"]
+[signal arg="walk:player:1:move_down:idle_down:1.0"]
 [wait time="1.0"]
 join 阿尼 (睜眼) left
-嘗試推門的聲音
-阿尼 (饒頭困擾): .......
+（嘗試推門的聲音……喀啦、喀啦……）
+update 阿尼 (饒頭困擾) left
+阿尼: .......
 阿尼: 門推不開...
 阿尼: 看來只能去找其他的路了。
 [signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4"]
+[wait time="0.4"]

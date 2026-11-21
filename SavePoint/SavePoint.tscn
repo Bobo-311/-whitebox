@@ -1,39 +1,34 @@
-[gd_scene load_steps=8 format=3 uid="uid://6ek23fgixsu8"]
+[gd_scene load_steps=7 format=3 uid="uid://6ek23fgixsu8"]
 
 [ext_resource type="Script" uid="uid://bp5xnx8i3yvfp" path="res://SavePoint/save_point.gd" id="1_85d4v"]
 [ext_resource type="PackedScene" uid="uid://h8nwgmrch0w8" path="res://SavePoint/Save_menu_ui.tscn" id="2_u6if8"]
-[ext_resource type="Texture2D" uid="uid://cth8ja8lni38m" path="res://雜/BOBO.png" id="3_u6if8"]
+[ext_resource type="Texture2D" uid="uid://cwcvmy5sv2344" path="res://雜/1.png" id="3_u6if8"]
 [ext_resource type="Texture2D" uid="uid://bdcxrxctxnanf" path="res://UI美術素材圖/按鍵/Tilesets/FullKeyboardMouse_Tileset.png" id="4_u6if8"]
+[ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="5_vi5gy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u6if8"]
 radius = 127.997475
 height = 255.99495
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vi5gy"]
-radius = 38.051285
-height = 86.01935
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u6if8"]
-cull_mode = 2
-polygon = PackedVector2Array(-4, -39, 15, -37, 31, -25, 38, -7, 37, 16, 30, 33, 13, 44, -1, 46, -14, 44, -24, 38, -34, 26, -38, 8, -37, -12, -30, -25, -20, -34)
 
 [node name="SavePoint" type="Area2D"]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_85d4v")
 save_menu_scene = ExtResource("2_u6if8")
+first_time_timeline = "A006B"
 
 [node name="EaselSprite" type="Sprite2D" parent="."]
-light_mask = 2
-scale = Vector2(0.19, 0.19)
+scale = Vector2(3.5, 3.5)
 texture = ExtResource("3_u6if8")
+region_enabled = true
+region_rect = Rect2(40.48371, 123.303345, 27.338524, 36.511322)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5730124
 shape = SubResource("CapsuleShape2D_u6if8")
 
 [node name="InteractPrompt" type="Sprite2D" parent="."]
-position = Vector2(1.4210855e-14, -68)
+position = Vector2(0.99999994, -95)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("4_u6if8")
 region_enabled = true
@@ -41,15 +36,15 @@ region_rect = Rect2(79.98201, 1.002826, 15.03933, 15.001798)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="SolidShape" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(2.842171e-14, 2.9999998)
-rotation = 3.1553063
-shape = SubResource("CapsuleShape2D_vi5gy")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(0, 1)
+polygon = PackedVector2Array(-34, 44, -3, 58, 31, 42, 33, -45, -35, -46)
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-position = Vector2(1, 0)
-occluder = SubResource("OccluderPolygon2D_u6if8")
-occluder_light_mask = 2
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(12.4734125, 12.4734125)
+color = Color(0.8509804, 0.7058824, 0.4392157, 1)
+energy = 1.1
+texture = ExtResource("5_vi5gy")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

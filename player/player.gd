@@ -44,6 +44,9 @@ var is_shopping: bool = false               # 狀態鎖：是否正在購物 (�
 enum WeaponMode { BLUE, RED, YELLOW }       # 列舉三種武器模式，增加程式碼可讀性
 var current_weapon: WeaponMode = WeaponMode.BLUE # 當前裝備的武器
 
+@export var ink_switch_badge_offset := Vector2(0, -36)
+var _ink_switch_effect: InkSwitchEffect
+
 var max_ink: float = 60.0                   # 墨水 (彈藥) 上限
 var current_ink: float = 60.0               # 當前剩餘墨水
 
@@ -58,6 +61,10 @@ var current_ink: float = 60.0               # 當前剩餘墨水
 @onready var notebook_ui = $MenuLayer/NotebookUI                       # 素描本 UI
 
 var is_in_dialogue: bool = false            # 🌟 新增這行：記錄阿尼是不是正在看劇情
+
+# 📸 劇照拍照模式專用變數
+var _photo_mode_Active: bool = false
+var _photo_mode_hidden_nodes: Array[Node] = []
 
 # ==========================================
 # 武器墨水消耗表
@@ -175,23 +182,93 @@ func _input(event):
 		state_machine.process_mode = Node.PROCESS_MODE_DISABLED # 凍結大腦
 		if notebook_ui: notebook_ui.toggle_notebook(false)
 
-	# 🛠️ 開發者外掛 1：原本的 cheater 按鍵（印鈔 + 解鎖戰鬥 + 補滿墨水）
+	# 🛠️ 開發者外掛 1：原本的 cheater 按鍵（印鈔 + 解鎖戰鬥 + 補滿墨水 + 獲得貨物與鑰匙）
 	if event.is_action_pressed("cheater") and DataManager: 
 		DataManager.total_gold += 100
 		DataManager.combat_unlocked = true
+		DataManager.mark_cutscene_completed("got_cargo") # 📦 獲得商人貨物
+		DataManager.mark_cutscene_completed("got_key")   # 🔑 獲得小木屋鑰匙
+		DataManager.unlock_auto_refill_item("hp_paint")  # 🧪 解鎖並補滿藍色顏料
 		refill_full_ink()
 		if magic_brush:
 			magic_brush.visible = true
-		print("【開發者外掛】印鈔 100 元 + 強制解鎖戰鬥與補滿墨水！總金額：", DataManager.total_gold)
+		print("【開發者外掛】印鈔 100 元 + 解鎖戰鬥/顏料 + 獲得貨物(got_cargo)與鑰匙(got_key)！總金額：", DataManager.total_gold)
 
-	# 🛠️ 開發者外掛 2：按下鍵盤 F1 隨時「切換（開/關）」戰鬥鎖定狀態（免去專案設定綁按鍵）
-	if event is InputEventKey and event.pressed and not event.is_echo() and event.keycode == KEY_F1:
-		if DataManager:
-			DataManager.combat_unlocked = not DataManager.combat_unlocked
-			refill_full_ink()
-			if magic_brush:
-				magic_brush.visible = DataManager.can_combat()
-			print("【開發者測試】F1 切換戰鬥狀態！目前是否可戰鬥：", DataManager.can_combat())
+	# 🛠️ 開發者外掛 2：按下鍵盤 F1 ~ F5 隨時「切換（開/關）」測試狀態
+	if event is InputEventKey and event.pressed and not event.is_echo() and DataManager:
+		match event.keycode:
+			KEY_F1:
+				# ⚔️ F1：切換戰鬥鎖定狀態
+				DataManager.combat_unlocked = not DataManager.combat_unlocked
+				refill_full_ink()
+				if magic_brush:
+					magic_brush.visible = DataManager.can_combat()
+				print("【開發者測試】F1 切換戰鬥狀態！目前是否可戰鬥：", DataManager.can_combat())
+				
+			KEY_F2:
+				# 📦 F2：切換「是否已獲得商人貨物 (got_cargo)」
+				if DataManager.is_cutscene_completed("got_cargo"):
+					DataManager.completed_cutscenes.erase("got_cargo")
+					print("【開發者測試】F2 已移除貨物 (got_cargo = false)")
+				else:
+					DataManager.mark_cutscene_completed("got_cargo")
+					print("【開發者測試】F2 已獲得商人貨物 (got_cargo = true)！")
+					
+			KEY_F3:
+				# 🔑 F3：切換「是否已獲得小木屋鑰匙 (got_key)」
+				if DataManager.is_cutscene_completed("got_key"):
+					DataManager.completed_cutscenes.erase("got_key")
+					print("【開發者測試】F3 已移除小木屋鑰匙 (got_key = false)")
+				else:
+					DataManager.mark_cutscene_completed("got_key")
+					print("【開發者測試】F3 已獲得小木屋鑰匙 (got_key = true)！")
+					
+			KEY_F4:
+				# 📸 F4：切換「劇照拍照模式」（一鍵隱藏/恢復所有戰鬥 UI 與提示圖示）
+				_photo_mode_Active = not _photo_mode_Active
+				if _photo_mode_Active:
+					_photo_mode_hidden_nodes.clear()
+					if is_instance_valid(_ink_switch_effect):
+						_ink_switch_effect.hide()
+					# 自動抓取場上所有 CanvasLayer (包含 PlayerHUD、血條、快捷欄等)
+					for node in get_tree().root.find_children("*", "CanvasLayer", true, false):
+						if node.visible and not ("Transition" in node.name):
+							node.visible = false
+							_photo_mode_hidden_nodes.append(node)
+					# 順便藏起畫筆讓畫面乾淨
+					if magic_brush and magic_brush.visible:
+						magic_brush.visible = false
+						_photo_mode_hidden_nodes.append(magic_brush)
+					print("【📸 劇照模式開啟】已隱藏所有戰鬥 UI！再按一次 F4 即可恢復。")
+				else:
+					# 恢復剛剛被隱藏的所有 UI 節點
+					for node in _photo_mode_hidden_nodes:
+						if is_instance_valid(node):
+							node.visible = true
+					_photo_mode_hidden_nodes.clear()
+					print("【📸 劇照模式關閉】已恢復所有 UI 顯示！")
+					
+			KEY_F5:
+				# ⏸️ F5：時間暫停 / 定格畫面 (方便抓截圖)
+				if Engine.time_scale > 0.0:
+					Engine.time_scale = 0.0
+					print("【📸 畫面已定格】遊戲時間停止！按 F5 恢復。")
+				else:
+					Engine.time_scale = 1.0
+					print("【📸 畫面恢復】遊戲時間繼續。")
+					
+			KEY_F7:
+				DataManager.grant_combat_items()
+				print("【開發者測試】獲得藍色橡皮擦、紅色蠟筆、黃色的尺各 1 個。")
+			KEY_F11:
+				# 🖥️ F11：隨時切換「全螢幕 / 視窗化」模式
+				var current_mode = DisplayServer.window_get_mode()
+				if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN or current_mode == DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+					print("【系統】已切換為視窗模式")
+				else:
+					DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+					print("【系統】已切換為全螢幕模式")
 
 # ==========================================
 # 數值重算 (裝備系統對接)
@@ -224,7 +301,7 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 			if state_machine.process_mode != Node.PROCESS_MODE_DISABLED:
 				state_machine.process_mode = Node.PROCESS_MODE_DISABLED 
-			move_and_slide()       
+			move_and_slide()        
 			return                 
 		else:
 			# 解除狀態鎖定，恢復大腦運作
@@ -246,7 +323,7 @@ func _physics_process(delta: float) -> void:
 			var is_in_knockback: bool = knockback_component and knockback_component.knockback_force.length() > 0.0
 			# 如果沒有在翻滾，也沒有被打飛，才強制煞車
 			if not is_dashing and not is_in_knockback:
-				velocity = Vector2.ZERO    
+				velocity = Vector2.ZERO   
 
 		# 快捷鍵與武器切換監聽
 		if Input.is_action_just_pressed("slot_left"): DataManager.rotate_quick_slot(-1)
@@ -263,7 +340,7 @@ func _physics_process(delta: float) -> void:
 			# 按下射擊
 			if Input.is_action_just_pressed("skill_01"): 
 				if current_ink >= cost:
-					var current_buff: float = 1.0
+					var current_buff: float = DataManager.combat_item_multiplier("ruler")
 					if DataManager.has_sticker("004"): current_buff *= DataManager.STICKER_DB["004"].value
 					
 					# 紅槍：開始蓄力
@@ -293,7 +370,7 @@ func _physics_process(delta: float) -> void:
 				if current_weapon == WeaponMode.RED and magic_brush and magic_brush.is_charging:
 					var stage = magic_brush.get_current_stage()
 					if stage > 0:
-						var current_buff = 1.0
+						var current_buff: float = DataManager.combat_item_multiplier("ruler")
 						if DataManager.has_sticker("004"): current_buff *= DataManager.STICKER_DB["004"].value
 						magic_brush.release_shoot(current_buff)
 						play_shoot_animation() # 🌟【新增：甩魔法】紅槍蓄力放開射擊時播放上下左右甩手動畫
@@ -353,6 +430,13 @@ func switch_next_weapon() -> void:
 	if magic_brush and magic_brush.has_method("set_mode"): magic_brush.set_mode(current_weapon)
 	if player_hud and player_hud.has_method("set_ink_mode"): player_hud.set_ink_mode(current_weapon)
 
+	if not _photo_mode_Active:
+		if not is_instance_valid(_ink_switch_effect):
+			_ink_switch_effect = InkSwitchEffect.new()
+			_ink_switch_effect.z_index = 8
+			add_child(_ink_switch_effect)
+		_ink_switch_effect.replay(current_weapon, ink_switch_badge_offset)
+
 func add_ink(amount: float = 10.0) -> void:
 	if current_ink < max_ink:
 		current_ink = min(current_ink + amount, max_ink)
@@ -377,7 +461,7 @@ func refill_full_ammo() -> void: refill_full_ink()
 func take_damage(amount: float, attacker_pos: Vector2 = Vector2.ZERO, dir: Vector2 = Vector2.ZERO, is_melee: bool = false, extra_knockback: float = 1.0) -> void:
 	if is_dead or is_invincible: return # 死亡或無敵期間不收受傷害
 	
-	current_hp = max(current_hp - amount, 0)
+	current_hp = max(current_hp - amount * DataManager.combat_item_multiplier("eraser"), 0)
 	update_hp_bar()
 	
 	# 觸發 Hitstop (打擊頓幀) 增加重量感
@@ -427,7 +511,7 @@ func get_current_basic_attack_damage() -> float:
 		var threshold: float = DataManager.STICKER_DB["008"].threshold 
 		if float(current_hp) / float(max_hp) <= threshold:
 			final_base_damage *= DataManager.STICKER_DB["008"].value 
-	return final_base_damage
+	return final_base_damage * DataManager.combat_item_multiplier("calyon")
 
 # 護符系統對接：擊殺回血
 func on_enemy_killed():
@@ -483,7 +567,7 @@ func update_hp_bar():
 		tween.tween_property(animated_sprite_2d.material, "shader_parameter/saturation", hp_ratio, 0.3) 
 
 # ==========================================
-# 🌟 動畫播放封裝系統 (支援 8 方向與 4 方向自動降級)
+# 🌟 動動畫播放封裝系統 (支援 8 方向與 4 方向自動降級)
 # ==========================================
 func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	var anim = get_node_or_null("AnimatedSprite2D")
@@ -500,13 +584,6 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 
 	# 🌟【正規修改】
 	# 只有在播放 Move 動畫時，才允許 WASD 更新角色面向。
-	#
-	# 為什麼？
-	# Attack 的方向由滑鼠決定。
-	# Shoot 的方向由滑鼠決定。
-	# Hurt 則應保留原本面向。
-	#
-	# 避免其他動畫播放時，被 WASD 覆蓋面向。
 	if prefix == "move" and not is_dashing and input_direction != Vector2.ZERO:
 		# 1. 計算 8 方位字串 (給 8 方向移動用)
 		var y_str = ""
@@ -538,12 +615,9 @@ func play_animation(prefix: String, _dir: Vector2 = Vector2.ZERO):
 	var animation_name = prefix + "_" + target_suffix
 
 	# 4. 【自動降級防呆機制】
-	# 如果算出來是 8 方位，但在你的 SpriteFrames 裡找不到這個動畫
-	# 就會自動退回到核心記憶的 4 方位
 	if not anim.sprite_frames.has_animation(animation_name):
 		animation_name = prefix + "_" + facing_direction
 
-	# 如果連 4 方位的動畫都沒有，為了避免報錯，直接放棄播放
 	if not anim.sprite_frames.has_animation(animation_name): return
 
 	anim.play(animation_name)
@@ -624,3 +698,59 @@ func set_facing_direction(dir: Vector2) -> void:
 		
 	# 2. 立刻刷新一次待機動畫，把開局預設的 idle_down 洗成正確的面向 (如 idle_right / idle_left)！
 	play_animation("idle")
+
+# 切換瞬間的腳邊墨環與頭頂色印，共用一個節點，連按時從最新模式重播。
+class InkSwitchEffect extends Node2D:
+	const COLORS := [Color("#58caff"), Color("#ff697f"), Color("#ffd453")]
+	const EDGE := Color("#251c38")
+	const DURATION := 0.78
+	var mode: int
+	var elapsed := DURATION
+	var badge_offset := Vector2(0, -36)
+
+	func replay(new_mode: int, offset: Vector2) -> void:
+		mode = new_mode
+		badge_offset = offset
+		elapsed = 0.0
+		show()
+		set_process(true)
+		queue_redraw()
+
+	func _process(delta: float) -> void:
+		elapsed += delta
+		if elapsed >= DURATION:
+			hide()
+			set_process(false)
+		else:
+			queue_redraw()
+
+	func _draw() -> void:
+		var ink: Color = COLORS[mode]
+		var burst := clampf(elapsed / 0.36, 0.0, 1.0)
+		if burst < 1.0:
+			var radius := lerpf(7.0, 36.0, ease(burst, 0.45))
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2(1.0, 0.48))
+			for i in range(6):
+				var angle := TAU * i / 6.0 + burst * 0.35
+				draw_arc(Vector2.ZERO, radius, angle, angle + 0.78, 7, Color(ink, 1.0 - burst), 2.0)
+				var drop := Vector2.from_angle(angle) * (radius + 4.0)
+				draw_circle(drop, 2.2 - burst, Color(ink, 1.0 - burst))
+
+		var enter := clampf(elapsed / 0.12, 0.0, 1.0)
+		var fade := clampf((DURATION - elapsed) / 0.20, 0.0, 1.0)
+		var center := badge_offset + Vector2.DOWN * (4.0 * (1.0 - enter) - 3.0 * (1.0 - fade))
+		draw_set_transform(center.round(), 0.0, Vector2.ONE * (1.0 + 0.22 * sin(PI * enter)))
+		var outline := PackedVector2Array([Vector2(0,-10),Vector2(12,0),Vector2(0,10),Vector2(-12,0)])
+		draw_colored_polygon(outline, Color(EDGE, fade))
+		outline.append(outline[0])
+		draw_polyline(outline, Color(ink, fade), 1.5)
+		var mark := Color(ink.lightened(0.35), fade)
+		match mode:
+			0: # 藍色墨滴
+				draw_colored_polygon(PackedVector2Array([Vector2(0,-6),Vector2(4,1),Vector2(3,4),Vector2(0,5),Vector2(-3,4),Vector2(-4,1)]), mark)
+			1: # 紅色光束
+				draw_line(Vector2(-4,4), Vector2(4,-4), mark, 3.0)
+				draw_line(Vector2(0,-4), Vector2(4,-4), mark, 2.0)
+			2: # 黃色三向散射
+				for i in range(-1, 2):
+					draw_line(Vector2(i,3), Vector2(i * 5,-3), mark, 2.0)

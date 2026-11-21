@@ -1,7 +1,12 @@
 [style name="galstyle"]
-join 阿尼 (思考) left
-取得【藍色顏料】
+join 阿尼 (驚訝（...咦？）) left
 阿尼: 這個是……
-阿尼: 藍色的顏料？
-阿尼: ……
-阿尼: 先留著吧。
+join 各種物件 (夢幻多彩顏料瓶) center
+[signal arg="unlock_item:hp_paint"]
+[wait time="0.5" hide_text="false"]
+阿尼: 顏料？彩色的？
+阿尼 (思考): ……
+阿尼 (思考): 先留著吧。
+[signal arg="fade_out_cinematic"]
+leave --All-- [animation="Fade Out Down" length="0.4"]
+[wait time="0.4"]

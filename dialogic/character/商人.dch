@@ -10,12 +10,67 @@
 "style": "",
 "suffix": ""
 },
-&"default_portrait": "",
+&"default_portrait": "傷腦筋",
 &"description": "",
 &"display_name": "商人",
 &"mirror": false,
 &"nicknames": [""],
 &"offset": Vector2(0, 0),
-&"portraits": {},
+&"portraits": {
+"傷腦筋": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/商人/傷腦筋.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"待機": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/商人/待機.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"感歎": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/商人/感歎.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"提議": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/商人/提議.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"歡迎": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/商人/歡迎.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+},
+"貨物歸還": {
+"export_overrides": {
+"image": "\"res://眠境-角色立繪/商人/貨物歸還.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
 &"scale": 1.0
 }

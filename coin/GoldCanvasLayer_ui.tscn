@@ -1,131 +1,84 @@
-[gd_scene load_steps=22 format=3 uid="uid://cagrqr4h0ce63"]
+[gd_scene load_steps=15 format=3 uid="uid://cagrqr4h0ce63"]
 
-[ext_resource type="Texture2D" uid="uid://c27fx6q6espw2" path="res://coin/coin_anim.png" id="1_jstu8"]
+[ext_resource type="Texture2D" uid="uid://vlgu4mhf78bs" path="res://雜/crystal_transparent.png" id="1_jstu8"]
 [ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="2_0vu20"]
 [ext_resource type="Script" uid="uid://b06gcvyogorl1" path="res://coin/gold_label.gd" id="3_8m2y5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_63d2v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vu20"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(0, 0, 16, 16)
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x6itx"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m2y5"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(16, 0, 16, 16)
+region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vrp5e"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_36xk1"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(32, 0, 16, 16)
+region = Rect2(128, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x5vc7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydubv"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(48, 0, 16, 16)
+region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tnin8"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4kx2"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(64, 0, 16, 16)
+region = Rect2(0, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a2f84"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_21ifr"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(80, 0, 16, 16)
+region = Rect2(64, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_psie7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhvan"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(96, 0, 16, 16)
+region = Rect2(128, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_86gyc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fu1"]
 atlas = ExtResource("1_jstu8")
-region = Rect2(112, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qmodh"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(128, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bptqw"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(144, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cf03t"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(160, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sb1qa"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(176, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qghbs"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(192, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gvi7g"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(208, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u7tne"]
-atlas = ExtResource("1_jstu8")
-region = Rect2(224, 0, 16, 16)
+region = Rect2(192, 64, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vtdmk"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_63d2v")
+"texture": SubResource("AtlasTexture_0vu20")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x6itx")
+"texture": SubResource("AtlasTexture_8m2y5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vrp5e")
+"texture": SubResource("AtlasTexture_36xk1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x5vc7")
+"texture": SubResource("AtlasTexture_ydubv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tnin8")
+"texture": SubResource("AtlasTexture_q4kx2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_a2f84")
+"texture": SubResource("AtlasTexture_21ifr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_psie7")
+"texture": SubResource("AtlasTexture_uhvan")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_86gyc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qmodh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bptqw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cf03t")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sb1qa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qghbs")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gvi7g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u7tne")
+"texture": SubResource("AtlasTexture_a5fu1")
 }],
 "loop": true,
 "name": &"spin",
-"speed": 15.0
+"speed": 10.0
 }]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pvjy0"]
 font = ExtResource("2_0vu20")
 font_size = 29
-font_color = Color(0, 0, 0, 1)
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_7cbnw"]
 font = ExtResource("2_0vu20")
 font_size = 29
-font_color = Color(0, 0, 0, 1)
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="GoldCanvasLayer_ui" type="CanvasLayer"]
 process_mode = 3
@@ -134,8 +87,10 @@ layer = 150
 [node name="GoldUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1052.0
-offset_right = 1052.0
+offset_left = 1003.0
+offset_top = 5.0
+offset_right = 1003.0
+offset_bottom = 5.0
 
 [node name="GoldContainer" type="Control" parent="GoldUI"]
 layout_mode = 1
@@ -147,8 +102,8 @@ grow_vertical = 2
 
 [node name="Layout" type="HBoxContainer" parent="GoldUI/GoldContainer"]
 layout_mode = 1
-offset_left = 449.0
-offset_right = 509.0
+offset_left = 497.0
+offset_right = 557.0
 offset_bottom = 40.0
 
 [node name="IconWrapper" type="Control" parent="GoldUI/GoldContainer/Layout"]
@@ -157,12 +112,12 @@ layout_mode = 2
 
 [node name="CoinSprite" type="AnimatedSprite2D" parent="GoldUI/GoldContainer/Layout/IconWrapper"]
 process_mode = 3
-position = Vector2(20, 20)
-scale = Vector2(2.5, 2.5)
+position = Vector2(24, 20)
+scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_vtdmk")
 animation = &"spin"
 autoplay = "spin"
-frame_progress = 0.69790405
+frame_progress = 0.66019034
 
 [node name="SymbolLabel" type="Label" parent="GoldUI/GoldContainer/Layout"]
 layout_mode = 2

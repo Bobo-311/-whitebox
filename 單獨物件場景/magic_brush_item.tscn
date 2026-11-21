@@ -18,6 +18,8 @@ scale = Vector2(5.960002, 5.960002)
 shape = SubResource("CircleShape2D_bh4dj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4.7683716e-07)
+scale = Vector2(0.75, 0.65625)
 texture = ExtResource("2_1wwb5")
 
 [node name="InteractPrompt" type="Sprite2D" parent="."]

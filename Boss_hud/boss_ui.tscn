@@ -1,13 +1,13 @@
 [gd_scene load_steps=8 format=3 uid="uid://dtr8vcr5h66i"]
 
 [ext_resource type="Script" uid="uid://d28cu0rh53ml2" path="res://Boss_hud/boss_ui.gd" id="1_8i5yt"]
-[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="2_c8y3q"]
+[ext_resource type="FontFile" uid="uid://4ivxqvgtefn1" path="res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf" id="2_8i5yt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ctl2w"]
-paragraph_spacing = 3.0
-font = ExtResource("2_c8y3q")
+paragraph_spacing = -20.0
+font = ExtResource("2_8i5yt")
 font_size = 25
-shadow_size = 15
+shadow_size = 6
 shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mf23p"]
@@ -29,7 +29,7 @@ bg_color = Color(1, 0.6666667, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gqkie"]
 bg_color = Color(0.8, 0.06666667, 0.13333334, 1)
 
-[node name="BossUI" type="CanvasLayer"]
+[node name="BossUI_lotus" type="CanvasLayer"]
 layer = 10
 script = ExtResource("1_8i5yt")
 
@@ -50,9 +50,11 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 19
-text = "渊狱莲华"
+text = "紙蓮
+"
 label_settings = SubResource("LabelSettings_ctl2w")
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HealthBars" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(967.915, 14.76)

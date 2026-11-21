@@ -1469,6 +1469,7 @@ radius = 61.608852
 radius = 501.43994
 
 [node name="Chipmunk" instance=ExtResource("1_7irn1")]
+y_sort_enabled = false
 collision_mask = 16129
 walk_speed = 100
 melee_damage = 5.0

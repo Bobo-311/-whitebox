@@ -1,4 +1,4 @@
-[gd_scene load_steps=175 format=4 uid="uid://2pps4a1niskn"]
+[gd_scene load_steps=179 format=4 uid="uid://2pps4a1niskn"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_boiqs"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_dp6uo"]
@@ -16,6 +16,10 @@
 [ext_resource type="PackedScene" uid="uid://24vi44auck7k" path="res://單獨物件場景/blue_flower_2.tscn" id="14_dob8q"]
 [ext_resource type="PackedScene" uid="uid://dv2e5dncjva81" path="res://單獨物件場景/blue_flower_3.tscn" id="15_5fa3c"]
 [ext_resource type="PackedScene" uid="uid://b18iktyqv0kuq" path="res://Maps/PortalArea/portal_area.tscn" id="16_26185"]
+[ext_resource type="PackedScene" uid="uid://c18hxnw2ugyv3" path="res://base_enemy/Barbarian/barbarian.tscn" id="17_afcqe"]
+[ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="18_tvn8y"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="19_ve7wg"]
+[ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="21_r5ysq"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -23048,7 +23052,6 @@ metadata/_edit_vertical_guides_ = [2249.0, 2137.0]
 metadata/_edit_horizontal_guides_ = [2708.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -23062,7 +23065,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -23075,10 +23077,9 @@ tile_map_data = PackedByteArray("AAAiAAAAAwAAAAAAAAAiAAEAAwAAAAEAAAAiAAIAAwAAAAI
 tile_set = SubResource("TileSet_qp1oj")
 
 [node name="WhiteCat" parent="." instance=ExtResource("4_r23vb")]
-visible = false
-position = Vector2(2793, 2424)
-scale = Vector2(0.3, 0.3)
-max_follow_distance = 700.0
+position = Vector2(2810, 2594)
+scale = Vector2(0.6, 0.6)
+max_follow_distance = 800.0
 
 [node name="FlowerFall" type="StaticBody2D" parent="."]
 collision_layer = 512
@@ -23295,8 +23296,42 @@ polygon = PackedVector2Array(4721.8936, 2592.8997, 4722.4854, 2768.6392, 4695.26
 
 [node name="player" parent="." instance=ExtResource("5_5m0nk")]
 position = Vector2(2730, 2907)
-base_max_hp = 100
-max_hp = 100
+
+[node name="Barbarian" parent="." instance=ExtResource("17_afcqe")]
+position = Vector2(5608, 2416)
+
+[node name="Barbarian4" parent="." instance=ExtResource("17_afcqe")]
+position = Vector2(6633, 2744)
+
+[node name="Barbarian5" parent="." instance=ExtResource("17_afcqe")]
+position = Vector2(6609, 659)
+
+[node name="Barbarian3" parent="." instance=ExtResource("17_afcqe")]
+position = Vector2(4578, 1594)
+
+[node name="Chipmunk" parent="." instance=ExtResource("18_tvn8y")]
+position = Vector2(5322, 931)
+
+[node name="Chipmunk2" parent="." instance=ExtResource("18_tvn8y")]
+position = Vector2(5548, 1155)
+
+[node name="Colorless_Dango" parent="." instance=ExtResource("19_ve7wg")]
+position = Vector2(6604, 1688)
+
+[node name="Colorless_Dango2" parent="." instance=ExtResource("19_ve7wg")]
+position = Vector2(4814, 2741)
+
+[node name="Colorless_Dango3" parent="." instance=ExtResource("19_ve7wg")]
+position = Vector2(4368, 463)
+
+[node name="Colorless_Dango4" parent="." instance=ExtResource("19_ve7wg")]
+position = Vector2(3543, 644)
+
+[node name="ColorlessZombie" parent="." instance=ExtResource("21_r5ysq")]
+position = Vector2(4003, 1789)
+
+[node name="ColorlessZombie2" parent="." instance=ExtResource("21_r5ysq")]
+position = Vector2(5908, 2869)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea上門"]

@@ -7,6 +7,8 @@ colors = PackedColorArray(1, 0, 0, 1, 1, 1, 1, 1)
 
 [node name="Skill_02_lazer" type="Node2D"]
 script = ExtResource("1_88jie")
+base_damage = 25.0
+max_bonus_damage = 75.0
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 collision_mask = 7189

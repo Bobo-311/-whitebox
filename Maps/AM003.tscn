@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=4 uid="uid://dqfni11j7apy5"]
+[gd_scene load_steps=144 format=4 uid="uid://dqfni11j7apy5"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_0byee"]
 [ext_resource type="PackedScene" uid="uid://drnk45p7l2173" path="res://whitecat/white_cat.tscn" id="3_42a2b"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="18_mwcdo"]
 [ext_resource type="Resource" uid="uid://dnaj81cbk4cq" path="res://dialogic/character/阿尼.dch" id="19_37wv2"]
 [ext_resource type="Texture2D" uid="uid://dntvwhahx7oo" path="res://外在素材/復古像素風岩石圖示.png" id="20_mwcdo"]
+[ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="21_37wv2"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -22223,12 +22224,10 @@ limit_bottom = 1900
 metadata/_edit_vertical_guides_ = [811.0]
 
 [node name="CameraLockArea" parent="." instance=ExtResource("12_fq0it")]
-visible = false
 position = Vector2(3901.9998, 1323.9999)
 scale = Vector2(540.5673, 86.845726)
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -22242,7 +22241,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -22483,6 +22481,22 @@ visible = false
 position = Vector2(6064.7144, 1306.2858)
 scale = Vector2(0.05946705, 0.05946705)
 texture = ExtResource("20_mwcdo")
+
+[node name="lightFlower" parent="." instance=ExtResource("21_37wv2")]
+position = Vector2(2732, 1639.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower2" parent="." instance=ExtResource("21_37wv2")]
+position = Vector2(5044, 1642.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower3" parent="." instance=ExtResource("21_37wv2")]
+position = Vector2(6790, 1598)
+scale = Vector2(3, 3)
+
+[node name="lightFlower4" parent="." instance=ExtResource("21_37wv2")]
+position = Vector2(1106, 1610.0001)
+scale = Vector2(3, 3)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

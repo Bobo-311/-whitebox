@@ -13,7 +13,8 @@ func enter(): # 當狀態機切換到衝刺翻滾狀態時執行
 		character.velocity = character.input_direction * character.dash_speed 
 		character.is_dashing = true 
 		
-		character.play_animation("move") # 播放移動動畫墊檔
+		# 🌟【完美銜接】：播放你剛畫好的 dash 翻滾動畫！
+		character.play_animation("dash") 
 		character.modulate.a = 0.5       # 半透明靈體感
 		
 		# 播放 AnimationPlayer 裡面寫好的無敵幀開關時間軸
