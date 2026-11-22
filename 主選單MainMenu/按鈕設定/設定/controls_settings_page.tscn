@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://igvpuk3oneom"]
 
-[ext_resource type="Script" uid="uid://dgl8ukf7f0qpe" path="res://主選單MainMenu/管理按鈕/設定/controls_settings_page.gd" id="1_aral4"]
+[ext_resource type="Script" uid="uid://dgl8ukf7f0qpe" path="res://主選單MainMenu/按鈕設定/設定/controls_settings_page.gd" id="1_aral4"]
 [ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_ebe4p"]
-[ext_resource type="PackedScene" uid="uid://bo3ojntqerj8w" path="res://主選單MainMenu/管理按鈕/按鍵/key_binding_row.tscn" id="2_whfwo"]
-[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/管理按鈕/特效/title_decoration.tscn" id="3_j1gmo"]
-[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/管理按鈕/menu_button.gd" id="5_a36bd"]
+[ext_resource type="PackedScene" uid="uid://bo3ojntqerj8w" path="res://主選單MainMenu/按鈕設定/按鍵/key_binding_row.tscn" id="2_whfwo"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_j1gmo"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="5_a36bd"]
 
 [node name="ControlsSettingsPage" type="Control" node_paths=PackedStringArray("back_button")]
 layout_mode = 3

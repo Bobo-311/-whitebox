@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://depbu2qf2l3i4"]
 
-[ext_resource type="Script" uid="uid://ha4410hpfgaa" path="res://主選單MainMenu/管理按鈕/設定/audio_settings_page.gd" id="1_2yikl"]
+[ext_resource type="Script" uid="uid://ha4410hpfgaa" path="res://主選單MainMenu/按鈕設定/設定/audio_settings_page.gd" id="1_2yikl"]
 [ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_2yikl"]
-[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/管理按鈕/特效/title_decoration.tscn" id="3_7uknc"]
-[ext_resource type="Script" uid="uid://cw58iq0et53k2" path="res://主選單MainMenu/管理按鈕/特效/dream_volume_slider.gd" id="3_frx8a"]
-[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/管理按鈕/menu_button.gd" id="4_c7hks"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_7uknc"]
+[ext_resource type="Script" uid="uid://cw58iq0et53k2" path="res://主選單MainMenu/按鈕設定/特效/dream_volume_slider.gd" id="3_frx8a"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="4_c7hks"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_76amx"]
 color = Color(0.72156864, 0.627451, 0.76862746, 0.16470589)

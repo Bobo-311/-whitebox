@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cfn7py5f6brke"]
 
-[ext_resource type="Script" uid="uid://j7r7vc05630w" path="res://主選單MainMenu/管理按鈕/特效/title_decoration.gd" id="1_svl6c"]
+[ext_resource type="Script" uid="uid://j7r7vc05630w" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.gd" id="1_svl6c"]
 
 [node name="TitleDecoration" type="Control"]
 layout_mode = 3

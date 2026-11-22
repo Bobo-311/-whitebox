@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://d25g6e3l780pq"]
 
-[ext_resource type="Script" uid="uid://qr50uuk1vemc" path="res://主選單MainMenu/管理按鈕/設定/settings_page.gd" id="1_5wdx8"]
+[ext_resource type="Script" uid="uid://qr50uuk1vemc" path="res://主選單MainMenu/按鈕設定/設定/settings_page.gd" id="1_5wdx8"]
 [ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_1vipb"]
-[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/管理按鈕/特效/title_decoration.tscn" id="3_1vipb"]
-[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/管理按鈕/menu_button.gd" id="3_tef4i"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_1vipb"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="3_tef4i"]
 
 [node name="SettingsPage" type="Control" node_paths=PackedStringArray("back_button", "option_buttons")]
 layout_mode = 3

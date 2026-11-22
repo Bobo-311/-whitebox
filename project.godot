@@ -22,8 +22,8 @@ DataManager="*res://global/data_manager.gd"
 TransitionManager="*res://portal/transition_manager.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 SceneTransition="*res://Maps/轉場/scene_transition.tscn"
-SettingsManager="*res://主選單MainMenu/管理按鈕/全域/settings_manager.gd"
-InputSettingsManager="*res://主選單MainMenu/管理按鈕/全域/input_settings_manager.gd"
+SettingsManager="*res://主選單MainMenu/按鈕設定/全域/settings_manager.gd"
+InputSettingsManager="*res://主選單MainMenu/按鈕設定/全域/input_settings_manager.gd"
 
 [dialogic]
 

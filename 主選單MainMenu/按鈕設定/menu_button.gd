@@ -476,19 +476,20 @@ func _input(event: InputEvent) -> void:
 			_keyboard_mode = false
 			_refresh_highlight()
 
-	elif event is InputEventKey:
+	elif event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
 
-		if event.pressed:
+		if (
+			event.is_action_pressed("ui_up")
+			or event.is_action_pressed("ui_down")
+			or event.is_action_pressed("ui_left")
+			or event.is_action_pressed("ui_right")
+			or event.is_action_pressed("ui_focus_next")
+			or event.is_action_pressed("ui_focus_prev")
+			or event.is_action_pressed("ui_accept")
+		):
 
-			if (
-				event.is_action_pressed("ui_up")
-				or event.is_action_pressed("ui_down")
-				or event.is_action_pressed("ui_focus_next")
-				or event.is_action_pressed("ui_focus_prev")
-				or event.is_action_pressed("ui_accept")
-			):
-				_keyboard_mode = true
-				_refresh_highlight()
+			_keyboard_mode = true
+			_refresh_highlight()
 
 
 # ==========================================
@@ -670,3 +671,13 @@ func _update_visual_layout() -> void:
 
 	_left_decoration.modulate.a = opacity
 	_right_decoration.modulate.a = opacity
+
+# ==========================================
+# 主動啟用鍵盤選取效果
+# ==========================================
+
+func activate_keyboard_highlight() -> void:
+
+	_keyboard_mode = true
+
+	_refresh_highlight()

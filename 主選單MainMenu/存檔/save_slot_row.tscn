@@ -1,0 +1,133 @@
+[gd_scene load_steps=7 format=3 uid="uid://iosr4ijsl68n"]
+
+[ext_resource type="Script" uid="uid://emyheu6ktryc" path="res://主選單MainMenu/存檔/save_slot_row.gd" id="1_fqgm3"]
+[ext_resource type="Texture2D" uid="uid://cslnyuolsepu2" path="res://主選單MainMenu/存檔/素材/save_slot_skin_b.png" id="2_14l21"]
+[ext_resource type="Texture2D" uid="uid://xywecw0k8oql" path="res://主選單MainMenu/存檔/素材/Moonlit Silver-Lavender Ripple Ornament.png" id="3_14l21"]
+[ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="3_iofdg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iofdg"]
+atlas = ExtResource("2_14l21")
+region = Rect2(30, 190, 2110, 340)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhip5"]
+atlas = ExtResource("3_14l21")
+region = Rect2(0, 120, 2172, 400)
+filter_clip = true
+
+[node name="SaveSlotRow" type="Control"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -22.0
+offset_right = -560.0
+offset_bottom = -762.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fqgm3")
+debug_log = true
+breathing_strength = 0.08
+breathing_cycle = 3.0
+
+[node name="HoverGlow" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.34901962)
+texture_filter = 2
+layout_mode = 0
+offset_left = -32.0
+offset_top = -12.0
+offset_right = 884.0
+offset_bottom = 148.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_iofdg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Skin" type="TextureRect" parent="."]
+texture_filter = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -186.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_bhip5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Actions" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="SlotButton" type="Button" parent="Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+flat = true
+
+[node name="SlotContent" type="MarginContainer" parent="Actions/SlotButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 116
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 64
+
+[node name="InfoRow" type="HBoxContainer" parent="Actions/SlotButton/SlotContent"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="NumberLabel" type="Label" parent="Actions/SlotButton/SlotContent/InfoRow"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91764706, 0.827451, 0.9098039, 1)
+theme_override_fonts/font = ExtResource("3_iofdg")
+theme_override_font_sizes/font_size = 42
+text = "01"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InfoColumn" type="VBoxContainer" parent="Actions/SlotButton/SlotContent/InfoRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="MapNameLabel" type="Label" parent="Actions/SlotButton/SlotContent/InfoRow/InfoColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9647059, 0.9019608, 0.9490196, 1)
+theme_override_fonts/font = ExtResource("3_iofdg")
+theme_override_font_sizes/font_size = 32
+text = "開始新的夢境"
+
+[node name="DetailLabel" type="Label" parent="Actions/SlotButton/SlotContent/InfoRow/InfoColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7490196, 0.6627451, 0.79607844, 1)
+theme_override_fonts/font = ExtResource("3_iofdg")
+theme_override_font_sizes/font_size = 20
+text = "	N E W　G A M E"
+
+[node name="DeleteButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72156864, 0.6509804, 0.7607843, 1)
+theme_override_colors/font_focus_color = Color(1, 0.7137255, 0.78431374, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.8784314, 0.9137255, 1)
+theme_override_colors/font_hover_color = Color(1, 0.7137255, 0.78431374, 1)
+theme_override_fonts/font = ExtResource("3_iofdg")
+theme_override_font_sizes/font_size = 24
+text = "	清除紀錄"
+flat = true
