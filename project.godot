@@ -119,7 +119,6 @@ animations/leave_default="Fade Out Down"
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 mouse_cursor/custom_image="uid://cocjbjeydssxs"

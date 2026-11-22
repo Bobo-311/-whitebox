@@ -46,6 +46,7 @@ offset_right = 1600.0
 offset_bottom = 900.0
 
 [node name="Background" type="TextureRect" parent="Design"]
+texture_filter = 2
 material = SubResource("ShaderMaterial_tukwo")
 layout_mode = 1
 anchors_preset = 15
@@ -159,6 +160,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="IntroFade" type="ColorRect" parent="."]
+visible = false
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
