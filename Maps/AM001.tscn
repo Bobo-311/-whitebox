@@ -7206,7 +7206,11 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
+
+[node name="NewGameSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(3415, 1502)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(1370, 1857)

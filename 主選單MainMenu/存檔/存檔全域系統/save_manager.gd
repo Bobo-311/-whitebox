@@ -3,45 +3,70 @@ extends Node
 
 # ============================================================
 # 《眠境 RE:RECOLOR》
-# SaveManager V1｜四格存檔核心管理器
+# SaveManager V2｜四格存檔核心管理器
 #
-# Godot 4.5.1
+# 適用版本：Godot 4.5.1
 #
-# 目前負責：
-# 1. 管理四個獨立存檔欄位
-# 2. 建立新存檔資料
-# 3. 讀取與驗證存檔
+# Autoload 名稱：SaveManager
+#
+# ------------------------------------------------------------
+# 本腳本負責：
+#
+# 1. 建立四個獨立存檔欄位
+# 2. 建立全新遊戲紀錄
+# 3. 讀取已有存檔
 # 4. 更新目前使用中的存檔
-# 5. 產生存檔列表需要的摘要
-# 6. 暫存檔寫入及正式檔案替換
-# 7. 保留有效存檔的上一版本備份
-# 8. 防止意外覆蓋損壞或不相容的存檔
+# 5. 驗證存檔資料格式
+# 6. 產生供 UI 使用的存檔摘要
+# 7. 使用暫存檔降低不完整寫入風險
+# 8. 更新存檔時保留上一份有效資料備份
+# 9. 防止損壞資料被誤認為空白存檔
 #
-# 暫時不負責：
-# - 玩家節點資料收集
-# - 地圖切換
-# - 死亡重生
-# - 普通敵人生成
+# ------------------------------------------------------------
+# 本腳本暫時不負責：
+#
+# - 實際切換遊戲地圖
+# - 控制阿尼生成
+# - 玩家死亡及重生
 # - 畫架互動
-# - 清除存檔 UI 連接
+# - 普通敵人刷新
+# - NPC 或 Boss 的實際狀態收集
+#
+# 以上功能會逐步接入，而不是全部塞在 SaveManager。
+#
+# ------------------------------------------------------------
+# 存檔位置：
+#
+# user://saves/slot_01.json
+# user://saves/slot_02.json
+# user://saves/slot_03.json
+# user://saves/slot_04.json
+#
+# .bak = 前一次有效紀錄的備份
+# .tmp = 尚未完成替換的寫入暫存檔
 #
 # 注意：
-# 本腳本使用 Autoload，名稱為 SaveManager。
-# 不需要另外宣告 class_name SaveManager。
+# 本階段不自動清理未知或損壞檔案。
 # ============================================================
 
 
 # ============================================================
 # 1. 對外訊號
 #
-# 其他 UI 可以透過這些訊號，
-# 得知存檔資料是否發生變化。
+# SaveManager 不直接修改 UI。
+# UI 透過訊號得知資料何時發生變化。
 # ============================================================
 
+## 成功建立新存檔
 signal slot_created(slot_id: int)
+
+## 成功載入存檔
 signal slot_loaded(slot_id: int)
+
+## 成功更新存檔
 signal slot_saved(slot_id: int)
 
+## 操作發生錯誤
 signal operation_failed(
 	operation: String,
 	slot_id: int,
@@ -50,82 +75,105 @@ signal operation_failed(
 
 
 # ============================================================
-# 2. 核心常數
+# 2. 基本常數
 # ============================================================
 
-## 存檔欄位數量
+## 總存檔欄位數量
 const SLOT_COUNT: int = 4
 
-## 目前支援的資料格式版本
+## 存檔資料格式版本
 ##
-## 未來修改存檔資料結構時，
-## 必須配合資料遷移程序更新版本。
+## 後續若修改必要欄位，
+## 必須規劃資料遷移，不能只修改版本數字。
 const SCHEMA_VERSION: int = 1
 
-## 存檔資料夾
+## 使用者存檔資料夾
 const SAVE_DIRECTORY: String = "user://saves"
+
+## 單個存檔允許的最大大小：5 MB
+##
+## 防止意外讀取異常巨大的檔案。
+const MAX_SAVE_BYTES: int = 5 * 1024 * 1024
 
 
 # ============================================================
-# 3. 存檔欄位狀態
+# 3. 全新遊戲起點
+#
+# UI 不需要知道遊戲開始於哪張地圖。
+# 全部新存檔使用這組統一起點。
+#
+# 這些是穩定的遊戲資料 ID，
+# 不是 Godot 節點路徑。
+#
+# TODO：
+# 後續 CheckpointManager 需將 ID
+# 對應到真正的地圖及畫架。
+# ============================================================
+
+const INITIAL_MAP_ID: String = "first_land_sakura_garden"
+
+const INITIAL_EASEL_ID: String = "easel_start_01"
+
+const INITIAL_MAP_DISPLAY_NAME: String = "最初之地・櫻花庭園"
+
+
+# ============================================================
+# 4. 存檔狀態
 # ============================================================
 
 enum SlotState {
 
-	## 沒有任何存檔資料
+	## 沒有主要存檔、備份與暫存資料
 	EMPTY,
 
-	## 存檔正常
+	## 主要存檔正常
 	READY,
 
-	## 主要檔案損壞，但有效備份仍存在
+	## 主要存檔無效，但備份可讀
 	RECOVERABLE,
 
-	## 資料無法正常讀取或版本不相容
+	## 存檔損壞、版本不相容或存在未處理資料
 	DAMAGED
 }
 
 
 # ============================================================
-# 4. 除錯設定
+# 5. Inspector 設定
 # ============================================================
 
 @export_group("除錯設定")
 
-## 開發期間顯示初始化及槽位狀態
+## 是否在輸出面板顯示詳細紀錄
 @export var debug_log: bool = true
 
 
 # ============================================================
-# 5. 目前使用中的存檔
+# 6. 目前存檔的記憶體資料
 # ============================================================
 
-## 0 代表尚未載入任何存檔
+## 0 表示尚未選擇任何存檔
 var current_slot_id: int = 0
 
-## 目前存檔的記憶體資料
+## 目前使用中的完整存檔資料
 ##
-## 不直接開放外部修改。
-## 外部系統應透過 get_current_data()
-## 取得副本，再交由 save_current_data() 儲存。
+## 外部應透過 get_current_data()
+## 取得深層副本，不直接修改此 Dictionary。
 var _current_data: Dictionary = {}
-
-## 存檔目錄是否成功建立
-var _directory_ready: bool = false
 
 
 # ============================================================
-# 6. 初始化
+# 7. 初始化 SaveManager
+#
+# 啟動時只建立資料夾及檢查現有存檔。
+# 不會自動建立任何新遊戲。
 # ============================================================
 
 func _ready() -> void:
 
-	_directory_ready = _ensure_directory()
-
-	if not _directory_ready:
+	if not _ensure_directory():
 
 		push_error(
-			"【SaveManager】存檔資料夾初始化失敗"
+			"【SaveManager】無法建立存檔資料夾"
 		)
 
 		return
@@ -141,7 +189,10 @@ func _ready() -> void:
 			)
 		)
 
-		for slot_id in range(1, SLOT_COUNT + 1):
+		for slot_id in range(
+			1,
+			SLOT_COUNT + 1
+		):
 
 			print(
 				"【SaveManager】Slot %02d：%s"
@@ -157,15 +208,15 @@ func _ready() -> void:
 
 
 # ============================================================
-# 7. 確保存檔資料夾存在
+# 8. 確保存檔資料夾存在
 #
-# 使用作業系統實際路徑建立資料夾，
-# 不依賴 Godot 編輯器中的 res:// 目錄。
+# 使用 ProjectSettings.globalize_path()
+# 將 user:// 轉成作業系統的實際路徑。
 # ============================================================
 
 func _ensure_directory() -> bool:
 
-	var absolute_directory: String = (
+	var absolute_path: String = (
 		ProjectSettings.globalize_path(
 			SAVE_DIRECTORY
 		)
@@ -173,7 +224,7 @@ func _ensure_directory() -> bool:
 
 	var result: Error = (
 		DirAccess.make_dir_recursive_absolute(
-			absolute_directory
+			absolute_path
 		)
 	)
 
@@ -181,10 +232,14 @@ func _ensure_directory() -> bool:
 
 
 # ============================================================
-# 8. 檢查存檔編號
+# 9. 驗證欄位編號
+#
+# 只能使用 Slot 01～04。
 # ============================================================
 
-func _is_valid_slot_id(slot_id: int) -> bool:
+func _is_valid_slot_id(
+	slot_id: int
+) -> bool:
 
 	return (
 		slot_id >= 1
@@ -193,10 +248,12 @@ func _is_valid_slot_id(slot_id: int) -> bool:
 
 
 # ============================================================
-# 9. 產生各個欄位的檔案路徑
+# 10. 產生各個存檔路徑
 # ============================================================
 
-func _get_slot_path(slot_id: int) -> String:
+func _get_slot_path(
+	slot_id: int
+) -> String:
 
 	return (
 		"%s/slot_%02d.json"
@@ -204,33 +261,41 @@ func _get_slot_path(slot_id: int) -> String:
 	)
 
 
-func _get_backup_path(slot_id: int) -> String:
+func _get_backup_path(
+	slot_id: int
+) -> String:
 
 	return _get_slot_path(slot_id) + ".bak"
 
 
-func _get_temp_path(slot_id: int) -> String:
+func _get_temp_path(
+	slot_id: int
+) -> String:
 
 	return _get_slot_path(slot_id) + ".tmp"
 
 
 # ============================================================
-# 10. 取得存檔欄位狀態
+# 11. 取得指定欄位的狀態
 #
-# 優先檢查主要存檔。
-# 如果主要存檔損壞，再檢查備份。
+# 檢查順序：
+# 1. 是否有主要存檔
+# 2. 主要存檔是否有效
+# 3. 是否有可用備份
+# 4. 是否有未處理暫存檔
 #
-# 不可以只依照「檔案是否存在」，
-# 就判定一份存檔能正常使用。
+# 不能只因為主檔不存在，就認定是空白欄位。
 # ============================================================
 
-func get_slot_state(slot_id: int) -> SlotState:
+func get_slot_state(
+	slot_id: int
+) -> SlotState:
 
 	if not _is_valid_slot_id(slot_id):
 
 		return SlotState.DAMAGED
 
-	var slot_path: String = (
+	var main_path: String = (
 		_get_slot_path(slot_id)
 	)
 
@@ -238,25 +303,37 @@ func get_slot_state(slot_id: int) -> SlotState:
 		_get_backup_path(slot_id)
 	)
 
+	var temp_path: String = (
+		_get_temp_path(slot_id)
+	)
+
 	var has_main: bool = (
-		FileAccess.file_exists(slot_path)
+		FileAccess.file_exists(main_path)
 	)
 
 	var has_backup: bool = (
 		FileAccess.file_exists(backup_path)
 	)
 
-	# 沒有主要檔案也沒有備份
-	if not has_main and not has_backup:
+	var has_temp: bool = (
+		FileAccess.file_exists(temp_path)
+	)
+
+	# 三種檔案都不存在，才是空白欄位
+	if (
+		not has_main
+		and not has_backup
+		and not has_temp
+	):
 
 		return SlotState.EMPTY
 
-	# 檢查主要檔案是否有效
+	# 優先檢查主要存檔
 	if has_main:
 
 		var main_data: Dictionary = (
 			_read_slot_file(
-				slot_path,
+				main_path,
 				slot_id
 			)
 		)
@@ -265,7 +342,7 @@ func get_slot_state(slot_id: int) -> SlotState:
 
 			return SlotState.READY
 
-	# 主要檔案無效時檢查備份
+	# 主要存檔無效時檢查備份
 	if has_backup:
 
 		var backup_data: Dictionary = (
@@ -279,23 +356,57 @@ func get_slot_state(slot_id: int) -> SlotState:
 
 			return SlotState.RECOVERABLE
 
+	# 有檔案存在，但無法作為有效存檔
 	return SlotState.DAMAGED
 
 
 # ============================================================
-# 11. 建立新存檔
+# 12. 建立全新遊戲
 #
-# 只接受空白欄位。
-# 不會覆蓋任何既有存檔或備份。
+# 提供主選單使用的正式入口。
 #
-# map_id：
-# 地圖的穩定識別碼。
+# UI 只需傳入欄位編號。
+# 地圖及畫架 ID 由 SaveManager 管理。
 #
-# easel_id：
-# 初始畫架的穩定識別碼。
+# 回傳：
+# true  = 成功建立
+# false = 建立失敗
+# ============================================================
+
+func create_new_game(
+	slot_id: int
+) -> bool:
+
+	# 防止新遊戲起點未設定
+	if (
+		INITIAL_MAP_ID.is_empty()
+		or INITIAL_EASEL_ID.is_empty()
+	):
+
+		return _fail(
+			"建立新遊戲",
+			slot_id,
+			"初始地圖或畫架 ID 尚未設定"
+		)
+
+	# 使用統一建立流程
+	return create_slot(
+		slot_id,
+		INITIAL_MAP_ID,
+		INITIAL_EASEL_ID,
+		INITIAL_MAP_DISPLAY_NAME
+	)
+
+
+# ============================================================
+# 13. 建立指定欄位
 #
-# map_display_name：
-# 用於存檔選擇介面的顯示名稱。
+# 安全規則：
+# - 不允許超出四個欄位
+# - 不允許無效的地圖／畫架 ID
+# - 不允許覆蓋已有存檔
+# - 不允許覆蓋異常或暫存資料
+# - 成功寫入硬碟後才更新目前存檔
 # ============================================================
 
 func create_slot(
@@ -310,18 +421,25 @@ func create_slot(
 		return _fail(
 			"建立存檔",
 			slot_id,
-			"存檔編號超出範圍"
+			"存檔編號超出 1～4"
 		)
 
-	if map_id.is_empty() or easel_id.is_empty():
+	if (
+		map_id.strip_edges().is_empty()
+		or easel_id.strip_edges().is_empty()
+	):
 
 		return _fail(
 			"建立存檔",
 			slot_id,
-			"初始地圖或畫架 ID 不可為空"
+			"地圖或畫架 ID 不可為空"
 		)
 
-	if get_slot_state(slot_id) != SlotState.EMPTY:
+	# 必須完全沒有現有資料
+	if (
+		get_slot_state(slot_id)
+		!= SlotState.EMPTY
+	):
 
 		return _fail(
 			"建立存檔",
@@ -329,7 +447,7 @@ func create_slot(
 			"欄位已有資料，禁止覆蓋"
 		)
 
-	# 建立符合目前版本的初始資料
+	# 產生初始遊戲資料
 	var new_data: Dictionary = (
 		_create_initial_data(
 			slot_id,
@@ -339,33 +457,46 @@ func create_slot(
 		)
 	)
 
+	# true 表示新檔案，禁止覆蓋舊資料
 	if not _write_slot(
 		slot_id,
-		new_data
+		new_data,
+		true
 	):
 
 		return false
 
-	# 寫入成功後才切換目前存檔
+	# --------------------------------------------------------
+	# 寫入成功後，才變更記憶體中的目前存檔
+	# --------------------------------------------------------
+
 	current_slot_id = slot_id
 
 	_current_data = new_data.duplicate(true)
 
+	# 通知 UI：欄位已建立
 	slot_created.emit(slot_id)
+
+	if debug_log:
+
+		print(
+			"【SaveManager】成功建立 Slot %02d"
+			% slot_id
+		)
 
 	return true
 
 
 # ============================================================
-# 12. 建立初始存檔資料結構
+# 14. 建立初始存檔資料
 #
-# 所有新存檔必須使用相同資料結構。
+# 全新存檔都使用統一資料結構。
 #
-# 玩家及世界資料先預留欄位，
-# 未來由對應的系統填入真正數值。
+# 特別注意：
+# 玩家能力、背包、裝備及世界紀錄
+# 目前只是預留資料欄位。
 #
-# 注意：
-# 不在這裡猜測阿尼的 HP、墨水或裝備數值。
+# 不在此填入沒有確定的遊戲數值。
 # ============================================================
 
 func _create_initial_data(
@@ -381,12 +512,20 @@ func _create_initial_data(
 
 	return {
 
+		# ----------------------------------------------------
+		# 存檔格式版本與欄位編號
+		# ----------------------------------------------------
+
 		"schema_version": SCHEMA_VERSION,
 
 		"slot_id": slot_id,
 
 		# ----------------------------------------------------
-		# 存檔列表與時間資訊
+		# 存檔基本資訊
+		#
+		# created_at_unix：建立時間
+		# updated_at_unix：最後儲存時間
+		# play_seconds：累積遊玩秒數
 		# ----------------------------------------------------
 
 		"meta": {
@@ -401,10 +540,10 @@ func _create_initial_data(
 		},
 
 		# ----------------------------------------------------
-		# 最後使用的畫架
+		# 畫架重生資訊
 		#
-		# 死亡後要回到的位置，
-		# 由 map_id + easel_id 共同決定。
+		# 之後死亡時會讀取這兩個 ID，
+		# 找到地圖與指定畫架的重生位置。
 		# ----------------------------------------------------
 
 		"checkpoint": {
@@ -415,9 +554,7 @@ func _create_initial_data(
 		},
 
 		# ----------------------------------------------------
-		# 玩家永久進度
-		#
-		# 後續接入角色數值、背包及技能系統。
+		# 玩家永久資料
 		# ----------------------------------------------------
 
 		"player": {
@@ -434,7 +571,11 @@ func _create_initial_data(
 		# ----------------------------------------------------
 		# 世界永久進度
 		#
-		# 使用 Dictionary 儲存穩定 ID 與狀態。
+		# 使用穩定 ID 記錄：
+		# 已擊敗 Boss、捷徑、特殊道具、
+		# 任務及 NPC 事件。
+		#
+		# 普通敵人逐隻死亡資料不放在這裡。
 		# ----------------------------------------------------
 
 		"world": {
@@ -453,26 +594,26 @@ func _create_initial_data(
 
 
 # ============================================================
-# 13. 載入指定存檔
+# 15. 載入已有存檔
 #
-# 優先載入主要檔案。
+# 目前保留給後續讀檔系統使用。
 #
-# 如果主要檔案損壞而備份有效，
-# 可以將備份讀入記憶體。
+# 如果主檔有效，讀取主檔。
+# 如果主檔損壞但備份有效，讀取備份。
 #
-# 注意：
-# 目前不自動覆寫損壞的主要檔案。
-# 正式的備份還原操作將另外製作。
+# 備份只載入記憶體，不自動覆蓋主檔。
 # ============================================================
 
-func load_slot(slot_id: int) -> bool:
+func load_slot(
+	slot_id: int
+) -> bool:
 
 	if not _is_valid_slot_id(slot_id):
 
 		return _fail(
 			"讀取存檔",
 			slot_id,
-			"存檔編號超出範圍"
+			"存檔編號不正確"
 		)
 
 	var state: SlotState = (
@@ -480,27 +621,30 @@ func load_slot(slot_id: int) -> bool:
 	)
 
 	if (
-		state == SlotState.EMPTY
-		or state == SlotState.DAMAGED
+		state != SlotState.READY
+		and state != SlotState.RECOVERABLE
 	):
 
 		return _fail(
 			"讀取存檔",
 			slot_id,
-			"欄位沒有可讀取的有效資料"
+			"沒有可使用的有效存檔"
 		)
 
 	var source_path: String = (
 		_get_slot_path(slot_id)
 	)
 
+	# 主要存檔無效時，暫時從備份載入
 	if state == SlotState.RECOVERABLE:
 
-		source_path = _get_backup_path(slot_id)
+		source_path = (
+			_get_backup_path(slot_id)
+		)
 
 		push_warning(
-			"【SaveManager】主要存檔無效，"
-			+ "暫時從備份讀取"
+			"【SaveManager】Slot %02d 暫時從備份讀取"
+			% slot_id
 		)
 
 	var loaded_data: Dictionary = (
@@ -515,9 +659,10 @@ func load_slot(slot_id: int) -> bool:
 		return _fail(
 			"讀取存檔",
 			slot_id,
-			"資料驗證失敗"
+			"資料讀取或驗證失敗"
 		)
 
+	# 成功後才更新目前使用中的存檔
 	current_slot_id = slot_id
 
 	_current_data = loaded_data.duplicate(true)
@@ -528,10 +673,9 @@ func load_slot(slot_id: int) -> bool:
 
 
 # ============================================================
-# 14. 取得目前存檔資料
+# 16. 取得目前存檔資料
 #
-# 回傳深層副本，
-# 避免外部程式意外直接修改記憶體原件。
+# 回傳深層副本，避免外部修改原始資料。
 # ============================================================
 
 func get_current_data() -> Dictionary:
@@ -540,12 +684,15 @@ func get_current_data() -> Dictionary:
 
 
 # ============================================================
-# 15. 更新目前存檔
+# 17. 更新目前存檔
 #
-# 外部的 PlayerData、WorldState 等系統，
-# 未來會把更新後的資料交給這個函式。
+# 這個函式將來提供給畫架、玩家及世界狀態系統。
 #
-# 寫入成功後才更新目前記憶體資料。
+# 目前先保留完整接口，
+# 本階段 UI 不會呼叫它。
+#
+# 安全規則：
+# 只更新正常且已載入的存檔。
 # ============================================================
 
 func save_current_data(
@@ -557,7 +704,18 @@ func save_current_data(
 		return _fail(
 			"更新存檔",
 			0,
-			"尚未選擇存檔欄位"
+			"目前尚未載入任何存檔"
+		)
+
+	if (
+		get_slot_state(current_slot_id)
+		!= SlotState.READY
+	):
+
+		return _fail(
+			"更新存檔",
+			current_slot_id,
+			"目前存檔無法安全更新"
 		)
 
 	var candidate: Dictionary = (
@@ -572,10 +730,10 @@ func save_current_data(
 		return _fail(
 			"更新存檔",
 			current_slot_id,
-			"資料結構或版本不正確"
+			"資料結構驗證失敗"
 		)
 
-	# 更新保存時間
+	# 更新最後儲存時間
 	var meta: Dictionary = candidate["meta"]
 
 	meta["updated_at_unix"] = int(
@@ -584,10 +742,11 @@ func save_current_data(
 
 	candidate["meta"] = meta
 
-	# 寫入成功後才更新目前資料
+	# false 表示更新既有存檔
 	if not _write_slot(
 		current_slot_id,
-		candidate
+		candidate,
+		false
 	):
 
 		return false
@@ -600,13 +759,22 @@ func save_current_data(
 
 
 # ============================================================
-# 16. 取得存檔列表摘要
+# 18. 提供存檔選擇 UI 的摘要資料
 #
-# 讓夢境紀錄 UI 只取得需要顯示的資訊。
-# 不需要將整份玩家背包或世界資料傳給 UI。
+# UI 不需要知道玩家完整背包與世界資料。
+#
+# 只回傳：
+# - 存檔狀態
+# - 地圖名稱
+# - 遊玩時間
+# - 儲存日期所需時間戳
+# - 地圖 ID
+# - 畫架 ID
 # ============================================================
 
-func get_slot_summary(slot_id: int) -> Dictionary:
+func get_slot_summary(
+	slot_id: int
+) -> Dictionary:
 
 	var state: SlotState = (
 		get_slot_state(slot_id)
@@ -626,64 +794,57 @@ func get_slot_summary(slot_id: int) -> Dictionary:
 
 		return summary
 
-	var path: String = _get_slot_path(slot_id)
+	var source_path: String = (
+		_get_slot_path(slot_id)
+	)
 
 	if state == SlotState.RECOVERABLE:
 
-		path = _get_backup_path(slot_id)
+		source_path = _get_backup_path(slot_id)
 
 	var data: Dictionary = (
 		_read_slot_file(
-			path,
+			source_path,
 			slot_id
 		)
 	)
 
 	if data.is_empty():
 
-		return summary
+		return {
+			"slot_id": slot_id,
+			"state": SlotState.DAMAGED
+		}
 
 	var meta: Dictionary = data["meta"]
 
-	var checkpoint: Dictionary = (
-		data["checkpoint"]
-	)
+	var checkpoint: Dictionary = data["checkpoint"]
 
-	summary["map_name"] = meta.get(
-		"map_display_name",
-		"未知地區"
-	)
+	summary["map_name"] = meta["map_display_name"]
 
-	summary["play_seconds"] = meta.get(
-		"play_seconds",
-		0.0
-	)
+	summary["play_seconds"] = meta["play_seconds"]
 
-	summary["updated_at_unix"] = meta.get(
-		"updated_at_unix",
-		0
-	)
+	summary["updated_at_unix"] = meta["updated_at_unix"]
 
-	summary["map_id"] = checkpoint.get(
-		"map_id",
-		""
-	)
+	summary["map_id"] = checkpoint["map_id"]
 
-	summary["easel_id"] = checkpoint.get(
-		"easel_id",
-		""
-	)
+	summary["easel_id"] = checkpoint["easel_id"]
 
 	return summary
 
 
 # ============================================================
-# 17. 讀取及驗證 JSON 檔案
+# 19. 讀取並解析 JSON 存檔
 #
-# 任何讀取失敗、JSON 格式錯誤，
-# 或版本不相容的資料都回傳空 Dictionary。
+# 安全檢查：
 #
-# 不會在此自動刪除或修改檔案。
+# 1. 檔案必須存在
+# 2. 大小必須在允許範圍內
+# 3. JSON 必須能正常解析
+# 4. 最外層必須是 Dictionary
+# 5. 必須通過存檔結構驗證
+#
+# 讀取失敗時不修改任何原始檔案。
 # ============================================================
 
 func _read_slot_file(
@@ -704,13 +865,20 @@ func _read_slot_file(
 
 		return {}
 
+	var file_size: int = file.get_length()
+
+	if (
+		file_size <= 0
+		or file_size > MAX_SAVE_BYTES
+	):
+
+		file = null
+		return {}
+
 	var content: String = file.get_as_text()
 
+	# 關閉檔案
 	file = null
-
-	if content.is_empty():
-
-		return {}
 
 	var parser := JSON.new()
 
@@ -735,16 +903,37 @@ func _read_slot_file(
 
 
 # ============================================================
-# 18. 驗證存檔資料結構
+# 20. 檢查 JSON 數值類型
 #
-# 第一版驗證：
-# - 存檔格式版本
-# - 存檔欄位編號
+# JSON 讀取時數字可能是 int 或 float。
+# 因此不能只接受 TYPE_INT。
+# ============================================================
+
+func _is_json_number(
+	value: Variant
+) -> bool:
+
+	return (
+		typeof(value) == TYPE_INT
+		or typeof(value) == TYPE_FLOAT
+	)
+
+
+# ============================================================
+# 21. 驗證存檔資料結構
+#
+# 防止損壞或不同版本資料被當成正常存檔。
+#
+# 第一版檢查：
+# - 存檔版本
+# - 欄位編號
 # - 主要資料區塊
-# - 畫架 ID 是否存在
+# - 時間資料
+# - 畫架 ID
+# - 玩家及世界資料類型
 #
-# 未來加入具體玩家資料後，
-# 再加入更詳細的欄位與型別驗證。
+# 後續加入實際玩家數值後，
+# 再擴充各欄位的內容驗證。
 # ============================================================
 
 func _validate_slot_data(
@@ -752,79 +941,199 @@ func _validate_slot_data(
 	expected_slot_id: int
 ) -> bool:
 
+	# --------------------------------------------------------
+	# A. 檢查資料格式版本與欄位
+	# --------------------------------------------------------
+
 	if not data.has("schema_version"):
 		return false
 
 	if not data.has("slot_id"):
 		return false
 
-	if int(data["schema_version"]) != SCHEMA_VERSION:
+	if not _is_json_number(data["schema_version"]):
 		return false
 
-	if int(data["slot_id"]) != expected_slot_id:
+	if not _is_json_number(data["slot_id"]):
 		return false
 
-	for required_key in [
+	if (
+		float(data["schema_version"])
+		!= float(SCHEMA_VERSION)
+	):
+
+		return false
+
+	if (
+		float(data["slot_id"])
+		!= float(expected_slot_id)
+	):
+
+		return false
+
+	# --------------------------------------------------------
+	# B. 檢查主要資料區塊
+	# --------------------------------------------------------
+
+	for key in [
 		"meta",
 		"checkpoint",
 		"player",
 		"world"
 	]:
 
-		if not data.has(required_key):
+		if not data.has(key):
 			return false
 
-		if typeof(data[required_key]) != TYPE_DICTIONARY:
+		if typeof(data[key]) != TYPE_DICTIONARY:
 			return false
 
-	var checkpoint: Dictionary = (
-		data["checkpoint"]
-	)
+	# --------------------------------------------------------
+	# C. 檢查基本時間資訊
+	# --------------------------------------------------------
 
-	if not checkpoint.has("map_id"):
+	var meta: Dictionary = data["meta"]
+
+	for key in [
+		"created_at_unix",
+		"updated_at_unix",
+		"play_seconds"
+	]:
+
+		if not meta.has(key):
+			return false
+
+		if not _is_json_number(meta[key]):
+			return false
+
+		if float(meta[key]) < 0.0:
+			return false
+
+	if not meta.has("map_display_name"):
 		return false
 
-	if not checkpoint.has("easel_id"):
+	if (
+		typeof(meta["map_display_name"])
+		!= TYPE_STRING
+	):
+
 		return false
 
-	if typeof(checkpoint["map_id"]) != TYPE_STRING:
+	# --------------------------------------------------------
+	# D. 檢查畫架資料
+	# --------------------------------------------------------
+
+	var checkpoint: Dictionary = data["checkpoint"]
+
+	for key in [
+		"map_id",
+		"easel_id"
+	]:
+
+		if not checkpoint.has(key):
+			return false
+
+		if typeof(checkpoint[key]) != TYPE_STRING:
+			return false
+
+		if (
+			String(checkpoint[key]).strip_edges().is_empty()
+		):
+
+			return false
+
+	# --------------------------------------------------------
+	# E. 檢查玩家資料
+	# --------------------------------------------------------
+
+	var player: Dictionary = data["player"]
+
+	for key in [
+		"stats",
+		"inventory",
+		"equipment"
+	]:
+
+		if not player.has(key):
+			return false
+
+		if typeof(player[key]) != TYPE_DICTIONARY:
+			return false
+
+	if not player.has("unlocked_skills"):
 		return false
 
-	if typeof(checkpoint["easel_id"]) != TYPE_STRING:
+	if (
+		typeof(player["unlocked_skills"])
+		!= TYPE_ARRAY
+	):
+
 		return false
 
-	if String(checkpoint["map_id"]).is_empty():
-		return false
+	# --------------------------------------------------------
+	# F. 檢查世界進度資料
+	# --------------------------------------------------------
 
-	if String(checkpoint["easel_id"]).is_empty():
-		return false
+	var world: Dictionary = data["world"]
+
+	for key in [
+		"defeated_bosses",
+		"opened_shortcuts",
+		"collected_unique_items",
+		"quest_states",
+		"npc_flags"
+	]:
+
+		if not world.has(key):
+			return false
+
+		if typeof(world[key]) != TYPE_DICTIONARY:
+			return false
 
 	return true
 
 
 # ============================================================
-# 19. 安全寫入存檔
+# 22. 將資料寫入磁碟
 #
-# 寫入流程：
+# new_file = true：
+# 建立新存檔，禁止覆蓋任何現有資料。
 #
-# 1. 確保資料夾存在
-# 2. 將資料寫入 .tmp 暫存檔
-# 3. 重新讀取並驗證暫存檔
-# 4. 如果舊存檔有效，複製為 .bak 備份
-# 5. 將暫存檔移動為正式存檔
+# new_file = false：
+# 更新正常存檔，會先備份上一份有效資料。
 #
-# 如果主要存檔已損壞，
-# 不允許直接覆蓋，以免破壞復原機會。
+# ------------------------------------------------------------
+# 流程：
+#
+# A. 驗證資料
+# B. 確認沒有殘留暫存檔
+# C. 寫入 .tmp
+# D. 關閉檔案並重新讀取驗證
+# E. 更新存檔時先建立 .bak
+# F. 將 .tmp 改名成正式 .json
 #
 # 注意：
-# 此流程可降低不完整寫入的風險，
-# 但不能保證對所有硬體故障完全免疫。
+# 這是降低風險的基本寫入流程。
+# 並非所有裝置／硬體故障情況的絕對保證。
 # ============================================================
 
 func _write_slot(
 	slot_id: int,
-	data: Dictionary
+	data: Dictionary,
+	new_file: bool
 ) -> bool:
+
+	# --------------------------------------------------------
+	# A. 資料驗證
+	# --------------------------------------------------------
+
+	if not _is_valid_slot_id(slot_id):
+
+		return _fail(
+			"寫入存檔",
+			slot_id,
+			"存檔編號無效"
+		)
 
 	if not _validate_slot_data(
 		data,
@@ -834,7 +1143,7 @@ func _write_slot(
 		return _fail(
 			"寫入存檔",
 			slot_id,
-			"資料驗證未通過"
+			"資料驗證失敗"
 		)
 
 	if not _ensure_directory():
@@ -849,16 +1158,63 @@ func _write_slot(
 		_get_slot_path(slot_id)
 	)
 
-	var temp_path: String = (
-		_get_temp_path(slot_id)
-	)
-
 	var backup_path: String = (
 		_get_backup_path(slot_id)
 	)
 
+	var temp_path: String = (
+		_get_temp_path(slot_id)
+	)
+
 	# --------------------------------------------------------
-	# A. 寫入暫存檔
+	# B. 保護殘留暫存檔
+	#
+	# 如果上次寫入中斷，.tmp 可能包含待復原資料。
+	# 未實作復原流程前，不應直接覆蓋。
+	# --------------------------------------------------------
+
+	if FileAccess.file_exists(temp_path):
+
+		return _fail(
+			"寫入存檔",
+			slot_id,
+			"存在尚未處理的暫存檔"
+		)
+
+	# --------------------------------------------------------
+	# C. 區分建立與更新
+	# --------------------------------------------------------
+
+	if new_file:
+
+		# 建立全新存檔時，禁止覆蓋主檔與備份
+		if (
+			FileAccess.file_exists(main_path)
+			or FileAccess.file_exists(backup_path)
+		):
+
+			return _fail(
+				"寫入存檔",
+				slot_id,
+				"欄位已有檔案，禁止覆蓋"
+			)
+
+	else:
+
+		# 更新時要求舊存檔正常
+		if (
+			get_slot_state(slot_id)
+			!= SlotState.READY
+		):
+
+			return _fail(
+				"寫入存檔",
+				slot_id,
+				"既有存檔不是可安全更新的狀態"
+			)
+
+	# --------------------------------------------------------
+	# D. 寫入暫存檔
 	# --------------------------------------------------------
 
 	var file: FileAccess = FileAccess.open(
@@ -880,12 +1236,12 @@ func _write_slot(
 
 	file.store_string(json_text)
 
-	# 要求 FileAccess 將目前緩衝內容寫出
+	# 將緩衝內容要求寫出
 	file.flush()
 
 	var write_error: Error = file.get_error()
 
-	# 關閉檔案後再驗證
+	# 關閉檔案
 	file = null
 
 	if write_error != OK:
@@ -897,7 +1253,10 @@ func _write_slot(
 		)
 
 	# --------------------------------------------------------
-	# B. 重新讀取暫存檔
+	# E. 重新讀取及驗證暫存檔
+	#
+	# 不只檢查檔案存在，
+	# 也確認整份文字與原資料一致。
 	# --------------------------------------------------------
 
 	var verified_data: Dictionary = (
@@ -912,31 +1271,30 @@ func _write_slot(
 		return _fail(
 			"寫入存檔",
 			slot_id,
-			"暫存資料驗證失敗"
+			"暫存檔資料驗證失敗"
+		)
+
+	var read_back_text: String = (
+		FileAccess.get_file_as_string(
+			temp_path
+		)
+	)
+
+	if read_back_text != json_text:
+
+		return _fail(
+			"寫入存檔",
+			slot_id,
+			"暫存檔內容比對失敗"
 		)
 
 	# --------------------------------------------------------
-	# C. 備份舊存檔
+	# F. 更新存檔時，備份上一份有效資料
+	#
+	# 新遊戲是全新檔案，因此沒有上一版可備份。
 	# --------------------------------------------------------
 
-	if FileAccess.file_exists(main_path):
-
-		var old_data: Dictionary = (
-			_read_slot_file(
-				main_path,
-				slot_id
-			)
-		)
-
-		# 舊資料已損壞或版本不相容
-		# 不允許在一般保存流程覆蓋
-		if old_data.is_empty():
-
-			return _fail(
-				"寫入存檔",
-				slot_id,
-				"舊存檔無效，已停止覆蓋"
-			)
+	if not new_file:
 
 		var backup_error: Error = (
 			DirAccess.copy_absolute(
@@ -954,11 +1312,15 @@ func _write_slot(
 			return _fail(
 				"寫入存檔",
 				slot_id,
-				"建立備份失敗"
+				"舊存檔備份失敗"
 			)
 
 	# --------------------------------------------------------
-	# D. 以驗證完成的暫存檔取代正式檔案
+	# G. 暫存檔取代正式檔案
+	#
+	# .tmp 與 .json 位於相同資料夾。
+	# 重新命名失敗時保留舊資料，
+	# 並回報錯誤。
 	# --------------------------------------------------------
 
 	var rename_error: Error = (
@@ -977,7 +1339,7 @@ func _write_slot(
 		return _fail(
 			"寫入存檔",
 			slot_id,
-			"正式存檔替換失敗"
+			"無法完成正式檔案替換"
 		)
 
 	if debug_log:
@@ -991,7 +1353,9 @@ func _write_slot(
 
 
 # ============================================================
-# 20. 統一錯誤處理
+# 23. 統一錯誤處理
+#
+# 所有操作失敗都使用相同訊號及輸出格式。
 # ============================================================
 
 func _fail(
@@ -1021,9 +1385,9 @@ func _fail(
 
 
 # ============================================================
-# 21. 將存檔狀態轉成可讀文字
+# 24. 將存檔狀態轉為文字
 #
-# 僅供初始化及除錯使用。
+# 僅供開發階段輸出紀錄。
 # ============================================================
 
 func _state_to_text(
@@ -1039,7 +1403,7 @@ func _state_to_text(
 			return "正常"
 
 		SlotState.RECOVERABLE:
-			return "可由備份復原"
+			return "可從備份復原"
 
 		SlotState.DAMAGED:
 			return "損壞或版本不相容"

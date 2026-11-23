@@ -4,39 +4,32 @@ class_name SaveSelectPage
 
 # ============================================================
 # 《眠境 RE:RECOLOR》
-# 夢境紀錄選擇頁面 V5｜正式存檔資料顯示
-#
+# 夢境紀錄頁面 V6｜新遊戲正式建立版
 # Godot 4.5.1
 #
 # 功能：
-# 1. 管理四個存檔欄位的 UI
-# 2. 從 SaveManager 讀取真實存檔摘要
-# 3. 顯示空白、正常、可復原、損壞狀態
-# 4. 將 Unix 時間轉為存檔顯示日期
-# 5. 監聽存檔建立、讀取及更新訊號
-# 6. 保留開始新遊戲確認視窗
-# 7. 保留清除紀錄確認視窗
-# 8. 防止損壞存檔被誤認為空白存檔
-# 9. 保留共用音效及原有頁面訊號
+# 1. 四格存檔資料顯示
+# 2. 空白／正常／可復原／損壞狀態處理
+# 3. 新遊戲確認視窗
+# 4. 清除紀錄確認視窗
+# 5. 真正呼叫 SaveManager 建立新遊戲
+# 6. 成功後即時更新 UI
+# 7. 保留原本 Hover、音效及返回功能
 #
-# 重要：
-# 本版本移除全部假存檔預覽功能。
+# 尚未實作：
+# - 真正刪除存檔
+# - 載入遊戲場景
+# - 玩家死亡重生
 #
-# 本階段只讀取與顯示資料，
-# 不會建立、更新或刪除任何存檔檔案。
+# 不修改任何場景排版與 Skin。
 # ============================================================
 
 
 # ============================================================
-# 1. 基本常數
+# 1. 常數及確認視窗類型
 # ============================================================
 
 const SLOT_COUNT: int = 4
-
-
-# ============================================================
-# 2. 確認視窗種類
-# ============================================================
 
 enum DialogKind {
 	NEW_GAME,
@@ -45,33 +38,27 @@ enum DialogKind {
 
 
 # ============================================================
-# 3. Inspector 設定
+# 2. Inspector 設定
 # ============================================================
 
 @export_group("確認視窗")
 
-## 指定目前共用的 confirm_dialog.tscn
+## 指定共用 confirm_dialog.tscn
 @export var confirm_dialog_scene: PackedScene
-
 
 @export_group("除錯設定")
 
-## 是否輸出存檔欄位與操作訊息
-@export var debug_log: bool = false
+## 是否輸出操作紀錄
+@export var debug_log: bool = true
 
 
 # ============================================================
-# 4. 節點引用
+# 3. 節點及內部資料
 # ============================================================
 
 @onready var slots_container: VBoxContainer = $Slots
 
-
-# ============================================================
-# 5. 內部資料
-# ============================================================
-
-## 欄位編號 → SaveSlotRow 節點
+## 四個存檔欄位 UI 的引用
 var _slots: Dictionary[int, SaveSlotRow] = {}
 
 ## 目前開啟的確認視窗
@@ -79,26 +66,22 @@ var _active_dialog: ConfirmDialog = null
 
 
 # ============================================================
-# 6. 頁面初始化
+# 4. 初始化
+#
+# 保留 MainMenuPage 的原本功能。
 # ============================================================
 
 func _ready() -> void:
-
-	# 保留 MainMenuPage 的返回按鈕等功能
 	super._ready()
-
-	# 初始化四格存檔欄位
 	_setup_slots()
-
-	# 監聽全域存檔資料變動
 	_connect_save_manager_signals()
-
-	# 從真正的存檔資料建立 UI
 	_refresh_all_slots()
 
 
 # ============================================================
-# 7. 初始化四格存檔欄位
+# 5. 設定四個 SaveSlotRow
+#
+# 每個欄位只連接一次訊號。
 # ============================================================
 
 func _setup_slots() -> void:
@@ -107,99 +90,58 @@ func _setup_slots() -> void:
 
 	for slot_id in range(1, SLOT_COUNT + 1):
 
-		var node_name: String = (
-			"Slot%02d" % slot_id
-		)
+		var node_name: String = "Slot%02d" % slot_id
 
 		var row: SaveSlotRow = (
-			slots_container.get_node_or_null(
-				node_name
-			) as SaveSlotRow
+			slots_container.get_node_or_null(node_name)
+			as SaveSlotRow
 		)
 
 		if row == null:
-
-			push_error(
-				"【夢境紀錄】找不到存檔欄位："
-				+ node_name
-			)
-
+			push_error("【夢境紀錄】找不到：" + node_name)
 			continue
 
-		# 設定欄位編號
 		row.set_slot_id(slot_id)
-
-		# 保存引用
 		_slots[slot_id] = row
 
-		# 玩家點擊存檔欄位
-		row.slot_selected.connect(
-			_on_slot_selected
-		)
-
-		# 玩家點擊清除紀錄
-		row.delete_requested.connect(
-			_on_delete_requested
-		)
-
-		# 保留原本 Hover 音效
-		row.hover_requested.connect(
-			_on_hover
-		)
-
-		if debug_log:
-
-			print(
-				"【夢境紀錄】欄位初始化：",
-				node_name
-			)
+		row.slot_selected.connect(_on_slot_selected)
+		row.delete_requested.connect(_on_delete_requested)
+		row.hover_requested.connect(_on_hover)
 
 
 # ============================================================
-# 8. 連接 SaveManager 訊號
+# 6. 監聽 SaveManager
 #
-# 未來在遊戲內建立或儲存紀錄時，
-# 如果此頁面仍存在，
-# 就能自動更新對應的存檔欄位。
-#
-# 不需要每一幀持續讀取硬碟。
+# 真正建立存檔後會收到 slot_created，
+# 因此不需要重新開啟頁面。
 # ============================================================
 
 func _connect_save_manager_signals() -> void:
 
-	SaveManager.slot_created.connect(
-		_on_save_slot_changed
-	)
+	SaveManager.slot_created.connect(_on_save_slot_changed)
+	SaveManager.slot_loaded.connect(_on_save_slot_changed)
+	SaveManager.slot_saved.connect(_on_save_slot_changed)
 
-	SaveManager.slot_loaded.connect(
-		_on_save_slot_changed
-	)
 
-	SaveManager.slot_saved.connect(
-		_on_save_slot_changed
-	)
+func _on_save_slot_changed(slot_id: int) -> void:
+	_refresh_slot(slot_id)
 
 
 # ============================================================
-# 9. 更新全部存檔欄位
-#
-# 每次進入夢境紀錄頁面時執行一次。
+# 7. 更新四個存檔欄位
 # ============================================================
 
 func _refresh_all_slots() -> void:
 
 	for slot_id in range(1, SLOT_COUNT + 1):
-
 		_refresh_slot(slot_id)
 
 
 # ============================================================
-# 10. 依 SaveManager 資料更新指定欄位
+# 8. 讀取真實存檔狀態並更新單一欄位
 #
-# UI 不直接讀取磁碟檔案。
-#
-# 所有存檔資料透過 SaveManager
-# 的 get_slot_summary() 取得。
+# 不直接操作 JSON。
+# 所有資訊都來自 SaveManager。
 # ============================================================
 
 func _refresh_slot(slot_id: int) -> void:
@@ -209,7 +151,6 @@ func _refresh_slot(slot_id: int) -> void:
 	if row == null:
 		return
 
-	# 取得真實存檔摘要
 	var summary: Dictionary = (
 		SaveManager.get_slot_summary(slot_id)
 	)
@@ -223,64 +164,28 @@ func _refresh_slot(slot_id: int) -> void:
 
 	match state:
 
+		# 空白欄位
 		SaveManager.SlotState.EMPTY:
 
-			# 沒有存檔
-			# 顯示開始新的夢境
 			row.show_empty()
+			_set_row_interaction(row, true, false)
 
-			_set_row_interaction(
-				row,
-				true,
-				false
-			)
-
+		# 正常存檔
 		SaveManager.SlotState.READY:
 
-			# 有效存檔
-			# 顯示真實地圖、遊玩時間、日期
-			_show_saved_summary(
-				row,
-				summary
-			)
+			_show_saved_summary(row, summary)
+			_set_row_interaction(row, true, true)
 
-			_set_row_interaction(
-				row,
-				true,
-				true
-			)
-
+		# 主要存檔無效，但備份可讀
 		SaveManager.SlotState.RECOVERABLE:
 
-			# 主要檔案無效，但備份有效
-			# 保留資料供後續復原
-			_show_saved_summary(
-				row,
-				summary
-			)
+			_show_saved_summary(row, summary)
+			_set_row_warning(row, "可從備份復原")
+			_set_row_interaction(row, false, false)
 
-			_set_row_warning(
-				row,
-				"可從備份復原"
-			)
-
-			# 尚未實作備份復原流程
-			# 暫時禁止讀取或刪除
-			_set_row_interaction(
-				row,
-				false,
-				false
-			)
-
-		SaveManager.SlotState.DAMAGED:
-
-			# 存檔損壞或版本不相容
-			# 絕對不能視為空白存檔
-			_show_damaged_slot(row)
-
+		# 損壞或未知狀態
 		_:
 
-			# 未知狀態採取保守處理
 			_show_damaged_slot(row)
 
 	if debug_log:
@@ -292,10 +197,10 @@ func _refresh_slot(slot_id: int) -> void:
 
 
 # ============================================================
-# 11. 顯示正常存檔摘要
+# 9. 顯示已有存檔的基本資訊
 #
-# 使用 SaveSlotRow 原本的 show_saved()
-# 不修改原本的 Skin、字型及排版。
+# 使用原本的 SaveSlotRow.show_saved()。
+# 不更改場景排版。
 # ============================================================
 
 func _show_saved_summary(
@@ -304,36 +209,22 @@ func _show_saved_summary(
 ) -> void:
 
 	var map_name: String = str(
-		summary.get(
-			"map_name",
-			"未知地區"
-		)
+		summary.get("map_name", "未知地區")
 	)
 
 	var play_seconds: int = maxi(
-		int(
-			summary.get(
-				"play_seconds",
-				0.0
-			)
-		),
+		int(summary.get("play_seconds", 0.0)),
 		0
 	)
 
-	var saved_timestamp: int = int(
-		summary.get(
-			"updated_at_unix",
-			0
-		)
+	var timestamp: int = int(
+		summary.get("updated_at_unix", 0)
 	)
 
 	var saved_date: String = (
-		_format_save_date(
-			saved_timestamp
-		)
+		_format_save_date(timestamp)
 	)
 
-	# 沿用原本已有的存檔顯示方法
 	row.show_saved(
 		map_name,
 		play_seconds,
@@ -342,17 +233,12 @@ func _show_saved_summary(
 
 
 # ============================================================
-# 12. 轉換存檔日期
+# 10. 日期格式
 #
-# SaveManager 儲存 Unix UTC 時間戳記。
+# Unix 時間轉換為系統本地日期。
+# 顯示格式：YYYY/MM/DD
 #
-# 這裡換算為電腦目前設定的本地時區日期，
-# 讓 UI 顯示 YYYY/MM/DD。
-#
-# 注意：
-# 目前是按系統當下的 UTC 偏移計算。
-# 對台灣時區適用；若未來支援跨 DST 的
-# 歷史日期顯示，可再加入時區資料庫處理。
+# 目前使用系統當下的 UTC 偏移。
 # ============================================================
 
 func _format_save_date(
@@ -360,20 +246,18 @@ func _format_save_date(
 ) -> String:
 
 	if unix_timestamp <= 0:
-
 		return "未知日期"
 
 	var time_zone: Dictionary = (
 		Time.get_time_zone_from_system()
 	)
 
-	var bias_minutes: int = int(
+	var offset_minutes: int = int(
 		time_zone.get("bias", 0)
 	)
 
 	var local_timestamp: int = (
-		unix_timestamp
-		+ bias_minutes * 60
+		unix_timestamp + offset_minutes * 60
 	)
 
 	var date: Dictionary = (
@@ -390,16 +274,9 @@ func _format_save_date(
 
 
 # ============================================================
-# 13. 顯示「可從備份復原」狀態
+# 11. 備份狀態提示
 #
-# 為保留目前已完成的 SaveSlotRow 動畫，
-# 這裡只更改說明文字。
-#
-# 不修改任何場景節點的位置或大小。
-#
-# TODO：
-# 未來製作備份復原介面時，
-# 再將此狀態移至 SaveSlotRow 的公開方法。
+# 暫時使用現有 DetailLabel 顯示狀態。
 # ============================================================
 
 func _set_row_warning(
@@ -407,37 +284,29 @@ func _set_row_warning(
 	message: String
 ) -> void:
 
-	var detail_label: Label = (
+	var label: Label = (
 		row.get_node_or_null(
 			"Actions/SlotButton/SlotContent/"
 			+ "InfoRow/InfoColumn/DetailLabel"
 		) as Label
 	)
 
-	if detail_label != null:
-
-		detail_label.text = message
+	if label != null:
+		label.text = message
 
 
 # ============================================================
-# 14. 顯示損壞存檔
+# 12. 損壞存檔顯示
 #
-# 不允許損壞檔案被誤判為 NEW GAME。
-#
-# 不自動覆寫或刪除任何檔案。
+# 不能將損壞存檔當作空白存檔。
+# 禁止直接選擇及覆蓋。
 # ============================================================
 
-func _show_damaged_slot(
-	row: SaveSlotRow
-) -> void:
+func _show_damaged_slot(row: SaveSlotRow) -> void:
 
-	# 先恢復基本顯示結構
 	row.show_empty()
 
-	# 正確標記為異常狀態
-	row.slot_state = (
-		SaveSlotRow.SlotState.DAMAGED
-	)
+	row.slot_state = SaveSlotRow.SlotState.DAMAGED
 
 	var map_label: Label = (
 		row.get_node_or_null(
@@ -454,36 +323,18 @@ func _show_damaged_slot(
 	)
 
 	if map_label != null:
-
 		map_label.text = "夢境紀錄異常"
 
 	if detail_label != null:
-
 		detail_label.text = "損壞或版本不相容"
 
-	# 禁止點擊存檔
-	# 禁止直接刪除
-	_set_row_interaction(
-		row,
-		false,
-		false
-	)
+	_set_row_interaction(row, false, false)
 
 
 # ============================================================
-# 15. 控制欄位是否允許操作
+# 13. 控制欄位按鈕是否可以操作
 #
-# 這裡只控制 Button 的 disabled，
-# 不改動原本的 Layout 或 Skin。
-#
-# EMPTY：
-# 可以點擊開始夢境，但沒有刪除功能。
-#
-# READY：
-# 可以選擇存檔或開啟清除確認視窗。
-#
-# RECOVERABLE / DAMAGED：
-# 暫時禁止操作，保護檔案。
+# 不改變 Skin、位置及大小。
 # ============================================================
 
 func _set_row_interaction(
@@ -493,53 +344,29 @@ func _set_row_interaction(
 ) -> void:
 
 	var slot_button: Button = (
-		row.get_node_or_null(
-			"Actions/SlotButton"
-		) as Button
+		row.get_node_or_null("Actions/SlotButton")
+		as Button
 	)
 
 	var delete_button: Button = (
-		row.get_node_or_null(
-			"Actions/DeleteButton"
-		) as Button
+		row.get_node_or_null("Actions/DeleteButton")
+		as Button
 	)
 
 	if slot_button != null:
-
-		slot_button.disabled = (
-			not slot_enabled
-		)
+		slot_button.disabled = not slot_enabled
 
 	if delete_button != null:
-
-		delete_button.disabled = (
-			not delete_enabled
-		)
+		delete_button.disabled = not delete_enabled
 
 
 # ============================================================
-# 16. SaveManager 資料變動通知
+# 14. 玩家點擊存檔欄位
 #
-# 只更新發生變動的欄位。
+# 每次點擊都重新查詢真實狀態。
 # ============================================================
 
-func _on_save_slot_changed(
-	slot_id: int
-) -> void:
-
-	_refresh_slot(slot_id)
-
-
-# ============================================================
-# 17. 玩家點擊存檔欄位
-#
-# 必須重新確認磁碟上的存檔狀態，
-# 不能只相信 UI 顯示。
-# ============================================================
-
-func _on_slot_selected(
-	slot_id: int
-) -> void:
+func _on_slot_selected(slot_id: int) -> void:
 
 	if not _slots.has(slot_id):
 		return
@@ -548,17 +375,13 @@ func _on_slot_selected(
 		return
 
 	var state: int = (
-		SaveManager.get_slot_state(
-			slot_id
-		)
+		SaveManager.get_slot_state(slot_id)
 	)
 
 	match state:
 
 		SaveManager.SlotState.EMPTY:
 
-			# 空白存檔：
-			# 開啟新遊戲確認視窗
 			_open_slot_dialog(
 				slot_id,
 				DialogKind.NEW_GAME
@@ -566,42 +389,25 @@ func _on_slot_selected(
 
 		SaveManager.SlotState.READY:
 
-			# 有效存檔：
-			# 保留原本對 MenuActions 的訊號
-			#
 			# TODO：
-			# 下一階段接上正式讀檔流程。
+			# 下一階段接上真正讀檔及地圖切換。
 			option_requested.emit(
-				StringName(
-					"SaveSlot%02d" % slot_id
-				)
+				StringName("SaveSlot%02d" % slot_id)
 			)
 
 		_:
 
-			# 異常或可復原欄位
-			# 不允許啟動新遊戲
 			_refresh_slot(slot_id)
 
-			if debug_log:
-
-				print(
-					"【夢境紀錄】欄位不可操作：",
-					slot_id
-				)
-
 
 # ============================================================
-# 18. 玩家點擊「清除紀錄」
+# 15. 玩家點擊清除紀錄
 #
-# 只有正常存檔才允許開啟清除確認。
-#
-# 此階段確認後仍不會刪除任何檔案。
+# 只有正常存檔能進入清除確認視窗。
+# 本階段不執行真正刪除。
 # ============================================================
 
-func _on_delete_requested(
-	slot_id: int
-) -> void:
+func _on_delete_requested(slot_id: int) -> void:
 
 	if not _slots.has(slot_id):
 		return
@@ -613,9 +419,7 @@ func _on_delete_requested(
 		SaveManager.get_slot_state(slot_id)
 		!= SaveManager.SlotState.READY
 	):
-
 		_refresh_slot(slot_id)
-
 		return
 
 	_open_slot_dialog(
@@ -625,15 +429,10 @@ func _on_delete_requested(
 
 
 # ============================================================
-# 19. 建立共用確認視窗
+# 16. 建立共用確認視窗
 #
-# 沿用前一版已完成的 ConfirmDialog。
-#
-# 不修改：
-# - 視窗 Skin
-# - 按鈕 Hover
-# - 確認視窗動畫
-# - 主選單音效路由
+# 先設定內容，再 add_child。
+# 保留現在使用的 Skin 與動畫。
 # ============================================================
 
 func _open_slot_dialog(
@@ -645,11 +444,7 @@ func _open_slot_dialog(
 		return
 
 	if confirm_dialog_scene == null:
-
-		push_error(
-			"【夢境紀錄】尚未指定確認視窗場景"
-		)
-
+		push_error("【夢境紀錄】未指定確認視窗場景")
 		return
 
 	var instance: Node = (
@@ -661,18 +456,9 @@ func _open_slot_dialog(
 	)
 
 	if dialog == null:
-
 		instance.free()
-
-		push_error(
-			"【夢境紀錄】確認視窗根節點腳本錯誤"
-		)
-
+		push_error("【夢境紀錄】確認視窗類型不正確")
 		return
-
-	# --------------------------------------------------------
-	# 設定不同操作的提示文字
-	# --------------------------------------------------------
 
 	match kind:
 
@@ -698,41 +484,23 @@ func _open_slot_dialog(
 				"取消"
 			)
 
-	# --------------------------------------------------------
-	# 保留音效訊號
-	# --------------------------------------------------------
-
-	dialog.hover_requested.connect(
-		_on_hover
-	)
+	# 共用音效
+	dialog.hover_requested.connect(_on_hover)
 
 	dialog.confirm_sound_requested.connect(
 		_on_dialog_sound_requested
 	)
 
-	# --------------------------------------------------------
-	# 確認與取消訊號
-	# --------------------------------------------------------
-
+	# 確認及取消事件
 	dialog.confirmed.connect(
-		_on_dialog_confirmed.bind(
-			slot_id,
-			kind
-		)
+		_on_dialog_confirmed.bind(slot_id, kind)
 	)
 
 	dialog.cancelled.connect(
-		_on_dialog_cancelled.bind(
-			slot_id,
-			kind
-		)
+		_on_dialog_cancelled.bind(slot_id, kind)
 	)
 
 	_active_dialog = dialog
-
-	# --------------------------------------------------------
-	# 顯示在目前頁面最上層
-	# --------------------------------------------------------
 
 	add_child(dialog)
 
@@ -742,27 +510,14 @@ func _open_slot_dialog(
 
 	dialog.move_to_front()
 
-	# 保留原本音效路由
 	_on_dialog_sound_requested()
-
-	if debug_log:
-
-		print(
-			"【夢境紀錄】開啟確認視窗：",
-			slot_id,
-			"，類型：",
-			kind
-		)
 
 
 # ============================================================
-# 20. 玩家確認操作
+# 17. 玩家確認視窗操作
 #
-# 目前只記錄操作結果。
-#
-# 注意：
-# 絕對不在本階段呼叫 SaveManager.create_slot()
-# 或執行真正刪除。
+# 新遊戲：真正建立存檔
+# 清除紀錄：暫時只顯示測試訊息
 # ============================================================
 
 func _on_dialog_confirmed(
@@ -776,36 +531,78 @@ func _on_dialog_confirmed(
 
 		DialogKind.NEW_GAME:
 
-			if debug_log:
-
-				print(
-					"【UI 測試】確認開始第 ",
-					slot_id,
-					" 格的新夢境"
-				)
-
-			# TODO：
-			# STEP 10.3 接上建立新存檔。
+			_create_new_game(slot_id)
 
 		DialogKind.DELETE_SAVE:
 
 			if debug_log:
-
 				print(
-					"【UI 測試】確認清除第 ",
-					slot_id,
-					" 格夢境紀錄"
+					"【UI 測試】第 %02d 格確認清除，但目前不刪檔"
+					% slot_id
 				)
 
-			# TODO：
-			# 後續加入正式刪除存檔功能。
-
-	# 確保畫面反映真實磁碟狀態
+	# 再次以真實磁碟狀態刷新
 	_refresh_slot(slot_id)
 
 
 # ============================================================
-# 21. 玩家取消操作
+# 18. 正式建立新遊戲
+#
+# 安全流程：
+# 1. 再次確認欄位為 EMPTY
+# 2. 呼叫 SaveManager.create_new_game()
+# 3. 檢查是否成功
+# 4. 成功後 UI 透過 slot_created 自動更新
+#
+# 不在存檔失敗時建立玩家或切換地圖。
+# ============================================================
+
+func _create_new_game(slot_id: int) -> void:
+
+	# 再次確認欄位仍是空白
+	if (
+		SaveManager.get_slot_state(slot_id)
+		!= SaveManager.SlotState.EMPTY
+	):
+
+		push_warning(
+			"【夢境紀錄】第 %02d 格不再是空白，停止建立"
+			% slot_id
+		)
+
+		_refresh_slot(slot_id)
+		return
+
+	# 正式要求 SaveManager 建立資料
+	var success: bool = (
+		SaveManager.create_new_game(slot_id)
+	)
+
+	# 寫入失敗，不修改 UI 為已有紀錄
+	if not success:
+
+		push_warning(
+			"【夢境紀錄】建立失敗，請檢查 SaveManager 輸出"
+		)
+
+		_refresh_slot(slot_id)
+		return
+
+	# 成功寫入後，SaveManager 已發送 slot_created
+	if debug_log:
+
+		print(
+			"【夢境紀錄】成功建立第 %02d 格，尚未切換遊戲場景"
+			% slot_id
+		)
+
+	# TODO：
+	# 實際地圖、玩家初始化與畫架生成
+	# 將在下一階段接入。
+
+
+# ============================================================
+# 19. 取消確認視窗
 # ============================================================
 
 func _on_dialog_cancelled(
@@ -818,17 +615,15 @@ func _on_dialog_cancelled(
 	if debug_log:
 
 		print(
-			"【夢境紀錄】取消操作：",
-			slot_id,
-			"，類型：",
-			kind
+			"【夢境紀錄】取消操作：Slot %02d，類型 %d"
+			% [slot_id, kind]
 		)
 
 
 # ============================================================
-# 22. 共用確認音效請求
+# 20. 共用確認音效
 #
-# 保留原本的 MenuActions 接口。
+# 保留既有 MenuActions 訊號接口。
 # ============================================================
 
 func _on_dialog_sound_requested() -> void:
@@ -837,11 +632,9 @@ func _on_dialog_sound_requested() -> void:
 
 
 # ============================================================
-# 23. 取得指定存檔欄位
+# 21. 取得指定存檔欄位 UI
 # ============================================================
 
-func get_slot(
-	slot_id: int
-) -> SaveSlotRow:
+func get_slot(slot_id: int) -> SaveSlotRow:
 
 	return _slots.get(slot_id) as SaveSlotRow

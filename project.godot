@@ -25,6 +25,7 @@ SceneTransition="*res://Maps/轉場/scene_transition.tscn"
 SettingsManager="*res://主選單MainMenu/按鈕設定/按鈕全域系統/settings_manager.gd"
 InputSettingsManager="*res://主選單MainMenu/按鈕設定/按鈕全域系統/input_settings_manager.gd"
 SaveManager="*res://主選單MainMenu/存檔/存檔全域系統/save_manager.gd"
+WorldEntry="*res://主選單MainMenu/存檔/存檔全域系統/world_entry.gd"
 
 [dialogic]
 

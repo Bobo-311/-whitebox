@@ -17,7 +17,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_tbvgp")
 confirm_dialog_scene = ExtResource("2_q6xf1")
-debug_log = true
 back_button = NodePath("BackButton")
 
 [node name="Title" type="Label" parent="."]
