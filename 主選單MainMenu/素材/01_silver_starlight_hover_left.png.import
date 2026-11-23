@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bibpqkwaeqh38"
-path="res://.godot/imported/save_slot_skin_c.png-504b28a9e1323bc02cba6f3c3d9011c4.ctex"
+uid="uid://ck5lgr81nqd05"
+path="res://.godot/imported/01_silver_starlight_hover_left.png-0e291dde14522f70da91e4ad9556e9e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://主選單MainMenu/存檔/素材/save_slot_skin_c.png"
-dest_files=["res://.godot/imported/save_slot_skin_c.png-504b28a9e1323bc02cba6f3c3d9011c4.ctex"]
+source_file="res://主選單MainMenu/素材/01_silver_starlight_hover_left.png"
+dest_files=["res://.godot/imported/01_silver_starlight_hover_left.png-0e291dde14522f70da91e4ad9556e9e8.ctex"]
 
 [params]
 

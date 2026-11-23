@@ -1,171 +1,257 @@
+
 extends Button
 
-# ==========================================
-# 《眠境 RE:COLOR》主選單按鈕動畫 V2
+# ============================================================
+# 《眠境 RE:RECOLOR》共用選單按鈕動畫 V3
 #
 # 功能：
-# 1. 滑鼠懸停漸變粉色
+# 1. 滑鼠懸停時文字漸變粉色
 # 2. 文字平滑放大
-# 3. 花藤裝飾向內浮現
-# 4. 柔和文字陰影
-# 5. 支援鍵盤焦點操作
-# 6. 保留 Inspector 原本設定的字型
-# ==========================================
+# 3. 左右 Hover Skin 淡入、向文字靠近
+# 4. 左右裝飾使用固定寬度
+# 5. 不因文字長短自動縮小裝飾
+# 6. 不改變按鈕本身的點擊範圍
+# 7. 支援鍵盤及控制器焦點操作
+# 8. 保留 Inspector 設定的字型
+# 9. 支援全域預設圖片與個別覆蓋圖片
+#
+# 適用：
+# - 主選單
+# - 設定頁
+# - 音量設定頁
+# - 按鍵設定頁
+# - 夢境紀錄返回按鈕
+# - 共用確認視窗
+# ============================================================
 
+
+# ============================================================
+# 1. 共用預設 Hover Skin
+#
+# 所有未指定 Custom Decoration 的按鈕，
+# 都會自動使用這張圖片。
+#
+# 只要更換此路徑，就能更新共用 Skin。
+# ============================================================
+
+const DEFAULT_DECORATION: Texture2D = preload(
+	"res://主選單MainMenu/素材/01_silver_starlight_hover_left.png"
+)
+
+
+# ============================================================
+# 2. Inspector：懸停動畫
+# ============================================================
 
 @export_group("懸停動畫設定")
 
-## 動畫時間
-@export_range(0.01, 1.0) var hover_duration: float = 0.22
+## 動畫持續時間
+@export_range(0.01, 1.0, 0.01)
+var hover_duration: float = 0.22
 
-## 文字放大倍率
-@export_range(1.0, 1.3) var hover_scale: float = 1.05
+## 文字在懸停時的放大倍率
+@export_range(1.0, 1.3, 0.01)
+var hover_scale: float = 1.05
 
+
+# ============================================================
+# 3. Inspector：Hover 裝飾
+# ============================================================
 
 @export_group("花藤裝飾設定")
 
-## 是否顯示左右花藤
+## 是否使用左右裝飾
 @export var show_decoration: bool = true
 
-## 單側花藤寬度
-@export_range(30.0, 120.0) var decoration_width: float = 88.0
+## 單側裝飾的固定顯示寬度
+##
+## 此數值不再受文字長短或按鈕寬度限制。
+## 因此應避免將並排按鈕的尺寸設得過大。
+@export_range(20.0, 240.0, 1.0)
+var decoration_width: float = 150.0
 
-## 花藤與文字之間的距離
-@export_range(0.0, 40.0) var decoration_gap: float = 14.0
+## 裝飾與文字之間的距離
+@export_range(0.0, 40.0, 1.0)
+var decoration_gap: float = 14.0
 
-## 可選填自訂裝飾圖片
-## 留空時使用程式自動生成的花藤
+## 自訂 Hover 裝飾
+##
+## 留空：使用 DEFAULT_DECORATION
+## 指定圖片：只覆蓋此按鈕
 @export var custom_decoration: Texture2D
 
 
+# ============================================================
+# 4. Inspector：文字陰影
+# ============================================================
+
 @export_group("文字陰影設定")
 
-## 陰影透明度，降低數值會更柔和
-@export_range(0.0, 1.0) var shadow_opacity: float = 0.4
+## 柔和陰影透明度
+@export_range(0.0, 1.0, 0.01)
+var shadow_opacity: float = 0.4
 
 
-# ==========================================
-# 內部變數
-# ==========================================
+# ============================================================
+# 5. 內部節點
+# ============================================================
 
 var _caption: Label
 
 var _left_decoration: TextureRect
 var _right_decoration: TextureRect
 
+
+# ============================================================
+# 6. 內部動畫資料
+# ============================================================
+
 var _normal_color: Color
 var _hover_color: Color
 
+## 目前動畫進度：0.0～1.0
 var _highlight: float = 0.0
+
+## 目標動畫進度
 var _target: float = 0.0
 
+## 滑鼠是否在按鈕範圍內
 var _mouse_inside: bool = false
+
+## 是否以鍵盤或控制器操作
 var _keyboard_mode: bool = false
 
+## Hover Tween
 var _hover_tween: Tween
 
-# 共用裝飾貼圖
-# 四個按鈕不需要各自重複生成相同圖片
-static var _shared_decoration: Texture2D
 
-
-# ==========================================
-# 初始化按鈕
-# ==========================================
+# ============================================================
+# 7. 初始化
+# ============================================================
 
 func _ready() -> void:
 
-	# 保留 Inspector 的原始文字顏色
+	# 先取得 Inspector 指定的文字顏色
+	# 必須在清除原生文字前取得
 	_normal_color = get_theme_color("font_color")
 	_hover_color = get_theme_color("font_hover_color")
 
-	# 建立文字顯示節點
+	# 建立自訂文字顯示節點
 	_create_caption()
 
-	# 移除原生按鈕底框
+	# 設定無框按鈕樣式
 	_setup_button_style()
 
-	# 建立左右花藤裝飾
+	# 建立左右裝飾
 	_create_decorations()
 
-	# 自動連接滑鼠事件
+	# 滑鼠操作
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 
-	# 自動連接鍵盤焦點事件
+	# 鍵盤焦點操作
 	focus_entered.connect(_refresh_highlight)
 	focus_exited.connect(_refresh_highlight)
 
-	# 按鈕尺寸改變時更新裝飾位置
+	# 按鈕尺寸改變時重新計算位置
 	resized.connect(_update_visual_layout)
 
-	# 初始化顯示狀態
+	# 初始為一般狀態
 	_apply_highlight(0.0)
 
 
-# ==========================================
-# 建立文字顯示節點
-# ==========================================
+# ============================================================
+# 8. 建立文字顯示節點
+#
+# 使用 Label 顯示原本 Button 的文字，
+# 才能獨立控制文字顏色與縮放。
+# ============================================================
 
 func _create_caption() -> void:
 
 	_caption = Label.new()
 	_caption.name = "AnimatedCaption"
 
-	# 保留按鈕原本的文字內容
+	# 保留原本按鈕文字
 	_caption.text = text
 
-	# 保留 Inspector 設定的字型與大小
+	# 保留 Inspector 原本設定的字型
 	_caption.add_theme_font_override(
 		"font",
 		get_theme_font("font")
 	)
 
+	# 保留原本字體大小
 	_caption.add_theme_font_size_override(
 		"font_size",
 		get_theme_font_size("font_size")
 	)
 
-	# 水平與垂直置中
-	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	# 文字水平及垂直置中
+	_caption.horizontal_alignment = (
+		HORIZONTAL_ALIGNMENT_CENTER
+	)
 
-	# 避免文字攔截滑鼠事件
-	_caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_caption.vertical_alignment = (
+		VERTICAL_ALIGNMENT_CENTER
+	)
 
-	# 柔和的紫黑色陰影
-	# 取代原本較厚重的黑色陰影
+	# 不攔截滑鼠
+	_caption.mouse_filter = (
+		Control.MOUSE_FILTER_IGNORE
+	)
+
+	# 柔和紫黑色陰影
 	_caption.add_theme_color_override(
 		"font_shadow_color",
-		Color(0.08, 0.04, 0.15, shadow_opacity)
+		Color(
+			0.08,
+			0.04,
+			0.15,
+			shadow_opacity
+		)
 	)
 
 	_caption.add_theme_constant_override(
-		"shadow_offset_x", 1
+		"shadow_offset_x",
+		1
 	)
 
 	_caption.add_theme_constant_override(
-		"shadow_offset_y", 2
+		"shadow_offset_y",
+		2
 	)
 
 	add_child(_caption)
 
+	# 文字顯示區域與按鈕一致
 	_caption.set_anchors_and_offsets_preset(
 		Control.PRESET_FULL_RECT
 	)
 
-	_caption.resized.connect(_update_visual_layout)
+	# 當文字節點尺寸變動時更新排版
+	_caption.resized.connect(
+		_update_visual_layout
+	)
 
 
-# ==========================================
-# 移除原生 Button 的預設外框
-# ==========================================
+# ============================================================
+# 9. 設定按鈕外觀
+# ============================================================
 
 func _setup_button_style() -> void:
 
+	# 移除按鈕預設底框
 	flat = true
 
+	# 保留鍵盤操作功能
 	focus_mode = Control.FOCUS_ALL
+
+	# 不裁切超出按鈕範圍的裝飾
+	#
+	# 這是固定尺寸 Hover Skin 的重要設定。
+	# 但不會擴大按鈕實際點擊範圍。
+	clip_contents = false
 
 	var empty_style := StyleBoxEmpty.new()
 
@@ -177,13 +263,14 @@ func _setup_button_style() -> void:
 		"disabled",
 		"focus"
 	]:
+
 		add_theme_stylebox_override(
 			style_name,
 			empty_style
 		)
 
-	# 原生 Button 保留操作功能
-	# 實際文字由 AnimatedCaption 顯示
+	# 隱藏原生 Button 文字
+	# 文字由 AnimatedCaption 負責顯示
 	for color_name in [
 		"font_color",
 		"font_hover_color",
@@ -193,42 +280,46 @@ func _setup_button_style() -> void:
 		"font_disabled_color",
 		"font_outline_color"
 	]:
+
 		add_theme_color_override(
 			color_name,
 			Color.TRANSPARENT
 		)
 
 
-# ==========================================
-# 建立左右花藤
-# ==========================================
+# ============================================================
+# 10. 建立左右 Hover 裝飾
+# ============================================================
 
 func _create_decorations() -> void:
 
 	if not show_decoration:
 		return
 
-	var decoration_texture: Texture2D = custom_decoration
-
-	# 沒有自訂圖片時使用共用 SVG 貼圖
-	if decoration_texture == null:
-
-		if _shared_decoration == null:
-			_shared_decoration = _generate_decoration()
-
-		decoration_texture = _shared_decoration
+	# 優先使用個別指定的圖片
+	# 未指定時使用共用預設圖片
+	var decoration_texture: Texture2D = (
+		custom_decoration
+		if custom_decoration != null
+		else DEFAULT_DECORATION
+	)
 
 	if decoration_texture == null:
+
+		push_warning(
+			"【共用按鈕】找不到 Hover 裝飾圖片"
+		)
+
 		return
 
-	# 左側裝飾
+	# 左側使用原圖
 	_left_decoration = _create_decoration_node(
 		"LeftFlourish",
 		decoration_texture,
 		false
 	)
 
-	# 右側使用相同圖片水平翻轉
+	# 右側使用水平鏡像
 	_right_decoration = _create_decoration_node(
 		"RightFlourish",
 		decoration_texture,
@@ -236,9 +327,9 @@ func _create_decorations() -> void:
 	)
 
 
-# ==========================================
-# 建立單個裝飾 TextureRect
-# ==========================================
+# ============================================================
+# 11. 建立單側裝飾節點
+# ============================================================
 
 func _create_decoration_node(
 	node_name: String,
@@ -249,23 +340,32 @@ func _create_decoration_node(
 	var decoration := TextureRect.new()
 
 	decoration.name = node_name
-
 	decoration.texture = decoration_texture
 
-	decoration.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	# 忽略原圖尺寸，由程式指定顯示尺寸
+	decoration.expand_mode = (
+		TextureRect.EXPAND_IGNORE_SIZE
+	)
 
-	decoration.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	# 保留原圖比例
+	decoration.stretch_mode = (
+		TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	)
 
-	# 右側裝飾進行鏡像
+	# 左右鏡像
 	decoration.flip_h = mirrored
 
-	# 使用線性過濾，讓花藤線條更加細緻
-	decoration.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	# 線性過濾，避免裝飾邊緣粗糙
+	decoration.texture_filter = (
+		CanvasItem.TEXTURE_FILTER_LINEAR
+	)
 
-	# 裝飾不得影響滑鼠操作
-	decoration.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# 不干擾滑鼠點擊
+	decoration.mouse_filter = (
+		Control.MOUSE_FILTER_IGNORE
+	)
 
-	# 一般狀態下完全透明
+	# 初始完全透明
 	decoration.modulate.a = 0.0
 
 	add_child(decoration)
@@ -273,188 +373,22 @@ func _create_decoration_node(
 	return decoration
 
 
-# ==========================================
-# 生成夢境花藤 SVG 貼圖
-#
-# 由曲線、葉片、星光組成
-# 不需要使用外部圖片素材
-# ==========================================
-
-func _generate_decoration() -> Texture2D:
-
-	var svg := """
-	<svg xmlns="http://www.w3.org/2000/svg"
-		width="96" height="40"
-		viewBox="0 0 96 40">
-
-		<defs>
-
-			<linearGradient id="vine"
-				x1="0" y1="0" x2="1" y2="0">
-
-				<stop offset="0%"
-					stop-color="#B49ACF"
-					stop-opacity="0.25"/>
-
-				<stop offset="55%"
-					stop-color="#DDA9DE"/>
-
-				<stop offset="100%"
-					stop-color="#FFE3F4"/>
-
-			</linearGradient>
-
-		</defs>
-
-
-		<!-- 柔和光暈 -->
-
-		<path
-			d="M3 20 C18 20 24 9 38 14
-			   C51 19 59 28 76 20"
-			fill="none"
-			stroke="#D9A0DC"
-			stroke-width="5"
-			stroke-opacity="0.14"
-			stroke-linecap="round"/>
-
-
-		<!-- 花藤主線條 -->
-
-		<path
-			d="M3 20 C18 20 24 9 38 14
-			   C51 19 59 28 76 20"
-			fill="none"
-			stroke="url(#vine)"
-			stroke-width="1.5"
-			stroke-linecap="round"/>
-
-
-		<!-- 延伸的細小分枝 -->
-
-		<path
-			d="M24 15 Q20 7 12 7
-			   M45 17 Q47 8 55 5
-			   M57 23 Q61 32 72 32"
-			fill="none"
-			stroke="#E9C1E8"
-			stroke-width="0.8"
-			stroke-opacity="0.85"
-			stroke-linecap="round"/>
-
-
-		<!-- 左側花葉 -->
-
-		<path
-			d="M24 15 C12 17 9 9 12 7
-			   C20 7 24 10 24 15 Z"
-			fill="#DAB8E8"
-			fill-opacity="0.85"/>
-
-
-		<!-- 上方花葉 -->
-
-		<path
-			d="M45 17 C39 9 49 3 55 5
-			   C56 12 50 15 45 17 Z"
-			fill="#F2C3E1"/>
-
-
-		<!-- 下方花葉 -->
-
-		<path
-			d="M57 23 C71 21 76 28 72 32
-			   C65 34 59 28 57 23 Z"
-			fill="#D9ADD8"/>
-
-
-		<!-- 花葉的小型高光 -->
-
-		<path
-			d="M15 10 L23 14
-			   M46 15 L52 7
-			   M60 25 L70 30"
-			stroke="#FFF0FA"
-			stroke-width="0.7"
-			stroke-opacity="0.65"
-			fill="none"/>
-
-
-		<!-- 星光外圈 -->
-
-		<path
-			d="M71 20 Q82 18 83 6
-			   Q85 18 95 20
-			   Q85 22 83 34
-			   Q81 22 71 20 Z"
-			fill="#E5B1E4"
-			fill-opacity="0.17"/>
-
-
-		<!-- 精緻四角星光 -->
-
-		<path
-			d="M74 20 Q82 19 83 10
-			   Q84 19 93 20
-			   Q84 21 83 30
-			   Q82 21 74 20 Z"
-			fill="#FFE7F5"/>
-
-
-		<!-- 星光核心 -->
-
-		<circle cx="83" cy="20"
-			r="1.7"
-			fill="#FFFFFF"/>
-
-
-		<!-- 夢境微小光點 -->
-
-		<circle cx="16" cy="24"
-			r="1.2"
-			fill="#D8B1E5"
-			fill-opacity="0.7"/>
-
-		<circle cx="66" cy="10"
-			r="1.3"
-			fill="#F5D8F2"
-			fill-opacity="0.85"/>
-
-	</svg>
-	"""
-
-	var image := Image.new()
-
-	# 使用兩倍解析度生成清晰貼圖
-	var result := image.load_svg_from_string(
-		svg,
-		2.0
-	)
-
-	if result != OK:
-
-		push_warning("【主選單】花藤貼圖生成失敗")
-
-		return null
-
-	return ImageTexture.create_from_image(image)
-
-
-# ==========================================
-# 滑鼠移入
-# ==========================================
+# ============================================================
+# 12. 滑鼠移入
+# ============================================================
 
 func _on_mouse_entered() -> void:
 
 	_mouse_inside = true
+
 	_keyboard_mode = false
 
 	_refresh_highlight()
 
 
-# ==========================================
-# 滑鼠移出
-# ==========================================
+# ============================================================
+# 13. 滑鼠移出
+# ============================================================
 
 func _on_mouse_exited() -> void:
 
@@ -463,20 +397,33 @@ func _on_mouse_exited() -> void:
 	_refresh_highlight()
 
 
-# ==========================================
-# 滑鼠與鍵盤操作模式切換
-# ==========================================
+# ============================================================
+# 14. 滑鼠／鍵盤操作模式
+# ============================================================
 
 func _input(event: InputEvent) -> void:
 
-	if event is InputEventMouseMotion or event is InputEventMouseButton:
+	# 滑鼠移動或點擊：
+	# 切換回滑鼠操作模式
+	if (
+		event is InputEventMouseMotion
+		or event is InputEventMouseButton
+	):
 
 		if _keyboard_mode:
 
 			_keyboard_mode = false
+
 			_refresh_highlight()
 
-	elif event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		return
+
+	# 鍵盤及控制器操作
+	if (
+		event is InputEventKey
+		or event is InputEventJoypadButton
+		or event is InputEventJoypadMotion
+	):
 
 		if (
 			event.is_action_pressed("ui_up")
@@ -489,52 +436,69 @@ func _input(event: InputEvent) -> void:
 		):
 
 			_keyboard_mode = true
+
 			_refresh_highlight()
 
 
-# ==========================================
-# 判斷選取狀態
-# ==========================================
+# ============================================================
+# 15. 更新選取狀態
+# ============================================================
 
 func _refresh_highlight() -> void:
 
+	# 滑鼠模式：
+	# 由滑鼠是否在按鈕內決定
 	var active: bool = _mouse_inside
 
+	# 鍵盤模式：
+	# 由按鈕是否具有焦點決定
 	if _keyboard_mode:
 
 		active = has_focus()
 
+	# 停用按鈕不顯示 Hover
 	if disabled:
 
 		active = false
 
-	var target: float = 1.0 if active else 0.0
+	var target: float = (
+		1.0 if active else 0.0
+	)
 
 	_play_hover_animation(target)
 
 
-# ==========================================
-# 播放懸停動畫
-# ==========================================
+# ============================================================
+# 16. 播放 Hover 動畫
+# ============================================================
 
-func _play_hover_animation(target: float) -> void:
+func _play_hover_animation(
+	target: float
+) -> void:
 
-	# 避免重複播放相同動畫
+	# 目標相同時不重複播放
 	if is_equal_approx(_target, target):
 		return
 
 	_target = target
 
-	# 停止上一個動畫
-	# 避免快速切換按鈕時產生衝突
-	if _hover_tween and _hover_tween.is_valid():
+	# 中斷之前的 Tween
+	if (
+		_hover_tween
+		and _hover_tween.is_valid()
+	):
 
 		_hover_tween.kill()
 
 	_hover_tween = create_tween()
 
-	_hover_tween.set_trans(Tween.TRANS_QUAD)
-	_hover_tween.set_ease(Tween.EASE_OUT)
+	_hover_tween.set_trans(
+		Tween.TRANS_QUAD
+	)
+
+	_hover_tween.set_ease(
+		Tween.EASE_OUT
+	)
 
 	_hover_tween.tween_method(
 		_apply_highlight,
@@ -544,21 +508,25 @@ func _play_hover_animation(target: float) -> void:
 	)
 
 
-# ==========================================
-# 更新文字及裝飾動畫
-# ==========================================
+# ============================================================
+# 17. 套用動畫進度
+# ============================================================
 
-func _apply_highlight(value: float) -> void:
+func _apply_highlight(
+	value: float
+) -> void:
 
 	_highlight = value
 
 	if not is_instance_valid(_caption):
 		return
 
-	# 文字由白色漸變成櫻花粉色
-	var current_color: Color = _normal_color.lerp(
-		_hover_color,
-		value
+	# 文字顏色漸變
+	var current_color: Color = (
+		_normal_color.lerp(
+			_hover_color,
+			value
+		)
 	)
 
 	_caption.add_theme_color_override(
@@ -566,66 +534,93 @@ func _apply_highlight(value: float) -> void:
 		current_color
 	)
 
-	# 文字從中心平滑放大
+	# 文字平滑放大
 	var current_scale: float = lerpf(
 		1.0,
 		hover_scale,
 		value
 	)
 
-	_caption.scale = Vector2.ONE * current_scale
+	_caption.scale = (
+		Vector2.ONE * current_scale
+	)
 
-	# 更新花藤位置、大小與透明度
+	# 更新左右裝飾
 	_update_visual_layout()
 
 
-# ==========================================
-# 更新畫面排版
-# ==========================================
+# ============================================================
+# 18. 更新文字與裝飾排版
+#
+# V3 核心修正：
+#
+# 左右裝飾使用固定的 decoration_width，
+# 不再根據文字長度或 Button 寬度縮小。
+#
+# 裝飾仍會跟著文字置中位置移動，
+# 不會改變按鈕實際的點擊範圍。
+# ============================================================
 
 func _update_visual_layout() -> void:
 
 	if not is_instance_valid(_caption):
 		return
 
-	# 文字縮放中心
-	_caption.pivot_offset = _caption.size * 0.5
+	# --------------------------------------------------------
+	# A. 設定文字縮放中心
+	# --------------------------------------------------------
 
+	_caption.pivot_offset = (
+		_caption.size * 0.5
+	)
+
+	# 沒有裝飾時只處理文字
 	if not is_instance_valid(_left_decoration):
 		return
 
 	if not is_instance_valid(_right_decoration):
 		return
 
-	# 取得目前文字的實際寬度
+	# --------------------------------------------------------
+	# B. 計算文字實際顯示寬度
+	# --------------------------------------------------------
+
 	var text_width: float = (
 		_caption.get_minimum_size().x
 		* _caption.scale.x
 	)
 
-	# 裝飾由外側向文字靠近
+	# --------------------------------------------------------
+	# C. 計算裝飾與文字的間距
+	#
+	# 一般狀態比較遠，
+	# Hover 時逐漸向文字靠近。
+	# --------------------------------------------------------
+
 	var current_gap: float = lerpf(
 		decoration_gap + 14.0,
 		decoration_gap,
 		_highlight
 	)
 
-	# 計算單側剩餘空間
-	# 避免花藤覆蓋文字或超出按鈕
-	var available_width: float = maxf(
-		size.x * 0.5
-		- text_width * 0.5
-		- current_gap
-		- 4.0,
-		0.0
+	# --------------------------------------------------------
+	# D. 固定裝飾寬度
+	#
+	# 【重要】
+	# 不使用舊版 available_width。
+	#
+	# 不因「返回」或「恢復預設」
+	# 的文字長度不同而改變圖片大小。
+	# --------------------------------------------------------
+
+	var final_width: float = (
+		decoration_width
 	)
 
-	var final_width: float = minf(
-		decoration_width,
-		available_width
-	)
+	# --------------------------------------------------------
+	# E. 保留圖片的原始長寬比例
+	# --------------------------------------------------------
 
-	# 保持圖片比例
 	var texture_size: Vector2 = (
 		_left_decoration.texture.get_size()
 	)
@@ -641,40 +636,71 @@ func _update_visual_layout() -> void:
 		final_height
 	)
 
-	_left_decoration.size = decoration_size
-	_right_decoration.size = decoration_size
+	_left_decoration.size = (
+		decoration_size
+	)
+
+	_right_decoration.size = (
+		decoration_size
+	)
+
+	# --------------------------------------------------------
+	# F. 計算按鈕中心
+	# --------------------------------------------------------
 
 	var center: Vector2 = size * 0.5
 
-	# 左側花藤位置
-	_left_decoration.position = Vector2(
-		center.x - text_width * 0.5
-		- current_gap - final_width,
+	# --------------------------------------------------------
+	# G. 左側裝飾位置
+	# --------------------------------------------------------
 
-		center.y - final_height * 0.5
+	_left_decoration.position = Vector2(
+		center.x
+		- text_width * 0.5
+		- current_gap
+		- final_width,
+
+		center.y
+		- final_height * 0.5
 	)
 
-	# 右側花藤位置
+	# --------------------------------------------------------
+	# H. 右側裝飾位置
+	# --------------------------------------------------------
+
 	_right_decoration.position = Vector2(
-		center.x + text_width * 0.5
+		center.x
+		+ text_width * 0.5
 		+ current_gap,
 
-		center.y - final_height * 0.5
+		center.y
+		- final_height * 0.5
 	)
 
-	# 隨著懸停動畫平滑淡入淡出
+	# --------------------------------------------------------
+	# I. 動畫透明度
+	# --------------------------------------------------------
+
 	var opacity: float = (
 		_highlight
 		if show_decoration
 		else 0.0
 	)
 
-	_left_decoration.modulate.a = opacity
-	_right_decoration.modulate.a = opacity
+	_left_decoration.modulate.a = (
+		opacity
+	)
 
-# ==========================================
-# 主動啟用鍵盤選取效果
-# ==========================================
+	_right_decoration.modulate.a = (
+		opacity
+	)
+
+
+# ============================================================
+# 19. 主動啟用鍵盤選取效果
+#
+# 提供其他 UI 控制器呼叫。
+# ============================================================
 
 func activate_keyboard_highlight() -> void:
 

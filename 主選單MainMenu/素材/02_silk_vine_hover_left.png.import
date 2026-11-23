@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqsa0fuqhhl3i"
-path="res://.godot/imported/logo.png-ae0c3c5061348ba09a9fa8ff271334e2.ctex"
+uid="uid://dkxpkmt5wfnqc"
+path="res://.godot/imported/02_silk_vine_hover_left.png-98b558a7d5d00e51658864a88a8815ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://主選單MainMenu/圖片素材/logo.png"
-dest_files=["res://.godot/imported/logo.png-ae0c3c5061348ba09a9fa8ff271334e2.ctex"]
+source_file="res://主選單MainMenu/素材/02_silk_vine_hover_left.png"
+dest_files=["res://.godot/imported/02_silk_vine_hover_left.png-98b558a7d5d00e51658864a88a8815ce.ctex"]
 
 [params]
 

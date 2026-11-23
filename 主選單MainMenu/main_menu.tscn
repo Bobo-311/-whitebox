@@ -1,13 +1,14 @@
-[gd_scene load_steps=20 format=3 uid="uid://cb4ar8odpfk27"]
+[gd_scene load_steps=21 format=3 uid="uid://cb4ar8odpfk27"]
 
 [ext_resource type="Script" uid="uid://by0v4e85kyh0n" path="res://主選單MainMenu/main_menu.gd" id="1_i40ri"]
-[ext_resource type="Texture2D" uid="uid://dn65gjyojwuxt" path="res://主選單MainMenu/圖片素材/主選單背景.png" id="2_fny64"]
+[ext_resource type="Texture2D" uid="uid://dn65gjyojwuxt" path="res://主選單MainMenu/素材/主選單背景.png" id="2_fny64"]
 [ext_resource type="Shader" uid="uid://bjfx15mttuold" path="res://主選單MainMenu/Shader/forest_background.gdshader" id="2_oyoys"]
-[ext_resource type="Texture2D" uid="uid://dqsa0fuqhhl3i" path="res://主選單MainMenu/圖片素材/logo.png" id="3_fxk01"]
+[ext_resource type="Texture2D" uid="uid://dqsa0fuqhhl3i" path="res://主選單MainMenu/素材/logo.png" id="3_fxk01"]
 [ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="4_fny64"]
 [ext_resource type="Script" uid="uid://vwhrjans2ow6" path="res://主選單MainMenu/粒子/atmosphere.gd" id="4_tukwo"]
 [ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="5_fxk01"]
 [ext_resource type="Script" uid="uid://cpgtsyislv5rd" path="res://主選單MainMenu/Version/version_label.gd" id="8_2mrhs"]
+[ext_resource type="Texture2D" uid="uid://ck5lgr81nqd05" path="res://主選單MainMenu/素材/01_silver_starlight_hover_left.png" id="8_8n3n7"]
 [ext_resource type="Script" uid="uid://dgx1byfiy5wik" path="res://主選單MainMenu/開場動畫/intro_fade.gd" id="8_ks1a1"]
 [ext_resource type="Script" uid="uid://rwdhckgavlsm" path="res://主選單MainMenu/按鈕設定/menu_actions.gd" id="10_1o5xu"]
 [ext_resource type="AudioStream" uid="uid://b6obsm1fbto3a" path="res://主選單MainMenu/音樂素材/主畫面hover.wav" id="10_kauac"]
@@ -94,9 +95,9 @@ stretch_mode = 5
 
 [node name="MenuButtons" type="VBoxContainer" parent="Design"]
 layout_mode = 1
-offset_left = 570.0
+offset_left = 460.0
 offset_top = 425.0
-offset_right = 1030.0
+offset_right = 1140.0
 offset_bottom = 775.0
 theme_override_constants/separation = 10
 
@@ -110,6 +111,9 @@ theme_override_font_sizes/font_size = 52
 text = "開始遊戲"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
+custom_decoration = ExtResource("8_8n3n7")
 
 [node name="SettingsButton" type="Button" parent="Design/MenuButtons"]
 custom_minimum_size = Vector2(460, 80)
@@ -121,6 +125,8 @@ theme_override_font_sizes/font_size = 52
 text = "設定"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="CreditsButton" type="Button" parent="Design/MenuButtons"]
 custom_minimum_size = Vector2(460, 80)
@@ -132,6 +138,8 @@ theme_override_font_sizes/font_size = 52
 text = "製作團隊"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="ExitButton" type="Button" parent="Design/MenuButtons"]
 custom_minimum_size = Vector2(460, 80)
@@ -143,6 +151,8 @@ theme_override_font_sizes/font_size = 52
 text = "離開遊戲"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="VersionLabel" type="Label" parent="Design"]
 layout_mode = 1
@@ -169,6 +179,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="IntroFade" type="ColorRect" parent="."]
+visible = false
 z_index = 10
 layout_mode = 1
 anchors_preset = 15

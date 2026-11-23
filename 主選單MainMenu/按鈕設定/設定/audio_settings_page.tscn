@@ -222,6 +222,8 @@ theme_override_font_sizes/font_size = 36
 text = "返回"
 flat = true
 script = ExtResource("4_c7hks")
+decoration_width = 140.0
+decoration_gap = 10.0
 
 [node name="ResetButton" type="Button" parent="Actions"]
 custom_minimum_size = Vector2(0, 76)
@@ -233,6 +235,8 @@ theme_override_font_sizes/font_size = 36
 text = "恢復預設"
 flat = true
 script = ExtResource("4_c7hks")
+decoration_width = 140.0
+decoration_gap = 10.0
 
 [node name="AutoSaveLabel" type="Label" parent="."]
 layout_mode = 0

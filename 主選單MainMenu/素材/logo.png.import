@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dn65gjyojwuxt"
-path="res://.godot/imported/主選單背景.png-efd47ccb788ff11b55df9a501c32e495.ctex"
+uid="uid://dqsa0fuqhhl3i"
+path="res://.godot/imported/logo.png-8fc47f2c54135fb1fe50099461103201.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://主選單MainMenu/圖片素材/主選單背景.png"
-dest_files=["res://.godot/imported/主選單背景.png-efd47ccb788ff11b55df9a501c32e495.ctex"]
+source_file="res://主選單MainMenu/素材/logo.png"
+dest_files=["res://.godot/imported/logo.png-8fc47f2c54135fb1fe50099461103201.ctex"]
 
 [params]
 

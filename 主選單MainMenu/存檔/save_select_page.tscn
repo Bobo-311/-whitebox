@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnm1bkni3y6yx"]
+[gd_scene load_steps=7 format=3 uid="uid://dnm1bkni3y6yx"]
 
 [ext_resource type="Script" uid="uid://dmi704efg3hos" path="res://主選單MainMenu/存檔/save_select_page.gd" id="1_tbvgp"]
+[ext_resource type="PackedScene" uid="uid://b6edf4r2p41u8" path="res://主選單MainMenu/存檔/確認介面/confirm_dialog.tscn" id="2_q6xf1"]
 [ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_ubufa"]
 [ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_ksej0"]
 [ext_resource type="PackedScene" uid="uid://iosr4ijsl68n" path="res://主選單MainMenu/存檔/save_slot_row.tscn" id="4_tbvgp"]
@@ -15,8 +16,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_tbvgp")
+confirm_dialog_scene = ExtResource("2_q6xf1")
 debug_log = true
-preview_slot_id = 2
 back_button = NodePath("BackButton")
 
 [node name="Title" type="Label" parent="."]
@@ -89,13 +90,15 @@ slot_id = 4
 [node name="BackButton" type="Button" parent="."]
 custom_minimum_size = Vector2(0, 76)
 layout_mode = 0
-offset_left = 650.0
-offset_top = 814.0
-offset_right = 950.0
-offset_bottom = 890.0
+offset_left = 570.0
+offset_top = 800.0
+offset_right = 1030.0
+offset_bottom = 876.0
 theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
 theme_override_fonts/font = ExtResource("2_ubufa")
 theme_override_font_sizes/font_size = 46
 text = "返回"
 flat = true
 script = ExtResource("4_urm83")
+decoration_width = 160.0
+decoration_gap = 12.0

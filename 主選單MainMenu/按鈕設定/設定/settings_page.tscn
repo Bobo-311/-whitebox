@@ -53,9 +53,9 @@ vertical_alignment = 1
 
 [node name="Options" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 570.0
+offset_left = 460.0
 offset_top = 335.0
-offset_right = 1030.0
+offset_right = 1140.0
 offset_bottom = 635.0
 mouse_filter = 2
 theme_override_constants/separation = 18
@@ -69,6 +69,8 @@ theme_override_font_sizes/font_size = 46
 text = "音量設定"
 flat = true
 script = ExtResource("3_tef4i")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="ControlsButton" type="Button" parent="Options"]
 custom_minimum_size = Vector2(0, 76)
@@ -79,6 +81,8 @@ theme_override_font_sizes/font_size = 46
 text = "按鍵設定"
 flat = true
 script = ExtResource("3_tef4i")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="BackButton" type="Button" parent="Options"]
 custom_minimum_size = Vector2(0, 76)
@@ -89,3 +93,5 @@ theme_override_font_sizes/font_size = 46
 text = "返回"
 flat = true
 script = ExtResource("3_tef4i")
+decoration_width = 160.0
+decoration_gap = 12.0

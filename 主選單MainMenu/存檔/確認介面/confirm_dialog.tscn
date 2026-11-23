@@ -123,7 +123,8 @@ theme_override_font_sizes/font_size = 32
 text = "取消"
 flat = true
 script = ExtResource("3_4gukq")
-decoration_width = 40.0
+decoration_width = 100.0
+decoration_gap = 6.0
 
 [node name="ConfirmButton" type="Button" parent="DialogPanel/Actions"]
 custom_minimum_size = Vector2(0, 76)
@@ -136,4 +137,5 @@ theme_override_font_sizes/font_size = 32
 text = "確認清除"
 flat = true
 script = ExtResource("3_4gukq")
-decoration_width = 40.0
+decoration_width = 100.0
+decoration_gap = 6.0
