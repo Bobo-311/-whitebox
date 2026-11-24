@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=4 uid="uid://cka71yxrarl35"]
+[gd_scene load_steps=147 format=4 uid="uid://cka71yxrarl35"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_efa07"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_j8m1d"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://2leoq5bxsene" path="res://眠境-角色立繪/故事書/06.png" id="21_si4jr"]
 [ext_resource type="Texture2D" uid="uid://d705x670hu2h" path="res://眠境-角色立繪/故事書/07.png" id="22_7ptef"]
 [ext_resource type="Texture2D" uid="uid://bhy7jmhxfl6f2" path="res://眠境-角色立繪/故事書/08.png" id="23_u80d2"]
+[ext_resource type="Texture2D" uid="uid://b26yfkhkey6kf" path="res://眠境-角色立繪/故事書/09.png" id="24_yyfqe"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -16178,7 +16179,7 @@ color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 position = Vector2(2445, 1659)
 
 [node name="WhiteCat" parent="." instance=ExtResource("5_44toe")]
-position = Vector2(2072, 823)
+position = Vector2(1953, 856)
 scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
@@ -16200,7 +16201,7 @@ position = Vector2(2018, 907)
 scale = Vector2(5.3600097, 4.4799995)
 
 [node name="player" parent="." instance=ExtResource("6_efa07")]
-position = Vector2(2010, 861)
+position = Vector2(2078, 861)
 max_hp = 100
 
 [node name="PortalArea木屋門" parent="." instance=ExtResource("11_1jqui")]
@@ -16270,7 +16271,7 @@ markers = {
 "chair_pos": NodePath("../Node2D/chair_pos")
 }
 player_dch = ExtResource("15_1ixav")
-storybook_images = Array[Texture2D]([ExtResource("16_i2i81"), ExtResource("17_yyfqe"), ExtResource("18_qdhui"), ExtResource("19_ukw1h"), ExtResource("20_cmvnx"), ExtResource("21_si4jr"), ExtResource("22_7ptef"), ExtResource("23_u80d2")])
+storybook_images = Array[Texture2D]([ExtResource("16_i2i81"), ExtResource("17_yyfqe"), ExtResource("18_qdhui"), ExtResource("19_ukw1h"), ExtResource("20_cmvnx"), ExtResource("21_si4jr"), ExtResource("22_7ptef"), ExtResource("23_u80d2"), ExtResource("24_yyfqe")])
 next_scene_after_cutscene = "uid://n5el11gnhx3y"
 trigger_on_map_enter = true
 

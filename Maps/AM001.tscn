@@ -7197,16 +7197,15 @@ z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -13909.0
-offset_top = -5974.0
-offset_right = 19683.832
-offset_bottom = 17356.0
+offset_left = -10332.0
+offset_top = -6067.0
+offset_right = 23260.832
+offset_bottom = 17263.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="NewGameSpawnPoint" type="Marker2D" parent="."]

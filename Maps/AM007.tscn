@@ -1,4 +1,4 @@
-[gd_scene load_steps=179 format=4 uid="uid://2pps4a1niskn"]
+[gd_scene load_steps=180 format=4 uid="uid://2pps4a1niskn"]
 
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_boiqs"]
 [ext_resource type="Texture2D" uid="uid://cky8m2op3twgv" path="res://最初之地地圖素材/only map/05_onlymap.png" id="1_dp6uo"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://cfqu2ym2nra8u" path="res://base_enemy/Chipmunk/chipmunk.tscn" id="18_tvn8y"]
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="19_ve7wg"]
 [ext_resource type="PackedScene" uid="uid://bufi7m0i0aj7c" path="res://base_enemy/Colorless_Zombie/colorless_zombie.tscn" id="21_r5ysq"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="21_tvn8y"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k088r"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -23052,6 +23053,7 @@ metadata/_edit_vertical_guides_ = [2249.0, 2137.0]
 metadata/_edit_horizontal_guides_ = [2708.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -23065,6 +23067,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -23295,7 +23298,7 @@ position = Vector2(-7171.8945, -2478.6394)
 polygon = PackedVector2Array(4721.8936, 2592.8997, 4722.4854, 2768.6392, 4695.2666, 2768.6392, 4695.2666, 2592.8997)
 
 [node name="player" parent="." instance=ExtResource("5_5m0nk")]
-position = Vector2(2730, 2907)
+position = Vector2(2556, 2891)
 
 [node name="Barbarian" parent="." instance=ExtResource("17_afcqe")]
 position = Vector2(5608, 2416)
@@ -23332,6 +23335,9 @@ position = Vector2(4003, 1789)
 
 [node name="ColorlessZombie2" parent="." instance=ExtResource("21_r5ysq")]
 position = Vector2(5908, 2869)
+
+[node name="SavePoint" parent="." instance=ExtResource("21_tvn8y")]
+position = Vector2(2787, 2844)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea上門"]

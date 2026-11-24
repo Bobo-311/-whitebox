@@ -1,4 +1,3 @@
-
 extends Area2D
 class_name CutsceneDirector
 
@@ -230,6 +229,15 @@ func _ready() -> void:
 		monitoring = false
 		set_process(false)
 
+		# 讓本張地圖的玩家完成初始化；從傳送門進場則等黑幕轉場完成。
+		await get_tree().process_frame
+		if SceneTransition.is_transitioning:
+			var result: Array = await SceneTransition.transition_settled
+			if not result[0]:
+				return
+		if is_inside_tree() and not has_triggered and Dialogic.current_timeline == null:
+			start_cutscene()
+
 	elif trigger_on_enemies_cleared:
 		monitoring = false
 		set_process(false)
@@ -245,29 +253,23 @@ func _ready() -> void:
 
 		if not body_entered.is_connected(_on_body_entered):
 			body_entered.connect(_on_body_entered)
-
+			
 		await get_tree().physics_frame
 		await get_tree().physics_frame
 		await get_tree().create_timer(0.2).timeout
-
 		if not is_inside_tree() or has_triggered or not _is_prerequisite_met():
 			return
-
 		_map_ready_for_trigger = true
 		monitoring = true
-
+		
 		await get_tree().physics_frame
-
 		if not is_inside_tree() or has_triggered:
 			return
-
 		for body in get_overlapping_bodies():
 			if body == _get_player():
 				_auto_sync_cat_to_player(body, true)
 				_on_body_entered(body)
 				break
-
-
 # ==========================================
 # 地道出口白貓預先佈景
 # ==========================================
@@ -988,10 +990,6 @@ func start_cutscene(player_body: Node2D = null) -> void:
 
 	# 啟動 Dialogic 劇本。
 	var layout = Dialogic.start(target_timeline)
-
-	# 本階段保留原有劇情開始廣播，
-	# 避免一次修改其他劇情與 HUD 的時序。
-	Dialogic.timeline_started.emit()
 
 	# 玩家對話氣泡。
 	if player_dch and player_body.has_node("BubbleMaker") and layout and layout.has_method("register_character"):

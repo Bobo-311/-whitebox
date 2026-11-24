@@ -1,7 +1,7 @@
 [style name="galstyle"]
 [signal arg="fade_in_cinematic"]
-[signal arg="walk:cat:cabin_center_pos:idle_right:1.0"]
-[signal arg="walk:player:cabin_center_pos2:idle_left:1.0"]
+[signal arg="walk:cat:cabin_center_pos:move_up:idle_right:1.0"]
+[signal arg="walk:player:cabin_center_pos2:move_up:idle_left:1.0"]
 [wait time="0.4"]
 join 路克斯 (鬆一口氣) right
 路克斯 (鬆一口氣): 這裡看起來很安全，應該沒有怪物跟過來。

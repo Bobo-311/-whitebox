@@ -1,4 +1,3 @@
-
 extends CanvasLayer
 
 # ============================================================
@@ -66,6 +65,10 @@ signal transition_settled(
 # ============================================================
 # 2. 黑幕動畫設定
 # ============================================================
+
+@export_group("白貓入口定位")
+## 入口沒有另外放 CatSpawn 時，白貓與阿尼之間的距離（世界座標單位）。
+@export_range(0.0, 512.0, 1.0, "or_greater") var cat_spawn_distance: float = 64.0
 
 @export_group("黑幕轉場設定")
 
@@ -220,7 +223,7 @@ func change_map(
 		)
 	)
 
-	if request_error != OK:
+	if request_error != OK and request_error != ERR_BUSY:
 
 		_finish_transition(
 			false,
@@ -238,6 +241,9 @@ func change_map(
 	set_process_input(true)
 
 	black_screen.mouse_filter = Control.MOUSE_FILTER_STOP
+
+	# 只記錄這趟有沒有同行的白貓；舊地圖的節點會隨場景卸載。
+	var cat_was_present := _find_map_cat(get_tree().current_scene) != null
 
 	_lock_player(_find_current_player())
 
@@ -401,7 +407,8 @@ func change_map(
 	var spawn_success: bool = (
 		_move_player_to_spawn(
 			target_spawn_name,
-			target_facing_dir
+			target_facing_dir,
+			cat_was_present
 		)
 	)
 
@@ -614,7 +621,8 @@ func _unlock_player() -> void:
 
 func _move_player_to_spawn(
 	spawn_name: String,
-	facing_dir: Vector2
+	facing_dir: Vector2,
+	cat_was_present: bool = false
 ) -> bool:
 
 	var current_map: Node = get_tree().current_scene
@@ -651,6 +659,11 @@ func _move_player_to_spawn(
 			return false
 
 		player.global_position = target_spawn.global_position
+		player.reset_physics_interpolation()
+		if cat_was_present:
+			var cat := _find_map_cat(current_map)
+			if cat:
+				_place_cat_at_entrance(cat, player, target_spawn, facing_dir)
 
 	# 清除移動速度。
 	if player is CharacterBody2D:
@@ -887,3 +900,48 @@ func _finish_transition(
 		success,
 		scene_path
 	)
+
+
+func _find_map_cat(map_root: Node) -> WhiteCat:
+	if not map_root:
+		return null
+	for node in get_tree().get_nodes_in_group("white_cat"):
+		var cat := node as WhiteCat
+		if not cat or not map_root.is_ancestor_of(cat) or cat.is_queued_for_deletion():
+			continue
+		if cat.is_visible_in_tree() and cat.process_mode != Node.PROCESS_MODE_DISABLED:
+			return cat
+	return null
+
+func _place_cat_at_entrance(cat: WhiteCat, player: Node2D, entrance: Node2D, facing_dir: Vector2) -> void:
+	cat.player_node = player
+	if player is PhysicsBody2D:
+		cat.add_collision_exception_with(player)
+		player.add_collision_exception_with(cat)
+
+	# 狹窄或不規則的入口，可在玩家 Marker 下放一個名為 CatSpawn 的 Marker2D。
+	var cat_marker := entrance.get_node_or_null("CatSpawn") as Marker2D
+	if cat_marker:
+		cat.global_position = cat_marker.global_position
+	else:
+		cat.global_position = _cat_position_beside_player(cat, player.global_position, facing_dir)
+
+	cat.velocity = Vector2.ZERO
+	cat.is_recalling = false
+	cat.nav_agent.target_position = cat.global_position
+	cat.reset_physics_interpolation()
+	if not cat.is_stunned:
+		cat.play_animation("idle", facing_dir)
+
+func _cat_position_beside_player(cat: WhiteCat, arrival: Vector2, facing_dir: Vector2) -> Vector2:
+	# 水平門先試下方，上下門先試右方；沿著入口邊緣站，避免直接退回門外。
+	var side := Vector2.DOWN if absf(facing_dir.x) > absf(facing_dir.y) else Vector2.RIGHT
+	var start := cat.global_transform
+	start.origin = arrival
+	var directions: Array[Vector2] = [side, -side, facing_dir.normalized()]
+	for direction in directions:
+		var step := direction * cat_spawn_distance
+		if not cat.test_move(start, step):
+			return arrival + step
+	# 周圍都被擋時共用玩家落點。白貓與玩家有雙向碰撞例外。
+	return arrival

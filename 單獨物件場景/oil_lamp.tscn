@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://gy3n015gas33"]
 
-[ext_resource type="Script" uid="uid://bmuny5bqsuget" path="res://單獨物件場景/light_flower.gd" id="1_mnlfr"]
+[ext_resource type="Script" uid="uid://dj8wjtklx6g23" path="res://單獨物件場景/oil_lamp.gd" id="1_mnlfr"]
 [ext_resource type="Texture2D" uid="uid://cwcvmy5sv2344" path="res://雜/1.png" id="2_mqofe"]
 [ext_resource type="Texture2D" uid="uid://c2qcuu44o0d16" path="res://光源/藍光.tres" id="3_4bybb"]
 
@@ -12,6 +12,7 @@ z_index = 1
 collision_layer = 0
 collision_mask = 4
 script = ExtResource("1_mnlfr")
+light_color = Color(1, 0.7686129, 0.40751863, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -12)

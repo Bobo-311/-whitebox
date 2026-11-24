@@ -22249,6 +22249,7 @@ position = Vector2(1370, 1857)
 [node name="WhiteCat" parent="." instance=ExtResource("3_42a2b")]
 visible = false
 position = Vector2(3261, 1414)
+scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_dyx30")]
@@ -22484,6 +22485,14 @@ texture = ExtResource("20_mwcdo")
 
 [node name="lightFlower" parent="." instance=ExtResource("21_37wv2")]
 position = Vector2(2732, 1639.0001)
+scale = Vector2(3, 3)
+
+[node name="lightFlower5" parent="." instance=ExtResource("21_37wv2")]
+position = Vector2(3557, 1668)
+scale = Vector2(3, 3)
+
+[node name="lightFlower6" parent="." instance=ExtResource("21_37wv2")]
+position = Vector2(4218, 1616)
 scale = Vector2(3, 3)
 
 [node name="lightFlower2" parent="." instance=ExtResource("21_37wv2")]
