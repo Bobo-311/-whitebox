@@ -1,0 +1,103 @@
+[gd_scene load_steps=7 format=3 uid="uid://dnm1bkni3y6yx"]
+
+[ext_resource type="Script" uid="uid://dmi704efg3hos" path="res://主選單MainMenu/存檔/save_select_page.gd" id="1_tbvgp"]
+[ext_resource type="PackedScene" uid="uid://b6edf4r2p41u8" path="res://主選單MainMenu/存檔/確認介面/confirm_dialog.tscn" id="2_q6xf1"]
+[ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_ubufa"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_ksej0"]
+[ext_resource type="PackedScene" uid="uid://iosr4ijsl68n" path="res://主選單MainMenu/存檔/save_slot_row.tscn" id="4_tbvgp"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="4_urm83"]
+
+[node name="SaveSelectPage" type="Control" node_paths=PackedStringArray("back_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_tbvgp")
+confirm_dialog_scene = ExtResource("2_q6xf1")
+back_button = NodePath("BackButton")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 10.0
+offset_right = 1100.0
+offset_bottom = 87.0
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_ubufa")
+theme_override_font_sizes/font_size = 52
+text = "夢境紀錄"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DecorationSlot" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 560.0
+offset_top = 70.0
+offset_right = 1040.0
+offset_bottom = 112.0
+mouse_filter = 2
+
+[node name="TitleDecoration" parent="DecorationSlot" instance=ExtResource("3_ksej0")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 0
+offset_left = 500.0
+offset_top = 108.0
+offset_right = 1100.0
+offset_bottom = 136.0
+theme_override_colors/font_color = Color(0.7882353, 0.7058824, 0.8156863, 1)
+theme_override_fonts/font = ExtResource("2_ubufa")
+theme_override_font_sizes/font_size = 18
+text = "D R E A M   R E C O R D S"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slots" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 142.0
+offset_right = 1320.0
+offset_bottom = 806.0
+theme_override_constants/separation = 8
+
+[node name="Slot01" parent="Slots" instance=ExtResource("4_tbvgp")]
+layout_mode = 2
+
+[node name="Slot02" parent="Slots" instance=ExtResource("4_tbvgp")]
+layout_mode = 2
+slot_id = 2
+
+[node name="Slot03" parent="Slots" instance=ExtResource("4_tbvgp")]
+layout_mode = 2
+slot_id = 3
+
+[node name="Slot04" parent="Slots" instance=ExtResource("4_tbvgp")]
+layout_mode = 2
+slot_id = 4
+
+[node name="BackButton" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 0
+offset_left = 570.0
+offset_top = 800.0
+offset_right = 1030.0
+offset_bottom = 876.0
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_ubufa")
+theme_override_font_sizes/font_size = 46
+text = "返回"
+flat = true
+script = ExtResource("4_urm83")
+decoration_width = 160.0
+decoration_gap = 12.0

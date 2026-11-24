@@ -1,0 +1,251 @@
+[gd_scene load_steps=7 format=3 uid="uid://depbu2qf2l3i4"]
+
+[ext_resource type="Script" uid="uid://ha4410hpfgaa" path="res://主選單MainMenu/按鈕設定/設定/audio_settings_page.gd" id="1_2yikl"]
+[ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_2yikl"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_7uknc"]
+[ext_resource type="Script" uid="uid://cw58iq0et53k2" path="res://主選單MainMenu/按鈕設定/特效/dream_volume_slider.gd" id="3_frx8a"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="4_c7hks"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_76amx"]
+color = Color(0.72156864, 0.627451, 0.76862746, 0.16470589)
+
+[node name="AudioSettingsPage" type="Control" node_paths=PackedStringArray("back_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_2yikl")
+back_button = NodePath("Actions/BackButton")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_top = 140.0
+offset_right = 1600.0
+offset_bottom = 240.0
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 68
+text = "音量設定"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DecorationSlot" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 234.0
+offset_right = 1600.0
+offset_bottom = 274.0
+mouse_filter = 2
+
+[node name="TitleDecoration" parent="DecorationSlot" instance=ExtResource("3_7uknc")]
+layout_mode = 0
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 0
+offset_top = 278.0
+offset_right = 1600.0
+offset_bottom = 318.0
+theme_override_colors/font_color = Color(0.7882353, 0.7058824, 0.8156863, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 20
+text = "	A U D I O　S E T T I N G S"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeRows" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 340.0
+offset_right = 1300.0
+offset_bottom = 680.0
+theme_override_constants/separation = 12
+
+[node name="MasterRow" type="HBoxContainer" parent="VolumeRows"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="NameBlock" type="VBoxContainer" parent="VolumeRows/MasterRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="VolumeRows/MasterRow/NameBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 38
+text = "總音量"
+
+[node name="EnglishLabel" type="Label" parent="VolumeRows/MasterRow/NameBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7254902, 0.6313726, 0.77254903, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 18
+text = "	M A S T E R"
+
+[node name="VolumeSlider" type="HSlider" parent="VolumeRows/MasterRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 100.0
+script = ExtResource("3_frx8a")
+animation_speed = 15.0
+hover_scale = 1.2
+drag_scale = 1.3
+breath_strength = 0.07
+flow_speed = 0.65
+
+[node name="ValueLabel" type="Label" parent="VolumeRows/MasterRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8980392, 0.78039217, 0.8901961, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 34
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Divider1" type="HSeparator" parent="VolumeRows"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_76amx")
+
+[node name="MusicRow" type="HBoxContainer" parent="VolumeRows"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="NameBlock" type="VBoxContainer" parent="VolumeRows/MusicRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="VolumeRows/MusicRow/NameBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 38
+text = "背景音樂"
+
+[node name="EnglishLabel" type="Label" parent="VolumeRows/MusicRow/NameBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7254902, 0.6313726, 0.77254903, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 18
+text = "	M U S I C"
+
+[node name="VolumeSlider" type="HSlider" parent="VolumeRows/MusicRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 100.0
+script = ExtResource("3_frx8a")
+
+[node name="ValueLabel" type="Label" parent="VolumeRows/MusicRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8980392, 0.78039217, 0.8901961, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 34
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Divider2" type="HSeparator" parent="VolumeRows"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_76amx")
+
+[node name="SFXRow" type="HBoxContainer" parent="VolumeRows"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="NameBlock" type="VBoxContainer" parent="VolumeRows/SFXRow"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="VolumeRows/SFXRow/NameBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 38
+text = "	遊戲音效"
+
+[node name="EnglishLabel" type="Label" parent="VolumeRows/SFXRow/NameBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7254902, 0.6313726, 0.77254903, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 18
+text = "S F X"
+
+[node name="VolumeSlider" type="HSlider" parent="VolumeRows/SFXRow"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 100.0
+script = ExtResource("3_frx8a")
+
+[node name="ValueLabel" type="Label" parent="VolumeRows/SFXRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8980392, 0.78039217, 0.8901961, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 34
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 710.0
+offset_right = 1300.0
+offset_bottom = 796.0
+theme_override_constants/separation = 40
+
+[node name="BackButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 36
+text = "返回"
+flat = true
+script = ExtResource("4_c7hks")
+decoration_width = 140.0
+decoration_gap = 10.0
+
+[node name="ResetButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 36
+text = "恢復預設"
+flat = true
+script = ExtResource("4_c7hks")
+decoration_width = 140.0
+decoration_gap = 10.0
+
+[node name="AutoSaveLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 815.0
+offset_right = 1600.0
+offset_bottom = 855.0
+theme_override_colors/font_color = Color(0.6862745, 0.627451, 0.7254902, 1)
+theme_override_fonts/font = ExtResource("2_2yikl")
+theme_override_font_sizes/font_size = 20
+text = "設定將自動儲存"
+horizontal_alignment = 1
+vertical_alignment = 1

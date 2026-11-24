@@ -1,22 +1,24 @@
-[gd_scene load_steps=19 format=3 uid="uid://cb4ar8odpfk27"]
+[gd_scene load_steps=21 format=3 uid="uid://cb4ar8odpfk27"]
 
 [ext_resource type="Script" uid="uid://by0v4e85kyh0n" path="res://主選單MainMenu/main_menu.gd" id="1_i40ri"]
-[ext_resource type="Texture2D" uid="uid://dn65gjyojwuxt" path="res://主選單MainMenu/圖片素材/主選單背景.png" id="2_fny64"]
+[ext_resource type="Texture2D" uid="uid://dn65gjyojwuxt" path="res://主選單MainMenu/素材/主選單背景.png" id="2_fny64"]
 [ext_resource type="Shader" uid="uid://bjfx15mttuold" path="res://主選單MainMenu/Shader/forest_background.gdshader" id="2_oyoys"]
-[ext_resource type="Texture2D" uid="uid://dqsa0fuqhhl3i" path="res://主選單MainMenu/圖片素材/logo.png" id="3_fxk01"]
+[ext_resource type="Texture2D" uid="uid://dqsa0fuqhhl3i" path="res://主選單MainMenu/素材/logo.png" id="3_fxk01"]
 [ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="4_fny64"]
 [ext_resource type="Script" uid="uid://vwhrjans2ow6" path="res://主選單MainMenu/粒子/atmosphere.gd" id="4_tukwo"]
-[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/管理按鈕/menu_button.gd" id="5_fxk01"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="5_fxk01"]
 [ext_resource type="Script" uid="uid://cpgtsyislv5rd" path="res://主選單MainMenu/Version/version_label.gd" id="8_2mrhs"]
+[ext_resource type="Texture2D" uid="uid://ck5lgr81nqd05" path="res://主選單MainMenu/素材/01_silver_starlight_hover_left.png" id="8_8n3n7"]
 [ext_resource type="Script" uid="uid://dgx1byfiy5wik" path="res://主選單MainMenu/開場動畫/intro_fade.gd" id="8_ks1a1"]
-[ext_resource type="Script" uid="uid://rwdhckgavlsm" path="res://主選單MainMenu/管理按鈕/menu_actions.gd" id="10_1o5xu"]
+[ext_resource type="Script" uid="uid://rwdhckgavlsm" path="res://主選單MainMenu/按鈕設定/menu_actions.gd" id="10_1o5xu"]
 [ext_resource type="AudioStream" uid="uid://b6obsm1fbto3a" path="res://主選單MainMenu/音樂素材/主畫面hover.wav" id="10_kauac"]
 [ext_resource type="Script" uid="uid://b6mvyl7axjarh" path="res://主選單MainMenu/音樂/menu_audio.gd" id="10_mq3qk"]
 [ext_resource type="AudioStream" uid="uid://ue8ldkdcdms4" path="res://主選單MainMenu/音樂素材/主畫面confirm.wav" id="11_mq3qk"]
 [ext_resource type="AudioStream" uid="uid://dshsqqwgonb4o" path="res://主選單MainMenu/音樂素材/098. Battle Against A True Hero (UNDERTALE Soundtrack) - Toby Fox.mp3" id="12_421ee"]
-[ext_resource type="PackedScene" uid="uid://d25g6e3l780pq" path="res://主選單MainMenu/管理按鈕/設定/settings_page.tscn" id="15_01ura"]
-[ext_resource type="PackedScene" uid="uid://depbu2qf2l3i4" path="res://主選單MainMenu/管理按鈕/設定/audio_settings_page.tscn" id="16_tbn7x"]
-[ext_resource type="PackedScene" uid="uid://igvpuk3oneom" path="res://主選單MainMenu/管理按鈕/設定/controls_settings_page.tscn" id="17_ttqek"]
+[ext_resource type="PackedScene" uid="uid://d25g6e3l780pq" path="res://主選單MainMenu/按鈕設定/設定/settings_page.tscn" id="15_01ura"]
+[ext_resource type="PackedScene" uid="uid://dnm1bkni3y6yx" path="res://主選單MainMenu/存檔/save_select_page.tscn" id="15_4fuje"]
+[ext_resource type="PackedScene" uid="uid://depbu2qf2l3i4" path="res://主選單MainMenu/按鈕設定/設定/audio_settings_page.tscn" id="16_tbn7x"]
+[ext_resource type="PackedScene" uid="uid://igvpuk3oneom" path="res://主選單MainMenu/按鈕設定/設定/controls_settings_page.tscn" id="17_ttqek"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tukwo"]
 shader = ExtResource("2_oyoys")
@@ -28,6 +30,14 @@ shader_parameter/light_speed = 0.82000003895
 shader_parameter/water_strength = 0.0025
 shader_parameter/water_speed = 1.0
 shader_parameter/vignette_strength = 0.38
+shader_parameter/wind_enabled = true
+shader_parameter/wind_speed = 0.650000030875
+shader_parameter/grass_strength_px = 12.00000057
+shader_parameter/branch_strength_px = 6.000000285
+shader_parameter/distant_tree_strength_px = 2.000000095
+shader_parameter/gust_strength = 0.2000000095
+shader_parameter/flutter_strength = 0.10000000475
+shader_parameter/debug_wind_mask = false
 
 [node name="MainMenu" type="ColorRect"]
 anchors_preset = 15
@@ -46,6 +56,7 @@ offset_right = 1600.0
 offset_bottom = 900.0
 
 [node name="Background" type="TextureRect" parent="Design"]
+texture_filter = 2
 material = SubResource("ShaderMaterial_tukwo")
 layout_mode = 1
 anchors_preset = 15
@@ -84,9 +95,9 @@ stretch_mode = 5
 
 [node name="MenuButtons" type="VBoxContainer" parent="Design"]
 layout_mode = 1
-offset_left = 570.0
+offset_left = 460.0
 offset_top = 425.0
-offset_right = 1030.0
+offset_right = 1140.0
 offset_bottom = 775.0
 theme_override_constants/separation = 10
 
@@ -100,6 +111,9 @@ theme_override_font_sizes/font_size = 52
 text = "開始遊戲"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
+custom_decoration = ExtResource("8_8n3n7")
 
 [node name="SettingsButton" type="Button" parent="Design/MenuButtons"]
 custom_minimum_size = Vector2(460, 80)
@@ -111,6 +125,8 @@ theme_override_font_sizes/font_size = 52
 text = "設定"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="CreditsButton" type="Button" parent="Design/MenuButtons"]
 custom_minimum_size = Vector2(460, 80)
@@ -122,6 +138,8 @@ theme_override_font_sizes/font_size = 52
 text = "製作團隊"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="ExitButton" type="Button" parent="Design/MenuButtons"]
 custom_minimum_size = Vector2(460, 80)
@@ -133,6 +151,8 @@ theme_override_font_sizes/font_size = 52
 text = "離開遊戲"
 flat = true
 script = ExtResource("5_fxk01")
+decoration_width = 160.0
+decoration_gap = 12.0
 
 [node name="VersionLabel" type="Label" parent="Design"]
 layout_mode = 1
@@ -159,6 +179,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="IntroFade" type="ColorRect" parent="."]
+visible = false
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
@@ -168,6 +189,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("8_ks1a1")
+black_hold_time = 0.8
 
 [node name="MenuAudio" type="Node" parent="."]
 script = ExtResource("10_mq3qk")
@@ -189,6 +211,7 @@ bus = &"Music"
 
 [node name="MenuActions" type="Node" parent="."]
 script = ExtResource("10_1o5xu")
+start_page_scene = ExtResource("15_4fuje")
 settings_page_scene = ExtResource("15_01ura")
 audio_settings_page_scene = ExtResource("16_tbn7x")
 controls_settings_page_scene = ExtResource("17_ttqek")

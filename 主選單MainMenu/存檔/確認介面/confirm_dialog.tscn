@@ -1,0 +1,141 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6edf4r2p41u8"]
+
+[ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="1_7ps73"]
+[ext_resource type="Script" uid="uid://c0f6g761vx3so" path="res://主選單MainMenu/存檔/確認介面/confirm_dialog.gd" id="1_nxqou"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="2_4gukq"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="3_4gukq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nxqou"]
+bg_color = Color(0.09803922, 0.09019608, 0.14117648, 0.9490196)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7254902, 0.6509804, 0.8, 0.33333334)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 12
+
+[node name="ConfirmDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nxqou")
+debug_log = true
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.03137255, 0.02745098, 0.06666667, 0.6666667)
+
+[node name="DialogPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 250.0
+offset_right = 1200.0
+offset_bottom = 650.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nxqou")
+
+[node name="Title" type="Label" parent="DialogPanel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 22.0
+offset_right = 760.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.9490196, 0.8901961, 0.9411765, 1)
+theme_override_fonts/font = ExtResource("1_7ps73")
+theme_override_font_sizes/font_size = 44
+text = "	清除夢境紀錄"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DecorationSlot" type="Control" parent="DialogPanel"]
+anchors_preset = 0
+offset_left = 170.0
+offset_top = 86.0
+offset_right = 630.0
+offset_bottom = 128.0
+mouse_filter = 2
+
+[node name="TitleDecoration" parent="DialogPanel/DecorationSlot" instance=ExtResource("2_4gukq")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Message" type="Label" parent="DialogPanel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 143.0
+offset_right = 760.0
+offset_bottom = 207.0
+theme_override_colors/font_color = Color(0.91764706, 0.8627451, 0.9098039, 1)
+theme_override_fonts/font = ExtResource("1_7ps73")
+theme_override_font_sizes/font_size = 30
+text = "確定要清除第 02 格的夢境紀錄嗎？"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Hint" type="Label" parent="DialogPanel"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 208.0
+offset_right = 760.0
+offset_bottom = 250.0
+theme_override_colors/font_color = Color(0.7137255, 0.63529414, 0.75686276, 1)
+theme_override_fonts/font = ExtResource("1_7ps73")
+theme_override_font_sizes/font_size = 22
+text = "清除後，該紀錄將無法復原。"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="DialogPanel"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 290.0
+offset_right = 690.0
+offset_bottom = 366.0
+theme_override_constants/separation = 40
+
+[node name="CancelButton" type="Button" parent="DialogPanel/Actions"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9137255, 0.8509804, 0.9137255, 1)
+theme_override_colors/font_hover_color = Color(1, 0.89411765, 0.95686275, 1)
+theme_override_fonts/font = ExtResource("1_7ps73")
+theme_override_font_sizes/font_size = 32
+text = "取消"
+flat = true
+script = ExtResource("3_4gukq")
+decoration_width = 100.0
+decoration_gap = 6.0
+
+[node name="ConfirmButton" type="Button" parent="DialogPanel/Actions"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.8627451, 0.6392157, 0.7176471, 1)
+theme_override_colors/font_hover_color = Color(1, 0.81960785, 0.87058824, 1)
+theme_override_fonts/font = ExtResource("1_7ps73")
+theme_override_font_sizes/font_size = 32
+text = "確認清除"
+flat = true
+script = ExtResource("3_4gukq")
+decoration_width = 100.0
+decoration_gap = 6.0

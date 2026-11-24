@@ -35,7 +35,7 @@ func _ready():
 	
 	# 🌟 自動檢查並生成電影黑邊（就算隊友場景沒放節點也會自動生出來！）
 	_ensure_cinematic_bars()
-	
+	print("菜心洋說他喜歡葉志揚")
 	# 🌟 讓 UI 監聽 Dialogic 的全域廣播
 	if not Dialogic.timeline_started.is_connected(_on_dialogic_started):
 		Dialogic.timeline_started.connect(_on_dialogic_started)

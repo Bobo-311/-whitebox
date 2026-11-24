@@ -1,0 +1,116 @@
+[gd_scene load_steps=6 format=3 uid="uid://igvpuk3oneom"]
+
+[ext_resource type="Script" uid="uid://dgl8ukf7f0qpe" path="res://主選單MainMenu/按鈕設定/設定/controls_settings_page.gd" id="1_aral4"]
+[ext_resource type="FontFile" uid="uid://fathkrn12872" path="res://主選單MainMenu/字體/Iansui-Regular.ttf" id="2_ebe4p"]
+[ext_resource type="PackedScene" uid="uid://bo3ojntqerj8w" path="res://主選單MainMenu/按鈕設定/按鍵/key_binding_row.tscn" id="2_whfwo"]
+[ext_resource type="PackedScene" uid="uid://cfn7py5f6brke" path="res://主選單MainMenu/按鈕設定/特效/title_decoration.tscn" id="3_j1gmo"]
+[ext_resource type="Script" uid="uid://cklhqq5h0igt6" path="res://主選單MainMenu/按鈕設定/menu_button.gd" id="5_a36bd"]
+
+[node name="ControlsSettingsPage" type="Control" node_paths=PackedStringArray("back_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_aral4")
+key_row_scene = ExtResource("2_whfwo")
+ui_font = ExtResource("2_ebe4p")
+back_button = NodePath("Actions/BackButton")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_top = 65.0
+offset_right = 1600.0
+offset_bottom = 155.0
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_ebe4p")
+theme_override_font_sizes/font_size = 68
+text = "按鍵設定"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DecorationSlot" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 160.0
+offset_right = 1600.0
+offset_bottom = 200.0
+mouse_filter = 2
+
+[node name="TitleDecoration" parent="DecorationSlot" instance=ExtResource("3_j1gmo")]
+layout_mode = 0
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 0
+offset_top = 205.0
+offset_right = 1600.0
+offset_bottom = 245.0
+theme_override_colors/font_color = Color(0.7882353, 0.7058824, 0.8156863, 1)
+theme_override_fonts/font = ExtResource("2_ebe4p")
+theme_override_font_sizes/font_size = 20
+text = "C O N T R O L S"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ControlsColumns" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 180.0
+offset_top = 265.0
+offset_right = 1420.0
+offset_bottom = 725.0
+theme_override_constants/separation = 72
+
+[node name="LeftColumn" type="VBoxContainer" parent="ControlsColumns"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RightColumn" type="VBoxContainer" parent="ControlsColumns"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Actions" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 765.0
+offset_right = 1300.0
+offset_bottom = 841.0
+theme_override_constants/separation = 40
+
+[node name="BackButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_ebe4p")
+theme_override_font_sizes/font_size = 36
+text = "返回"
+flat = true
+script = ExtResource("5_a36bd")
+decoration_width = 140.0
+decoration_gap = 10.0
+
+[node name="ResetButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9607843, 0.9098039, 0.9607843, 1)
+theme_override_fonts/font = ExtResource("2_ebe4p")
+theme_override_font_sizes/font_size = 36
+text = "恢復預設"
+flat = true
+script = ExtResource("5_a36bd")
+decoration_width = 140.0
+decoration_gap = 10.0
+
+[node name="AutoSaveLabel" type="Label" parent="."]
+layout_mode = 0
+offset_top = 835.0
+offset_right = 1600.0
+offset_bottom = 875.0
+theme_override_colors/font_color = Color(0.6862745, 0.627451, 0.7254902, 1)
+theme_override_fonts/font = ExtResource("2_ebe4p")
+theme_override_font_sizes/font_size = 20
+text = "點擊按鍵即可修改設定"
+horizontal_alignment = 1
+vertical_alignment = 1
