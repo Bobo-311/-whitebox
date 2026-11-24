@@ -31,6 +31,7 @@ directories/dch_directory={
 "unit_test_character": "res://Tests/Resources/unit_test_character.dch",
 "各種物件": "res://dialogic/character/各種物件.dch",
 "商人": "res://dialogic/character/商人.dch",
+"漢堡怪獸": "res://dialogic/character/漢堡怪獸.dch",
 "白國王": "res://dialogic/character/白國王.dch",
 "路克斯": "res://dialogic/character/路克斯.dch",
 "阿尼": "res://dialogic/character/阿尼.dch",
@@ -64,22 +65,24 @@ directories/dtl_directory={
 "A017": "res://dialogic/timeline/A series/A017.dtl",
 "A018": "res://dialogic/timeline/A series/A018.dtl",
 "A019": "res://dialogic/timeline/A series/A019.dtl",
+"end": "res://dialogic/timeline/A series/end.dtl",
 "flower_talk": "res://dialogic/timeline/flower_talk.dtl",
 "opening": "res://dialogic/timeline/opening.dtl",
-"test timeline01": "res://dialogic/timeline/test timeline01.dtl"
+"test timeline01": "res://dialogic/timeline/test timeline01.dtl",
+"預告片": "res://dialogic/timeline/A series/預告片.dtl"
 }
 layout/style_directory={
-"": "res://dialogic/timeline/bubble_text_style.tres",
+"": "res://dialogic/timeline/galstyle.tres",
 "bubble_text_style": "res://dialogic/timeline/bubble_text_style.tres",
 "galstyle": "res://dialogic/timeline/galstyle.tres",
 "style001": "res://dialogic/timeline/style001.tres"
 }
 layout/style_list=["res://dialogic/timeline/style001.tres", "res://dialogic/timeline/bubble_text_style.tres", "res://dialogic/timeline/galstyle.tres"]
-layout/default_style="res://dialogic/timeline/bubble_text_style.tres"
+layout/default_style="res://dialogic/timeline/galstyle.tres"
 variables={
 "merchant_quest": 0
 }
-text/letter_speed=0.01
+text/letter_speed=0.1
 text/initial_text_reveal_skippable=true
 text/text_reveal_skip_delay=0.1
 text/advance_delay=0.1
@@ -114,6 +117,8 @@ audio/channel_defaults={
 glossary/default_case_sensitive=true
 animations/cross_fade_default="Fade Cross"
 animations/leave_default="Fade Out Down"
+text/autocolor_names=false
+layout/end_behaviour=1
 
 [display]
 

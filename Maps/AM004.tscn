@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=4 uid="uid://calmvvgqnx0bp"]
+[gd_scene load_steps=51 format=4 uid="uid://calmvvgqnx0bp"]
 
 [ext_resource type="Texture2D" uid="uid://c3yagl712pldc" path="res://最初之地地圖素材/only map/04-1_onlymap.png" id="1_iffoy"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_x148i"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://dd7re0um1ofn0" path="res://劇情配件/cutscene_director.tscn" id="20_t3uua"]
 [ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="21_xepns"]
 [ext_resource type="PackedScene" uid="uid://cv2ii7tdg30o1" path="res://單獨物件場景/light_flower.tscn" id="22_okj7l"]
+[ext_resource type="PackedScene" uid="uid://6ek23fgixsu8" path="res://SavePoint/SavePoint.tscn" id="23_wtndr"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_x148i"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -1.4375, 8, -1.4375)
@@ -8167,6 +8168,9 @@ scale = Vector2(3, 3)
 [node name="lightFlower4" parent="." instance=ExtResource("22_okj7l")]
 position = Vector2(6081, 1455.0001)
 scale = Vector2(3, 3)
+
+[node name="SavePoint" parent="." instance=ExtResource("23_wtndr")]
+position = Vector2(5541, 1430)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

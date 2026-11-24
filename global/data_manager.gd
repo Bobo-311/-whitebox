@@ -3,6 +3,8 @@ extends Node
 # ==========================================
 # 🖱️ 全域滑鼠設定 (軟體游標 + 物理打擊感)
 # ==========================================
+const CURSOR_SIZE_RATIO := 0.85 # 一般與點擊游標共用的顯示比例
+
 var cursor_normal = preload("res://雜/cursor_normal.png")
 var cursor_click = preload("res://雜/cursor_click_no_cross.png")
 
@@ -197,7 +199,8 @@ func _ready() -> void:
 	
 	# 🌟 3. 建立假滑鼠圖片
 	cursor_rect = TextureRect.new()
-	cursor_rect.texture = cursor_normal
+	cursor_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_set_cursor_texture(cursor_normal)
 	# ⚠️ 極度重要：設定為 IGNORE，假滑鼠才不會變成一面物理盾牌擋住你的 UI 按鈕！
 	cursor_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE 
 	
@@ -230,12 +233,16 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
 				if is_instance_valid(cursor_rect):
-					cursor_rect.texture = cursor_click
+					_set_cursor_texture(cursor_click)
 					_play_cursor_bounce_effect()
 			else:
 				# 當按鍵放開時，必須確認另一邊也沒有被按著，才切回普通游標
 				if is_instance_valid(cursor_rect) and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT):
-					cursor_rect.texture = cursor_normal
+					_set_cursor_texture(cursor_normal)
+
+func _set_cursor_texture(texture: Texture2D) -> void:
+	cursor_rect.texture = texture
+	cursor_rect.size = texture.get_size() * CURSOR_SIZE_RATIO
 
 # 🌟 抽出來共用的游標 Q 彈特效
 func _play_cursor_bounce_effect() -> void:

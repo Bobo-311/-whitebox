@@ -19778,7 +19778,7 @@ scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(4016, 2244)
+position = Vector2(3910, 4085)
 max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
@@ -21234,6 +21234,7 @@ position = Vector2(6385, 3930)
 position = Vector2(6917, 3949)
 
 [node name="cheery tree" parent="." instance=ExtResource("14_428lw")]
+y_sort_enabled = true
 position = Vector2(3820.9998, 1675.0001)
 scale = Vector2(5, 5)
 
@@ -21305,6 +21306,7 @@ markers = {
 player_dch = ExtResource("20_gvfi4")
 hide_target_npc_after_complete = true
 permanent_hide_actors = Array[String](["king"])
+trigger_on_enemies_cleared = true
 
 [node name="cam_tree_pos" type="Marker2D" parent="初見小女孩劇情"]
 position = Vector2(100.47044, 63.599895)
@@ -21403,6 +21405,11 @@ scale = Vector2(3, 3)
 
 [node name="From_Cabin" type="Marker2D" parent="."]
 position = Vector2(4001, -940)
+
+[node name="CutsceneDirector2" parent="." instance=ExtResource("19_uva5b")]
+position = Vector2(4242.0005, 4051.0002)
+scale = Vector2(7.461408, 8.687973)
+target_timeline = "end"
 
 [node name="CutsceneDirector_CabinExit" type="Area2D" parent="."]
 collision_layer = 0

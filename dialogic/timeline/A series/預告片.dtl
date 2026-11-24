@@ -1,0 +1,25 @@
+[style name="galstyle"]
+[signal arg="book:1:0.5"]
+[wait time="0.5"]
+很久很久以前，有一個由色彩編織的夢幻國度。
+
+[signal arg="book:2:0.5"]
+[wait time="0.5"]
+一個自由自在，五彩繽紛的國度。
+
+[signal arg="book:3:0.5"]
+[wait time="0.5"]
+在國王的守護下，人們過著無憂無慮的日子。
+世界本該一直這樣斑斕，一直這樣自由。
+直到有一天......
+[signal arg="book:4:0.5"]
+[wait time="0.5"]
+國王失蹤了。
+[signal arg="book:7:0.5"]
+[wait time="0.5"]
+陌生的暗影，竊取了無主的王座。
+在他的籠罩下，世界褪去了顏色，再也沒有自由。
+[signal arg="book:9:0.5"]
+[wait time="0.5"]
+而現在，命運的畫筆落到了你的手中。
+在灰白中醒來的你...會為這個世界染上什麼顏色？
