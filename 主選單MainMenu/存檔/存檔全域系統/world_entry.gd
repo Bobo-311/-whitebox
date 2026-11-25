@@ -3,55 +3,69 @@ extends Node
 
 # ============================================================
 # 《眠境 RE:RECOLOR》
-# WorldEntry V1｜遊戲世界進場管理器
+# WorldEntry V3｜正式遊戲進場與重生資料同步管理器
 #
-# 適用版本：Godot 4.5.1
-# Autoload 名稱：WorldEntry
+# Godot：4.5.1
+# Autoload：WorldEntry
 #
-# ============================================================
-# 職責
-# ============================================================
-#
-# 1. 接收主選單的讀取存檔要求
-# 2. 檢查指定存檔是否可以載入
-# 3. 將存檔地圖 ID 轉換為實際場景路徑
-# 4. 將存檔出生點 ID 轉換為場景 Marker2D
-# 5. 呼叫 SaveManager 載入正式存檔資料
-# 6. 將地圖切換交給既有的 SceneTransition
-# 7. 防止重複觸發進場
+# STEP 10.6.5
 #
 # ============================================================
-# 不負責
+# 主要職責
 # ============================================================
 #
-# - 直接讀寫 JSON
-# - 建立新存檔
-# - 操作主選單 UI
-# - 播放黑幕動畫
-# - 計算普通傳送門出口
-# - 畫架之間的快速傳送
-# - 玩家死亡及重生
+# 1. 接收主選單正式讀檔要求
+# 2. 驗證指定存檔與檢查點
+# 3. 呼叫 SaveManager 還原正式存檔
+# 4. 透過 CheckpointManager 解析地圖及出生點
+# 5. 交由 SceneTransition 執行正式進場
+# 6. 監聽實際轉場成功或失敗
+# 7. 還原運行時重生位置及地圖路徑
+# 8. 同步玩家重生血量基準
+# 9. 防止不同存檔繼承舊重生資料
+# 10. 防止普通跨地圖傳送覆蓋正式重生點
 #
-# 以上交給其他專門系統。
+# ============================================================
+# V3 新增功能
+# ============================================================
+#
+# 正式讀檔成功後，自動同步：
+#
+# DataManager.last_save_position
+# DataManager.save_map_path
+# DataManager.saved_hp
+#
+# 不再只完成玩家出生定位，
+# 而是同時還原既有死亡重生系統所需的資料。
 #
 # ============================================================
 # 相容性
 # ============================================================
 #
-# 目前已建立的 Slot 01 使用舊暫定資料：
+# 保留原有 load_existing_slot() 呼叫介面。
 #
-# map_id  = first_land_sakura_garden
-# easel_id = easel_start_01
+# 不修改：
+# - 主選單 UI
+# - 畫架 UI
+# - 地圖登記表
+# - 既有 JSON 存檔格式
+# - StoryProgress 永久劇情保存機制
+# - A001、A005、A008 劇情還原規則
+# - 白貓跟隨系統
 #
-# 但 AM001 實際沒有畫架。
+# ============================================================
+# 不負責
+# ============================================================
 #
-# 因此 V1 將這組已知的舊 ID
-# 明確對應到 NewGameSpawnPoint。
+# - JSON 實體檔案寫入
+# - 玩家死亡動畫
+# - 玩家永久能力數值還原
+# - 背包及裝備永久保存
+# - 普通敵人刷新
+# - 畫架快速傳送
+# - 初見畫架劇情保存
 #
-# 不會修改或刪除 slot_01.json。
-#
-# 未來會由正式的 CheckpointManager
-# 管理畫架 ID 與出生點的對應。
+# 上述功能由各自的正式系統負責。
 # ============================================================
 
 
@@ -59,91 +73,79 @@ extends Node
 # 1. 對外訊號
 # ============================================================
 
-## 已通過前置檢查，並向轉場系統送出進場要求
-##
-## 注意：
-## 這不等於地圖已經完成載入。
+## 正式進場要求已提出。
+## 不代表地圖已完成載入。
 signal entry_requested(
 	slot_id: int,
 	map_id: String
 )
 
-## 進場要求被拒絕
+
+## 正式進場要求或後續轉場驗證失敗。
 signal entry_rejected(
 	slot_id: int,
 	reason: String
 )
 
 
-# ============================================================
-# 2. 地圖 ID 對照表
-#
-# 存檔只保存穩定 ID，
-# 不保存容易因專案重構而改變的場景路徑。
-#
-# 未來新增地圖時會擴充這份對照表。
-#
-# 目前只登記已確認的 AM001，
-# 不猜測其他地圖的實際用途。
-# ============================================================
-
-const MAP_SCENE_PATHS: Dictionary = {
-
-	"first_land_sakura_garden":
-		"res://Maps/AM001.tscn"
-}
-
-
-# ============================================================
-# 3. 目前已知的初始出生點
-# ============================================================
-
-const INITIAL_MAP_ID: String = (
-	"first_land_sakura_garden"
-)
-
-const INITIAL_LEGACY_EASEL_ID: String = (
-	"easel_start_01"
-)
-
-const INITIAL_SPAWN_NAME: String = (
-	"NewGameSpawnPoint"
+## 正式進場完成，且運行時重生資料已同步。
+signal entry_completed(
+	slot_id: int,
+	map_id: String,
+	easel_id: String
 )
 
 
 # ============================================================
-# 4. 內部操作狀態
-#
-# 防止玩家連續點擊同一個存檔時，
-# 重複發送進場要求。
+# 2. Inspector 設定
 # ============================================================
 
+@export_group("除錯設定")
+
+## 正式發行前可關閉一般除錯輸出。
+## 錯誤及警告仍會正常顯示。
+@export var debug_log: bool = true
+
+
+# ============================================================
+# 3. 正式進場操作鎖
+# ============================================================
+
+## 是否存在尚未完成的正式進場要求。
+##
+## 從正式讀檔開始，
+## 直到 SceneTransition 回報結果才解除。
 var _entry_pending: bool = false
 
 
+## 本次準備載入的存檔編號。
+var _pending_slot_id: int = 0
+
+
+## 本次正式進場的完整檢查點資料。
+var _pending_checkpoint: Dictionary = {}
+
+
 # ============================================================
-# 5. 正式讀檔進場入口
+# 4. 正式讀取已有存檔
 #
-# 由主選單 MenuActions 呼叫。
+# 保留 V2 原有對外介面。
 #
-# 回傳：
+# 回傳 true：
+# 正式進場要求已受理。
 #
-# true：
-# 存檔讀取成功，已送出轉場要求。
+# 回傳 false：
+# 前置驗證或立即啟動轉場失敗。
 #
-# false：
-# 前置檢查失敗，沒有開始轉場。
-#
-# 重要：
-# true 不代表玩家已經完成地圖載入。
+# 注意：
+# true 不代表已完成地圖載入。
+# 最終結果由 entry_completed 或 entry_rejected 通知。
 # ============================================================
 
-func load_existing_slot(
-	slot_id: int
-) -> bool:
+func load_existing_slot(slot_id: int) -> bool:
 
 	# --------------------------------------------------------
-	# A. 防止重複操作
+	# A. 防止重複進場
 	# --------------------------------------------------------
 
 	if _entry_pending:
@@ -161,12 +163,10 @@ func load_existing_slot(
 		)
 
 	# --------------------------------------------------------
-	# B. 檢查存檔是否正常
+	# B. 驗證正式存檔狀態
 	#
-	# 本階段僅允許 READY 存檔。
-	#
-	# RECOVERABLE 需要先完成正式備份復原，
-	# 不可直接當成正常紀錄進入遊戲。
+	# 只允許正常存檔進入遊戲。
+	# 備份復原功能由後續階段處理。
 	# --------------------------------------------------------
 
 	if (
@@ -176,14 +176,14 @@ func load_existing_slot(
 
 		return _reject(
 			slot_id,
-			"指定欄位沒有可正常載入的存檔"
+			"指定欄位沒有正常存檔"
 		)
 
 	# --------------------------------------------------------
-	# C. 取得存檔摘要
+	# C. 取得正式檢查點資料
 	#
-	# 先檢查地圖路由是否存在，
-	# 再正式變更 SaveManager 的目前存檔。
+	# 不直接讀取 JSON。
+	# 統一透過 SaveManager 查詢。
 	# --------------------------------------------------------
 
 	var summary: Dictionary = (
@@ -199,74 +199,81 @@ func load_existing_slot(
 	)
 
 	# --------------------------------------------------------
-	# D. 解析場景路徑
-	# --------------------------------------------------------
-
-	var scene_path: String = (
-		_resolve_map_scene(map_id)
-	)
-
-	if scene_path.is_empty():
-
-		return _reject(
-			slot_id,
-			"找不到地圖 ID 對應的場景：" + map_id
-		)
-
-	# --------------------------------------------------------
-	# E. 驗證場景資源存在
+	# D. 解析正式地圖及出生點
 	#
-	# 避免直接切換到不存在的檔案路徑。
+	# WorldEntry 不另外維護地圖登記表。
+	# 統一使用 CheckpointManager。
 	# --------------------------------------------------------
 
-	if not ResourceLoader.exists(scene_path):
-
-		return _reject(
-			slot_id,
-			"地圖場景資源不存在：" + scene_path
-		)
-
-	# --------------------------------------------------------
-	# F. 解析出生點
-	# --------------------------------------------------------
-
-	var spawn_name: String = (
-		_resolve_spawn_name(
+	var checkpoint: Dictionary = (
+		CheckpointManager.resolve_checkpoint(
 			map_id,
 			easel_id
 		)
 	)
 
-	if spawn_name.is_empty():
+	if checkpoint.is_empty():
 
 		return _reject(
 			slot_id,
-			"尚未登記出生點：" + easel_id
+			"尚未登記檢查點：%s / %s"
+			% [map_id, easel_id]
 		)
 
+	if not CheckpointManager.validate_checkpoint(
+		map_id,
+		easel_id
+	):
+
+		return _reject(
+			slot_id,
+			"地圖或檢查點資源無效"
+		)
+
+	var scene_path: String = (
+		checkpoint["scene_path"]
+	)
+
+	var spawn_name: String = (
+		checkpoint["spawn_name"]
+	)
+
 	# --------------------------------------------------------
-	# G. 鎖定進場操作
+	# E. 建立本次進場工作階段
+	#
+	# 必須在正式載入前建立操作鎖，
+	# 防止其他訊號重複觸發進場。
 	# --------------------------------------------------------
 
 	_entry_pending = true
 
-	# --------------------------------------------------------
-	# H. 正式讀取存檔
-	#
-	# SaveManager 會更新：
-	# - current_slot_id
-	# - _current_data
-	#
-	# 若載入失敗，不能進入地圖。
-	# --------------------------------------------------------
+	_pending_slot_id = slot_id
 
-	var loaded: bool = (
-		SaveManager.load_slot(slot_id)
+	_pending_checkpoint = (
+		checkpoint.duplicate(true)
 	)
 
-	if not loaded:
+	# --------------------------------------------------------
+	# F. 正式載入存檔
+	#
+	# SaveManager 成功載入後，
+	# 會發送 slot_loaded 訊號。
+	#
+	# StoryProgress 仍透過原有訊號還原：
+	#
+	# - A001 開場劇情
+	# - A005 初見白國王
+	# - A008 樹林聲音劇情
+	# - 商人任務進度
+	# - 戰鬥解鎖狀態
+	# - 永久事件旗標
+	#
+	# 本腳本不重新實作劇情還原。
+	# --------------------------------------------------------
 
-		_entry_pending = false
+	if not SaveManager.load_slot(slot_id):
+
+		_clear_pending_entry()
 
 		return _reject(
 			slot_id,
@@ -274,19 +281,103 @@ func load_existing_slot(
 		)
 
 	# --------------------------------------------------------
-	# I. 清除不屬於本次操作的快速傳送旗標
+	# G. 再次驗證已載入的正式資料
 	#
-	# 讀取主選單存檔，不等於使用畫架快速傳送。
-	#
-	# 避免 BaseMap 誤將玩家移到 PortalSpawnPoint。
-	#
-	# 這裡只清除旗標，不修改其他傳送程式。
+	# 避免存檔摘要與實際載入的資料不一致，
+	# 造成玩家進入錯誤地圖或出生位置。
 	# --------------------------------------------------------
+
+	if not _matches_loaded_checkpoint(
+		slot_id,
+		map_id,
+		easel_id
+	):
+
+		_clear_runtime_respawn()
+
+		_clear_pending_entry()
+
+		return _reject(
+			slot_id,
+			"已載入存檔與進場檢查點不一致"
+		)
+
+	# --------------------------------------------------------
+	# H. 清除上一格存檔的運行時重生資料
+	#
+	# 必須在新地圖建立前執行。
+	#
+	# 避免玩家初始化時誤用上一格的：
+	# - 重生座標
+	# - 重生地圖
+	# - 血量紀錄
+	#
+	# 此處不修改任何磁碟存檔。
+	# --------------------------------------------------------
+
+	_clear_runtime_respawn()
+
+	# 清除原有快速傳送旗標。
+	# 避免 BaseMap 使用舊 PortalSpawnPoint
+	# 覆蓋正式讀檔出生位置。
 
 	DataManager.is_teleporting = false
 
 	# --------------------------------------------------------
-	# J. 發送進場要求訊號
+	# I. 連接正式轉場結果
+	#
+	# 必須在提出轉場要求前完成連接。
+	#
+	# 不使用固定等待秒數，
+	# 不自行猜測地圖是否已經載入。
+	#
+	# 只有本次正式讀檔需要監聽。
+	# 普通傳送門不會使用此重生同步流程。
+	# --------------------------------------------------------
+
+	SceneTransition.transition_finished.connect(
+		_on_entry_transition_finished
+	)
+
+	SceneTransition.transition_failed.connect(
+		_on_entry_transition_failed
+	)
+
+	if debug_log:
+
+		print(
+			"【WorldEntry】讀取 Slot %02d"
+			% slot_id
+		)
+
+		print(
+			"【WorldEntry】地圖 ID：",
+			map_id
+		)
+
+		print(
+			"【WorldEntry】檢查點 ID：",
+			easel_id
+		)
+
+		print(
+			"【WorldEntry】目標地圖：",
+			scene_path
+		)
+
+		print(
+			"【WorldEntry】目標出生點：",
+			spawn_name
+		)
+
+	# --------------------------------------------------------
+	# J. 提出正式進場要求
+	#
+	# 保留原有 SceneTransition.change_map()。
+	#
+	# 不直接操作 SceneTree。
+	# 不自行建立第二個玩家。
+	# 不自行移動白貓。
 	# --------------------------------------------------------
 
 	entry_requested.emit(
@@ -294,107 +385,443 @@ func load_existing_slot(
 		map_id
 	)
 
-	print(
-		"【WorldEntry】讀取 Slot %02d" % slot_id
-	)
-
-	print(
-		"【WorldEntry】目標地圖：",
-		scene_path
-	)
-
-	print(
-		"【WorldEntry】目標出生點：",
-		spawn_name
-	)
-
-	# --------------------------------------------------------
-	# K. 交給既有 SceneTransition
-	#
-	# 不建立第二套黑幕或地圖切換器。
-	#
-	# 最後一個參數為 Vector2.ZERO，
-	# 代表不強制改變阿尼的面向。
-	# --------------------------------------------------------
-
 	SceneTransition.change_map(
 		scene_path,
 		spawn_name,
 		Vector2.ZERO
 	)
 
-	# 已正式送出轉場要求。
+	# --------------------------------------------------------
+	# K. 確認轉場要求已受理
 	#
-	# 下一階段會配合 SceneTransition 的完成訊號，
-	# 區分真正進場成功和失敗。
-	#
-	# 現階段此函式通常從主選單執行，
-	# 主選單在轉場後會被卸載。
-	_entry_pending = false
+	# 如果 SceneTransition 立即回報失敗，
+	# 對應的失敗回呼會解除操作鎖。
+	# --------------------------------------------------------
+
+	if not SceneTransition.is_transitioning:
+
+		if _entry_pending:
+
+			_clear_pending_entry()
+
+			return _reject(
+				slot_id,
+				"SceneTransition 未能開始轉場"
+			)
+
+		return false
 
 	return true
 
 
 # ============================================================
-# 6. 地圖 ID 轉場景路徑
+# 5. 驗證目前工作階段與正式檢查點
 #
-# 避免在不同 UI 中重複硬編碼場景路徑。
+# 不信任上一格存檔的運行時資料。
+#
+# 必須確認：
+# A. 存檔編號一致
+# B. checkpoint 資料格式正確
+# C. 地圖 ID 一致
+# D. 畫架 ID 一致
+# ============================================================
+
+func _matches_loaded_checkpoint(
+	slot_id: int,
+	map_id: String,
+	easel_id: String
+) -> bool:
+
+	if SaveManager.current_slot_id != slot_id:
+
+		return false
+
+	var data: Dictionary = (
+		SaveManager.get_current_data()
+	)
+
+	var raw_checkpoint: Variant = (
+		data.get("checkpoint")
+	)
+
+	if typeof(raw_checkpoint) != TYPE_DICTIONARY:
+
+		return false
+
+	var checkpoint: Dictionary = raw_checkpoint
+
+	return (
+		checkpoint.get("map_id", "") == map_id
+		and checkpoint.get("easel_id", "") == easel_id
+	)
+
+
+# ============================================================
+# 6. 正式讀檔轉場成功
+#
+# V3 核心新增功能。
+#
+# SceneTransition 會先發送 transition_finished，
+# 接著才發送 transition_settled。
+#
+# 此時：
+#
+# - 新地圖已加入 SceneTree
+# - 玩家已完成出生定位
+# - 玩家相機已完成設定
+# - BaseMap 等待中的開場流程尚未因 settled 恢復
+#
+# 因此可在此同步正式重生資料。
+#
+# 不使用固定秒數或任意等待幀數。
+# ============================================================
+
+func _on_entry_transition_finished(
+	scene_path: String
+) -> void:
+
+	if not _entry_pending:
+
+		return
+
+	var slot_id: int = _pending_slot_id
+
+	var map_id: String = (
+		_pending_checkpoint["map_id"]
+	)
+
+	var easel_id: String = (
+		_pending_checkpoint["easel_id"]
+	)
+
+	var expected_path: String = (
+		_pending_checkpoint["scene_path"]
+	)
+
+	# --------------------------------------------------------
+	# A. 確認完成轉場的地圖符合本次要求
+	# --------------------------------------------------------
+
+	if scene_path != expected_path:
+
+		_fail_pending_entry(
+			"完成轉場的地圖與讀檔要求不符"
+		)
+
+		return
+
+	# 再次確認正式存檔工作階段沒有變更。
+
+	if not _matches_loaded_checkpoint(
+		slot_id,
+		map_id,
+		easel_id
+	):
+
+		_fail_pending_entry(
+			"轉場期間存檔工作階段或檢查點已變更"
+		)
+
+		return
+
+	# --------------------------------------------------------
+	# B. 取得正式重生定位點
+	#
+	# 必須是 CheckpointManager 認可的：
+	#
+	# - 正確地圖
+	# - 正確畫架
+	# - 唯一 Marker2D
+	#
+	# AM001 初始出生點可用於重生資料還原，
+	# 但仍不可以作為正式畫架執行 save_checkpoint()。
+	# --------------------------------------------------------
+
+	var marker: Marker2D = (
+		CheckpointManager.get_current_spawn_marker(
+			map_id,
+			easel_id
+		)
+	)
+
+	var current_map: Node = (
+		get_tree().current_scene
+	)
+
+	if (
+		not is_instance_valid(marker)
+		or not is_instance_valid(current_map)
+	):
+
+		_fail_pending_entry(
+			"讀檔地圖缺少合法且唯一的 Marker2D"
+		)
+
+		return
+
+	if current_map.scene_file_path != expected_path:
+
+		_fail_pending_entry(
+			"目前場景與正式檢查點不一致"
+		)
+
+		return
+
+	# --------------------------------------------------------
+	# C. 驗證目前地圖中的正式玩家
+	#
+	# 不使用上一張地圖已卸載的玩家。
+	# 不使用其他場景的玩家引用。
+	# --------------------------------------------------------
+
+	var player: Player = (
+		DataManager.player_node as Player
+	)
+
+	if not is_instance_valid(player):
+
+		_fail_pending_entry(
+			"找不到目前地圖的玩家"
+		)
+
+		return
+
+	if not current_map.is_ancestor_of(player):
+
+		_fail_pending_entry(
+			"玩家不屬於目前讀檔地圖"
+		)
+
+		return
+
+	# --------------------------------------------------------
+	# D. 取得重生血量及座標
+	#
+	# 沿用原有畫架存檔補滿血量的規則。
+	#
+	# 不將尚未實作的 player.stats
+	# 當作正式永久能力資料。
+	#
+	# 不直接修改玩家目前 HP 或 HUD。
+	# --------------------------------------------------------
+
+	var respawn_hp: float = float(
+		player.max_hp
+	)
+
+	if (
+		not is_finite(respawn_hp)
+		or respawn_hp <= 0.0
+	):
+
+		_fail_pending_entry(
+			"玩家最大血量無效"
+		)
+
+		return
+
+	var respawn_position: Vector2 = (
+		marker.global_position
+	)
+
+	if not respawn_position.is_finite():
+
+		_fail_pending_entry(
+			"重生定位點座標無效"
+		)
+
+		return
+
+	# --------------------------------------------------------
+	# E. 正式同步運行時重生資料
+	#
+	# 所有驗證成功後才一次更新。
+	#
+	# 不保存玩家任意站立位置。
+	# 使用正式 Marker2D 世界座標。
+	#
+	# 此處只同步記憶體資料，
+	# 不重新寫入 JSON。
+	# --------------------------------------------------------
+
+	DataManager.last_save_position = (
+		respawn_position
+	)
+
+	DataManager.save_map_path = (
+		expected_path
+	)
+
+	DataManager.saved_hp = (
+		respawn_hp
+	)
+
+	# --------------------------------------------------------
+	# F. 正式同步完成通知
+	# --------------------------------------------------------
+
+	if debug_log:
+
+		print(
+			"【WorldEntry】Slot %02d 正式讀檔及重生資料同步成功"
+			% slot_id
+		)
+
+		print(
+			"【WorldEntry】last_save_position：",
+			DataManager.last_save_position
+		)
+
+		print(
+			"【WorldEntry】save_map_path：",
+			DataManager.save_map_path
+		)
+
+		print(
+			"【WorldEntry】saved_hp：",
+			DataManager.saved_hp
+		)
+
+	# 先解除操作鎖並移除轉場監聽，
+	# 避免後續一般跨地圖傳送再次觸發。
+
+	_clear_pending_entry()
+
+	entry_completed.emit(
+		slot_id,
+		map_id,
+		easel_id
+	)
+
+
+# ============================================================
+# 7. 正式讀檔轉場失敗
+#
+# 不回寫 JSON。
+# 不使用任意座標。
+# 不恢復上一格存檔的重生資料。
+#
+# 黑幕及轉場操作鎖的處理，
+# 仍由 SceneTransition 負責。
+# ============================================================
+
+func _on_entry_transition_failed(
+	scene_path: String,
+	reason: String
+) -> void:
+
+	if not _entry_pending:
+
+		return
+
+	_fail_pending_entry(
+		"轉場失敗：%s / %s"
+		% [scene_path, reason]
+	)
+
+
+func _fail_pending_entry(
+	reason: String
+) -> void:
+
+	var slot_id: int = _pending_slot_id
+
+	_clear_runtime_respawn()
+
+	_clear_pending_entry()
+
+	_reject(
+		slot_id,
+		reason
+	)
+
+
+# ============================================================
+# 8. 清除舊版運行時重生資料
+#
+# 使用 DataManager 原本的預設值。
+#
+# 只清除運行時重生資料，
+# 不修改永久存檔內容及劇情完成紀錄。
+# ============================================================
+
+func _clear_runtime_respawn() -> void:
+
+	DataManager.last_save_position = Vector2.ZERO
+
+	DataManager.save_map_path = ""
+
+	DataManager.saved_hp = 0.0
+
+
+# ============================================================
+# 9. 解除正式進場工作階段
+#
+# 無論進場成功或失敗，
+# 都必須解除本次專用訊號監聽。
+#
+# 避免一般傳送門、快速傳送或後續地圖切換，
+# 錯誤覆蓋最後正式存檔點。
+# ============================================================
+
+func _clear_pending_entry() -> void:
+
+	if SceneTransition.transition_finished.is_connected(
+		_on_entry_transition_finished
+	):
+
+		SceneTransition.transition_finished.disconnect(
+			_on_entry_transition_finished
+		)
+
+	if SceneTransition.transition_failed.is_connected(
+		_on_entry_transition_failed
+	):
+
+		SceneTransition.transition_failed.disconnect(
+			_on_entry_transition_failed
+		)
+
+	_entry_pending = false
+
+	_pending_slot_id = 0
+
+	_pending_checkpoint.clear()
+
+
+# ============================================================
+# 10. 保留 V2 相容接口
+#
+# 地圖及出生點查詢統一交給 CheckpointManager。
+# 不在此建立第二份地圖登記表。
 # ============================================================
 
 func _resolve_map_scene(
 	map_id: String
 ) -> String:
 
-	return str(
-		MAP_SCENE_PATHS.get(
-			map_id,
-			""
-		)
+	return CheckpointManager.resolve_map_scene(
+		map_id
 	)
 
-
-# ============================================================
-# 7. 出生點 ID 對照
-#
-# V1 僅支援已確認的初始地圖。
-#
-# 因 AM001 尚未有畫架，
-# 所以將舊存檔的暫定畫架 ID
-# 對應到真正的新遊戲出生點。
-#
-# 不會將所有未知畫架一律導向起點。
-# 這是為了避免錯誤存檔悄悄進入錯誤位置。
-# ============================================================
 
 func _resolve_spawn_name(
 	map_id: String,
 	easel_id: String
 ) -> String:
 
-	# --------------------------------------------------------
-	# 已知舊紀錄：AM001 初始位置
-	# --------------------------------------------------------
-
-	if (
-		map_id == INITIAL_MAP_ID
-		and easel_id == INITIAL_LEGACY_EASEL_ID
-	):
-
-		return INITIAL_SPAWN_NAME
-
-	# --------------------------------------------------------
-	# 未登記的畫架／地圖
-	#
-	# 未來由正式 CheckpointManager 處理。
-	# --------------------------------------------------------
-
-	return ""
+	return CheckpointManager.resolve_spawn_name(
+		map_id,
+		easel_id
+	)
 
 
 # ============================================================
-# 8. 統一拒絕操作
+# 11. 統一進場失敗處理
 #
-# 目前只記錄錯誤，不修改存檔或場景。
+# 所有拒絕操作統一使用相同訊號及輸出格式。
+#
+# 本函式不直接修改存檔資料。
 # ============================================================
 
 func _reject(
@@ -402,15 +829,10 @@ func _reject(
 	reason: String
 ) -> bool:
 
-	var message: String = (
+	push_warning(
 		"【WorldEntry】Slot %02d 無法進場：%s"
-		% [
-			slot_id,
-			reason
-		]
+		% [slot_id, reason]
 	)
-
-	push_warning(message)
 
 	entry_rejected.emit(
 		slot_id,

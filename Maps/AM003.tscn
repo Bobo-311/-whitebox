@@ -22241,6 +22241,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
@@ -22254,7 +22255,6 @@ max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("4_dyx30")]
 position = Vector2(2173, 1421)
-max_hp = 100
 
 [node name="TileMapLayer2" type="TileMapLayer" parent="."]
 z_index = -10

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="recolor mouse"
 config/version="0.9.0"
-run/main_scene="uid://dc6xujthm4cy4"
+run/main_scene="uid://cb4ar8odpfk27"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://雜/icon.svg"
 
@@ -27,6 +27,9 @@ InputSettingsManager="*res://主選單MainMenu/按鈕設定/按鈕全域系統/i
 SaveManager="*res://主選單MainMenu/存檔/存檔全域系統/save_manager.gd"
 WorldEntry="*res://主選單MainMenu/存檔/存檔全域系統/world_entry.gd"
 StoryProgress="*res://主選單MainMenu/存檔/存檔全域系統/劇情進度/story_progress.gd"
+CheckpointManager="*res://主選單MainMenu/存檔/存檔全域系統/畫架、重生、玩家管理/checkpoint_manager.gd"
+RespawnManager="*res://主選單MainMenu/存檔/存檔全域系統/畫架、重生、玩家管理/respawn_manager.gd"
+PlayerProgress="*res://主選單MainMenu/存檔/存檔全域系統/畫架、重生、玩家管理/player_progress.gd"
 
 [dialogic]
 

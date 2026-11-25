@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhiiwiqmqtwbj"]
+
+[ext_resource type="Script" uid="uid://d33bma7ji5plp" path="res://主選單MainMenu/存檔/存檔全域系統/劇情進度/Tests XD/checkpoint_manager_test.gd" id="1_cqq2l"]
+
+[node name="CheckpointManagerTest" type="Node"]
+script = ExtResource("1_cqq2l")

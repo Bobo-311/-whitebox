@@ -1,4 +1,4 @@
-[gd_scene load_steps=232 format=4 uid="uid://n5el11gnhx3y"]
+[gd_scene load_steps=233 format=4 uid="uid://n5el11gnhx3y"]
 
 [ext_resource type="Texture2D" uid="uid://chxeqh77hs4fe" path="res://最初之地地圖素材/only map/02_onlymap2.png" id="1_lu4wg"]
 [ext_resource type="Script" uid="uid://cvxn786frph7q" path="res://Maps/Basemap.gd" id="1_qgvtp"]
@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://cavholwuj7oma" path="res://阿尼動畫/白國王動畫/背面走路_processed.png" id="28_lenp6"]
 [ext_resource type="PackedScene" uid="uid://2yj4wq8nsmac" path="res://單獨物件場景/door_at_the_floor.tscn" id="29_rjop0"]
 [ext_resource type="Script" uid="uid://bey25eym7r7ec" path="res://劇情配件/cutscene_director.gd" id="30_hmwsn"]
+[ext_resource type="PackedScene" uid="uid://drvtf5nc8funx" path="res://base_enemy/colorless_dango/colorless_dango.tscn" id="31_7ct62"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_56r8a"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -19778,8 +19779,7 @@ scale = Vector2(0.6, 0.6)
 max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
-position = Vector2(3910, 4085)
-max_hp = 100
+position = Vector2(1275, 1412)
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
 position = Vector2(721, 1275)
@@ -21304,6 +21304,7 @@ markers = {
 "watch the tree": NodePath("")
 }
 player_dch = ExtResource("20_gvfi4")
+trigger_on_map_enter = true
 hide_target_npc_after_complete = true
 permanent_hide_actors = Array[String](["king"])
 trigger_on_enemies_cleared = true
@@ -21396,6 +21397,11 @@ scale = Vector2(1, 1.0500476)
 
 [node name="SavePoint" parent="." instance=ExtResource("28_4gm3v")]
 position = Vector2(3892, 1834)
+map_id = "am002"
+easel_id = "easel_am002_01"
+
+[node name="CheckpointSpawn_AM002_01" type="Marker2D" parent="."]
+position = Vector2(3890, 1938)
 
 [node name="door at the floor" parent="." instance=ExtResource("29_rjop0")]
 visible = false
@@ -21425,6 +21431,9 @@ required_prerequisite = "got_key"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CutsceneDirector_CabinExit"]
 position = Vector2(4001, -1029)
 shape = SubResource("CircleShape2D_hmwsn")
+
+[node name="Colorless_Dango" parent="." instance=ExtResource("31_7ct62")]
+position = Vector2(5503, 860)
 
 [editable path="PortalArea左側門"]
 [editable path="PortalArea右側門"]

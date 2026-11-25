@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b84q0vfawy00t"]
+
+[ext_resource type="Script" uid="uid://cv01itt66viti" path="res://主選單MainMenu/存檔/存檔全域系統/劇情進度/Tests XD/player_quick_slot_test.gd" id="1_lsyt6"]
+
+[node name="player_quick_slot_test" type="Node"]
+script = ExtResource("1_lsyt6")
