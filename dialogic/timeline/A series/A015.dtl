@@ -2,7 +2,7 @@
 [signal arg="fade_in_cinematic"]
 
 join 阿尼 (疑惑) left
-join 各種物件 (夢幻多彩顏料瓶) center
+join 各種物件 (心連心四倍大圖) center
 [wait_input]
 阿尼: 貼紙？
 

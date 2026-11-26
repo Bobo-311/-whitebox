@@ -2075,6 +2075,7 @@ size = Vector2(418.46136, 257.69104)
 
 [node name="AM008" type="Node2D"]
 y_sort_enabled = true
+position = Vector2(1, 0)
 script = ExtResource("1_a18nb")
 map_name = "AM008"
 limit_left = 2650
@@ -2245,7 +2246,7 @@ position = Vector2(4637, 1903)
 position = Vector2(4594, 1903)
 
 [node name="shop_dront3" type="Marker2D" parent="Node2D"]
-position = Vector2(4696, 1862)
+position = Vector2(4696, 1904)
 
 [node name="ShopNPC" parent="." instance=ExtResource("11_1dykj")]
 position = Vector2(4658, 1735)

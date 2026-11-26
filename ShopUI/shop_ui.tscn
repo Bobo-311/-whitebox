@@ -1,12 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://v4f6gx7t7lh4"]
+[gd_scene load_steps=17 format=3 uid="uid://v4f6gx7t7lh4"]
 
 [ext_resource type="Script" uid="uid://cxgiaxedr5g7s" path="res://ShopUI/shop_ui.gd" id="1_6ggnr"]
-[ext_resource type="Texture2D" uid="uid://vqct6f2uj8sh" path="res://大家不為人知的祕密/草.png" id="1_pxxkw"]
-[ext_resource type="Texture2D" uid="uid://bdmlw1xhdv8xo" path="res://大家不為人知的祕密/試驗對象一號.png" id="2_6ggnr"]
+[ext_resource type="Texture2D" uid="uid://cc3hxn21rqoyh" path="res://眠境-角色立繪/商人/歡迎.png" id="2_ccdew"]
 [ext_resource type="LabelSettings" uid="uid://cudyn1qk7ry8y" path="res://字體/gold_ui.tres" id="3_3d3cx"]
-[ext_resource type="FontFile" uid="uid://brmdpa1apdxp7" path="res://字體/deartone/Deartone.ttf" id="4_kjlyx"]
+[ext_resource type="FontFile" uid="uid://4ivxqvgtefn1" path="res://字體/Cubic-11/fonts/ttf/Cubic_11.ttf" id="3_kjlyx"]
 [ext_resource type="Texture2D" uid="uid://ct6wcplh68p30" path="res://商店素材/游標.png" id="7_ddi8n"]
-[ext_resource type="FontFile" uid="uid://u6uhrrdb30yt" path="res://字體/温州鹿城瓯韵体_100font/温州鹿城瓯韵体.ttf" id="7_kddjk"]
 [ext_resource type="AudioStream" uid="uid://bl46y72v8a38i" path="res://商店素材/UI select voice.wav" id="9_ddi8n"]
 [ext_resource type="AudioStream" uid="uid://w8n532p0w0ko" path="res://商店素材/UI check voice.wav" id="10_xbj82"]
 [ext_resource type="PackedScene" uid="uid://cagrqr4h0ce63" path="res://coin/GoldCanvasLayer_ui.tscn" id="11_ccdew"]
@@ -22,16 +20,16 @@ border_width_bottom = 10
 border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ccdew"]
-font = ExtResource("4_kjlyx")
+font = ExtResource("3_kjlyx")
 font_size = 45
 
 [sub_resource type="LabelSettings" id="LabelSettings_xbj82"]
 paragraph_spacing = 3.0
-font = ExtResource("7_kddjk")
+font = ExtResource("3_kjlyx")
 font_size = 26
 
 [sub_resource type="LabelSettings" id="LabelSettings_ddi8n"]
-font = ExtResource("4_kjlyx")
+font = ExtResource("3_kjlyx")
 font_size = 40
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kddjk"]
@@ -44,7 +42,7 @@ border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kjlyx"]
 paragraph_spacing = 3.0
-font = ExtResource("7_kddjk")
+font = ExtResource("3_kjlyx")
 font_size = 34
 
 [node name="ShopUI" type="CanvasLayer" groups=["blocking_ui"]]
@@ -61,19 +59,19 @@ offset_right = 28.0
 offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_pxxkw")
 expand_mode = 1
 
 [node name="MerchantImage" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 59.0
-offset_bottom = -309.0
+offset_left = -145.0
+offset_top = 14.0
+offset_right = 144.57898
+offset_bottom = -196.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_6ggnr")
+texture = ExtResource("2_ccdew")
 expand_mode = 1
 stretch_mode = 5
 
@@ -232,7 +230,6 @@ theme_override_constants/margin_bottom = 20
 [node name="DescLabel" type="Label" parent="InfoBox/MarginContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
-text = "屁眼"
 label_settings = SubResource("LabelSettings_kjlyx")
 autowrap_mode = 3
 

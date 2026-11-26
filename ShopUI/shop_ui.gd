@@ -35,43 +35,92 @@ var talk_timeline: String = "" # 🌟 新增：由 ShopNPC 傳入，點擊 Talk 
 # ==========================================
 # 🛒 商店商品資料庫
 # ==========================================
-var item_database = {
-	"50G - 咕咕嘎嘎药水": {
-		"desc": "不知道是什么，但听起来很好吃。\n恢复 20 HP",
-		"price": 50,
-		"item_id": "potion_gugu" 
-	},
-	"30G - 奇迹苹果": {
-		"desc": "又脆又甜的苹果。\n恢复 10 HP",
-		"price": 30,
-		"item_id": "miracle_apple"
-	},
-	"150G - 烤带骨牛排": {
-		"desc": "香气四溢的带骨肉排。\n恢复 50 HP",
-		"price": 150,
-		"item_id": "steak_bone"
-	},
-	"20G - 蓝色提神水": {
-		"desc": "喝起来像气泡水。\n恢复 5 HP",
-		"price": 20,
-		"item_id": "energy_drink"
-	},
-	"25G - 西巴鲁玛": {
-		"desc": "神秘的道具。\n速度 +10",
-		"price": 25,
-		"item_id": "item_xibaluma"
-	},
-	"300G - 汉堡贴纸": {
-		"desc": "裝備後，所有回復道具額外恢復 10 HP。",
-		"price": 300,
-		"sticker_id": "016" # 這裡用 sticker_id 區分它是貼紙！
-	}
+# 商品名稱和說明由 DataManager 提供，商店只決定售價與分類。
+const ITEM_PRICES := {
+	"steak_bone": 150, "miracle_apple": 30, "item_xibaluma": 25, "energy_drink": 20,
+	"eraser": 60, "calyon": 60, "ruler": 60
+}
+const MENU_TEXT := {"buy": "購買", "sell": "出售", "talk": "交談", "exit": "離開"}
+const BACK_TO_MAIN := "返回主選單"
+const BUY_PROMPT := "今天想買什麼呢？"
+const COMBAT_SECTION := "戰鬥道具"
+var item_database: Dictionary = {}
+
+const STICKER_SECTION := "貼紙專區"
+const BACK_TO_GOODS := "返回商品"
+const STICKER_OFFERS := {
+	"001": {"price": 300, "desc": "裝備後，最大生命增加 20。"},
+	"004": {"price": 300, "desc": "擊敗敵人時，回復最大生命的 10%。"},
+	"006": {"price": 300, "desc": "遠程攻擊傷害增加 35%。"},
+	"008": {"price": 300, "desc": "生命低於 35% 時，攻擊傷害增加 35%。"},
+	"016": {"price": 300, "desc": "使用回復道具時，額外回復 10 點生命。"}
 }
 
-# ==========================================
-# 系統初始化
-# ==========================================
+var current_page := ""
+
+func setup_shop() -> void:
+	var template: Label = null
+	var exit_row: Label = null
+	for child in buy_vbox.get_children():
+		if child is Label:
+			if child.text.strip_edges().to_lower() in ["exit", "離開", BACK_TO_MAIN]:
+				exit_row = child
+			else:
+				if template == null:
+					template = child
+				buy_vbox.remove_child(child)
+				child.queue_free()
+	if template == null:
+		template = Label.new()
+		template.queue_free()
+
+	add_shop_row(template, STICKER_SECTION, "")
+	add_shop_row(template, COMBAT_SECTION, "")
+	for item_id in ITEM_PRICES:
+		var item: Dictionary = DataManager.ITEM_DB[item_id]
+		var price: int = ITEM_PRICES[item_id]
+		var title := "%d 金幣 - %s" % [price, item["name"]]
+		item_database[title] = {"item_id": item_id, "price": price, "desc": str(item["description"]).replace(" HP", " 點生命")}
+		var page := COMBAT_SECTION if item_id in DataManager.COMBAT_ITEMS else ""
+		add_shop_row(template, title, page)
+	if exit_row:
+		exit_row.text = BACK_TO_MAIN
+		buy_vbox.move_child(exit_row, -1)
+	else:
+		add_shop_row(template, BACK_TO_MAIN, "")
+	add_shop_row(template, BACK_TO_GOODS, COMBAT_SECTION)
+
+	for sticker_id in STICKER_OFFERS:
+		var offer: Dictionary = STICKER_OFFERS[sticker_id]
+		var sticker: Dictionary = DataManager.STICKER_DB[sticker_id]
+		var title := "%d 金幣 - %s" % [offer.price, sticker.name]
+		item_database[title] = {"price": offer.price, "sticker_id": sticker_id, "desc": offer.desc}
+		add_shop_row(template, title, STICKER_SECTION)
+	add_shop_row(template, BACK_TO_GOODS, STICKER_SECTION)
+
+func add_shop_row(template: Label, title: String, page: String) -> void:
+	var row := template.duplicate(0) as Label
+	row.text = title
+	row.set_meta("shop_page", page)
+	row.visible = page.is_empty()
+	buy_vbox.add_child(row)
+
+func show_shop_page(page: String) -> void:
+	current_page = page
+	current_index = 0
+	for child in buy_vbox.get_children():
+		if child is Label:
+			child.visible = child.get_meta("shop_page", "") == page
+	refresh_menu_items(buy_vbox)
+
 func _ready():
+	for row in main_vbox.get_children():
+		if row is Label:
+			var key: String = row.text.strip_edges().to_lower()
+			if MENU_TEXT.has(key):
+				row.text = MENU_TEXT[key]
+	buy_prompt_label.text = BUY_PROMPT
+	setup_shop()
 	# 遊戲一開始執行時，強制先切換到主選單狀態
 	switch_to_main_menu()
 
@@ -88,7 +137,10 @@ func _input(event):
 		if current_state == 1:
 			# 【情況 A】：目前在商品清單 (Buy Menu) -> 退回主選單
 			if back_sound: back_sound.play()
-			switch_to_main_menu()
+			if not current_page.is_empty():
+				show_shop_page("")
+			else:
+				switch_to_main_menu()
 		elif current_state == 0:
 			# 【情況 B】：目前已經在最底層的主選單 (Main Menu) -> 徹底關閉商店
 			if back_sound: back_sound.play()
@@ -144,7 +196,7 @@ func switch_to_buy_menu():
 	main_menu_layout.hide() # 隱藏主選單的 UI
 	buy_menu_layout.show() # 顯示購買選單的 UI
 	info_box.show() # 顯示右上角的商品資訊框
-	refresh_menu_items(buy_vbox) # 重新抓取購買清單裡的選項
+	show_shop_page("")
 
 # 重新整理清單內容的函數 (切換選單時呼叫)
 func refresh_menu_items(container):
@@ -152,18 +204,18 @@ func refresh_menu_items(container):
 	
 	# 🌟🌟🌟 [本次修改：自動為每一個選項綁定滑鼠功能，並檢查售罄] 🌟🌟🌟
 	for child in container.get_children():
-		if child is Label:
+		if child is Label and child.visible:
 			menu_items.append(child) 
 			
 			# 1. 開啟文字的滑鼠阻擋功能，讓它可以接收滑鼠訊號
 			child.mouse_filter = Control.MOUSE_FILTER_STOP
 			
 			# 2. 如果還沒綁定過滑鼠進入的訊號，就幫它綁定
-			if not child.mouse_entered.is_connected(_on_item_mouse_entered):
+			if not child.mouse_entered.is_connected(_on_item_mouse_entered.bind(child)):
 				child.mouse_entered.connect(_on_item_mouse_entered.bind(child))
 				
 			# 3. 如果還沒綁定過滑鼠點擊的訊號，就幫它綁定
-			if not child.gui_input.is_connected(_on_item_gui_input):
+			if not child.gui_input.is_connected(_on_item_gui_input.bind(child)):
 				child.gui_input.connect(_on_item_gui_input.bind(child))
 				
 			# 🌟 新增：售罄檢查機制 (讓文字變暗)
@@ -244,7 +296,13 @@ func handle_selection():
 		var item_name = selected_label.text
 		
 		# 判斷點擊的是否為退出鍵
-		if item_name == "Exit":
+		if item_name in [STICKER_SECTION, COMBAT_SECTION, BACK_TO_GOODS]:
+			if item_name != BACK_TO_GOODS:
+				check_sound.play()
+			else:
+				back_sound.play()
+			show_shop_page("" if item_name == BACK_TO_GOODS else item_name)
+		elif item_name == BACK_TO_MAIN:
 			back_sound.play()
 			switch_to_main_menu() # 退回主選單
 		else:
@@ -257,9 +315,9 @@ func handle_selection():
 				# 🌟 攔截器：不論鍵盤還是滑鼠，只要是已擁有的貼紙，直接阻擋！
 				if item_info.has("sticker_id") and DataManager.owned_stickers.has(item_info["sticker_id"]):
 					if back_sound: back_sound.play() # 發出錯誤音效
-					buy_prompt_label.text = "You already have this item!" # 提示已擁有
+					buy_prompt_label.text = "你已經擁有了！" # 提示已擁有
 					await get_tree().create_timer(1.0).timeout
-					buy_prompt_label.text = "What would you like to buy?"
+					buy_prompt_label.text = BUY_PROMPT
 					return # ⚠️ 核心！直接中斷函數，絕對不往下執行扣錢！
 					
 				# 去 DataManager 檢查玩家目前的總金額是否大於等於商品價格
@@ -268,7 +326,10 @@ func handle_selection():
 					DataManager.total_gold -= price # 扣錢
 					# 🌟 發貨檢查：只要商品字典裡有 "item_id" 這個鑰匙，就把東西送進大腦
 					if item_info.has("item_id"):
-						DataManager.add_item_to_reserve(item_info["item_id"], 1)
+						var item_id: String = item_info["item_id"]
+						DataManager.add_item_to_reserve(item_id, 1)
+						if item_id in DataManager.COMBAT_ITEMS:
+							DataManager.inventory_items[item_id]["unlocked"] = true
 						
 					elif item_info.has("sticker_id"):
 						# 情況 B：貼紙，解鎖進貼紙簿
@@ -287,13 +348,13 @@ func handle_selection():
 					print("【商店】錢不夠！商品要 ", price, " G，但你只有 ", DataManager.total_gold, " G")
 					
 					# 把右邊的對話框文字改成餘額不足的提示
-					buy_prompt_label.text = "You don't have enough gold!"
+					buy_prompt_label.text = "這對你來說太貴啦！"
 					
 					# 暫停腳本執行 1 秒鐘
 					await get_tree().create_timer(1.0).timeout
 					
 					# 1 秒後把對話框文字恢復原狀
-					buy_prompt_label.text = "What would you like to buy?"
+					buy_prompt_label.text = BUY_PROMPT
 
 # ==========================================
 # 🌟 點擊 Talk 後啟動 Dialogic 對話與收尾解鎖
@@ -345,5 +406,9 @@ func update_cursor_position():
 					desc_label.text = "【已售罄】\n你已經擁有這件物品了。"
 				else:
 					desc_label.text = item_info["desc"]
-			elif item_name == "Exit":
+			elif item_name == COMBAT_SECTION:
+				desc_label.text = "選購戰鬥中使用的文具。"
+			elif item_name == STICKER_SECTION:
+				desc_label.text = "挑一張貼紙，收藏進你的貼紙簿。"
+			elif item_name == BACK_TO_MAIN or item_name == BACK_TO_GOODS:
 				desc_label.text = "" # 游標指到 Exit 時清空說明

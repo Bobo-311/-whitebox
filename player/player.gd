@@ -341,7 +341,7 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_just_pressed("skill_01"): 
 				if current_ink >= cost:
 					var current_buff: float = DataManager.combat_item_multiplier("ruler")
-					if DataManager.has_sticker("004"): current_buff *= DataManager.STICKER_DB["004"].value
+					if DataManager.has_sticker("006"):current_buff *= DataManager.STICKER_DB["006"].value
 					
 					# 紅槍：開始蓄力
 					if current_weapon == WeaponMode.RED:
@@ -515,8 +515,8 @@ func get_current_basic_attack_damage() -> float:
 
 # 護符系統對接：擊殺回血
 func on_enemy_killed():
-	if DataManager.has_sticker("006"):
-		var heal_percent: float = DataManager.STICKER_DB["006"].value
+	if DataManager.has_sticker("004"):
+		var heal_percent: float = DataManager.STICKER_DB["004"].value
 		var heal_amount: int = int(max_hp * heal_percent)
 		current_hp = min(current_hp + heal_amount, max_hp)
 		update_hp_bar()

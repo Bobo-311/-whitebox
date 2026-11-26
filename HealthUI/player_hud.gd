@@ -1,139 +1,166 @@
-extends CanvasLayer # 確保 UI 永遠顯示在遊戲畫面最前面
+extends CanvasLayer
 
-# ==========================================
-# 節點抓取
-# ==========================================
-@onready var margin_container: MarginContainer = get_node_or_null("MarginContainer") # 抓取最外層，用來做全域震動
-
-# 主血條與白底殘影血條 (Damage Chunk)
+@onready var margin_container: MarginContainer = get_node_or_null("MarginContainer")
 @onready var health_bar: ProgressBar = get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/HealthContainer/HealthBar")
 @onready var damage_bar: ProgressBar = get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/HealthContainer/DamageBar")
-
-# 墨水條 (能量/彈藥庫)
 @onready var ink_bar = get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/InkBar")
-
-# 電影模式黑邊與額外 UI
 @onready var top_bar: ColorRect = get_node_or_null("CinematicBars/TopBar")
 @onready var bottom_bar: ColorRect = get_node_or_null("CinematicBars/BottomBar")
 @onready var quick_slot_ui: Control = get_node_or_null("QuickSlotUI")
 @onready var gold_canvas_layer: CanvasLayer = get_node_or_null("GoldCanvasLayer")
 
-# ==========================================
-# 比例尺與全域變數
-# ==========================================
-var hp_pixel_ratio: float = 3.0 # 血量轉換為畫面像素寬度的倍率
-var original_hud_pos: Vector2   # 記憶初始位置 (震動歸位用)
-var damage_tween: Tween         # 控制白血殘影
-var hp_heal_tween: Tween        # 控制回血閃爍
-var cinema_tween: Tween         # 控制電影黑邊動畫
-var is_closing_early: bool = false # 🌟 記錄是否已經透過暗號提早收起黑邊
-@export var bar_height: float = 120.0 # 電影黑邊高度
+var hp_pixel_ratio: float = 3.0
+var original_hud_pos: Vector2
+var damage_tween: Tween
+var hp_heal_tween: Tween
+var cinema_tween: Tween
+var is_closing_early: bool = false
+@export var bar_height: float = 120.0
+# 沒有 Dialogic 對話版面時，使用 HUD 自己的黑邊。
+@export var cinematic_layer: int = 2
+
+var fallback_layer: CanvasLayer
+var dialogue_bars: Control
 
 func _ready():
 	if margin_container:
 		original_hud_pos = margin_container.position
-	
-	# 🌟 自動檢查並生成電影黑邊（就算隊友場景沒放節點也會自動生出來！）
 	_ensure_cinematic_bars()
-	print("菜心洋說他喜歡葉志揚")
-	# 🌟 讓 UI 監聽 Dialogic 的全域廣播
+	get_tree().node_added.connect(_on_dialogue_node_added)
+	for textbox in get_tree().root.find_children("VN_TextboxLayer", "Control", true, false):
+		_on_dialogue_node_added(textbox)
 	if not Dialogic.timeline_started.is_connected(_on_dialogic_started):
 		Dialogic.timeline_started.connect(_on_dialogic_started)
 	if not Dialogic.timeline_ended.is_connected(_on_dialogic_ended):
 		Dialogic.timeline_ended.connect(_on_dialogic_ended)
-	# 🌟 讓 UI 也監聽 Dialogic 的自訂暗號（用於提早同步收起黑邊）
 	if not Dialogic.signal_event.is_connected(_on_dialogic_signal_ui):
 		Dialogic.signal_event.connect(_on_dialogic_signal_ui)
 
-# 🌟 自動建立與校正上下黑邊節點（強制撐滿全螢幕寬度）
 func _ensure_cinematic_bars() -> void:
-	# 如果有 CinematicBars 父節點，先把父節點撐滿全螢幕
-	var parent_node = get_node_or_null("CinematicBars")
-	if parent_node and parent_node is Control:
-		parent_node.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		parent_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var holder := get_node_or_null("CinematicBars") as Control
+	if holder:
+		holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var front := CanvasLayer.new()
+	front.name = "CinematicBarsFront"
+	fallback_layer = front
+	front.layer = cinematic_layer
+	if custom_viewport:
+		front.custom_viewport = custom_viewport
+	add_child(front)
+	top_bar = _place_bar(top_bar, front, "TopBar", Control.PRESET_TOP_WIDE)
+	bottom_bar = _place_bar(bottom_bar, front, "BottomBar", Control.PRESET_BOTTOM_WIDE)
+	top_bar.item_rect_changed.connect(_refresh_dialogue_bars)
+	bottom_bar.item_rect_changed.connect(_refresh_dialogue_bars)
 
-	if not top_bar:
-		top_bar = ColorRect.new()
-		top_bar.name = "TopBar"
-		add_child(top_bar)
-	top_bar.color = Color.BLACK
-	top_bar.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	top_bar.offset_left = 0.0
-	top_bar.offset_right = 3840.0 # 🌟 強制給超寬像素，任何螢幕解析度都不會缺角
-	top_bar.offset_top = 0.0
-	top_bar.offset_bottom = 0.0
-	top_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	top_bar.z_index = 100
+func _refresh_dialogue_bars() -> void:
+	if is_instance_valid(dialogue_bars):
+		dialogue_bars.queue_redraw()
 
-	if not bottom_bar:
-		bottom_bar = ColorRect.new()
-		bottom_bar.name = "BottomBar"
-		add_child(bottom_bar)
-	bottom_bar.color = Color.BLACK
-	bottom_bar.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	bottom_bar.offset_left = 0.0
-	bottom_bar.offset_right = 3840.0 # 🌟 強制給超寬像素，確保橫跨整個畫面底部
-	bottom_bar.offset_top = 0.0
-	bottom_bar.offset_bottom = 0.0
-	bottom_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bottom_bar.z_index = 100
+func _place_bar(bar: ColorRect, front: CanvasLayer, bar_name: String, preset: Control.LayoutPreset) -> ColorRect:
+	if bar == null:
+		bar = ColorRect.new()
+		bar.name = bar_name
+		front.add_child(bar)
+	else:
+		bar.reparent(front, false)
+	bar.color = Color.BLACK
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.set_anchors_and_offsets_preset(preset)
+	bar.offset_left = 0.0
+	bar.offset_right = 0.0
+	bar.offset_top = 0.0
+	bar.offset_bottom = 0.0
+	return bar
 
-# ==========================================
-# 狀態更新函數 (果汁感血條升級版)
-# ==========================================
+# Dialogic 可在開始劇情或切換 style 時才建立版面。
+func _on_dialogue_node_added(node: Node) -> void:
+	if node.name == &"VN_TextboxLayer" and node is Control:
+		_attach_dialogue_bars.call_deferred(weakref(node))
+
+func _attach_dialogue_bars(reference: WeakRef) -> void:
+	var textbox := reference.get_ref() as Control
+	if not is_instance_valid(textbox) or not textbox.is_inside_tree():
+		return
+	var layout := textbox.get_parent() as CanvasLayer
+	if layout == null or textbox.get_viewport() != top_bar.get_viewport():
+		return
+	if not layout.has_node("VN_PortraitLayer"):
+		return
+	if is_instance_valid(dialogue_bars):
+		if dialogue_bars.get_parent() == layout:
+			return
+		dialogue_bars.hide()
+		dialogue_bars.queue_free()
+	var bars := Control.new()
+	bars.name = "HUDLetterbox"
+	bars.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bars.z_index = textbox.z_index
+	layout.add_child(bars)
+	layout.move_child(bars, textbox.get_index())
+	bars.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dialogue_bars = bars
+	bars.draw.connect(_draw_dialogue_bars.bind(bars))
+	bars.tree_exiting.connect(_on_bars_exiting.bind(bars), CONNECT_ONE_SHOT)
+	# 原黑邊的 Tween 驅動高度，畫面只顯示一組黑邊。
+	fallback_layer.hide()
+	bars.queue_redraw()
+
+func _draw_dialogue_bars(bars: Control) -> void:
+	var upper := top_bar.offset_bottom
+	var lower := -bottom_bar.offset_top
+	bars.draw_rect(Rect2(0, 0, bars.size.x, upper), Color.BLACK)
+	bars.draw_rect(Rect2(0, bars.size.y - lower, bars.size.x, lower), Color.BLACK)
+
+func _on_bars_exiting(bars: Control) -> void:
+	if dialogue_bars == bars:
+		dialogue_bars = null
+		if is_instance_valid(fallback_layer):
+			fallback_layer.show()
+
+func _exit_tree() -> void:
+	if is_instance_valid(dialogue_bars):
+		dialogue_bars.hide()
+		dialogue_bars.queue_free()
+
 func update_hp(new_hp: int, max_hp: int):
-	if not health_bar: return
-	
-	# 1. 動態調整血條最大長度
+	if not health_bar:
+		return
 	health_bar.max_value = max_hp
 	health_bar.custom_minimum_size.x = max_hp * hp_pixel_ratio
 	if damage_bar:
 		damage_bar.max_value = max_hp
 		damage_bar.custom_minimum_size.x = max_hp * hp_pixel_ratio
 
-	# 2. 判斷扣血或補血
 	if new_hp < health_bar.value:
-		# 💥【受傷邏輯】：主血條瞬間掉，白血延遲 0.4 秒後追上
-		health_bar.value = new_hp 
-		health_bar.modulate = Color.WHITE # 防呆：強制中斷補血亮光
-		shake_ui() 
-		
+		health_bar.value = new_hp
+		health_bar.modulate = Color.WHITE
+		shake_ui()
 		if damage_bar:
 			if damage_tween and damage_tween.is_running():
-				damage_tween.kill() # 如果連續被打，重置延遲計時
+				damage_tween.kill()
 			damage_tween = get_tree().create_tween()
-			damage_tween.tween_interval(0.4) 
+			damage_tween.tween_interval(0.4)
 			damage_tween.tween_property(damage_bar, "value", new_hp, 0.4).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-			
 	elif new_hp > health_bar.value:
-		# 💖【補血邏輯】：雙血條平滑增長，並伴隨閃亮特效
 		if hp_heal_tween and hp_heal_tween.is_running():
 			hp_heal_tween.kill()
-			
 		hp_heal_tween = create_tween().set_parallel(true)
-		
 		hp_heal_tween.tween_property(health_bar, "value", new_hp, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		if damage_bar:
 			hp_heal_tween.tween_property(damage_bar, "value", new_hp, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		
-		health_bar.modulate = Color(2.0, 2.0, 2.0, 1.0) # HDR 高亮
+		health_bar.modulate = Color(2.0, 2.0, 2.0, 1.0)
 		hp_heal_tween.tween_property(health_bar, "modulate", Color.WHITE, 0.3)
 
-# UI 震動反饋
 func shake_ui():
-	if not margin_container: return
+	if not margin_container:
+		return
 	var shake_tween = get_tree().create_tween()
-	# 隨機亂數位移 4 次
 	for i in range(4):
 		var rand_x = randf_range(-6.0, 6.0)
 		var rand_y = randf_range(-6.0, 6.0)
 		shake_tween.tween_property(margin_container, "position", original_hud_pos + Vector2(rand_x, rand_y), 0.04)
 	shake_tween.tween_property(margin_container, "position", original_hud_pos, 0.04)
 
-# ==========================================
-# 墨水(能量)更新對接
-# ==========================================
 func update_ink(current_ink: float, max_ink: float) -> void:
 	if ink_bar and ink_bar.has_method("update_ink"):
 		ink_bar.update_ink(current_ink, max_ink)
@@ -146,71 +173,43 @@ func update_ammo(current_ammo: int, max_ammo: int) -> void:
 	if ink_bar and ink_bar.has_method("update_ink"):
 		ink_bar.update_ink(current_ammo * 10.0, max_ammo * 10.0)
 
-# 紅槍蓄力預覽
 func preview_ink(preview_val: float) -> void:
 	if ink_bar and ink_bar.has_method("preview_ink"):
 		ink_bar.preview_ink(preview_val)
-		
+
 func confirm_ink_drop(final_val: float) -> void:
 	if ink_bar and ink_bar.has_method("confirm_ink_drop"):
 		ink_bar.confirm_ink_drop(final_val)
 
-# ==========================================
-# 🎬 🌟 電影模式 (對話黑邊與 UI 淡出)
-# ==========================================
 func _on_dialogic_started():
-	is_closing_early = false # 🌟 重置提早退場狀態
+	is_closing_early = false
 	print("【系統】對話開始，開啟電影黑邊")
-	if cinema_tween and cinema_tween.is_running():
-		cinema_tween.kill()
-		
-	cinema_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	
-	if margin_container: cinema_tween.tween_property(margin_container, "modulate:a", 0.0, 0.5)
-	if quick_slot_ui: cinema_tween.tween_property(quick_slot_ui, "modulate:a", 0.0, 0.5)
-	if gold_canvas_layer: gold_canvas_layer.visible = false
-	
-	# 🌟 上黑邊往下拉 (offset_bottom: 120)，下黑邊往上推 (offset_top: -120)
-	if top_bar and bottom_bar:
-		cinema_tween.tween_property(top_bar, "offset_bottom", bar_height, 0.5)
-		cinema_tween.tween_property(bottom_bar, "offset_top", -bar_height, 0.5)
+	_animate_cinema(true, 0.5, Tween.EASE_OUT)
 
-# 🌟 接收劇本暗號，提早 0.4 秒同步收起黑邊
 func _on_dialogic_signal_ui(argument: String):
 	if argument == "fade_out_cinematic":
 		is_closing_early = true
 		print("【系統】收到提早退場暗號，同步收起電影黑邊與恢復 UI")
-		if cinema_tween and cinema_tween.is_running():
-			cinema_tween.kill()
-			
-		cinema_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-		
-		if margin_container: cinema_tween.tween_property(margin_container, "modulate:a", 1.0, 0.4)
-		if quick_slot_ui: cinema_tween.tween_property(quick_slot_ui, "modulate:a", 1.0, 0.4)
-		if gold_canvas_layer: gold_canvas_layer.visible = true
-		
-		# 🌟 上下黑邊收回螢幕邊緣 (0.4秒對齊立繪與對話框退場速度)
-		if top_bar and bottom_bar:
-			cinema_tween.tween_property(top_bar, "offset_bottom", 0.0, 0.4)
-			cinema_tween.tween_property(bottom_bar, "offset_top", 0.0, 0.4)
+		_animate_cinema(false, 0.4, Tween.EASE_IN_OUT)
 
 func _on_dialogic_ended():
-	# 🌟 防呆：如果已經透過 fade_out_cinematic 暗號提早收起黑邊，就不重複執行
 	if is_closing_early:
 		is_closing_early = false
 		return
-		
-	print("【系統】對話結束，關閉電影黑邊") 
+	print("【系統】對話結束，關閉電影黑邊")
+	_animate_cinema(false, 0.5, Tween.EASE_IN_OUT)
+
+func _animate_cinema(open: bool, duration: float, ease_type: Tween.EaseType) -> void:
 	if cinema_tween and cinema_tween.is_running():
 		cinema_tween.kill()
-		
-	cinema_tween = create_tween().set_parallel(true).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	
-	if margin_container: cinema_tween.tween_property(margin_container, "modulate:a", 1.0, 0.5)
-	if quick_slot_ui: cinema_tween.tween_property(quick_slot_ui, "modulate:a", 1.0, 0.5)
-	if gold_canvas_layer: gold_canvas_layer.visible = true
-	
-	# 🌟 上下黑邊收回螢幕邊緣
-	if top_bar and bottom_bar:
-		cinema_tween.tween_property(top_bar, "offset_bottom", 0.0, 0.5)
-		cinema_tween.tween_property(bottom_bar, "offset_top", 0.0, 0.5)
+	cinema_tween = create_tween().set_parallel(true).set_ease(ease_type).set_trans(Tween.TRANS_CUBIC)
+	var hud_alpha := 0.0 if open else 1.0
+	var height := bar_height if open else 0.0
+	if margin_container:
+		cinema_tween.tween_property(margin_container, "modulate:a", hud_alpha, duration)
+	if quick_slot_ui:
+		cinema_tween.tween_property(quick_slot_ui, "modulate:a", hud_alpha, duration)
+	if gold_canvas_layer:
+		gold_canvas_layer.visible = not open
+	cinema_tween.tween_property(top_bar, "offset_bottom", height, duration)
+	cinema_tween.tween_property(bottom_bar, "offset_top", -height, duration)

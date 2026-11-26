@@ -46,35 +46,35 @@ var owned_stickers: Array[String] = []
 
 const STICKER_DB = {
 	"001": {
-		"name": "愛心",
-		"texture_path": "res://Stickers/001愛心.png", 
+		"name": "心連心",
+		"texture_path": "res://Stickers/心連心.png",
 		"type": "max_hp_boost",
-		"value": 20               
+		"value": 20
 	},
 	"004": {
-		"name": "魔法棒",
-		"texture_path": "res://Stickers/004魔法棒.png", 
-		"type": "skill_dmg_multiplier",
-		"value": 1.35                     
+		"name": "你真星啊",
+		"texture_path": "res://Stickers/你真星啊.png",
+		"type": "heal_on_kill",
+		"value": 0.10
 	},
 	"006": {
-		"name": "手裡劍",
-		"texture_path": "res://Stickers/006手裡劍.png", 
-		"type": "heal_on_kill",
-		"value": 0.10            
+		"name": "正中紅心",
+		"texture_path": "res://Stickers/正中紅心.png",
+		"type": "skill_dmg_multiplier",
+		"value": 1.35
 	},
 	"008": {
-		"name": "起床氣",
-		"texture_path": "res://Stickers/008起床氣.png", 
-		"type": "low_hp_atk_boost", # 類型：低血量加攻
-		"value": 1.35,              # 數值：加 1.35 倍
-		"threshold": 0.35           # 發動條件：血量低於 35%
+		"name": "筆到絕境",
+		"texture_path": "res://Stickers/筆到絕境.png",
+		"type": "low_hp_atk_boost",
+		"value": 1.35,
+		"threshold": 0.35
 	},
 	"016": {
-		"name": "漢堡",
-		"texture_path": "res://Stickers/016漢堡.png", # ⚠️ 記得換成你隨便塞的那張圖片路徑
-		"type": "heal_item_boost", # 類型：回復道具強化
-		"value": 10              # 數值：額外回 10 滴血
+		"name": "真的好堡",
+		"texture_path": "res://Stickers/真的好堡.png",
+		"type": "heal_item_boost",
+		"value": 10
 	}
 }
 

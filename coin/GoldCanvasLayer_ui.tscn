@@ -102,9 +102,10 @@ grow_vertical = 2
 
 [node name="Layout" type="HBoxContainer" parent="GoldUI/GoldContainer"]
 layout_mode = 1
-offset_left = 511.0
-offset_right = 571.0
-offset_bottom = 40.0
+offset_left = 443.0
+offset_top = -1.0
+offset_right = 503.0
+offset_bottom = 39.0
 
 [node name="IconWrapper" type="Control" parent="GoldUI/GoldContainer/Layout"]
 custom_minimum_size = Vector2(40, 40)

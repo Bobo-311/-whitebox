@@ -34,6 +34,15 @@
 "offset": Vector2(0, -160),
 "scale": 0.7,
 "scene": ""
+},
+"心連心四倍大圖": {
+"export_overrides": {
+"image": "\"res://Stickers/心連心四倍大圖.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
 }
 },
 &"scale": 1.0
