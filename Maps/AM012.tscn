@@ -7491,7 +7491,6 @@ metadata/_edit_horizontal_guides_ = [-384.0, -117.0, -150.0, 2399.0]
 metadata/_edit_vertical_guides_ = [6104.0, 6336.0]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 anchors_preset = 15
 anchor_right = 1.0
@@ -7505,14 +7504,12 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
 [node name="PortalSpawnPoint" type="Marker2D" parent="."]
 position = Vector2(1370, 1857)
 
 [node name="WhiteCat" parent="." instance=ExtResource("1_acm7d")]
-visible = false
 position = Vector2(2793, 2424)
 scale = Vector2(0.3, 0.3)
 max_follow_distance = 700.0
@@ -7639,8 +7636,6 @@ scale = Vector2(3, 3)
 
 [node name="player" parent="." instance=ExtResource("2_1k0yf")]
 position = Vector2(4635, 1473)
-base_max_hp = 100
-max_hp = 100
 
 [node name="PortalArea下門" parent="." instance=ExtResource("17_xv4pc")]
 position = Vector2(-538, 3313)

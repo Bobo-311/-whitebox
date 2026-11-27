@@ -3724,7 +3724,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 y_sort_enabled = true
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 

@@ -2220,7 +2220,7 @@ polygon = PackedVector2Array(4722.308, 2571.5388, 4722.308, 2768.462, 4506.1543,
 
 [node name="player" parent="." instance=ExtResource("2_endjd")]
 position = Vector2(2967, 1912)
-max_hp = 100
+base_max_hp = 100
 
 [node name="a014" parent="." instance=ExtResource("9_cocp8")]
 position = Vector2(3824, 1896)

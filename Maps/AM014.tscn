@@ -16202,7 +16202,6 @@ scale = Vector2(5.3600097, 4.4799995)
 
 [node name="player" parent="." instance=ExtResource("6_efa07")]
 position = Vector2(2078, 861)
-max_hp = 100
 
 [node name="PortalArea木屋門" parent="." instance=ExtResource("11_1jqui")]
 position = Vector2(-761, 3330)

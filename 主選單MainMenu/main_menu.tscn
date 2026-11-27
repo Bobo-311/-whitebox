@@ -14,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://b6obsm1fbto3a" path="res://主選單MainMenu/音樂素材/主畫面hover.wav" id="10_kauac"]
 [ext_resource type="Script" uid="uid://b6mvyl7axjarh" path="res://主選單MainMenu/音樂/menu_audio.gd" id="10_mq3qk"]
 [ext_resource type="AudioStream" uid="uid://ue8ldkdcdms4" path="res://主選單MainMenu/音樂素材/主畫面confirm.wav" id="11_mq3qk"]
-[ext_resource type="AudioStream" uid="uid://dshsqqwgonb4o" path="res://主選單MainMenu/音樂素材/098. Battle Against A True Hero (UNDERTALE Soundtrack) - Toby Fox.mp3" id="12_421ee"]
+[ext_resource type="AudioStream" uid="uid://cw1uqct7ju60p" path="res://雜/夢境初醒.mp3" id="14_dttc5"]
 [ext_resource type="PackedScene" uid="uid://d25g6e3l780pq" path="res://主選單MainMenu/按鈕設定/設定/settings_page.tscn" id="15_01ura"]
 [ext_resource type="PackedScene" uid="uid://dnm1bkni3y6yx" path="res://主選單MainMenu/存檔/save_select_page.tscn" id="15_4fuje"]
 [ext_resource type="PackedScene" uid="uid://depbu2qf2l3i4" path="res://主選單MainMenu/按鈕設定/設定/audio_settings_page.tscn" id="16_tbn7x"]
@@ -205,7 +205,7 @@ volume_db = -8.0
 bus = &"SFX"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="MenuAudio"]
-stream = ExtResource("12_421ee")
+stream = ExtResource("14_dttc5")
 volume_db = -12.0
 bus = &"Music"
 

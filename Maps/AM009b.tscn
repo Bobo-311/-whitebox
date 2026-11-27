@@ -3428,7 +3428,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 y_sort_enabled = true
 color = Color(0.07058824, 0.07058824, 0.12156863, 1)
 
@@ -3445,7 +3444,6 @@ tile_set = SubResource("TileSet_hiv2a")
 
 [node name="player" parent="." instance=ExtResource("5_dc5a4")]
 position = Vector2(4304, 1235)
-max_hp = 100
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 8192
