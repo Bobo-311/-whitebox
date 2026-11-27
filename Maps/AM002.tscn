@@ -19779,7 +19779,6 @@ max_follow_distance = 700.0
 
 [node name="player" parent="." instance=ExtResource("3_13s73")]
 position = Vector2(3910, 4085)
-max_hp = 100
 
 [node name="TreeA" parent="." instance=ExtResource("5_sswfq")]
 position = Vector2(721, 1275)
@@ -21304,6 +21303,7 @@ markers = {
 "watch the tree": NodePath("")
 }
 player_dch = ExtResource("20_gvfi4")
+trigger_on_map_enter = true
 hide_target_npc_after_complete = true
 permanent_hide_actors = Array[String](["king"])
 trigger_on_enemies_cleared = true
