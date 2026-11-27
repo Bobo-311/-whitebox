@@ -27,7 +27,7 @@ var damage_tween: Tween         # 控制白血殘影
 var hp_heal_tween: Tween        # 控制回血閃爍
 var cinema_tween: Tween         # 控制電影黑邊動畫
 var is_closing_early: bool = false # 🌟 記錄是否已經透過暗號提早收起黑邊
-@export var bar_height: float = 120.0 # 電影黑邊高度
+@export var bar_height: float = 0 # 電影黑邊高度	
 
 func _ready():
 	if margin_container:

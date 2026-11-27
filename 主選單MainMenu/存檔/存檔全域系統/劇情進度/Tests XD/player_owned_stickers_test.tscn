@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://2770enrv7jpk"]
-
-[ext_resource type="Script" uid="uid://b7a7aq4gs457g" path="res://主選單MainMenu/存檔/存檔全域系統/劇情進度/Tests XD/player_owned_stickers_test.gd" id="1_y4xof"]
-
-[node name="PlayerOwnedStickersTest" type="Node"]
-script = ExtResource("1_y4xof")

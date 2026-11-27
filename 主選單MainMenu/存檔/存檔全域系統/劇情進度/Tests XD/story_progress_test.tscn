@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctl0200qkxghs"]
-
-[ext_resource type="Script" uid="uid://cq4fjlhl3ncli" path="res://主選單MainMenu/存檔/存檔全域系統/劇情進度/Tests XD/story_progress_test.gd" id="1_hlnga"]
-
-[node name="StoryProgressTest" type="Node"]
-script = ExtResource("1_hlnga")

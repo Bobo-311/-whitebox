@@ -1,28 +1,58 @@
-# --- PlayerIdle.gd ---
+
 extends State
 
+# ============================================================
+# 《眠境 RE:RECOLOR》
+# PlayerIdle V2｜玩家待機與安全攻擊輸入
+# Godot 4.5.1
+# STEP 10.7.7-F-5.1
+# ============================================================
+# 主要職責：
+# 1. 播放玩家待機動畫
+# 2. 保留原本擊退滑行效果
+# 3. 偵測玩家移動要求
+# 4. 接收合法的近戰攻擊要求
+#
+# 攻擊輸入統一由 StateMachine V2 提供。
+# 不直接讀取全域 attack 按鍵狀態。
+# ============================================================
+
+# ============================================================
+# 1. 進入待機狀態
+# ============================================================
+
 func enter():
-	# 🌟【關鍵修復】只要 KnockbackComponent 還在發力滑行，就不在進入待機時強行歸零！
-	if not (character.knockback_component and character.knockback_component.knockback_force.length() > 0.0):
+	# 擊退組件仍在作用時，不強制清除角色速度。
+	if not (
+		character.knockback_component
+		and character.knockback_component.knockback_force.length() > 0.0
+	):
 		character.velocity = Vector2.ZERO
-		
-	character.play_animation("idle")  
+
+	character.play_animation("idle")
+
+# ============================================================
+# 2. 待機物理更新
+# ============================================================
 
 func state_physics_update(_delta: float):
-	# 🌟【擊退保護】若正處於擊退滑行狀態，暫停待機邏輯干預，讓組件平滑煞車
-	if character.knockback_component and character.knockback_component.knockback_force.length() > 0.0:
+	# A. 保留原本擊退滑行保護。
+	if (
+		character.knockback_component
+		and character.knockback_component.knockback_force.length() > 0.0
+	):
 		return
 
-	if character.input_direction != Vector2.ZERO: # 偵測到移動輸入
-		state_machine.change_state("PlayerMove") 
+	# B. 保留原本移動狀態切換優先順序。
+	if character.input_direction != Vector2.ZERO:
+		state_machine.change_state("PlayerMove")
 		return
-			
-	if Input.is_action_just_pressed("attack"): # (或是你確認好的左鍵名稱)
-		print("【除錯】按下了攻擊鍵！目前的 DataManager.can_combat() 是：", DataManager.can_combat())
-		
-		if not DataManager.can_combat():
-			return
-			
-		print("【除錯】戰鬥已解鎖，準備進入攻擊狀態！")
-		state_machine.change_state("PlayerAttack") # (記得換成你真正的節點名稱)
-		
+
+	# C. 取得合法且尚未消耗的玩家攻擊輸入。
+	# StateMachine 已統一驗證：
+	# 戰鬥解鎖、購物、閱讀、劇情、暫停及轉場狀態。
+	if state_machine.consume_player_attack_input():
+		if OS.is_debug_build():
+			print("【玩家戰鬥】已接受合法近戰攻擊輸入")
+
+		state_machine.change_state("PlayerAttack")
