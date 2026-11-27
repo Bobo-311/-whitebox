@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://yyqh4y6ndwli"]
+
+[ext_resource type="Script" uid="uid://dlmlo3pd0nle3" path="res://主選單MainMenu/存檔/存檔全域系統/劇情、儲存進度/Tests XD/player_inventory_test.gd" id="1_bg0fk"]
+
+[node name="player_inventory_test" type="Node"]
+script = ExtResource("1_bg0fk")

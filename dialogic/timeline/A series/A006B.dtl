@@ -2,7 +2,6 @@
 join 阿尼 (驚訝（...咦？）) left
 阿尼: 這個是……
 join 各種物件 (夢幻多彩顏料瓶) center
-[signal arg="unlock_item:hp_paint"]
 [wait time="0.5" hide_text="false"]
 阿尼: 顏料？彩色的？
 阿尼 (思考): ……
@@ -10,3 +9,4 @@ join 各種物件 (夢幻多彩顏料瓶) center
 [signal arg="fade_out_cinematic"]
 leave --All-- [animation="Fade Out Down" length="0.4"]
 [wait time="0.4"]
+[signal arg="story_commit:A006B"]

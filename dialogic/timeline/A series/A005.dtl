@@ -55,3 +55,4 @@ join 阿尼 (驚訝（...咦？）) left
 阿尼 (驚嚇): [shake rate=40.0 level=30 connected=1]不見了？！！！[/shake]
 [signal arg="fade_out_cinematic"]
 leave --All-- [animation="Fade Out Down" length="0.4" wait="true"]
+[signal arg="story_commit:A005"]

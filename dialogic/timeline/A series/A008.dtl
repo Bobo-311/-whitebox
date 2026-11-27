@@ -15,3 +15,4 @@ join 阿尼 (驚嚇) left
 阿尼 (超級不安): [shake rate=5.0 level=5 connected=1]......[/shake]
 阿尼: [shake rate=5.0 level=5 connected=1]去看看好了...[/shake]
 [signal arg="fade_out_cinematic"]
+[signal arg="story_commit:A008"]

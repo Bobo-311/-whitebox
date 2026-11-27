@@ -7857,7 +7857,6 @@ position = Vector2(6419, 1511)
 
 [node name="player" parent="." instance=ExtResource("4_86od2")]
 position = Vector2(3415, 1502)
-max_hp = 100
 
 [node name="MagicBrushItem" parent="." instance=ExtResource("23_5favj")]
 z_index = -2

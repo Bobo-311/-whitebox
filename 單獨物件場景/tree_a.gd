@@ -1,23 +1,112 @@
 extends StaticBody2D
 
+# ============================================================
+# 《眠境 RE:RECOLOR》
+# 樹木遮擋透明化系統
+#
+# Godot 4.5.1
+#
+# 主要職責：
+# 1. 偵測玩家進入樹木遮擋區域
+# 2. 玩家進入時，平滑降低樹木透明度
+# 3. 玩家離開時，平滑恢復樹木透明度
+# 4. 提供可選擇開啟的除錯訊息
+#
+# 本次修改：
+# 僅新增除錯輸出開關。
+# 完整保留原本的碰撞判定、透明度與動畫時間。
+# ============================================================
+
+
+# ============================================================
+# 1. 除錯設定
+# ============================================================
+
+@export_group("除錯設定")
+
+## 是否顯示樹木碰撞及透明化的除錯訊息。
+##
+## 預設關閉，避免大量樹木碰撞事件洗版。
+## 需要檢查單棵樹木時，可透過 Inspector 開啟。
+@export var debug_log: bool = false
+
+
+# ============================================================
+# 2. 節點引用
+# ============================================================
+
+## 樹木的圖片節點
 @onready var sprite_2d: Sprite2D = $Sprite2D
+
+## 樹木透明化感應區域
 @onready var fade_area: Area2D = $FadeArea
+# ============================================================
+# 3. 初始化
+#
+# 沿用原本的進入與離開感應區訊號。
+# ============================================================
 
 func _ready() -> void:
-	fade_area.body_entered.connect(_on_fade_area_body_entered)
-	fade_area.body_exited.connect(_on_fade_area_body_exited)
+
+	fade_area.body_entered.connect(
+		_on_fade_area_body_entered
+	)
+
+	fade_area.body_exited.connect(
+		_on_fade_area_body_exited
+	)
+# ============================================================
+# 4. 實體進入樹木感應區
+#
+# 只有屬於 player 群組的實體，
+# 才能觸發樹木透明化效果。
+# ============================================================
 
 func _on_fade_area_body_entered(body: Node2D) -> void:
-	# 🌟 測試行 1：看看有沒有任何東西踩進感應區？
-	print("有東西碰到樹葉了！他是：", body.name) 
-	
-	if body.is_in_group("player"):
-		# 🌟 測試行 2：看看系統有沒有成功認出他是阿尼？
-		print("確認是阿尼！變透明！") 
-		var tween = create_tween()
-		tween.tween_property(sprite_2d, "modulate:a", 0.4, 0.2)
 
-func _on_fade_area_body_exited(body: Node2D) -> void:
+	# 除錯訊息：預設不輸出。
+	if debug_log:
+
+		print(
+			"有東西碰到樹葉了！他是：",
+			body.name
+		)
+
+	# 保留原本的玩家判定。
 	if body.is_in_group("player"):
+
+		# 除錯訊息：預設不輸出。
+		if debug_log:
+
+			print("確認是阿尼！變透明！")
+
+		# 保留原本的透明化動畫。
+		# 在 0.2 秒內降低至 40% 不透明度。
 		var tween = create_tween()
-		tween.tween_property(sprite_2d, "modulate:a", 1.0, 0.2)
+
+		tween.tween_property(
+			sprite_2d,
+			"modulate:a",
+			0.4,
+			0.2
+		)
+# ============================================================
+# 5. 實體離開樹木感應區
+#
+# 玩家離開後，恢復樹木原本的不透明度。
+# ============================================================
+func _on_fade_area_body_exited(body: Node2D) -> void:
+
+	# 保留原本的玩家判定。
+	if body.is_in_group("player"):
+
+		# 保留原本的恢復動畫。
+		# 在 0.2 秒內恢復至 100% 不透明度。
+		var tween = create_tween()
+
+		tween.tween_property(
+			sprite_2d,
+			"modulate:a",
+			1.0,
+			0.2
+		)

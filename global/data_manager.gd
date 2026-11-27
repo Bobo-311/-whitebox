@@ -228,7 +228,7 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	# 監聽滑鼠的點擊與放開
 	if event is InputEventMouseButton:
-		
+
 		# ================== 左鍵與右鍵共用邏輯 ==================
 		if event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:

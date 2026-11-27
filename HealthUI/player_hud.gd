@@ -15,10 +15,12 @@ var damage_tween: Tween
 var hp_heal_tween: Tween
 var cinema_tween: Tween
 var is_closing_early: bool = false
-@export var bar_height: float = 120.0
-# 沒有 Dialogic 對話版面時，使用 HUD 自己的黑邊。
-@export var cinematic_layer: int = 2
 
+# 沿用 main：預設不顯示黑邊。需要黑邊的場景可在 Inspector 設為 120。
+@export var bar_height: float = 0.0
+
+# 找不到 Dialogic 對話版面時，供 HUD 黑邊使用的備用圖層。
+@export var cinematic_layer: int = 2
 var fallback_layer: CanvasLayer
 var dialogue_bars: Control
 

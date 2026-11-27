@@ -1,4 +1,4 @@
-[gd_scene load_steps=351 format=3 uid="uid://cgw1ytdb8huh6"]
+[gd_scene load_steps=352 format=3 uid="uid://cgw1ytdb8huh6"]
 
 [ext_resource type="Script" uid="uid://bwugf5crfmf5v" path="res://player/player.gd" id="1_boqn2"]
 [ext_resource type="Texture2D" uid="uid://bxx7yqfwk2ch4" path="res://阿尼動畫/阿尼動畫改版/攻擊下.png" id="2_art4l"]
@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://cml4e8sta2lhb" path="res://阿尼動畫/阿尼動畫改版/ani_ranged_right.png" id="26_gswnw"]
 [ext_resource type="Texture2D" uid="uid://dlsseo2mni2gr" path="res://阿尼動畫/阿尼動畫改版/ani_ranged_up.png" id="27_xcnuv"]
 [ext_resource type="AudioStream" uid="uid://bbmpix8ary06g" path="res://sfx folder/ani sfx/ani_brush_swing.wav" id="43_j55il"]
+[ext_resource type="Script" uid="uid://dfvvx20svys74" path="res://主選單MainMenu/暫停選單/pause_input.gd" id="47_hjies"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jbx34"]
 atlas = ExtResource("2_art4l")
@@ -2348,15 +2349,15 @@ motion_mode = 1
 script = ExtResource("1_boqn2")
 walk_speed = 600
 basic_attack_damage = 15.0
+base_max_hp = 20
 ink_switch_badge_offset = Vector2(0, -110)
-max_hp = 10000
 metadata/_edit_horizontal_guides_ = [-170.0, 85.0, -110.0]
 metadata/_edit_vertical_guides_ = [-129.0]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -57)
 sprite_frames = SubResource("SpriteFrames_3vrw8")
-animation = &"idle_down"
+animation = &"lay_down"
 autoplay = "idle_down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -2447,6 +2448,10 @@ stream = ExtResource("43_j55il")
 volume_db = -14.195
 
 [node name="PlayerHUD" parent="." instance=ExtResource("15_wodsf")]
+
+[node name="PauseInput" type="Node" parent="."]
+process_mode = 1
+script = ExtResource("47_hjies")
 
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 layer = 10
