@@ -1,38 +1,34 @@
+
 extends Node
 
 # ============================================================
 # 《眠境 RE:RECOLOR》
-# CheckpointManager V7｜畫架與玩家貼紙裝備整合管理器
+# CheckpointManager V8｜畫架與世界永久資料整合管理器
 # Godot 4.5.1
 # Autoload：CheckpointManager
-# STEP 10.7.6
+# STEP 10.8.6
 # ============================================================
 # 主要職責：
-# 1. 管理地圖及畫架的穩定 ID
-# 2. 解析場景路徑及出生定位點
-# 3. 驗證目前地圖及畫架
-# 4. 更新正式檢查點及存檔摘要
-# 5. 保存玩家永久金幣
-# 6. 保存玩家永久背包
-# 7. 保存五格快捷欄及選取編號
-# 8. 保存玩家已取得貼紙
-# 9. 保存四格貼紙裝備配置
-# 10. 驗證貼紙所有權及防止重複裝備
-# 11. 保存補給完成後的背包
-# 12. 防止重複存檔
-# 13. 寫入失敗時還原本次額外補給
+# 1. 管理正式地圖及畫架 ID。
+# 2. 解析場景及出生定位點。
+# 3. 驗證目前地圖、畫架及正式存檔工作階段。
+# 4. 更新正式檢查點及存檔摘要。
+# 5. 保存永久金幣、背包及快捷欄。
+# 6. 保存貼紙收藏及貼紙裝備。
+# 7. 保存 Boss、捷徑及唯一性道具紀錄。
+# 8. 保留其他劇情及永久世界資料。
+# 9. 防止重複存檔及轉場衝突。
+# 10. 寫入失敗時還原本次額外補給。
 #
-# V7 正式保存順序：
-# 金幣 → 背包 → 快捷欄 → 貼紙收藏 → 貼紙裝備
-# 最後統一交給 SaveManager 正式寫入。
+# V8 正式保存順序：
+# 金幣 → 背包 → 快捷欄 → 貼紙收藏
+# → 貼紙裝備 → 世界永久狀態
+# 最後統一交由 SaveManager 寫入一次。
 #
-# 商店購買及裝備必須包含於同一次畫架存檔。
-# 最大血量及傷害倍率由 Player 根據貼紙重新計算。
-# 不直接保存能力倍率，避免重複計算。
-#
-# 保留 V1 至 V6 所有公開查詢接口。
 # 不修改 Schema Version 1。
-# 不修改商店、劇情、死亡重生及轉場機制。
+# 不修改既有畫架登記及定位規則。
+# 不直接控制 Boss、門鎖及特殊道具。
+# 不覆蓋 StoryProgress 管理的永久劇情資料。
 # ============================================================
 
 # ============================================================
@@ -45,8 +41,6 @@ const AM002_EASEL_01_ID: String = "easel_am002_01"
 
 # ============================================================
 # 2. 地圖及檢查點登記表
-# 存檔只保存穩定 ID。
-# 未來新增地圖及畫架統一於此登記。
 # ============================================================
 const MAP_REGISTRY: Dictionary = {
 	"first_land_sakura_garden": {
@@ -90,7 +84,7 @@ var _is_saving: bool = false
 # ============================================================
 func _ready() -> void:
 	if debug_log:
-		print("【CheckpointManager】V7 畫架管理器初始化完成")
+		print("【CheckpointManager】V8 畫架與世界資料管理器初始化完成")
 		print("【CheckpointManager】已登記地圖數量：", MAP_REGISTRY.size())
 		print("【CheckpointManager】已登記定位點數量：", get_checkpoint_count())
 
@@ -181,7 +175,6 @@ func validate_checkpoint(map_id: String, easel_id: String) -> bool:
 
 # ============================================================
 # 14. 統計全部定位點
-# 包含 AM001 初始出生點。
 # ============================================================
 func get_checkpoint_count() -> int:
 	var total: int = 0
@@ -194,12 +187,7 @@ func get_checkpoint_count() -> int:
 	return total
 
 # ============================================================
-# 15. 尋找目前地圖中的實際出生點
-# 必須符合：
-# A. 已正式登記
-# B. 目前地圖與登記資源一致
-# C. 出生點名稱唯一
-# D. 出生點為 Marker2D
+# 15. 尋找目前地圖中的正式出生點
 # ============================================================
 func get_current_spawn_marker(map_id: String, easel_id: String) -> Marker2D:
 	var checkpoint: Dictionary = resolve_checkpoint(map_id, easel_id)
@@ -230,19 +218,13 @@ func get_current_spawn_marker(map_id: String, easel_id: String) -> Marker2D:
 
 # ============================================================
 # 16. 正式保存畫架檢查點
-# V7 正式保存欄位：
 #
-# checkpoint.map_id
-# checkpoint.easel_id
-# meta.map_display_name
-# player.stats.total_gold
-# player.inventory.items
-# player.inventory.owned_stickers
-# player.equipment.quick_slots
-# player.equipment.current_slot_index
-# player.equipment.equipped_stickers
+# V8 新增保存欄位：
+# world.defeated_bosses
+# world.opened_shortcuts
+# world.collected_unique_items
 #
-# 保留其他原有永久資料，只執行一次正式寫入。
+# 所有資料驗證完成後才執行正式 JSON 寫入。
 # ============================================================
 func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	# A. 防止重複保存及轉場衝突。
@@ -252,7 +234,7 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	if SceneTransition.is_transitioning:
 		return _fail("場景正在切換")
 
-	# B. 驗證正式存檔工作階段。
+	# B. 驗證正式存檔及各管理器工作階段。
 	var slot_id: int = SaveManager.current_slot_id
 
 	if slot_id <= 0:
@@ -273,9 +255,12 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	if not PlayerProgress.can_save_owned_stickers():
 		return _fail("玩家貼紙收藏工作階段尚未準備完成")
 
-	# V7：驗證貼紙裝備工作階段。
 	if not PlayerProgress.can_save_equipped_stickers():
 		return _fail("玩家貼紙裝備工作階段尚未準備完成")
+
+	# V8：正式世界資料工作階段驗證。
+	if not WorldProgress.can_save_world():
+		return _fail("世界永久資料工作階段尚未準備完成")
 
 	# C. 驗證地圖及畫架。
 	var checkpoint: Dictionary = resolve_checkpoint(map_id, easel_id)
@@ -283,7 +268,6 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	if checkpoint.is_empty():
 		return _fail("地圖或畫架尚未正式登記")
 
-	# AM001 初始出生點不是正式畫架。
 	if bool(checkpoint["is_initial"]):
 		return _fail("初始出生點不可作為正式畫架存檔")
 
@@ -293,8 +277,7 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	if not is_instance_valid(marker):
 		return _fail("目前地圖找不到合法且唯一的畫架定位點")
 
-	# E. 取得目前完整存檔深層副本。
-	# 不重新建立整份 JSON，避免覆蓋劇情及其他永久資料。
+	# E. 取得正式存檔完整深層副本。
 	var candidate: Dictionary = SaveManager.get_current_data().duplicate(true)
 
 	if typeof(candidate.get("checkpoint")) != TYPE_DICTIONARY:
@@ -302,6 +285,10 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 
 	if typeof(candidate.get("meta")) != TYPE_DICTIONARY:
 		return _fail("meta 資料格式異常")
+
+	# V8：驗證既有世界資料。
+	if not WorldProgress.validate_world_data(candidate.get("world")):
+		return _fail("既有世界永久資料格式異常")
 
 	# F. 更新畫架資料。
 	var checkpoint_data: Dictionary = candidate["checkpoint"]
@@ -314,8 +301,7 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	meta["map_display_name"] = DataManager.current_map_name
 	candidate["meta"] = meta
 
-	# H. 驗證補給前背包。
-	# 保留深層副本，供正式寫入失敗時還原。
+	# H. 驗證補給前背包並保存還原副本。
 	var inventory_before_refill: Dictionary = DataManager.inventory_items.duplicate(true)
 
 	if not PlayerProgress.validate_inventory_items(inventory_before_refill):
@@ -329,12 +315,11 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	):
 		return _fail("補給前的玩家快捷欄資料異常")
 
-	# J. 驗證玩家貼紙收藏。
+	# J. 驗證貼紙收藏。
 	if not PlayerProgress.validate_owned_stickers(DataManager.owned_stickers):
 		return _fail("玩家已取得貼紙資料異常")
 
-	# K. V7：驗證玩家四格貼紙裝備。
-	# 不允許重複裝備或裝備未取得的貼紙。
+	# K. 驗證貼紙裝備。
 	if not PlayerProgress.validate_equipped_stickers(
 		DataManager.equipped_stickers,
 		DataManager.owned_stickers
@@ -352,7 +337,7 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 			"補給後發現存檔工作階段已變更"
 		)
 
-	# M. 加入玩家金幣。
+	# M. 加入玩家永久金幣。
 	if not PlayerProgress.append_gold_to_candidate(candidate):
 		return _rollback_inventory_and_fail(
 			slot_id,
@@ -377,7 +362,6 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 		)
 
 	# P. 加入已取得貼紙。
-	# 商店扣款後的金幣及新取得的貼紙於同一次存檔保存。
 	if not PlayerProgress.append_owned_stickers_to_candidate(candidate):
 		return _rollback_inventory_and_fail(
 			slot_id,
@@ -385,7 +369,7 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 			"玩家永久貼紙收藏資料驗證失敗"
 		)
 
-	# Q. V7：加入已裝備貼紙。
+	# Q. 加入已裝備貼紙。
 	# 必須在貼紙收藏加入後執行。
 	if not PlayerProgress.append_equipped_stickers_to_candidate(candidate):
 		return _rollback_inventory_and_fail(
@@ -394,12 +378,29 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 			"玩家永久貼紙裝備資料驗證失敗"
 		)
 
-	# R. 正式寫入前最後確認。
+	# R. V8：加入世界永久狀態。
+	# 不在此另外寫入 JSON。
+	# 保留 StoryProgress 管理的其他世界欄位。
+	if not WorldProgress.append_world_to_candidate(candidate):
+		return _rollback_inventory_and_fail(
+			slot_id,
+			inventory_before_refill,
+			"世界永久資料驗證失敗"
+		)
+
+	# S. 正式寫入前最後確認。
 	if SaveManager.current_slot_id != slot_id:
 		return _rollback_inventory_and_fail(
 			slot_id,
 			inventory_before_refill,
 			"正式寫入前發現存檔工作階段已變更"
+		)
+
+	if not WorldProgress.can_save_world():
+		return _rollback_inventory_and_fail(
+			slot_id,
+			inventory_before_refill,
+			"正式寫入前世界工作階段已失效"
 		)
 
 	if SceneTransition.is_transitioning:
@@ -409,7 +410,7 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 			"正式寫入前發現場景正在切換"
 		)
 
-	# S. 記錄本次準備寫入的資料。
+	# T. 記錄本次準備正式寫入的資料。
 	var saved_gold: int = int(candidate["player"]["stats"]["total_gold"])
 	var saved_items: Dictionary = candidate["player"]["inventory"]["items"]
 	var saved_slots: Array = candidate["player"]["equipment"]["quick_slots"]
@@ -417,8 +418,13 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 	var saved_owned_stickers: Array = candidate["player"]["inventory"]["owned_stickers"]
 	var saved_equipped_stickers: Array = candidate["player"]["equipment"]["equipped_stickers"]
 
-	# T. 統一正式寫入。
-	# 沿用 SaveManager 的 JSON 驗證、暫存檔、備份及替換機制。
+	var saved_world: Dictionary = candidate["world"]
+	var saved_bosses: Dictionary = saved_world["defeated_bosses"]
+	var saved_shortcuts: Dictionary = saved_world["opened_shortcuts"]
+	var saved_unique_items: Dictionary = saved_world["collected_unique_items"]
+
+	# U. 統一正式寫入。
+	# 沿用既有暫存檔、備份及 JSON 驗證機制。
 	var success: bool = SaveManager.save_current_data(candidate)
 
 	if not success:
@@ -428,8 +434,8 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 			"SaveManager 寫入失敗"
 		)
 
-	# U. 正式寫入成功。
-	# 只有 SaveManager 回傳成功才輸出永久保存成功紀錄。
+	# V. 正式寫入成功。
+	# 只有 SaveManager 回傳成功才輸出永久保存紀錄。
 	if debug_log:
 		print("【CheckpointManager】Slot %02d 畫架存檔成功" % slot_id)
 		print("【CheckpointManager】地圖 ID：", map_id)
@@ -452,9 +458,17 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 		print("【CheckpointManager】已保存貼紙：", saved_owned_stickers)
 		print("【CheckpointManager】已保存貼紙數量：", saved_owned_stickers.size())
 
-		# V7：貼紙裝備正式保存紀錄。
 		print("【CheckpointManager】永久貼紙裝備保存成功")
 		print("【CheckpointManager】已保存貼紙裝備：", saved_equipped_stickers)
+
+		# V8：世界永久狀態正式保存紀錄。
+		print("【CheckpointManager】世界永久資料保存成功")
+		print("【CheckpointManager】已擊敗 Boss 數量：", saved_bosses.size())
+		print("【CheckpointManager】已擊敗 Boss 紀錄：", saved_bosses)
+		print("【CheckpointManager】已開啟捷徑數量：", saved_shortcuts.size())
+		print("【CheckpointManager】已開啟捷徑紀錄：", saved_shortcuts)
+		print("【CheckpointManager】已取得唯一性道具數量：", saved_unique_items.size())
+		print("【CheckpointManager】已取得唯一性道具紀錄：", saved_unique_items)
 
 	checkpoint_saved.emit(slot_id, map_id, easel_id)
 	_is_saving = false
@@ -463,10 +477,8 @@ func save_checkpoint(map_id: String, easel_id: String) -> bool:
 
 # ============================================================
 # 17. 背包補給還原及失敗處理
-# 只還原本次正式保存所增加的背包補給。
-# 不撤銷原本的商店交易。
-# 不退還購買貼紙的金幣。
-# 不擅自更改貼紙裝備。
+# 不撤銷原本商店交易及世界運行時事件。
+# 只還原本次正式保存所增加的額外補給。
 # ============================================================
 func _rollback_inventory_and_fail(
 	slot_id: int,

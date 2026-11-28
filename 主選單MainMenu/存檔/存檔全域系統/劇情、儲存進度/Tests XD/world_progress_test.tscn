@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvwgd6dqy7xxt"]
+
+[ext_resource type="Script" uid="uid://bkd4nkbojt1f3" path="res://主選單MainMenu/存檔/存檔全域系統/劇情、儲存進度/Tests XD/world_progress_test.gd" id="1_3djr5"]
+
+[node name="WorldProgressTest" type="Node"]
+script = ExtResource("1_3djr5")
